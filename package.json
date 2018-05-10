@@ -1,0 +1,32 @@
+{
+  "name": "wander-must",
+  "version": "1.0.0",
+  "description": "The must have packing app.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MollyLJohnson/Wander-Must.git"
+  },
+  "author": "B Barnett, Wayne Baylor, Molly Johnson, Evan Seaman, Xander Rapstine",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MollyLJohnson/Wander-Must/issues"
+  },
+  "homepage": "https://github.com/MollyLJohnson/Wander-Must#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0",
+    "mocha": "^5.1.1",
+    "mysql2": "^1.5.3",
+    "passport": "^0.4.0",
+    "path": "^0.12.7",
+    "sequelize": "^4.37.7"
+  }
+}

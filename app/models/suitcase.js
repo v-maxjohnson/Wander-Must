@@ -1,4 +1,3 @@
-
 // model export for suitcase table/model
 module.exports = function (sequelize, DataTypes) {
     var Suitcase = sequelize.define("Suitcase", {
@@ -41,5 +40,20 @@ module.exports = function (sequelize, DataTypes) {
             timestamps: false
         }
     );
+
+    Suitcase.associate = function (models) {
+        Suitcase.belongsTo(models.User, {
+            foreignKey: {
+                allowNull: false
+            }
+        });
+    };
+
+    Suitcase.associate = function(models) {
+        Suitcase.hasMany(models.Item, {
+          onDelete: "cascade"
+        });
+      };
+
     return Suitcase;
 };

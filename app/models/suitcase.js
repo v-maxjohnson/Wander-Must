@@ -49,11 +49,11 @@ module.exports = function (sequelize, DataTypes) {
         });
     };
 
-    Suitcase.associate = function(models) {
+    Suitcase.associate = function (models) {
         Suitcase.hasMany(models.Item, {
-          onDelete: "cascade"
+            onDelete: "cascade"
         });
-      };
+    };
 
     return Suitcase;
 };

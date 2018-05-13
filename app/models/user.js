@@ -23,6 +23,11 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING,
         allowNull: false
       },
+      gender: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "no choice"
+      },
       user_image: {
         type: DataTypes.STRING,
         // restrict email from being entered if it doesn't have a text value

@@ -1,4 +1,3 @@
-
 // model export for suitcase table/model
 module.exports = function (sequelize, DataTypes) {
     var Suitcase = sequelize.define("Suitcase", {

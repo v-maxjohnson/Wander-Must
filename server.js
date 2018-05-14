@@ -10,10 +10,6 @@ var session = require("express-session");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get("/", function(req, res) {
-    res.send("Welcome to Passport with Sequelize");
-});
-
 // variable for sequelize models
 let db = require("./app/models");
 

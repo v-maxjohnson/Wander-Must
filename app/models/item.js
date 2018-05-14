@@ -29,11 +29,9 @@ module.exports = function (sequelize, DataTypes) {
   );
 
   Item.associate = function (models) {
-    Item.belongsTo(models.Suitcase, {
-      foreignKey: {
-        allowNull: false
-      }
-    });
+    Item.belongsToMany(models.Suitcase,
+      { through: "suitcase_items" }
+    );
   };
 
   return Item;

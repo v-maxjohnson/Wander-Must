@@ -37,9 +37,11 @@ app.set("view engine", "handlebars");
 // sets up the Express app to serve static files
 app.use(express.static(path.join(__dirname, "/app/public")));
 
-// import routes and give the server access to them || commented out till they have content in them
-// require("./app/routes/api-routes.js")(app);
-// require("./app/routes/html-routes.js")(app);
+// import routes and give the server access to them 
+require("./app/routes/item-api-routes.js")(app);
+require("./app/routes/suitcase-api-routes.js")(app);
+require("./app/routes/user-api-routes.js")(app);
+require("./app/routes/html-routes.js")(app);
 
 //routes for authorization
 var authRoute = require("./app/routes/auth.js")(app, passport);

@@ -18,14 +18,6 @@ module.exports = function(app, passport) {
         res.render("signup")
     });
 
-    app.get("/main", function(req, res) {
-        res.render("main")
-    });
-
-    app.get("/login", function(req, res) {
-        res.render("login");
-    });
-
     app.get("/logout", function(req, res) {
         req.session.destroy(function(err) {
             res.redirect("/")

@@ -21,17 +21,6 @@ module.exports = function (sequelize, DataTypes) {
             // restrict travel category from being entered if it no option has been selected
             allowNull: false
         },
-        items: {
-            type: DataTypes.STRING,
-            // suitcases should have at least 1 item in addition to preloaded items
-            allowNull: false,
-            get: function () {
-                return this.getDataValue('items').split(';')
-            },
-            set: function (val) {
-                this.setDataValue('items', val.join(';'));
-            }
-        },
         notes: {
             type: DataTypes.TEXT // this field is optional for the suitcase and can be null
         }
@@ -47,12 +36,12 @@ module.exports = function (sequelize, DataTypes) {
                 allowNull: false
             }
         });
-    };
 
-    Suitcase.associate = function (models) {
-        Suitcase.hasMany(models.Item, {
+        Suitcase.belongsToMany(models.Item, {
+            through: "suitcase_items",
             onDelete: "cascade"
-        });
+        }
+    );
     };
 
     return Suitcase;

@@ -38,7 +38,7 @@ module.exports = function (sequelize, DataTypes) {
         });
 
         Suitcase.belongsToMany(models.Item, {
-            through: "suitcase_items",
+            through: "suitcaseItems",
             onDelete: "cascade"
         }
     );

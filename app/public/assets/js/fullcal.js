@@ -1,5 +1,9 @@
 $
-// doc- https://fullcalendar.io/docs/events-json-feed
+// CDN links 
+
+// https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js
+// https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css
+
 
 $(function () {
 

@@ -22,7 +22,7 @@ module.exports = function (app) {
             }
         }).then(function (dbCitySearch) {
             let resultsObject = {
-                suitcase_results: dbSuitcase
+                suitcase_results: dbCitySearch
             };
             res.render("search", resultsObject);
         });

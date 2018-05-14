@@ -28,9 +28,9 @@ $(document).ready(function () {
 
             // ****** brainstorming logic to hook to html ****
             if (response.hits[0].webformatURL) {
-                $(".suitcaseclass").prepend(response.hits[0].webformatURL);
+                $(".suitcaseImage").prepend(response.hits[0].webformatURL);
             } else {
-                $(".suitcaseclass").prepend("/assets/images/placeholder.png");
+                $(".suitcaseImage").prepend("/assets/images/placeholder.png");
             }
 
         });

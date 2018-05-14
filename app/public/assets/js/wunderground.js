@@ -27,14 +27,10 @@ $(document).ready(function () {
     // pseudocoding logic for US vs others for queryURL structure, and F vs C concerns 
     // if (isoCountry = "US") {
     //     var queryURL = "http://api.wunderground.com/api/" + authKey + "/planner_"+ startMonth + startDay + endMonth + endDay + "/q/" + isoCountry + "/" + state + "/" + wuCity + ".json";
-    //     console.log(response.trip.temp_high.avg.F);
-    //     console.log(response.trip.temp_low.avg.F);
     // }
 
     // else {
     //     var queryURL = "http://api.wunderground.com/api/" + authKey + "/planner_"+ startMonth + startDay + endMonth + endDay + "/q/" + isoCountry + "/" + wuCity + ".json";
-    //     console.log(response.trip.temp_high.avg.C);
-    //     console.log(response.trip.temp_low.avg.C);
     // }
 
     var queryURL = "http://api.wunderground.com/api/" + authKey + "/planner_"+ startMonth + startDay + endMonth + endDay + "/q/" + isoCountry + "/" + wuCity + ".json";

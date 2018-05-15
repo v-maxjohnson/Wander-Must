@@ -7,15 +7,11 @@ module.exports = function (app) {
     // route to display index through handlebars
     app.get("/", (req, res) => {
         res.render("index");
-    }).catch((err) => {
-        res.json(err);
     });
 
     // route to display basic search page through handlebars
     app.get("/search/", (req, res) => {
         res.render("search");
-    }).catch((err) => {
-        res.json(err);
     });
 
     // route to display a user's specific suitcase

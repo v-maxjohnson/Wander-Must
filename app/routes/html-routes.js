@@ -5,17 +5,21 @@ let db = require("../models");
 module.exports = function (app) {
 
     // route to display index through handlebars
-    app.get("/", function (req, res) {
+    app.get("/", (req, res) => {
         res.render("index");
+    }).catch((err) => {
+        res.json(err);
     });
 
     // route to display basic search page through handlebars
-    app.get("/search/", function (req, res) {
+    app.get("/search/", (req, res) => {
         res.render("search");
+    }).catch((err) => {
+        res.json(err);
     });
 
     // route to display a user's specific suitcase
-    app.get("/search/:city", function (req, res) {
+    app.get("/search/:city", (req, res) => {
         db.Suitcase.findAll({
             where: {
                 city: req.params.city
@@ -25,11 +29,13 @@ module.exports = function (app) {
                 suitcase_results: dbCitySearch
             };
             res.render("search", resultsObject);
+        }).catch((err) => {
+            res.json(err);
         });
     });
 
     // route to display a user's specific suitcase
-    app.get("/suitcase/:id", function (req, res) {
+    app.get("/suitcase/:id", (req, res) => {
         db.Suitcase.findOne({
             where: {
                 id: req.params.id
@@ -39,11 +45,13 @@ module.exports = function (app) {
                 suitcase_items: dbSuitcase
             };
             res.render("suitcase", suitcaseObject);
+        }).catch((err) => {
+            res.json(err);
         });
     });
 
     // route to display a user's specific profile
-    app.get("/profile/:id", function (req, res) {
+    app.get("/profile/:id", (req, res) => {
         db.User.findOne({
             where: {
                 id: req.params.id
@@ -53,6 +61,8 @@ module.exports = function (app) {
                 suitcases: dbUser
             };
             res.render("profile", userObject);
+        }).catch((err) => {
+            res.json(err);
         });
     });
 

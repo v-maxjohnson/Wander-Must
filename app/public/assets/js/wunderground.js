@@ -1,8 +1,6 @@
 // **** things needed to address -***
-// 30 day span is *only* acceptable duration to return results, anymore and we get an error response in object
-// ^ do we want to display the error in object telling end user, or something to round it to 30 days out from start date for results of a related-weather overview?
-// do we want anything else picked out of the object period, like cloud coverage description or?
-// ISO Country code to WU code conversion hell last but not least of the worries 
+// ISO Country code to WU code conversion hell 
+// hooking to DOM/making sure we're on the same page with what div it goes in, how it goes in, etc. 
 // https://www.wunderground.com/weather/api/d/docs?d=resources/country-to-iso-matching
 
 
@@ -12,7 +10,8 @@ $(document).ready(function () {
     var authKey = "c62508752826c7d8";
 
 
-    var isoCountry = "UK";
+    // according to country-to-iso matching URL above, UK = GB isocode converted to 'WU code'
+    var wuCountry = "GB";
     var city = "London";
     var state = "";
     // formatted for underscores to replace spaces since thats what is acceptable input
@@ -24,16 +23,14 @@ $(document).ready(function () {
     var endDay = "28";
 
     
-    // pseudocoding logic for US vs others for queryURL structure, and F vs C concerns 
-    // if (isoCountry = "US") {
-    //     var queryURL = "http://api.wunderground.com/api/" + authKey + "/planner_"+ startMonth + startDay + endMonth + endDay + "/q/" + isoCountry + "/" + state + "/" + wuCity + ".json";
-    // }
+    // differentiating queryURL structure depending on US (needs US/state/city) vs. anywhere else (needs country/city)
+    if (isoCountry = "US") {
+        var queryURL = "http://api.wunderground.com/api/" + authKey + "/planner_"+ startMonth + startDay + endMonth + endDay + "/q/" + wuCountry + "/" + state + "/" + wuCity + ".json";
+    }
 
-    // else {
-    //     var queryURL = "http://api.wunderground.com/api/" + authKey + "/planner_"+ startMonth + startDay + endMonth + endDay + "/q/" + isoCountry + "/" + wuCity + ".json";
-    // }
-
-    var queryURL = "http://api.wunderground.com/api/" + authKey + "/planner_"+ startMonth + startDay + endMonth + endDay + "/q/" + isoCountry + "/" + wuCity + ".json";
+    else {
+        var queryURL = "http://api.wunderground.com/api/" + authKey + "/planner_"+ startMonth + startDay + endMonth + endDay + "/q/" + wuCountry + "/" + wuCity + ".json";
+    }
 
 
     // ex populated queryURL to sift through JSON, observe US/CA/San_Francisco.json vs UK/London.json differences 
@@ -57,8 +54,11 @@ $(document).ready(function () {
         console.log(response.trip.temp_low.avg.F);
         console.log(response.trip.temp_low.avg.C);
 
-        
+        $(".placeholderclass").append(response.trip.temp_high.avg.F);
+        $(".placeholderclass").append(response.trip.temp_high.avg.C);
 
+        $(".placeholderclass").append(response.trip.temp_low.avg.F);
+        $(".placeholderclass").append(response.trip.temp_low.avg.C);      
 
     });
 

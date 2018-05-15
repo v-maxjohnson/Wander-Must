@@ -4,7 +4,7 @@ var db = require("../models");
 module.exports = function(app) {
    
     //GET route for getting all **users**
-    app.get("api/users", (req, res) => {
+    app.get("/api/users", (req, res) => {
         db.User.findAll({
         }).then((dbUser) => {
             res.json(dbUser);
@@ -14,7 +14,7 @@ module.exports = function(app) {
     });
 
     //POST route for saving a new **user**
-    app.post("api/users", (req, res) => {
+    app.post("/api/users", (req, res) => {
         db.User.create({
             username : req.body.username,
             email : req.body.email,
@@ -29,7 +29,7 @@ module.exports = function(app) {
     });
 
     //PUT route for updating email, password, or user_image for a **user**
-    app.put("api/users/:id", (req, res) => {
+    app.put("/api/users/:id", (req, res) => {
         db.User.update({
             email : req.body.email,
             password : req.body.password,
@@ -46,7 +46,7 @@ module.exports = function(app) {
     });
 
     //DELETE route for deleting a **user**
-    app.delete("api/users/:id", (req, res) => {
+    app.delete("/api/users/:id", (req, res) => {
         db.User.destroy({
             where : {
                 id : req.params.id

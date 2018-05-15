@@ -30,7 +30,7 @@ module.exports = function(app) {
     });
 
     //PUT route for updating items or notes in a **suitcase**
-    app.put("api/suitcases/suitcaseId", (req, res) => {
+    app.put("api/suitcases/:suitcaseId", (req, res) => {
         db.Suitcase.update({
             items : req.body.items,
             notes : req.params.notes

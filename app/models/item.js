@@ -11,11 +11,12 @@ module.exports = function (sequelize, DataTypes) {
       }
     },
     item_category: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM,
+      values: ['bathroom', 'appearance', 'electronics'],
       // restrict category from being selected if it doesn't have a text value
       allowNull: false,
       // set default value for category to "other"
-      defaultValue: "other"
+      // defaultValue: "other"
     },
     instances: {
       type: DataTypes.INTEGER,

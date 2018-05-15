@@ -23,7 +23,8 @@ module.exports = function(app) {
             start_date : req.body.start_date,
             end_date : req.body.end_date,
             travel_category : req.body.travel_category,
-            notes : req.body.notes
+            notes : req.body.notes,
+            user_id: req.body.user_id
         }).then((dbSuitcase) => {
             res.json(dbSuitcase);
         }).catch((err) => {

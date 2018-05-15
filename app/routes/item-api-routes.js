@@ -15,9 +15,9 @@ module.exports = function(app) {
 
     //POST route for saving a new **item** to item
     app.post("/api/items", (req, res) => {
-        db.Item.findOrCreate({
+        db.Item.create({
             item_name : req.body.item_name,
-            item_category : req.body.category,
+            item_category : req.body.item_category,
             instances : req.body.instances
         }).then((dbItem) => {
             res.json(dbItem);

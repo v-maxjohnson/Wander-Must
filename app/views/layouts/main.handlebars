@@ -9,14 +9,16 @@
   <title>
     Wander-Must
   </title>
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport'
+  />
   <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"
+  />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
   <link href="assets/css/material-kit.css?v=2.0.3" rel="stylesheet" />
-   <!-- CSS Just for suitcase cards -->
-   <link rel="stylesheet" href="assets/css/suitcase.css"  />
+  <!-- CSS Just for suitcase cards -->
+  <link rel="stylesheet" href="assets/css/suitcase.css" />
 </head>
 
 <body class="profile-page sidebar-collapse">
@@ -39,7 +41,8 @@
             <a class="nav-link" rel="tooltip" title="" data-placement="middle" href="./new-suitcase.html" target="_blank" data-original-title="User Profile">
               <span class="fa-stack fa-lg">
                 <i class="fa fa-suitcase fa-stack-2x"></i>
-                {{!-- <i class="fa fa-plus fa-stack-1x" data-fa-transform="shrink-6" style="color:purple"></i> --}}
+                {{!--
+                <i class="fa fa-plus fa-stack-1x" data-fa-transform="shrink-6" style="color:purple"></i> --}}
               </span>
             </a>
           </li>
@@ -51,7 +54,51 @@
 
   {{{ body }}}
 
+  <div id="suitcase-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
 
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h2 class="modal-title">
+            <strong>Add a new suitcase</strong>
+          </h2>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body text-center">
+          <div class="md-form mb-5">
+            <i class="fa fa-user prefix grey-text"></i>
+            <input type="text" id="form34" class="form-control validate">
+            <label data-error="wrong" data-success="right" for="form34">City</label>
+          </div>
+
+          <div class="md-form mb-5">
+            <i class="fa fa-envelope prefix grey-text"></i>
+            <input type="email" id="form29" class="form-control validate">
+            <label data-error="wrong" data-success="right" for="form29">Start Date - End Date</label>
+          </div>
+
+          <div class="md-form mb-5">
+            <i class="fa fa-tag prefix grey-text"></i>
+            <input type="text" id="form32" class="form-control validate">
+            <label data-error="wrong" data-success="right" for="form32">Travel Category</label>
+          </div>
+
+          <div class="md-form">
+            <i class="fa fa-pencil prefix grey-text"></i>
+            <textarea type="text" id="form8" class="md-textarea form-control" rows="4"></textarea>
+            <label data-error="wrong" data-success="right" for="form8">Notes</label>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+  </div>
   <footer class="footer">
     <div class="container">
       <nav class="float-left">

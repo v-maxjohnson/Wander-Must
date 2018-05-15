@@ -18,6 +18,10 @@ module.exports = function(app, passport) {
         res.render("signup")
     });
 
+    app.get("/index", function(req, res) {
+        res.render("index")
+    });
+
     app.get("/logout", function(req, res) {
         req.session.destroy(function(err) {
             res.redirect("/")
@@ -32,20 +36,20 @@ module.exports = function(app, passport) {
     // the strategy for our /signup route
     app.post("/signup", passport.authenticate("local-signup", {
         successRedirect: "/profile",
-
+        //the only way this failureRedirect is triggered is if there is something thrown on the front end
         failureRedirect: "/signup"
     }
     ));
 
-    app.post("/signin", passport.authenticate("local-signin", {
+    app.post("/index", passport.authenticate("local-signin", {
         successRedirect: "/profile",
 
-        failureRedirect: "/login"
+        failureRedirect: "/index"
     }))
 
     function isLoggedIn(req, res, next) {
         if (req.isAuthenticated())
             return next();
-        res.redirect("/login")
+        res.redirect("/index")
     }
 }

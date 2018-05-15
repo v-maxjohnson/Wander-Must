@@ -50,7 +50,7 @@ module.exports = function (app) {
             }
         }).then(function (dbUser) {
             let userObject = {
-                user_suitcases: dbUser
+                suitcases: dbUser
             };
             res.render("suitcase", userObject);
         });

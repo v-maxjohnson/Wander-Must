@@ -52,7 +52,7 @@ module.exports = function (app) {
             let userObject = {
                 suitcases: dbUser
             };
-            res.render("suitcase", userObject);
+            res.render("profile", userObject);
         });
     });
 

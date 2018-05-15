@@ -24,14 +24,18 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
       // disable timestamps
-      timestamps: false
+      timestamps: false,
+      // by setting paranoid to true, a deleted record will not be returned in future queries
+      paranoid: true,
+      underscored: true
     }
   );
 
   Item.associate = function (models) {
-    Item.belongsToMany(models.Suitcase,
-      { through: "suitcaseItems" }
-    );
+    Item.belongsToMany(models.Suitcase, { 
+      through: "suitcase_items", 
+      timestamps: false 
+    });
   };
 
   return Item;

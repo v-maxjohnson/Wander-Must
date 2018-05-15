@@ -17,7 +17,8 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false
         },
         travel_category: {
-            type: DataTypes.STRING,
+            type: DataTypes.ENUM,
+            values: ['business', 'leisure', 'adventure', 'vacation'],
             // restrict travel category from being entered if it no option has been selected
             allowNull: false
         },
@@ -26,22 +27,21 @@ module.exports = function (sequelize, DataTypes) {
         }
     }, {
             // disable timestamps
-            timestamps: false
+            timestamps: false,
+            // by setting paranoid to true, a deleted record will not be returned in future queries
+            paranoid: true,
+            underscored: true
         }
     );
 
     Suitcase.associate = function (models) {
-        Suitcase.belongsTo(models.User, {
-            foreignKey: {
-                allowNull: false
-            }
-        });
+        Suitcase.belongsTo(models.User);
 
         Suitcase.belongsToMany(models.Item, {
-            through: "suitcaseItems",
-            onDelete: "cascade"
-        }
-    );
+            through: "suitcase_items",
+            onDelete: "cascade",
+            timestamps: false
+        });
     };
 
     return Suitcase;

@@ -26,9 +26,14 @@ app.use(passport.session()); // persistent login sessions
 const exphbs = require("express-handlebars");
 
 // handlebars configuration
-app.set("views", path.join(__dirname, "./app/views"));
-app.engine("handlebars", exphbs({ extname: "handlebars"}));
-app.set("view engine", "handlebars");
+app.engine('handlebars', exphbs({
+    extname: '.handlebars',
+    defaultLayout: 'main',
+    partialsDir: path.join(__dirname, 'app/views/partials'),
+    layoutsDir: path.join(__dirname, 'app/views/layouts')
+  }));
+app.set('view engine', 'handlebars');
+app.set('views',path.join(__dirname,'app/views'))
 
 // sets up the Express app to serve static files
 app.use(express.static(path.join(__dirname, "/app/public")));

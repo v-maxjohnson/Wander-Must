@@ -6,6 +6,12 @@ module.exports = function(app) {
     //GET route for getting all **users**
     app.get("/api/users", (req, res) => {
         db.User.findAll({
+            include: [
+                { model: db.Suitcase, include: [
+                                        { model: db.Item }
+                                    ] 
+                }
+            ]
         }).then((dbUser) => {
             res.json(dbUser);
         }).catch((err) => {

@@ -15,24 +15,26 @@ module.exports = function(app) {
 
     //POST route for saving a new **item** to item
     app.post("/api/items", (req, res) => {
-        db.Item.create({
+        db.Item.findOrCreate({
             item_name : req.body.item_name,
-            item_category : req.body.category
+            item_category : req.body.category,
+            instances : req.body.instances
         }).then((dbItem) => {
             res.json(dbItem);
         }).catch((err) => {
             res.json(err);
         });
     });
-    //**** Still not 100% sure about this one ****//
+
     //POST route for saving a new **item** to a suitcase
-    app.post("api/suitcases/:newItem", (req, res) => {
+    app.post("api/suitcases/:suitcaseId", (req, res) => {
         db.Suitcase.createItem({
             item_name : req.body.item_name,
-            item_category : req.body.item_category
+            item_category : req.body.item_category,
+            instances : req.body.instances
         }, {
             where : {
-                items : req.params.newItem
+                id : req.params.suitcaseId
             }
         }).then((dbSuitcase) => {
             res.json(dbSuitcase);
@@ -41,15 +43,15 @@ module.exports = function(app) {
         });
     });
 
-    //**** Still not 100% sure about this one ****//
     //PUT route for updating an **item** in a suitcase
     app.put("/api/suitcases/:itemId", (req, res) => {
         db.Suitcase.updateItem({
             item_name : req.body.item_name,
-            item_category : req.body.item_category
+            item_category : req.body.item_category,
+            instances : req.body.instances
         }, {
             where : {
-                items : req.params.itemId
+                id : req.params.itemId
             }
         }).then((dbItem) => {
                 res.json(dbItem);
@@ -58,15 +60,16 @@ module.exports = function(app) {
         });
     });
 
-    //**** Still not 100% sure about this one ****//
+    //***********We don't want to delete an item from the Item table ever, do we??*********//
+
     //DELETE route for deleting an **item** from a suitcase
     app.delete("/api/suitcases/:itemiId", (req, res) => {
         db.Suitcase.destroyItem({
             where : {
-                itemId : req.params.itemId
+                id : req.params.itemId
             }
-        }).then((dbItem) => {
-            res.json(dbItem);
+        }).then((dbSuitcase) => {
+            res.json(dbSuitcase);
         }).catch((err) => {
             res.json(err);
         });

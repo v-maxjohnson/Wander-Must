@@ -50,3 +50,7 @@
  box-shadow: none;
 }
 
+/* VERY IMPORTANT -- THIS ALLOWS GOOGLE AUTOCOMPLETE TO SHOW UP ON MODALS */
+.pac-container {
+    z-index: 10000!important;
+  }

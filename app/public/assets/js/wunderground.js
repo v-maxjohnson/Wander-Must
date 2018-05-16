@@ -1,7 +1,5 @@
 // **** things needed to address -***
-// ISO Country code to WU code conversion hell 
 // hooking to DOM/making sure we're on the same page with what div it goes in, how it goes in, etc. 
-// https://www.wunderground.com/weather/api/d/docs?d=resources/country-to-iso-matching
 
 
 $(document).ready(function () {
@@ -10,12 +8,14 @@ $(document).ready(function () {
     var authKey = "c62508752826c7d8";
 
 
-    // according to country-to-iso matching URL above, UK = GB isocode converted to 'WU code'
-    var wuCountry = "GB";
+    var country = "United Kingdom";
     var city = "London";
-    var state = "";
+    // example of picking US queryURL if you change var country to 'United States' (since there's a London, OH)
+    var state = "Ohio";
     // formatted for underscores to replace spaces since thats what is acceptable input
     var wuCity = city.replace(/\s+/g, '_');
+    var wuCountry = country.replace(/\s+/g, '_');
+    var wuState = state.replace(/\s+/g, '_');
 
     var startMonth = "02";
     var startDay = "20";
@@ -24,8 +24,8 @@ $(document).ready(function () {
 
     
     // differentiating queryURL structure depending on US (needs US/state/city) vs. anywhere else (needs country/city)
-    if (isoCountry = "US") {
-        var queryURL = "http://api.wunderground.com/api/" + authKey + "/planner_"+ startMonth + startDay + endMonth + endDay + "/q/" + wuCountry + "/" + state + "/" + wuCity + ".json";
+    if (country = "United States") {
+        var queryURL = "http://api.wunderground.com/api/" + authKey + "/planner_"+ startMonth + startDay + endMonth + endDay + "/q/" + wuState + "/" + wuCity + ".json";
     }
 
     else {
@@ -34,7 +34,7 @@ $(document).ready(function () {
 
 
     // ex populated queryURL to sift through JSON, observe US/CA/San_Francisco.json vs UK/London.json differences 
-    // queryURL http://api.wunderground.com/api/c62508752826c7d8/planner_02200228/q/US/CA/San_Francisco.json
+    // queryURL http://api.wunderground.com/api/c62508752826c7d8/planner_02200228/q/CA/San_Francisco.json
     
 
     $.ajax({

@@ -19,29 +19,29 @@
    <link rel="stylesheet" href="../../public/assets/css/suitcase.css"  />
 </head>
 
-<body class="profile-page sidebar-collapse">
+<body class="profile-page ">
   <nav class="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" color-on-scroll="100" id="sectionsNav">
     <div class="container">
       <div class="navbar-translate">
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand" href="index">
           Wander-Must </a>
       </div>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
-          
+
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tooltip" title="Profile Page" data-placement="middle" href="./profile.html"  data-original-title="Go to profile page">
+            <a class="nav-link" data-toggle="tooltip" title="Profile Page" data-placement="middle" href="./profile.html" data-original-title="Go to profile page">
               <i class="fa fa-user-circle" data-toggle="tooltip" title="Profile Page"> </i>
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" data-toggle="modal tooltip" title="Add new Suitcase" data-target="#suitcase-modal" data-placement="middle" href="./profile.html"  data-original-title="Add new suitcase">
-              <i class="fa fa-suitcase" data-toggle="tooltip" title="Add new Suitcase"> </i>
-            </a>
+            <span class="suitcase-input" data-toggle="modal" data-target="#suitcase-modal">
+              <a class="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Add new suitcase">
+                <i class="fa fa-suitcase" data-toggle="tooltip" title="Add new Suitcase"> </i>
+              </a>
+            </span>
           </li>
-
-          
         </ul>
       </div>
     </div>
@@ -55,7 +55,7 @@
             <div class="profile">
               
               <div class="city-name">
-                <h3 class="title">Name</h3>
+                <h3 class="title">city</h3>
                 <h6>Type of Traveler</h6>
                 
               </div>
@@ -73,7 +73,10 @@
                             </div>
                             <div class="card-img-overlay">
                                 <h5 class="card-title suitcase-title">Card title</h5>
-                                <div class="trip-details">Text & Dates! Testing more junk</div>
+                                <div class="trip-details">
+                                  <p class="badge" id={{this:dates}}>Dates! </p>
+                                  <p class="badge" id={{this:id}}>Travel Type</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -89,7 +92,9 @@
                             <div class="suitcase-overlay">
                                 <h5 class="card-title suitcase-title">Card title</h5>
                                 <div class="trip-details">
-                                  <p id=Text & Dates! </div>
+                                  <p class="badge" id={{this:dates}}>Dates! </p>
+                                  <p class="badge" id={{this:id}}>Travel Type</p>
+                                </div>
                                 
                             </div>
                         </div>
@@ -105,7 +110,10 @@
                             </div>
                             <div class="card-img-overlay">
                                 <h5 class="card-title suitcase-title">Card title</h5>
-                                <div class="trip-details">Text & Dates! Testing more junk</div>
+                                <div class="trip-details">
+                                    <p class="badge" id={{this:dates}}>Dates! </p>
+                                    <p class="badge" id={{this:id}}>Travel Type</p>
+                                  </div>
                             </div>
                         </div>
                     </div>
@@ -114,6 +122,79 @@
             </div>
     </div>
   </div>
+
+  <!-- Add New Suitcase Modal -->
+  <div id="suitcase-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h2 class="modal-title">
+            <strong>Add a new suitcase</strong>
+          </h2>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body text-center">
+          <div class="md-form mb-5">
+            <i class="fa fa-map-marker prefix grey-text"></i>
+            <input type="text" id="autocomplete" class="form-control validate">
+            <label data-error="wrong" data-success="right" for="autocomplete">City</label>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <div class="md-form mb-5">
+                <div class='input-group date' id='datetimepicker1'>
+                  <input type='text' class="form-control" />
+                  <span class="input-group-addon">
+                    <span class="fa fa-calendar"></span>
+                  </span>
+                </div>
+                <label data-error="wrong" data-success="right" for="form29">Start Date</label>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="md-form mb-5">
+                <div class='input-group date' id='datetimepicker2'>
+                  <input type='text' class="form-control" />
+                  <span class="input-group-addon">
+                    <span class="fa fa-calendar"></span>
+                  </span>
+                </div>
+                <label data-error="wrong" data-success="right" for="form29">End Date</label>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="md-form mb-5">
+            <i class="fa fa-plane prefix grey-text"></i>
+            <select class="custom-select" id="travelselect">
+              <option selected>&nbsp;</option>
+              <option value="1">Vacation</option>
+              <option value="2">Adventure</option>
+              <option value="3">Luxury</option>
+            </select>
+            <label data-error="wrong" data-success="right" for="travelselect">Travel Type</label>
+          </div>
+
+          <div class="md-form">
+            <i class="fa fa-pencil prefix grey-text"></i>
+            <textarea type="text" id="form8" class="md-textarea form-control" rows="4"></textarea>
+            <label data-error="wrong" data-success="right" for="form8">Notes</label>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default">Start Packing!</button>
+      </div>
+    </div>
+  
+  </div>
+
+
   <footer class="footer">
     <div class="container">
       <nav class="float-left">

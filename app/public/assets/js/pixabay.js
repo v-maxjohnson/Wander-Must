@@ -5,7 +5,10 @@ $(document).ready(function () {
         // example entries
         var city = "Austin";
         var country = "United States";
-        // separate sp
+        // var city = $(this).attr("data-city");
+        // var country = $(this).attr("data-country");
+
+        // replace spaces with +
         var pixaCity = city.replace(/\s+/g, '+');
         var pixaCountry = country.replace(/\s+/g, '+');
 

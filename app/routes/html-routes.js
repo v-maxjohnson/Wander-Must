@@ -9,6 +9,10 @@ module.exports = function (app) {
         res.render("index");
     });
 
+    app.get("/index", (req, res) => {
+        res.render("index");
+    });
+
     // route to display basic search page through handlebars
     app.get("/search/", (req, res) => {
         res.render("search");

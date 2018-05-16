@@ -39,10 +39,23 @@
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
 
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tooltip" title="Profile Page" data-placement="middle" href="./profile.html" data-original-title="Go to profile page">
-              <i class="fa fa-user-circle" data-toggle="tooltip" title="Profile Page"> </i>
+          <li class="nav-item dropdown">
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+              <i class="fa fa-user-circle" title="Profile Page"> </i>
             </a>
+            
+            <div class="dropdown-menu dropdown-with-icons">
+
+              <form id="signin" name="signin" method="post" action="signin">
+                <label for="email">Email Address</label>
+                <input class="text" name="email" type="text" />
+                <label for="password">Password</label>
+                <input name="password" type="password" />
+                <input class="btn" type="submit" value="Sign In" />
+              </form>
+
+            </div>
+          
           </li>
 
           <li class="nav-item">

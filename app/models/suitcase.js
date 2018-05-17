@@ -1,11 +1,6 @@
 // model export for suitcase table/model
 module.exports = function (sequelize, DataTypes) {
     var Suitcase = sequelize.define("Suitcase", {
-        city: {
-            type: DataTypes.STRING,
-            // restrict suitcase city from being entered if it doesn't have a text value
-            allowNull: false
-        },
         start_date: {
             type: DataTypes.DATEONLY,
             // restrict start date from being entered if it doesn't have a text value
@@ -36,6 +31,8 @@ module.exports = function (sequelize, DataTypes) {
 
     Suitcase.associate = function (models) {
         Suitcase.belongsTo(models.User);
+
+        Suitcase.belongsTo(models.Locale);
 
         Suitcase.belongsToMany(models.Item, {
             through: "suitcase_items",

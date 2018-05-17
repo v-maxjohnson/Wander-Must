@@ -7,10 +7,10 @@ module.exports = function(app) {
     app.get("/api/suitcases/:city", (req, res) => {
         db.Suitcase.findAll({
             where : {
-                city : req.body.city
+                city : req.params.city
             },
             include: [
-                { model: db.Item }
+                db.Item
             ]
         }).then((dbSuitcase) => {
             res.json(dbSuitcase);
@@ -35,8 +35,9 @@ module.exports = function(app) {
         });
     });
 
+
     //DELETE route for deleting a **suitcase**
-    app.delete("api/suitcases/:suitcase_id", (req, res) => {
+    app.delete("/api/suitcases/:suitcase_id", (req, res) => {
         db.Suitcase.destroy({
             where : {
                 id : req.params.suitcase_id

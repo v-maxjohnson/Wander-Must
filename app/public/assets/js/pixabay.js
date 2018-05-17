@@ -1,8 +1,11 @@
 $(document).ready(function () {
+
     $(".suitcasePhoto").each(function () {
+
         let id = $(this).attr("data-id");
         var authKey = "8978514-366287692940ef0d26d86e99b";
-        // example entries
+
+        // pick out city/state/country from data attributes, put in array, and pick out per index 
         var location = $(this).attr("data-location");
         var locationArray = [];
         locationArray = location.split(", ");
@@ -10,9 +13,9 @@ $(document).ready(function () {
         var state = locationArray[1];
         var country = locationArray[2];
 
-        // replace spaces with +
+        // replace spaces with + as acceptable input
         var pixaCity = city.replace(/\s+/g, '+');
-        // var pixaCountry = country.replace(/\s+/g, '+');
+        var pixaCountry = country.replace(/\s+/g, '+');
 
         var queryURL = "https://pixabay.com/api/?key=" + authKey + "&q=" + pixaCity + "+" + pixaCountry + "+skyline&image_type=photo";
 

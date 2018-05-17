@@ -40,7 +40,8 @@ module.exports = function (sequelize, DataTypes) {
         Suitcase.belongsToMany(models.Item, {
             through: "suitcase_items",
             onDelete: "cascade",
-            timestamps: false
+            timestamps: false,
+            as: "Item"
         });
     };
 

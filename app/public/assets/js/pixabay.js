@@ -3,14 +3,16 @@ $(document).ready(function () {
         let id = $(this).attr("data-id");
         var authKey = "8978514-366287692940ef0d26d86e99b";
         // example entries
-        var city = "Austin";
-        var country = "United States";
-        // var city = $(this).attr("data-city");
-        // var country = $(this).attr("data-country");
+        var location = $(this).attr("data-location");
+        var locationArray = [];
+        locationArray = location.split(", ");
+        var city = locationArray[0];
+        var state = locationArray[1];
+        var country = locationArray[2];
 
         // replace spaces with +
         var pixaCity = city.replace(/\s+/g, '+');
-        var pixaCountry = country.replace(/\s+/g, '+');
+        // var pixaCountry = country.replace(/\s+/g, '+');
 
         var queryURL = "https://pixabay.com/api/?key=" + authKey + "&q=" + pixaCity + "+" + pixaCountry + "+skyline&image_type=photo";
 
@@ -26,4 +28,5 @@ $(document).ready(function () {
                 }
             });
     });
+
 });

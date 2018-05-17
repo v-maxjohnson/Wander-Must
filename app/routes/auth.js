@@ -30,7 +30,16 @@ module.exports = function(app, passport) {
 
     app.get("/profile", isLoggedIn, function(req, res) {
         res.render("profile");
-    })
+    });
+
+    app.get("/auth/twitter", passport.authenticate("twitter"));
+
+    app.get('/auth/twitter/return', 
+    passport.authenticate('twitter', { failureRedirect: '/index' }),
+    function(req, res) {
+    // Successful authentication, redirect to customer profile.
+    res.redirect('/profile');
+    });
 
     // route for signing up aka applying
     // the strategy for our /signup route
@@ -42,10 +51,11 @@ module.exports = function(app, passport) {
     ));
 
     app.post("/index", passport.authenticate("local-signin", {
+
         successRedirect: "/profile",
 
         failureRedirect: "/index"
-    }))
+    }));
 
     function isLoggedIn(req, res, next) {
         if (req.isAuthenticated())

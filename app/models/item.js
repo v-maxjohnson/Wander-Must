@@ -17,11 +17,6 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       // set default value for category to "other"
       // defaultValue: "other"
-    },
-    instances: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 1
     }
   }, {
       // disable timestamps

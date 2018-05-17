@@ -8,23 +8,35 @@ $(document).ready(function () {
     var authKey = "c62508752826c7d8";
 
 
-    var country = "United Kingdom";
-    var city = "London";
-    // example of picking US queryURL if you change var country to 'United States' (since there's a London, OH)
-    var state = "Ohio";
+    var location = $(this).attr("data-location");
+    var locationArray = [];
+    locationArray = location.split(", ");
+    var city = locationArray[0];
+    var state = locationArray[1];
+    var country = locationArray[2];
+
     // formatted for underscores to replace spaces since thats what is acceptable input
     var wuCity = city.replace(/\s+/g, '_');
     var wuCountry = country.replace(/\s+/g, '_');
     var wuState = state.replace(/\s+/g, '_');
 
-    var startMonth = "02";
-    var startDay = "20";
-    var endMonth = "02";
-    var endDay = "28";
+
+    // pick out start and end date from data attributes, put in array, and pick out per index 
+    var startDate = $(this).attr("data-start");
+    var startDateArray = [];
+    startDateArray = startDate.split("-");
+    var startMonth = startDateArray[0];
+    var startDay = startDateArray[1];
+
+    var endDate = $(this).attr("data-end");
+    var endDateArray = [];
+    endDateArray = endDate.split("-");
+    var endMonth = endDateArray[0];
+    var endDay = endDateArray[1];
 
     
     // differentiating queryURL structure depending on US (needs US/state/city) vs. anywhere else (needs country/city)
-    if (country = "United States") {
+    if (country = "USA") {
         var queryURL = "http://api.wunderground.com/api/" + authKey + "/planner_"+ startMonth + startDay + endMonth + endDay + "/q/" + wuState + "/" + wuCity + ".json";
     }
 
@@ -43,22 +55,18 @@ $(document).ready(function () {
     })
 
     .then(function (response) {
-        console.log(queryURL);
-        console.log(response);
+    
+        if (response.trip.temp_high.avg.F !== "") {
+        $(".placeholderclass").text("High Avg Temperature: " + response.trip.temp_high.avg.F + "&deg; Fahrenheit");
+        $(".placeholderclass").text("High Avg Temperature: " + response.trip.temp_high.avg.C + "&deg; Celcius");
 
-        // planner's temperature high average in F and C
-        console.log(response.trip.temp_high.avg.F);
-        console.log(response.trip.temp_high.avg.C);
-
-        // planner's temp low in F and C
-        console.log(response.trip.temp_low.avg.F);
-        console.log(response.trip.temp_low.avg.C);
-
-        $(".placeholderclass").append(response.trip.temp_high.avg.F);
-        $(".placeholderclass").append(response.trip.temp_high.avg.C);
-
-        $(".placeholderclass").append(response.trip.temp_low.avg.F);
-        $(".placeholderclass").append(response.trip.temp_low.avg.C);      
+        $(".placeholderclass").text("Low Avg Temperature: " + response.trip.temp_low.avg.F + "&deg; Fahrenheit");
+        $(".placeholderclass").text("Low Avg Temperature: " + response.trip.temp_low.avg.C + "&deg; Celcius");  
+        }
+        
+        else {
+            $(".placeholderclass").text("Data is not available for this city");
+        }
 
     });
 

@@ -12,16 +12,11 @@ module.exports = function (sequelize, DataTypes) {
     },
     item_category: {
       type: DataTypes.ENUM,
-      values: ['bathroom', 'appearance', 'electronics'],
+      values: ['toiletries', 'clothing', 'electronics', 'accessories'],
       // restrict category from being selected if it doesn't have a text value
       allowNull: false,
       // set default value for category to "other"
       // defaultValue: "other"
-    },
-    instances: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 1
     }
   }, {
       // disable timestamps

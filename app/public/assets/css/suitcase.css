@@ -26,15 +26,18 @@
 }
 
 .suitcase-title {
-    font-family: cursive;
+    font-family: "Courgette", cursive;
+    font-weight: lighter;
+    text-shadow: 4px 4px 6px black;
+    padding-left: 20px;
     color: white;
     -webkit-text-stroke-color: white;
     -webkit-text-stroke-width: 2px;
-    text-shadow: 1px 1px 1px #000;
     font-size: 55px;
     position: absolute;
     top: 30%;
     left: 5%;
+    text-transform: capitalize;
 }
 .trip-details {
     background-color: grey;

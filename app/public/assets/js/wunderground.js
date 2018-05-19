@@ -3,6 +3,7 @@ $(document).ready(function () {
     // api key for student account on WU, limitations are 500 call/day, and 10 call/minute. 
     var authKey = "c62508752826c7d8";
 
+    let id = $(this).attr("data-id");
 
     var location = $(this).attr("data-location");
     

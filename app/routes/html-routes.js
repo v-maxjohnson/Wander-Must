@@ -13,6 +13,10 @@ module.exports = function (app) {
         res.render("index");
     });
 
+    app.get("/signup", function (req, res) {
+        res.render("signup", {layout: 'signup_layout.handlebars'});
+    });
+
     // route to display basic search page through handlebars
     app.get("/search/", (req, res) => {
         res.render("search");
@@ -55,8 +59,11 @@ module.exports = function (app) {
         db.User.findOne({
             where: {
                 id: req.params.id
-            }, 
-            include: [ db.Suitcase ]
+            },
+            include: [{
+                model: db.Suitcase,
+                include: [ db.Locale ]
+            }]
         }).then(function (dbUser) {
             res.render("profile", dbUser);
         }).catch((err) => {

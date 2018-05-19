@@ -35,6 +35,9 @@ app.engine('handlebars', exphbs({
 app.set('view engine', 'handlebars');
 app.set('views',path.join(__dirname,'app/views'))
 
+// might perhaps initialize the passport session after the static path declaration
+// to avoid having authentication (deserializeUser) around every request
+
 // sets up the Express app to serve static files
 app.use(express.static(path.join(__dirname, "/app/public")));
 

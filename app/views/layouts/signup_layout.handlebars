@@ -24,24 +24,38 @@
   <nav class="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" color-on-scroll="100" id="sectionsNav">
     <div class="container">
       <div class="navbar-translate">
-        <a class="navbar-brand" href="index">
+        <a class="navbar-brand" href="/index">
           Wander-Must </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
+        </button>
       </div>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
 
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tooltip" title="Profile Page" data-placement="middle" href="./profile.html" data-original-title="Go to profile page">
-              <i class="fa fa-user-circle" data-toggle="tooltip" title="Profile Page"> </i>
+          <li class="nav-item dropdown">
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+              <i class="fa fa-user-circle" title="Profile Page"> </i>
             </a>
-          </li>
 
-          <li class="nav-item">
-            <span class="suitcase-input" data-toggle="modal" data-target="#suitcase-modal">
-              <a class="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Add new suitcase">
-                <i class="fa fa-suitcase" data-toggle="tooltip" title="Add new Suitcase"> </i>
-              </a>
-            </span>
+            <div class="dropdown-menu dropdown-with-icons">
+
+              <form class="p-3" id="signin" name="" method="post" action="">
+                <label for="email">Email Address</label>
+                <input class="text" name="email" type="text" />
+                <label for="password">Password</label>
+                <input name="password" type="password" />
+                <div class="row">
+                  <div class="col-12">
+                    <input class="btn btn-primary btn-sm mt-3 mx-auto px-3 py-2" type="submit" value="Login" />
+                  </div>
+                </div>
+
+              </form>
+            </div>
+
           </li>
         </ul>
       </div>
@@ -78,79 +92,6 @@
         </div>
       </div>
     </footer>
-
-  <!-- Suitcase Modal -->
-  <div id="suitcase-modal" class="modal fade" role="dialog">
-      <div class="modal-dialog modal-lg">
-  
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header text-center">
-            <h2 class="modal-title">
-              <strong>Add a new suitcase</strong>
-            </h2>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          <div class="modal-body text-center">
-            <div class="md-form mb-5">
-              <i class="fa fa-map-marker prefix grey-text"></i>
-              <input type="text" id="autocomplete" class="form-control validate">
-              <label data-error="wrong" data-success="right" for="autocomplete">City</label>
-            </div>
-  
-            <div class="row">
-              <div class="col-6">
-                <div class="md-form mb-5">
-                  <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                      <span class="fa fa-calendar"></span>
-                    </span>
-                  </div>
-                  <label data-error="wrong" data-success="right" for="form29">Start Date</label>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="md-form mb-5">
-                  <div class='input-group date' id='datetimepicker2'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                      <span class="fa fa-calendar"></span>
-                    </span>
-                  </div>
-                  <label data-error="wrong" data-success="right" for="form29">End Date</label>
-                </div>
-              </div>
-            </div>
-  
-  
-            <div class="md-form mb-5">
-              <i class="fa fa-plane prefix grey-text"></i>
-              <select class="custom-select" id="travelselect">
-                <option selected>&nbsp;</option>
-                <option value="1">Vacation</option>
-                <option value="2">Adventure</option>
-                <option value="3">Luxury</option>
-              </select>
-              <label data-error="wrong" data-success="right" for="travelselect">Travel Type</label>
-            </div>
-  
-            <div class="md-form">
-              <i class="fa fa-pencil prefix grey-text"></i>
-              <textarea type="text" id="form8" class="md-textarea form-control" rows="4"></textarea>
-              <label data-error="wrong" data-success="right" for="form8">Notes</label>
-            </div>
-  
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default">Start Packing!</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
 
 <!--   Core JS Files   -->
 <script src="assets/js/core/jquery.min.js" type="text/javascript"></script>

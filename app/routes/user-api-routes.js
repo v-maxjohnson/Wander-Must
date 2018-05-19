@@ -4,21 +4,22 @@ var db = require("../models");
 module.exports = function(app) {
    
     //----- NOT SURE WE WILL USE THIS ONE -----//
-    // //GET route for getting all **users**
-    // app.get("/api/users", (req, res) => {
-    //     db.User.findAll({
-    //         include: [
-    //             { model: db.Suitcase, include: [
-    //                                     { model: db.Item }
-    //                                 ] 
-    //             }
-    //         ]
-    //     }).then((dbUser) => {
-    //         res.json(dbUser);
-    //     }).catch((err) => {
-    //         res.json(err);
-    //     });
-    // });
+    //GET route for getting all **users**
+    app.get("/api/users", (req, res) => {
+        db.User.findAll({
+            include: [
+                { model: db.Suitcase, include: [
+                    { model : db.Locale },
+                    { model: db.Item }
+                    ] 
+                }
+            ]
+        }).then((dbUser) => {
+            res.json(dbUser);
+        }).catch((err) => {
+            res.json(err);
+        });
+    });
 
     //POST route for saving a new **user**
     app.post("/api/users", (req, res) => {

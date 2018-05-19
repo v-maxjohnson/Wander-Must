@@ -19,7 +19,7 @@ module.exports = function (app) {
     });
 
     // route to display a user's specific suitcase
-    app.get("/search/:city", (req, res) => {
+    app.get("/search/:locale", (req, res) => {
         db.Suitcase.findAll({
             where: {
                 city: req.params.city

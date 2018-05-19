@@ -1,16 +1,12 @@
 $(document).ready(function () {
 
-    $(".suitcasePhoto").each(function () {
-
+    $(".suitcasePhoto").each(function() {
         let id = $(this).attr("data-id");
         var authKey = "8978514-366287692940ef0d26d86e99b";
 
         // pick out city/state/country from data attributes, put in array, and pick out per index 
-        var location = $(this).attr("data-location");
-        var locationArray = [];
-        locationArray = location.split(", ");
-        var city = locationArray[0];
-        var country = locationArray[2];
+        var city = $(this).attr("data-city");
+        var country = $(this).attr("data-country");
 
         // replace spaces with + as acceptable input
         var pixaCity = city.replace(/\s+/g, '+');
@@ -23,6 +19,7 @@ $(document).ready(function () {
                 method: "GET"
             })
             .then(response => {
+
                 if (response.hits[0].webformatURL) {
                     $(this).attr("src", response.hits[0].webformatURL);
                 } else {
@@ -30,5 +27,6 @@ $(document).ready(function () {
                 }
             });
     });
+
 
 });

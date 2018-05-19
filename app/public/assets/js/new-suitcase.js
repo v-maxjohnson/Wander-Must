@@ -6,9 +6,13 @@ $("#new-suitcase-btn").on("click", function (event) {
 
     var startDate = moment($("#start-date").val(), "MM-DD-YYYY");
     var endDate = moment($("#end-date").val(), "MM-DD-YYYY");
-
+    var location = $("#suitcase-city").val().trim().toLowerCase();
+    var locationArray = [];
+    locationArray = location.split(", ");
     var newLocale = {
-        locale_name: $("#suitcase-city").val().trim().toLowerCase()
+        locale_city: locationArray[0],
+        locale_admin: locationArray[1],
+        locale_country: locationArray[2]      
     }
 
     var newSuitcase = {

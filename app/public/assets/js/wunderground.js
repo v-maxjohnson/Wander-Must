@@ -3,18 +3,18 @@ $(document).ready(function () {
     // api key for student account on WU, limitations are 500 call/day, and 10 call/minute. 
     var authKey = "c62508752826c7d8";
 
+    let id = $(this).attr("data-id");
 
     var location = $(this).attr("data-location");
-    var locationArray = [];
-    locationArray = location.split(", ");
-    var city = locationArray[0];
-    var state = locationArray[1];
-    var country = locationArray[2];
+    
+    var city = $(this).attr("data-city");
+    var admin = $(this).attr("data-admin");
+    var country = $(this).attr("data-country");
 
     // formatted for underscores to replace spaces since thats what is acceptable input
     var wuCity = city.replace(/\s+/g, '_');
     var wuCountry = country.replace(/\s+/g, '_');
-    var wuState = state.replace(/\s+/g, '_');
+    var wuAdmin = admin.replace(/\s+/g, '_');
 
 
     // pick out start and end date from data attributes, put in array, and pick out per index 
@@ -33,7 +33,7 @@ $(document).ready(function () {
 
     // differentiating queryURL structure depending on USA (needs state/city) vs. anywhere else (needs country/city)
     if (country = "USA") {
-        var queryURL = "http://api.wunderground.com/api/" + authKey + "/planner_" + startMonth + startDay + endMonth + endDay + "/q/" + wuState + "/" + wuCity + ".json";
+        var queryURL = "http://api.wunderground.com/api/" + authKey + "/planner_" + startMonth + startDay + endMonth + endDay + "/q/" + wuAdmin + "/" + wuCity + ".json";
     } else {
         var queryURL = "http://api.wunderground.com/api/" + authKey + "/planner_" + startMonth + startDay + endMonth + endDay + "/q/" + wuCountry + "/" + wuCity + ".json";
     }

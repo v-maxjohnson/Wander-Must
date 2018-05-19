@@ -10,7 +10,6 @@ $(document).ready(function () {
         var locationArray = [];
         locationArray = location.split(", ");
         var city = locationArray[0];
-        var state = locationArray[1];
         var country = locationArray[2];
 
         // replace spaces with + as acceptable input

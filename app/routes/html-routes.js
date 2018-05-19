@@ -19,7 +19,7 @@ module.exports = function (app) {
     });
 
     // route to display a user's specific suitcase
-    app.get("/search/:city", (req, res) => {
+    app.get("/search/:locale", (req, res) => {
         db.Suitcase.findAll({
             where: {
                 city: req.params.city
@@ -35,32 +35,30 @@ module.exports = function (app) {
     });
 
     // route to display a user's specific suitcase
-    app.get("/suitcase/:id", (req, res) => {
-        db.Suitcase.findOne({
-            where: {
-                id: req.params.id
-            }
-        }).then(function (dbSuitcase) {
-            let suitcaseObject = {
-                suitcase_items: dbSuitcase
-            };
-            res.render("suitcase", suitcaseObject);
-        }).catch((err) => {
-            res.json(err);
-        });
-    });
+    // app.get("/suitcase/:id", (req, res) => {
+    //     db.Suitcase.findOne({
+    //         where: {
+    //             id: req.params.id
+    //         }
+    //     }).then(function (dbSuitcase) {
+    //         let suitcaseObject = {
+    //             suitcase_items: dbSuitcase
+    //         };
+    //         res.render("suitcase", suitcaseObject);
+    //     }).catch((err) => {
+    //         res.json(err);
+    //     });
+    // });
 
     // route to display a user's specific profile
     app.get("/profile/:id", (req, res) => {
         db.User.findOne({
             where: {
                 id: req.params.id
-            }
+            }, 
+            include: [ db.Suitcase ]
         }).then(function (dbUser) {
-            let userObject = {
-                suitcases: dbUser
-            };
-            res.render("profile", userObject);
+            res.render("profile", dbUser);
         }).catch((err) => {
             res.json(err);
         });

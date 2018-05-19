@@ -1,10 +1,4 @@
-
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Sign up page</title>
-</head>
-<body>
+{{!-- 
 <form id="signup" name="signup" method="post" action="/signup">
 
   <label for="email">Email Address</label>
@@ -23,78 +17,81 @@
   <select name="gender">
   <option value="male">Male</option>
   <option value="female">Female</option>
-  <option value="I prefer not to answer">I prefer not to answer</option>
+  <option value="noGender">I prefer not to answer</option>
   </select>
   
   <input class="btn" type="submit" value="Sign Up" />
 
-</form>
-
-</body>
-</html>
+ --}}
 
   <div class="page-header header-filter" filter-color="purple" style="background-image: url('../../public/assets/img/bg7.jpg')">
     <div class="container">
       <div class="section section-signup page-header" style="background-image: url('./assets/img/city.jpg');">
         <div class="container">
-          <div class="row">
-            <div class="col-md-4 ml-auto mr-auto">
-              <div class="card card-signup">
-                <form class="form" method="" action="">
-                  <div class="card-header card-header-primary text-center">
-                    <h4>Sign Up</h4>
-                    <div class="social-line">
-                      <a href="#pablo" class="btn btn-link btn-just-icon">
-                        <i class="fa fa-facebook-square"></i>
-                      </a>
-                      <a href="#pablo" class="btn btn-link btn-just-icon">
-                        <i class="fa fa-twitter"></i>
-                      </a>
-                      <a href="#pablo" class="btn btn-link btn-just-icon">
-                        <i class="fa fa-google-plus"></i>
-                      </a>
-                    </div>
-                  </div>
-                  <p class="text-divider">Or Be Classical</p>
-                  <div class="card-body">
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          <i class="material-icons">face</i>
-                        </span>
+            <div class="row">
+                <div class="col-md-4 ml-auto mr-auto">
+                  <div class="card card-signup">
+                    <form class="form" method="" action="">
+                      <div class="card-header card-header-primary text-center">
+                        <h4>Sign Up</h4>
+                        <div class="social-line">
+                          <a href="#pablo" class="btn btn-link btn-just-icon">
+                            <i class="fa fa-facebook-square"></i>
+                          </a>
+                          <a href="#pablo" class="btn btn-link btn-just-icon">
+                            <i class="fa fa-twitter"></i>
+                          </a>
+                          <a href="#pablo" class="btn btn-link btn-just-icon">
+                            <i class="fa fa-google-plus"></i>
+                          </a>
+                        </div>
                       </div>
-                      <input type="text" class="form-control" placeholder="First Name...">
-                    </div>
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          <i class="material-icons">email</i>
-                        </span>
+                      <p class="text-divider">Or Be Classical</p>
+                      <div class="card-body">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="material-icons">face</i>
+                            </span>
+                          </div>
+                          <input type="text" class="form-control" placeholder="Username...">
+                        </div>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="material-icons">email</i>
+                            </span>
+                          </div>
+                          <input type="email" class="form-control" placeholder="Email...">
+                        </div>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="material-icons">lock_outline</i>
+                            </span>
+                          </div>
+                          <input type="password" class="form-control" placeholder="Password...">
+                        </div>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="material-icons">supervised_user_circle</i>
+                            </span>
+                          </div>
+                          <select name="gender">
+                              <option value="male">Male</option>
+                              <option value="female">Female</option>
+                              <option value="noGender">I prefer not to answer</option>
+                          </select>
+                        </div>
+    
                       </div>
-                      <input type="email" class="form-control" placeholder="Email...">
-                    </div>
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          <i class="material-icons">lock_outline</i>
-                        </span>
+                      <div class="card-footer justify-content-center">
+                        <a href="#pablo" class="btn btn-link btn-primary btn-lg">Get Started</a>
                       </div>
-                      <input type="password" class="form-control" placeholder="Password...">
-                    </div>
-
-                  </div>
-                  <div class="card-footer justify-content-center">
-                    <a href="#pablo" class="btn btn-link btn-primary btn-lg">Get Started</a>
-                  </div>
-                </form>
+                    </form>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-md-12 text-center">
-        <a href="./signup-page.html" class="btn btn-link btn-primary btn-lg" target="_blank">View Signup Page</a>
-      </div>
-      
-      
-    </div>

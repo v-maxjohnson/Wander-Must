@@ -46,7 +46,7 @@
 
             <div class="dropdown-menu dropdown-with-icons">
 
-              <form class="p-3" id="signin" name="index" method="post" action="index">
+              <form class="p-3" id="signin" name="" method="post" action="">
                 <label for="email">Email Address</label>
                 <input class="text" name="email" type="text" />
                 <label for="password">Password</label>
@@ -56,11 +56,11 @@
                     <input class="btn btn-primary btn-sm mt-3 mx-auto px-3 py-2" type="submit" value="Login" />
                   </div>
                   <div class="col-6">
-                    <input class="btn btn-sm mt-3 mx-auto px-3 py-2" type="submit" value="SignUp" src="signup" />
+                    <a class="btn btn-sm mt-3 mx-auto px-3 py-2" href="/signup">SignUp</a>
                   </div>
                 </div>
-              </form>
 
+              </form>
             </div>
 
           </li>
@@ -137,7 +137,8 @@
             <label data-error="wrong" data-success="right" for="travelselect">Travel Type</label>
           </div>
 
-          {{!-- <div class="md-form">
+          {{!--
+          <div class="md-form">
             <i class="fa fa-pencil prefix grey-text"></i>
             <textarea type="text" id="form8" class="md-textarea form-control" rows="4"></textarea>
             <label data-error="wrong" data-success="right" for="form8">Notes</label>

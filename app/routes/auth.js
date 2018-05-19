@@ -14,9 +14,6 @@ var express = require("express");
 
 // passport is necessary for auth and is thus passed in this function
 module.exports = function (app, passport) {
-    app.get("/signup", function (req, res) {
-        res.render("signup")
-    });
 
     app.get("/index", function (req, res) {
         res.render("index")
@@ -51,7 +48,7 @@ module.exports = function (app, passport) {
         failureRedirect: "/signup"
     }));
 
-    app.post("/index", function (req, res, next) {
+    app.post("/api/signin", function (req, res, next) {
         passport.authenticate("local-signin", function (err, user, info) {
             if (err) {
                 return next(err);

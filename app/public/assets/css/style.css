@@ -1,0 +1,20 @@
+select {
+    -webkit-appearance: none; 
+    padding: 10px;
+    line-height: 24px; 
+    background-color: transparent;
+}
+select#avatar option[value="koala"]   { 
+    background-image:url(/assets/img/faces/avatar_koala.jpg); 
+
+}
+select#avatar option[value="panda"] { 
+    background-image:url(/assets/img/faces/avatar_panda.jpg); 
+}
+select#avatar option[value="penguin"] { 
+    background-image:url(/assets/img/faces/avatar_penguin.jpg); 
+}
+select#avatar option[value="cow"] { 
+    background-image:url(/assets/img/faces/avatar_penguin.jpg); 
+}
+

@@ -14,9 +14,6 @@ var express = require("express");
 
 // passport is necessary for auth and is thus passed in this function
 module.exports = function (app, passport) {
-    app.get("/signup", function (req, res) {
-        res.render("signup", {layout: 'signup_layout.handlebars'});
-    });
 
     app.get("/index", function (req, res) {
         res.render("index")

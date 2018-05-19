@@ -65,7 +65,7 @@ module.exports = function (app) {
                 include: [ db.Locale ]
             }]
         }).then(function (dbUser) {
-            res.render("profile", dbUser);
+            res.render("profile", { user: dbUser});
         }).catch((err) => {
             res.json(err);
         });

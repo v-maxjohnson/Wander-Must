@@ -1,7 +1,17 @@
 // model export for locale table/model
 module.exports = function (sequelize, DataTypes) {
     var Locale = sequelize.define("Locale", {
-      locale_name: {
+      locale_city: {
+        type: DataTypes.STRING,
+        // restrict locale name from being entered if it doesn't have a text value
+        allowNull: false
+      },
+      locale_admin: {
+        type: DataTypes.STRING,
+        // restrict locale name from being entered if it doesn't have a text value
+        allowNull: false
+      },
+      locale_country: {
         type: DataTypes.STRING,
         // restrict locale name from being entered if it doesn't have a text value
         allowNull: false

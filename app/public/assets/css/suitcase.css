@@ -50,6 +50,21 @@
  box-shadow: none;
 }
 
+.modal.show {
+    display: flex!important;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: flex-start;
+    max-width: none;;
+}
+
+.modal .modal-dialog {
+    margin: 0 auto!important;
+    max-width: none!important;
+    width: 70%!important;
+}
+
 /* VERY IMPORTANT -- THIS ALLOWS GOOGLE AUTOCOMPLETE TO SHOW UP ON MODALS */
 .pac-container {
     z-index: 10000!important;

@@ -9,6 +9,6 @@ var placeSearch, autocomplete;
         // Create the autocomplete object, restricting the search to geographical
         // location types.
         autocomplete = new google.maps.places.Autocomplete(
-            /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+            /** @type {!HTMLInputElement} */(document.getElementById('suitcase-city')),
             {types: ['(cities)']});
       }

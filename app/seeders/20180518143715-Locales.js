@@ -4,11 +4,17 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
 
       return queryInterface.bulkInsert('Locales', [{
-        locale_name: "Seattle, WA, USA"
+        locale_city: "seattle",
+        locale_admin: "wa",
+        locale_country: "usa"
       },{
-        locale_name: "Chicago, IL, USA"
+        locale_city: "chicago",
+        locale_admin: "il",
+        locale_country: "usa"
       },{
-        locale_name: "Austin, TX, USA"
+        locale_city: "austin",
+        locale_admin: "tx",
+        locale_country: "usa"
       }], {});
   
   },

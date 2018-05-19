@@ -7,8 +7,7 @@ module.exports = function(app) {
     app.post("/api/items", (req, res) => {
         db.Item.create({
             item_name : req.body.item_name,
-            item_category : req.body.item_category,
-            instances : req.body.instances
+            item_category : req.body.item_category
         }).then((dbItem) => {
             res.json(dbItem);
         }).catch((err) => {

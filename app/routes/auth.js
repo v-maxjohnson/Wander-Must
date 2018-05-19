@@ -51,7 +51,7 @@ module.exports = function (app, passport) {
         failureRedirect: "/signup"
     }));
 
-    app.post("/index", function (req, res, next) {
+    app.post("/api/signin", function (req, res, next) {
         passport.authenticate("local-signin", function (err, user, info) {
             if (err) {
                 return next(err);

@@ -55,8 +55,11 @@ module.exports = function (app) {
         db.User.findOne({
             where: {
                 id: req.params.id
-            }, 
-            include: [ db.Suitcase ]
+            },
+            include: [{
+                model: db.Suitcase,
+                include: [ db.Locale ]
+            }]
         }).then(function (dbUser) {
             res.render("profile", dbUser);
         }).catch((err) => {

@@ -30,7 +30,7 @@ module.exports = function (sequelize, DataTypes) {
   Item.associate = function (models) {
     Item.belongsToMany(models.Suitcase, { 
       through: "suitcase_items", 
-      timestamps: false 
+      timestamps: false
     });
   };
 

@@ -15,7 +15,7 @@
   />
   <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon" />
   <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Courgette|Material+Icons"
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Courgette|Reem+Kufi|Material+Icons"
   />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
@@ -44,7 +44,7 @@
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
 
-          <li class="nav-item dropdown">
+          <li id="login-dropdown" class="nav-item dropdown">
             <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
               <i class="fa fa-user-circle" title="Profile Page"> </i>
             </a>
@@ -68,6 +68,13 @@
 
               </form>
             </div>
+
+          </li>
+
+          <li id="profile-link" class="nav-item">
+            <a href="/profile/:id" class="nav-link">
+              <i class="fa fa-user-circle" title="Profile Page"> </i>
+            </a>
 
           </li>
 
@@ -204,6 +211,8 @@
   <script src="/assets/js/date-time.js"></script>
   <script src="/assets/js/google-places.js"></script>
   <script src="/assets/js/new-suitcase.js"></script>
+  <script src="/assets/js/profile.js"></script>
+  <script src="/assets/js/navbar.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMclPKyVCcIZQchcRDTYXvuR1Dn3Ehkcc&libraries=places&callback=initAutocomplete"
     async defer></script>
     <script src="/assets/js/pixabay.js"></script>

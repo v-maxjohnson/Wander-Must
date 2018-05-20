@@ -46,6 +46,7 @@ app.use(express.static(path.join(__dirname, "/app/public")));
 require("./app/routes/item-api-routes.js")(app);
 require("./app/routes/suitcase-api-routes.js")(app);
 require("./app/routes/user-api-routes.js")(app);
+require("./app/routes/locale-api-routes.js")(app);
 require("./app/routes/html-routes.js")(app);
 
 //routes for authorization

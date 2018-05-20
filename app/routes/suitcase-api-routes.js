@@ -19,22 +19,6 @@ module.exports = function(app) {
         });
     });
 
-    //GET route for getting all the **suitcases** with the same city
-    app.get("/api/suitcases/:city", (req, res) => {
-        db.Suitcase.findAll({
-            where : {
-                city : req.params.city
-            },
-            include: [
-                db.Item
-            ]
-        }).then((dbSuitcase) => {
-            res.json(dbSuitcase);
-        }).catch((err) => {
-            res.json(err);
-        });
-    });
-
     //POST route for creating and saving a new **suitcase**
     app.post("/api/suitcases", (req, res) => {
         db.Suitcase.create({

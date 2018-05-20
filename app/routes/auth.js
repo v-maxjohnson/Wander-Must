@@ -29,14 +29,22 @@ module.exports = function (app, passport) {
         res.render("profile");
     });
 
-    app.get("/auth/twitter", passport.authenticate("google"), {
-        scope: ["profile"]
+    app.get("/auth/google", passport.authenticate("google"));
+
+    app.get('/auth/google/redirect',
+    passport.authenticate('google', {
+        failureRedirect: '/index'
+    }),
+    function (req, res) {
+        // Successful authentication, redirect to customer profile.
+        res.redirect('/profile');
     });
 
-    app.get("/auth/twitter", passport.authenticate("twitter"));
+    app.get("/login/twitter", passport.authenticate("twitter"));
 
-    app.get('/auth/twitter/return',
+    app.get('/login/twitter/return',
         passport.authenticate('twitter', {
+
             failureRedirect: '/index'
         }),
         function (req, res) {

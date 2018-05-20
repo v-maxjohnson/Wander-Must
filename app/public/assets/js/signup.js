@@ -19,32 +19,32 @@
 
 var avatarOps = [
     {
-        text: "koala",
-        value: 1,
+        text: "pig",
+        value: "/assets/img/faces/pig.png",
         selected: false,
         description: "Koala - slow paced travel with lots of good eats. Just like to hang around.",
-        imageSrc: "/assets/img/faces/avatar_koala.jpg"
+        imageSrc: "/assets/img/faces/pig.png"
     },
     {
-        text: "panda",
-        value: 2,
+        text: "raccoon",
+        value: "/assets/img/faces/raccoon.png",
         selected: false,
         description: "say some stuff",
-        imageSrc: "/assets/img/faces/avatar_panda.jpg"
+        imageSrc: "/assets/img/faces/raccoon.png"
     },
     {
-        text: "penguin",
-        value: 3,
+        text: "lion",
+        value: "/assets/img/faces/lion.png",
         selected: false,
         description: "stuff",
-        imageSrc: "/assets/img/faces/avatar_penguin.jpg"
+        imageSrc: "/assets/img/faces/lion.png"
     },
     {
-        text: "cow",
-        value: 4,
+        text: "toucan",
+        value: "/assets/img/faces/toucan.png",
         selected: false,
         description: "things",
-        imageSrc: "/assets/img/faces/avatar_cow.jpg"
+        imageSrc: "/assets/img/faces/toucan.png"
     }
 ];
     
@@ -52,11 +52,37 @@ var avatarOps = [
 $('#avatar').ddslick({
     data: avatarOps,
     width: "80%",
-    selectText: "Select your spirit animal!!!",
+    selectText: "Select your spirit animal",
     imagePosition:"left",
     background: "transparent",
     onSelected: function(selectedAvatar){
         //callback function: do something with selectedData;
         console.log(selectedAvatar);
     }   
+});
+
+$('#avatar').find('input[type=hidden]:first').attr("name", "avatar");
+
+$("#signup-btn").on("click", function (event) {
+    event.preventDefault();
+    
+    var newUser = {
+        username: $("#user-name").val().trim().toLowerCase(),
+        email: $("#user-email").val().trim().toLowerCase(),
+        password: $("#user-password").val(),
+        gender: $("#user-gender").val().trim(),
+        user_image: $('[name="avatar"]')[0].value
+    }
+
+    console.log(newUser);
+
+    // Send an AJAX POST-request with jQuery
+    $.post("/api/users", newUser)
+    
+        // On success, run the following code
+        .then(function () {
+            
+        });
+
+    
 });

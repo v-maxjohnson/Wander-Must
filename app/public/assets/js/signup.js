@@ -75,7 +75,7 @@ $("#signup-btn").on("click", function (event) {
     event.preventDefault();
     
     var newUser = {
-        username: $("#user-name").val().trim().toLowerCase(),
+        username: $("#user-name").val().trim(),
         email: $("#user-email").val().trim().toLowerCase(),
         password: $("#user-password").val(),
         gender: $("#user-gender").val().trim(),
@@ -88,8 +88,8 @@ $("#signup-btn").on("click", function (event) {
     $.post("/api/users", newUser)
     
         // On success, run the following code
-        .then(function () {
-            
+        .then(function (dbUser) {
+            window.location.href="/profile/" + dbUser.id;
         });
 
     

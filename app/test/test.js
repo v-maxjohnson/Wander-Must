@@ -6,6 +6,7 @@
 var suitecaseroutes = require("../routes/suitcase-api-routes");
 var expect = require("chai").expect;
 
+
 // as a reference
 // https://stackoverflow.com/questions/48967567/how-to-write-unit-tests-for-sequelize-models-with-chai?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 // http://stackabuse.com/testing-node-js-code-with-mocha-and-chai/
@@ -46,4 +47,25 @@ it(`should update the ${model.modelName} entry in the database`, function () {
             })
         })
     })
+});
+
+// alternatively, looks like instead of referencing a file, we can throw in the logic and test it directly here from this inc lass ex
+
+var multiply = function(x, y) {
+  if (typeof x !== "number" || typeof y !== "number") {
+    throw new Error("x or y is not a number.");
+  }
+  else return x * y;
+};
+
+describe("Multiply", function() {
+  it("should multiply properly when passed numbers", function() {
+    expect(multiply(2, 4)).to.equal(8);
+  });
+
+  it("should throw when not passed numbers", function() {
+    expect(function() {
+      multiply(2, "4");
+    }).to.throw(Error);
+  });
 });

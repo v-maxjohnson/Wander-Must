@@ -89,6 +89,7 @@ $("#signup-btn").on("click", function (event) {
     
         // On success, run the following code
         .then(function (dbUser) {
+            localStorage.setItem("user_id", dbUser.id);
             window.location.href="/profile/" + dbUser.id;
         });
 

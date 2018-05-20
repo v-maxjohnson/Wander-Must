@@ -4,8 +4,15 @@
 $("#new-suitcase-btn").on("click", function (event) {
     event.preventDefault();
 
-    var startDate = moment($("#start-date").val(), "MM-DD-YYYY");
-    var endDate = moment($("#end-date").val(), "MM-DD-YYYY");
+    var startDate = $("#start-date").val();
+    var endDate = $("#end-date").val();
+    var startDateObj = new Date(startDate);
+    var endDateObj = new Date(endDate);
+    var momentObjOne = moment(startDateObj);
+    var momentObjTwo = moment(endDateObj);
+    startDate = momentObjOne.format('YYYY-MM-DD');
+    endDate = momentObjTwo.format('YYYY-MM-DD');
+
     var location = $("#suitcase-city").val().trim().toLowerCase();
     var locationArray = [];
     locationArray = location.split(", ");
@@ -16,8 +23,8 @@ $("#new-suitcase-btn").on("click", function (event) {
     }
 
     var newSuitcase = {
-        start_date: startDate._i,
-        end_date: endDate._i,
+        start_date: startDate,
+        end_date: endDate,
         travel_category: $("#travelselect").val().trim()
     };
 

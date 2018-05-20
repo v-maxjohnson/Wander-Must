@@ -53,7 +53,7 @@
                               <i class="material-icons">face</i>
                             </span>
                           </div>
-                          <input type="text" class="form-control" placeholder="Username...">
+                          <input type="text" class="form-control" id="user-name" placeholder="Username..." required>
                         </div>
                         <div class="input-group">
                           <div class="input-group-prepend">
@@ -61,7 +61,7 @@
                               <i class="material-icons">email</i>
                             </span>
                           </div>
-                          <input type="email" class="form-control" placeholder="Email...">
+                          <input type="email" class="form-control" id="user-email" placeholder="Email..." required>
                         </div>
                         <div class="input-group">
                           <div class="input-group-prepend">
@@ -69,15 +69,17 @@
                               <i class="material-icons">lock_outline</i>
                             </span>
                           </div>
-                          <input type="password" class="form-control" placeholder="Password...">
+                          <input type="password" class="form-control" id="user-password" placeholder="Password..." required>
                         </div>
+                        
                         <div class="input-group">
                           <div class="input-group-prepend">
                             <span class="input-group-text">
                               <i class="material-icons">supervised_user_circle</i>
                             </span>
                           </div>
-                          <select name="gender">
+                          <select class="custom-select" id="user-gender" name="gender" required>
+                            <option selected>Gender</option>
                               <option value="male">Male</option>
                               <option value="female">Female</option>
                               <option value="noGender">I prefer not to answer</option>
@@ -97,7 +99,7 @@
     
                       </div>
                       <div class="card-footer justify-content-center">
-                        <a href="#pablo" class="btn btn-link btn-primary btn-lg">Get Started</a>
+                        <input type="submit" id="signup-btn" value="Get Started" class="btn btn-primary btn-lg">
                       </div>
                     </form>
               </div>

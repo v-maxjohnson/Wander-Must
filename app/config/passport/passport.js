@@ -7,6 +7,7 @@ var bCrypt = require('bcrypt');
 module.exports = function (passport, user) {
     var User = user;
     var LocalStrategy = require('passport-local').Strategy;
+    var GoogleStrategy = require('passport-google-oauth20').OAuth2Strategy;
         
     // passport needs to save a user ID which it uses 
     // to retrieve user details when needed
@@ -86,25 +87,27 @@ module.exports = function (passport, user) {
         function(req, email, password, done) {
             var User = user;
 
-            var isValidPassword = function(userpass, password) {
-                return bCrypt.compareSync(password, userpass);
-            }
+            //production env password validator
+            // var isValidPassword = function(userpass, password) {
+            //     return bCrypt.compareSync(password, userpass);
+            // }
 
             User.findOne({
                 where: {
                     email: email
                 }
             }).then(function(user) {
-                
+
+                // if (!user.password === password) {
+                  
+                //     // for production : if (!isValidPassword(user.password, password)) {
+                //         return done(null, false, {
+                //             message: 'Incorrect password.'
+                //         });
+                //     }                
                 if (!user) {
                     return done(null, false, {
                         message: 'email does not exist'
-                    });
-                }
-
-                if (!isValidPassword(user.password, password)) {
-                    return done(null, false, {
-                        message: 'Incorrect password.'
                     });
                 }
 
@@ -121,4 +124,16 @@ module.exports = function (passport, user) {
         }
 
     ));
+
+    passport.use("google", new GoogleStrategy ({
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: "/auth/google/redirect"
+    }), (token, refreshToken, profile, done) => {
+        return done (null, {
+            profile: profile,
+            token: token
+        })
+    }
+)
 }

@@ -29,6 +29,10 @@ module.exports = function (app, passport) {
         res.render("profile");
     });
 
+    app.get("/auth/twitter", passport.authenticate("google"), {
+        scope: ["profile"]
+    });
+
     app.get("/auth/twitter", passport.authenticate("twitter"));
 
     app.get('/auth/twitter/return',
@@ -53,12 +57,13 @@ module.exports = function (app, passport) {
             if (err) {
                 return next(err);
             }
-            if (user) {
+            req.login(user, function(err) {
+                if (err) { return next (err); }
                 return res.redirect("/profile/" + user.id);
-            }
-            console.log(user);
-            console.log(info);
+            });
         })(req, res, next);
+        console.log("from the /api/signin route: " + req.user);
+        
     });
 
     function isLoggedIn(req, res, next) {

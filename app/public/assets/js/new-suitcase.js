@@ -34,7 +34,7 @@ $("#new-suitcase-btn").on("click", function (event) {
     $.post("/api/suitcases", newLocale, newSuitcase)
         // On success, run the following code
         .then(function () {
-            // window.location.href = "/search/:locale";
+            // window.location.href = "/search";
         });
 
     

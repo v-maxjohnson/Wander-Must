@@ -61,42 +61,27 @@ $('#avatar').ddslick({
     }   
 });
 
-$("#signup-btn").on("submit", function (event) {
+$('#avatar').find('input[type=hidden]:first').attr("name", "avatar");
+
+$("#signup-btn").on("click", function (event) {
     event.preventDefault();
-
-    var userName = $("#user-name").val().trim().toLowerCase();
-    var userEmail = $("#user-email").val().trim().toLowerCase();
-    var userPassword = $("#user-password").val();
-    var userGender = $("#user-gender").val().trim().toLowerCase();
-    var startDateObj = new Date(startDate);
-    var endDateObj = new Date(endDate);
-    var momentObjOne = moment(startDateObj);
-    var momentObjTwo = moment(endDateObj);
-    startDate = momentObjOne.format('YYYY-MM-DD');
-    endDate = momentObjTwo.format('YYYY-MM-DD');
-
-    var location = $("#suitcase-city").val().trim().toLowerCase();
-    var locationArray = [];
-    locationArray = location.split(", ");
-    var newLocale = {
-        locale_city: locationArray[0],
-        locale_admin: locationArray[1],
-        locale_country: locationArray[2]      
+    
+    var newUser = {
+        username: $("#user-name").val().trim().toLowerCase(),
+        email: $("#user-email").val().trim().toLowerCase(),
+        password: $("#user-password").val(),
+        gender: $("#user-gender").val().trim(),
+        user_image: $('[name="avatar"]')[0].value
     }
 
-    var newSuitcase = {
-        start_date: startDate,
-        end_date: endDate,
-        travel_category: $("#travelselect").val().trim()
-    };
-
-    console.log(newLocale, newSuitcase);
+    console.log(newUser);
 
     // Send an AJAX POST-request with jQuery
-    $.post("/api/suitcases", newLocale, newSuitcase)
+    $.post("/api/users", newUser)
+    
         // On success, run the following code
         .then(function () {
-            // window.location.href = "/search/:locale";
+            
         });
 
     

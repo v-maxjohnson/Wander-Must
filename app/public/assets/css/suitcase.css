@@ -9,13 +9,14 @@
 
 .suitcaseWrapper {
     max-width: 100%;
-    
 }
   
 .suitcaseFrame {
     position: relative;
     width: 100%;
     background-repeat: none;
+    cursor: pointer;
+    z-index: 5;
 }
 .suitcasePhoto {
     position: absolute;
@@ -39,15 +40,13 @@
     left: 5%;
     text-transform: capitalize;
 }
+
 .trip-details {
-    background-color: grey;
-    border-radius: 25px;
     opacity: 5%;
     padding: 2%;
     position: absolute; 
-    bottom: 20%;
+    bottom: 12%;
     right: 10%;
-
 }
 .card {
  box-shadow: none;
@@ -66,6 +65,18 @@
     margin: 0 auto!important;
     max-width: none!important;
     width: 70%!important;
+}
+
+.badge {
+    font-family: 'Reem Kufi', sans-serif;
+    text-transform: capitalize;
+    font-weight: 400;
+    font-size: 15px;
+    text-align: right!important;
+    background-color: rgba(0,0,0,.7);
+    border-radius: 15px;
+    display: block;
+    box-shadow: 1px 1px 10px rgba(255,255,255,.5);
 }
 
 /* VERY IMPORTANT -- THIS ALLOWS GOOGLE AUTOCOMPLETE TO SHOW UP ON MODALS */

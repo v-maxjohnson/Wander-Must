@@ -10,13 +10,13 @@ module.exports = {
         email: "false@gmail.com",
         password: "password",
         gender: "male",
-        user_image: "http://via.placeholder.com/150x150"
+        user_image: "/assets/img/faces/raccoon.png"
       }, {
         username: 'JaneDoe',
         email: "true@gmail.com",
         password: "password",
         gender: "female",
-        user_image: "http://via.placeholder.com/150x150"
+        user_image: "/assets/img/faces/toucan.png"
       }], {});
     
     

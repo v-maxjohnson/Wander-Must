@@ -16,6 +16,7 @@ $("#new-suitcase-btn").on("click", function (event) {
     var location = $("#suitcase-city").val().trim().toLowerCase();
     var locationArray = [];
     locationArray = location.split(", ");
+    
     var newLocale = {
         locale_city: locationArray[0],
         locale_admin: locationArray[1],
@@ -35,7 +36,7 @@ $("#new-suitcase-btn").on("click", function (event) {
         // On success, run the following code
         .then(function (dbLocale) {
             localStorage.setItem("newSuitcase", newSuitcase);
-            window.location.href = "/search/" + dbLocale.id;
+            window.location.href = "/search/" + dbLocale.locale_city;
         });
 
     

@@ -14,7 +14,7 @@ module.exports = function (app) {
     });
 
     app.get("/signup", function (req, res) {
-        res.render("signup", {layout: 'signup_layout.handlebars'});
+        res.render("signup", { layout: 'signup_layout.handlebars' });
     });
 
     // route to display basic search page through handlebars
@@ -23,19 +23,26 @@ module.exports = function (app) {
     });
 
     // route to display a user's specific suitcase
-    app.get("/search/:locale", (req, res) => {
-        db.Suitcase.findAll({
+    app.get("/search/:locale_city", (req, res) => {
+        db.Locale.findOne({
             where: {
-                locale_id: req.params.locale
-            },
-            include: [{
-                model: db.Locale
-            }]
-        }).then(function (dbSuitcase) {
-            res.render("search", { suitcase: dbSuitcase});
-        }).catch((err) => {
-            console.log(err);
-            res.json(err);
+                locale_city: req.params.locale_city
+            }
+        }).then(localeResult => {
+            db.Suitcase.findAll({
+                where: {
+                    locale_id: localeResult.id
+                },
+                include: [
+            
+                    db.Locale
+                ]
+            }).then((dbSuitcases) => {
+                res.render("search", { suitcases: dbSuitcases });
+            }).catch((err) => {
+                console.log(err);
+                res.json(err);
+            });
         });
     });
 
@@ -63,10 +70,10 @@ module.exports = function (app) {
             },
             include: [{
                 model: db.Suitcase,
-                include: [ db.Locale ]
+                include: [db.Locale]
             }]
         }).then(function (dbUser) {
-            res.render("profile", { user: dbUser});
+            res.render("profile", { user: dbUser });
         }).catch((err) => {
             res.json(err);
         });

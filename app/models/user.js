@@ -31,10 +31,7 @@ module.exports = function (sequelize, DataTypes) {
     user_image: {
       type: DataTypes.STRING,
       // restrict email from being entered if it doesn't have a text value
-      allowNull: false,
-      validate: {
-        isUrl: true
-      }
+      allowNull: false
     }
   }, {
       // disable timestamps

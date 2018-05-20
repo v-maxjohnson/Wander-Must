@@ -20,3 +20,10 @@ small.dd-option-desciption.dd-desc {
     color: black;
 }
 
+.city-name {
+    font-family: "Reem Kufi", sans-serif;
+}
+
+.locale-city {
+    text-transform: capitalize;
+}

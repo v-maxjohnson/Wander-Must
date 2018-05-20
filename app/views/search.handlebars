@@ -7,19 +7,19 @@
             <div class="profile">
               
               <div class="city-name">
-                <h3 class="title">{{city}}</h3>
-                <h6>{{travel_category}}</h6>
+                <p>Here are some suitcases for <span class="locale-city">{{suitcases.[0].Locale.locale_city}}</span></p>
                 
               </div>
             </div>
           </div>
         </div>
-        
+        <div class="row">
     	{{#each suitcases}}
 			
 			{{> suitcase-card }}
 			  
 		{{/each}}
+    </div>
   </div>
   </div>
   </div>

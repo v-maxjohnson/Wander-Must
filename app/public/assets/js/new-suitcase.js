@@ -38,6 +38,4 @@ $("#new-suitcase-btn").on("click", function (event) {
             localStorage.setItem("newSuitcase", JSON.stringify(newSuitcase));
             window.location.href = "/search/" + dbLocale.locale_city;
         });
-
-    
 });

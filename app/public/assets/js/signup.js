@@ -22,29 +22,36 @@ var avatarOps = [
         text: "pig",
         value: "/assets/img/faces/pig.png",
         selected: false,
-        description: "Koala - slow paced travel with lots of good eats. Just like to hang around.",
+        description: "You travel for the food!",
         imageSrc: "/assets/img/faces/pig.png"
     },
     {
         text: "raccoon",
         value: "/assets/img/faces/raccoon.png",
         selected: false,
-        description: "say some stuff",
+        description: "A true adventurer. You can forage for your food and climb to the highest points.",
         imageSrc: "/assets/img/faces/raccoon.png"
     },
     {
         text: "lion",
         value: "/assets/img/faces/lion.png",
         selected: false,
-        description: "stuff",
+        description: "You are on the prowl for excitement, but you don't mind some downtime in the sun.",
         imageSrc: "/assets/img/faces/lion.png"
     },
     {
         text: "toucan",
         value: "/assets/img/faces/toucan.png",
         selected: false,
-        description: "things",
+        description: "All things sunny! Bring you the fuity drink and let you fly around with your friends",
         imageSrc: "/assets/img/faces/toucan.png"
+    },
+    {
+        text: "elephant",
+        value: "/assets/img/faces/elephant.png",
+        selected: false,
+        description: "You love to travel in packs. You travel to build your global community!",
+        imageSrc: "/assets/img/faces/elephant.png"
     }
 ];
     
@@ -55,6 +62,7 @@ $('#avatar').ddslick({
     selectText: "Select your spirit animal",
     imagePosition:"left",
     background: "transparent",
+    color: "black",
     onSelected: function(selectedAvatar){
         //callback function: do something with selectedData;
         console.log(selectedAvatar);

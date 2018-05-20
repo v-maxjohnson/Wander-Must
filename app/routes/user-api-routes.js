@@ -30,7 +30,7 @@ module.exports = function(app) {
             gender : req.body.gender,
             user_image : req.body.user_image
         }).then((dbUser) => {
-            res.json(dbUser);
+            return res.json(dbUser);
         }).catch((err) => {
             res.json(err);
         });

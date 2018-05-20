@@ -10,7 +10,8 @@ module.exports = function(app) {
                 id : req.params.suitcase_id
             },
             include: [ 
-                 db.Item
+            {model : db.User},
+            {model : db.Item }
             ]
         }).then((dbSuitcase) => {
             res.json(dbSuitcase);

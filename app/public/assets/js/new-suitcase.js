@@ -31,10 +31,11 @@ $("#new-suitcase-btn").on("click", function (event) {
     console.log(newLocale, newSuitcase);
 
     // Send an AJAX POST-request with jQuery
-    $.post("/api/suitcases", newLocale, newSuitcase)
+    $.post("/api/locale", newLocale)
         // On success, run the following code
-        .then(function () {
-            // window.location.href = "/search";
+        .then(function (dbLocale) {
+            localStorage.setItem("newSuitcase", newSuitcase);
+            window.location.href = "/search/" + dbLocale.id;
         });
 
     

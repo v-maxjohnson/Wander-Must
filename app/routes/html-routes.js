@@ -26,14 +26,15 @@ module.exports = function (app) {
     app.get("/search/:locale", (req, res) => {
         db.Suitcase.findAll({
             where: {
-                city: req.params.city
-            }
-        }).then(function (dbCitySearch) {
-            let resultsObject = {
-                suitcase_results: dbCitySearch
-            };
-            res.render("search", resultsObject);
+                locale_id: req.params.locale
+            },
+            include: [{
+                model: db.Locale
+            }]
+        }).then(function (dbSuitcase) {
+            res.render("search", { suitcase: dbSuitcase});
         }).catch((err) => {
+            console.log(err);
             res.json(err);
         });
     });

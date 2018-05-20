@@ -10,7 +10,7 @@ module.exports = function(app) {
             locale_admin : req.body.locale_admin,
             locale_country : req.body.locale_country
         }).then((dbLocale) => {
-            res.json(dbLocale);
+            return res.json(dbLocale);
         }).catch((err) => {
             res.json(err);
         });

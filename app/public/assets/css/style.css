@@ -1,0 +1,29 @@
+.handle {
+    
+    position: absolute; 
+}
+.handle-image {
+    position: relative;
+    top: -400;
+    width: 500px;
+}
+
+label.dd-option-text {
+    color: black;
+}
+
+small.dd-option-desciption.dd-desc {
+    color: rgb(37, 34, 34);
+}
+
+.dark-text {
+    color: black;
+}
+
+.city-name {
+    font-family: "Reem Kufi", sans-serif;
+}
+
+.locale-city {
+    text-transform: capitalize;
+}

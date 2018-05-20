@@ -15,8 +15,9 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
   <link href="../../public/assets/css/material-kit.css?v=2.0.3" rel="stylesheet" />
-   <!-- CSS Just for suitcase cards -->
-   <link rel="stylesheet" href="../../public/assets/css/suitcase.css"  />
+  <link rel="stylesheet" href="../../public/assets/css/style.css"  />
+  <!-- CSS Just for suitcase cards -->
+  <link rel="stylesheet" href="../../public/assets/css/suitcase.css"  />
 </head>
 
 <body class="profile-page ">
@@ -57,144 +58,217 @@
     <div class="profile-content">
       <div class="container">
         <div class="row">
-            <div class="col-md-6 ml-auto mr-auto">
-                <div class="profile">
-                    <div class="avatar">
-                        <img src="../../public/assets/img/bg7.jpg" alt="Circle Image" class="img-raised rounded-circle img-fluid">
-                    </div>
-                </div>
+          <div class="col-md-6 ml-auto mr-auto">
+            <div class="profile">
+              <div class="handle">
+                  <img src="../../public/assets/img/suitcase-handle-white.png" alt="WM Handle" class="handle-image">
+              </div>
             </div>
-            <div class="col-12 ml-auto mr-auto">
-                    <nav class="navbar navbar-expand-lg bg-primary">
-                            <div class="container">
-                                <div class="navbar-translate">
-                                <a class="navbar-brand" href="/presentation.html">City</a>
-                                <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
-                                    <span class="navbar-toggler-icon"></span>
-                                    <span class="navbar-toggler-icon"></span>
-                                    <span class="navbar-toggler-icon"></span>
-                                </button>
-                                </div>
-                                <div class="collapse navbar-collapse">
-                                   
-                                    <div class="md-form ml-auto">
-                                        <div class='input-group date' id='datetimepicker1'>
-                                            <input type='text' class="form-control" />
-                                            <span class="input-group-addon">
-                                            <span class="fa fa-calendar"></span>
-                                            </span>
-                                        </div>
-                                        <label data-error="wrong" data-success="right" for="form29">Start Date</label>
-                                    </div>
-                                    <div class="md-form ml-auto">
-                                        <div class='input-group date' id='datetimepicker2'>
-                                            <input type='text' class="form-control" />
-                                            <span class="input-group-addon">
-                                            <span class="fa fa-calendar"></span>
-                                            </span>
-                                        </div>
-                                        <label data-error="wrong" data-success="right" for="form29">End Date</label>
-                                    </div>
-                                    <form class="form-inline ml-auto">
-                                        <div class="form-group has-white">
-                                            <input type="text" class="form-control" placeholder="Search">
-                                        </div>
-                                        <button type="submit" class="btn btn-white btn-raised btn-fab btn-round">
-                                            <i class="material-icons">search</i>
-                                        </button>
-                                    </form>
-                                </div>
+          </div>
+          <!-- Card Search bar for Open Case -->
+          <div class="card card-nav-tabs card-plain">
+            <div class="card-header card-header-default">
+              <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+              <div class="nav-tabs-navigation">
+                <div class="nav-tabs-wrapper">
+                  <ul class="nav dark-text" data-tabs="tabs">
+                    <li class="nav-item ">
+                      <a class=" dark-text nav-link active " href="search/:city" data-toggle="tab">"City"</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="dark-text nav-link" href="#startDate" data-toggle="tab">Start Date</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="dark-text nav-link" href="#endDate" data-toggle="tab">End Date</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="dark-text nav-link" href="#addItems" data-toggle="tab">Search Items</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <form class="form-inline ml-auto">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search">
                             </div>
-                        </nav>
+                            <button type="submit" class="btn btn-white btn-raised btn-fab btn-round">
+                                <i class="material-icons">search</i>
+                            </button>
+                          </form>
+                    </li> -->
+                    
+                  </ul>
+                </div>
+              </div>
+              
             </div>
-            
-        </div>
-        <div class="row">
+            <div class="card-body ">
+              <div class="tab-content text-center">
 
-            <div class="col-12">
-            <div id="items">
-                <!-- Toiletries -->
-                <div class="row">
-                  <div class="offset-1 col-11">
-                    <div class="title row">
-                      <span class="badge badge-pill badge-info">Toiletries</span>
+                <!-- Tab for Start Date -->
+                <div class="tab-pane" id="startDate">
+                  <div class="md-form ml-auto">
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input type='text' class="form-control" />
+                        <span class="input-group-addon">
+                        <span class="fa fa-calendar"></span>
+                        </span>
                     </div>
-                    <div class="row" id="toiletries">
-                      <div class="form-check offset-1 col-5 col-lg-3">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value=""checked> Tootbrush
-                          <span class="form-check-sign">
-                            <span class="check"></span>
-                          </span>
-                        </label>
-                      </div>
-                      <div class="form-check offset-1 col-5 col-lg-3">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value=""checked> Tootpaste
-                          <span class="form-check-sign">
-                            <span class="check"></span>
-                          </span>
-                        </label>
-                      </div>
-                    </div>
+                    <label data-error="wrong" data-success="right" for="form29">Start Date</label>
                   </div>
                 </div>
-                <!-- Clothing -->
-                <div class="row">
-                  <div class="offset-1 col-11">
-                    <div class="title row">
-                      <span class="badge badge-pill badge-primary">Clothing</span>
+                <!-- Tab for Start Date-->
+                <div class="tab-pane" id="endDate">
+                  <div class="md-form ml-auto">
+                    <div class='input-group date' id='datetimepicker2'>
+                        <input type='text' class="form-control" />
+                        <span class="input-group-addon">
+                        <span class="fa fa-calendar"></span>
+                        </span>
                     </div>
-                    <div class="row" id="clothing">
-                        <div class="form-check offset-1 col-5 col-lg-3">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value=""checked> Pajamas
-                          <span class="form-check-sign">
-                            <span class="check"></span>
-                          </span>
-                        </label>
-                      </div>
-                      <div class="form-check offset-1 col-5 col-lg-3">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value=""checked> T-Shirt
-                          <span class="form-check-sign">
-                            <span class="check"></span>
-                          </span>
-                        </label>
-                      </div>
-                    </div>
+                    <label data-error="wrong" data-success="right" for="form29">End Date</label>
                   </div>
                 </div>
-    
-                <!-- Accessories -->            
-                <div class="row">
-                  <div class="offset-1 col-11">
-                    <div class="title row">
-                      <span class="badge badge-pill badge-default">Accessories</span>
+                <!-- Tab for Add Items-->
+                <div class="tab-pane" id="addItems">
+                  <form class="form-inline ml-auto">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
                     </div>
-                    <div class="row" id="accessories">
-                      <div class="form-check offset-1 col-5 col-lg-3">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value=""checked> Hat
-                          <span class="form-check-sign">
-                            <span class="check"></span>
-                          </span>
-                        </label>
-                      </div>
-                      <div class="form-check offset-1 col-5 col-lg-3">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value=""checked> Scarf
-                          <span class="form-check-sign">
-                            <span class="check"></span>
-                          </span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
+                    <button type="submit" class="btn btn-white btn-raised btn-fab btn-round">
+                        <i class="material-icons">search</i>
+                    </button>
+                  </form>
                 </div>
+
+              </div> 
             </div>
+          </div> 
         </div>
+
+        <!-- Start items List -->
+        <div class="row">
+          <div class="col-12">
+            <div id="items">
+              <!-- Toiletries -->
+              <div class="row">
+                <div class="offset-1 col-11">
+                  <div class="title row">
+                    <span class="badge badge-pill badge-info">Toiletries</span>
+                  </div>
+                  <div class="row" id="toiletries">
+                    <div class="form-check offset-1 col-5 col-lg-3">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value=""checked> Tootbrush
+                        <span class="form-check-sign">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                    <div class="form-check offset-1 col-5 col-lg-3">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value=""checked> Tootpaste
+                        <span class="form-check-sign">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Clothing -->
+              <div class="row">
+                <div class="offset-1 col-11">
+                  <div class="title row">
+                    <span class="badge badge-pill badge-primary">Clothing</span>
+                  </div>
+                  <div class="row" id="clothing">
+                      <div class="form-check offset-1 col-5 col-lg-3">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value=""checked> Pajamas
+                        <span class="form-check-sign">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                    <div class="form-check offset-1 col-5 col-lg-3">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value=""checked> T-Shirt
+                        <span class="form-check-sign">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <!-- Accessories -->            
+              <div class="row">
+                <div class="offset-1 col-11">
+                  <div class="title row">
+                    <span class="badge badge-pill badge-success">Accessories</span>
+                  </div>
+                  <div class="row" id="accessories">
+                    <div class="form-check offset-1 col-5 col-lg-3">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value=""checked> Hat
+                        <span class="form-check-sign">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                    <div class="form-check offset-1 col-5 col-lg-3">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value=""checked> Scarf
+                        <span class="form-check-sign">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Electronics -->
+              <div class="row">
+                <div class="offset-1 col-11">
+                  <div class="title row">
+                    <span class="badge badge-pill badge-default">Electronics</span>
+                  </div>
+                  <div class="row" id="electronics">
+                      <div class="form-check offset-1 col-5 col-lg-3">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value=""checked> Laptop
+                        <span class="form-check-sign">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                    <div class="form-check offset-1 col-5 col-lg-3">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value=""checked> Phone
+                        <span class="form-check-sign">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                    <div class="form-check offset-1 col-5 col-lg-3">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" value=""checked> Charging Cables
+                          <span class="form-check-sign">
+                            <span class="check"></span>
+                          </span>
+                        </label>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            <!-- Ends Items -->
+            </div>
+          </div>
+        <!-- End Items List -->
         </div>
+
+      </div>
 
     </div>
   </div>
@@ -298,7 +372,7 @@
         <br> and <a href="../index.html" target="_blank">Wander-Must</a>.
       </div>
     </div>
-  </footer>
+  </footer> 36 
   <!--   Core JS Files   -->
     <script src="../../public/assets/js/core/jquery.min.js" type="text/javascript"></script>
     <script src="../../public/assets/js/core/popper.min.js" type="text/javascript"></script>

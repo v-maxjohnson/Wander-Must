@@ -14,6 +14,9 @@ const PORT = process.env.PORT || 3000;
 // variable for sequelize models
 let db = require("./app/models");
 
+// sets up the Express app to serve static files
+app.use(express.static(path.join(__dirname, "/app/public")));
+
 // sets up the Express app to handle data parsing
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -38,9 +41,6 @@ app.set('views',path.join(__dirname,'app/views'))
 
 // might perhaps initialize the passport session after the static path declaration
 // to avoid having authentication (deserializeUser) around every request
-
-// sets up the Express app to serve static files
-app.use(express.static(path.join(__dirname, "/app/public")));
 
 // import routes and give the server access to them 
 require("./app/routes/item-api-routes.js")(app);

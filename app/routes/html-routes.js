@@ -48,36 +48,8 @@ module.exports = function (app) {
 
     //GET route for getting all **items** pertaining to a specific suitcase
     app.get("/suitcase/:id", (req, res) => {
-        db.Suitcase.findOne({
-            where : {
-                id : req.params.suitcase_id
-            },
-            include: [ 
-            {model : db.User},
-            {model : db.Item }
-            ]
-        }).then((dbSuitcase) => {
-            res.render("suitcase", { suitcase: dbSuitcase } );
-        }).catch((err) => {
-            res.json(err);
+            res.render("suitcase");
         });
-    });
-
-    // route to display a user's specific suitcase
-    // app.get("/suitcase/:id", (req, res) => {
-    //     db.Suitcase.findOne({
-    //         where: {
-    //             id: req.params.id
-    //         }
-    //     }).then(function (dbSuitcase) {
-    //         let suitcaseObject = {
-    //             suitcase_items: dbSuitcase
-    //         };
-    //         res.render("suitcase", suitcaseObject);
-    //     }).catch((err) => {
-    //         res.json(err);
-    //     });
-    // });
 
     // route to display a user's specific profile
     app.get("/profile/:id", (req, res) => {

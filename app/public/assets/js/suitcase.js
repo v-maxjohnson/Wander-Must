@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+
     var url = window.location.href.split("/");
 
     if (url[url.length - 2] === "suitcase") {
@@ -17,7 +18,7 @@ $(document).ready(function () {
         $("#suitcase-startDate").text(suitcaseStartDate);
         $("#suitcase-endDate").text(suitcaseEndDate);
 
-        // $("#add-item").on("click", function (event) {
+        // $("#add-items").on("click", function (event) {
         //     event.preventDefault();
 
         //     // Make a newChirp object
@@ -66,21 +67,33 @@ $(document).ready(function () {
                 if (dbSuitcase.Items) {
                     if (dbSuitcase.Items.length !== 0) {
 
-                        
+
 
                         for (var i = 0; i < dbSuitcase.Items.length; i++) {
 
                             var formCheck = $("<div>");
                             formCheck.addClass("form-check offset-1 col-5 col-lg-3");
                             var formLabel = $("<label>");
-                            formLabel.addClass("form-check-label").text(dbSuitcase.Items[i].item_name);
                             var formInput = $("<input class='form-check-input' type='checkbox' checked />");
                             var spans = $("<span class='form-check-sign'><span class='check'></span></span>");
                             var trashSpan = $("<span class='fa fa-trash trash-icon'>&nbsp;</span>").attr("data-item_id", dbSuitcase.Items[i].id);
+                            var userCheckOne = localStorage.getItem("user_id");
+                        var userCheckTwo = $("#suitcase-user").data("user-id");
+                        console.log(userCheckOne);
+                        console.log(userCheckTwo);
+                            if (parseInt(userCheckOne) === parseInt(userCheckTwo)) {
+                                formLabel.addClass("form-check-label").text(dbSuitcase.Items[i].item_name);
+                                formLabel.append(formInput).append(spans);
+                                formCheck.append(formLabel);
+                                $("#add-items").hide();
+                            } else {
+                                formLabel.addClass("non-click-label").text(dbSuitcase.Items[i].item_name);
+                                formCheck.append(trashSpan).append(formLabel);
+                            }
 
 
-                            formLabel.append(formInput).append(spans);
-                            formCheck.append(trashSpan).append(formLabel);
+                            // formLabel.append(formInput).append(spans);
+                            // formCheck.append(trashSpan).append(formLabel);
 
                             switch (dbSuitcase.Items[i].item_category) {
                                 case "toiletries":

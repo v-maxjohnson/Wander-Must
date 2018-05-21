@@ -63,17 +63,14 @@ module.exports = function(app) {
         db.Suitcase.findOne({
             where : {
                 id : req.params.suitcase_id
-            },
+            }, 
             include : [db.Item]
         }).then(dbSuitcase => {
-            console.log(dbSuitcase);
-            db.Suitcase.Items.destroy({
-                where : {
-                    id: req.params.item_id
-                }
-            }).then(dbSuitcaseItem => {
-                res.json(dbSuitcaseItem);
-            }).catch((err) => {
+            dbSuitcase.removeItem(req.params.item_id)
+            .then(function(){
+                return res.json(dbSuitcase);
+            })
+            .catch((err) => {
                 res.json(err);
             })
         }).catch(err => {

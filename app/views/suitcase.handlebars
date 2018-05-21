@@ -18,22 +18,20 @@
           </div>
           <!-- Card Search bar for Open Case -->
           <div class="card card-nav-tabs card-plain">
-            <div class="card-header card-header-default">
+            <div class="suitcase-header card-header card-header-default">
               <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
               <div class="nav-tabs-navigation">
                 <div class="nav-tabs-wrapper">
-                  <ul class="nav dark-text" data-tabs="tabs">
+                  <ul class="nav suitcase-nav" data-tabs="tabs">
                     <li class="nav-item ">
-                      <a class=" dark-text nav-link active " href="search/:city" data-toggle="tab">"City"</a>
+                      <a class="nav-link" href="/search/{{suitcase.Locale.locale_city}}" data-toggle="tab">{{suitcase.Locale.locale_city}}</a>
                     </li>
                     <li class="nav-item">
-                      <a class="dark-text nav-link" href="#startDate" data-toggle="tab">Start Date</a>
+                      <p class="nav-link d-inline-block" id="suitcase-startDate" data-toggle="tab">{{suitcase.start_date}}</p>-<p class="nav-link d-inline-block" id="suitcase-endDate" data-toggle="tab">{{suitcase.end_date}}</p>
                     </li>
+                    
                     <li class="nav-item">
-                      <a class="dark-text nav-link" href="#endDate" data-toggle="tab">End Date</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="dark-text nav-link" href="#addItems" data-toggle="tab">Search Items</a>
+                      <p class="nav-link" id="suitcase-travelCategory" data-toggle="tab">{{suitcase.travel_category}}</p>
                     </li>
                     <!-- <li class="nav-item">
                         <form class="form-inline ml-auto">

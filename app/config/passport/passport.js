@@ -20,14 +20,14 @@ module.exports = function (passport, user) {
     //deserializes the user's session 
     passport.deserializeUser(function (id, done) {
         done(null, id)
-        // User.findById(id).then(function(user) {
-        //     if (user) {
-        //         done(null, user.get());
-        //     } 
-        //     else {
-        //         done(user.errors, null);
-        //     }
-        // });
+        User.findById(id).then(function(user) {
+            if (user) {
+                done(null, user.get());
+            } 
+            else {
+                done(user.errors, null);
+            }
+        });
     });
 
     passport.use('local-signup', new LocalStrategy(
@@ -59,8 +59,8 @@ module.exports = function (passport, user) {
                         username: req.body.username,
                         email: email,
                         password: userPassword,
-                        user_image: req.body.user_image,
-                        gender: req.body.gender
+                        gender: req.body.gender,
+                        user_image: req.body.user_image
                     };
                     // a method that actually creates a new record in the DB for a new user
                     User.create(data).then(function (newUser, created) {
@@ -97,7 +97,7 @@ module.exports = function (passport, user) {
         function (token, tokenSecret, profile, cb) {
             User.findOrCreate({
                 where: {
-                    username: twitter.username
+                    username: profile.username
                 }
             }).then(function (user) {
                 if (user) {
@@ -106,9 +106,9 @@ module.exports = function (passport, user) {
                     });
                 } else {
                     var data = {
-                        username: req.body.username,
-                        email: email,
-                        password: userPassword,
+                        username: profile.username,
+                        email: profile.username + "@gmail.com",
+                        password: "password",
                         user_image: req.body.user_image,
                         gender: req.body.gender
                     };
@@ -128,14 +128,9 @@ module.exports = function (passport, user) {
             //million dollar question is how I'll try and look up the user in our database when 
             //we don't have access to an email, password, or id that matches something in our database
             //username it is!
-
-
-
-
-
-            return cb(null, profile);
-            console.log(cb);
-            console.log(profile);
+            // return cb(null, profile);
+            // console.log(cb);
+            // console.log(profile);
         }));
 
     passport.use('local-signin', new LocalStrategy({

@@ -89,49 +89,49 @@ module.exports = function (passport, user) {
     // }
     // )
 
-    passport.use("twitter", new Strategy({
-            consumerKey: process.env.TWITTER_CONSUMER_KEY,
-            consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-            callbackURL: 'http://localhost:3000/login/twitter/return'
-        },
-        function (token, tokenSecret, profile, cb) {
-            User.findOrCreate({
-                where: {
-                    username: profile.username
-                }
-            }).then(function (user) {
-                if (user) {
-                    return done(null, false, {
-                        message: 'Sorry, that email is already taken'
-                    });
-                } else {
-                    var data = {
-                        username: profile.username,
-                        email: profile.username + "@gmail.com",
-                        password: "password",
-                        user_image: req.body.user_image,
-                        gender: req.body.gender
-                    };
-                    // a method that actually creates a new record in the DB for a new user
-                    User.create(data).then(function (newUser, created) {
-                        if (!newUser) {
-                            return done(null, false);
-                        }
-                        if (newUser) {
-                            return done(null, newUser);
-                        }
-                    });
+    // passport.use("twitter", new Strategy({
+    //         consumerKey: process.env.TWITTER_CONSUMER_KEY,
+    //         consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+    //         callbackURL: 'http://localhost:3000/login/twitter/return'
+    //     },
+    //     function (token, tokenSecret, profile, cb) {
+    //         User.findOrCreate({
+    //             where: {
+    //                 username: profile.username
+    //             }
+    //         }).then(function (user) {
+    //             if (user) {
+    //                 return done(null, false, {
+    //                     message: 'Sorry, that email is already taken'
+    //                 });
+    //             } else {
+    //                 var data = {
+    //                     username: profile.username,
+    //                     email: profile.username + "@gmail.com",
+    //                     password: "password",
+    //                     user_image: req.body.user_image,
+    //                     gender: req.body.gender
+    //                 };
+    //                 // a method that actually creates a new record in the DB for a new user
+    //                 User.create(data).then(function (newUser, created) {
+    //                     if (!newUser) {
+    //                         return done(null, false);
+    //                     }
+    //                     if (newUser) {
+    //                         return done(null, newUser);
+    //                     }
+    //                 });
 
-                }
-            })
-            //     //where the user will be created in the db    
-            //million dollar question is how I'll try and look up the user in our database when 
-            //we don't have access to an email, password, or id that matches something in our database
-            //username it is!
-            // return cb(null, profile);
-            // console.log(cb);
-            // console.log(profile);
-        }));
+    //             }
+    //         })
+    //         //     //where the user will be created in the db    
+    //         //million dollar question is how I'll try and look up the user in our database when 
+    //         //we don't have access to an email, password, or id that matches something in our database
+    //         //username it is!
+    //         // return cb(null, profile);
+    //         // console.log(cb);
+    //         // console.log(profile);
+    //     }));
 
     passport.use('local-signin', new LocalStrategy({
             usernameField: 'email',

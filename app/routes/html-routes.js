@@ -46,21 +46,10 @@ module.exports = function (app) {
         });
     });
 
-    // route to display a user's specific suitcase
-    // app.get("/suitcase/:id", (req, res) => {
-    //     db.Suitcase.findOne({
-    //         where: {
-    //             id: req.params.id
-    //         }
-    //     }).then(function (dbSuitcase) {
-    //         let suitcaseObject = {
-    //             suitcase_items: dbSuitcase
-    //         };
-    //         res.render("suitcase", suitcaseObject);
-    //     }).catch((err) => {
-    //         res.json(err);
-    //     });
-    // });
+    //GET route for getting all **items** pertaining to a specific suitcase
+    app.get("/suitcase/:id", (req, res) => {
+            res.render("suitcase");
+        });
 
     // route to display a user's specific profile
     app.get("/profile/:id", (req, res) => {

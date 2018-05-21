@@ -60,10 +60,11 @@ $(document).ready(function () {
                     formLabel.addClass("form-check-label").text(dbSuitcase.Items[i].item_name);
                     var formInput = $("<input class='form-check-input' type='checkbox' checked />");
                     var spans = $("<span class='form-check-sign'><span class='check'></span></span>");
+                    var trashSpan = $("<span class='fa fa-trash trash-icon'>&nbsp;</span>")
 
 
                     formLabel.append(formInput).append(spans);
-                    formCheck.append(formLabel);
+                    formCheck.append(trashSpan).append(formLabel);
 
                     switch (dbSuitcase.Items[i].item_category) {
                         case "toiletries":

@@ -92,3 +92,19 @@ small.dd-option-desciption.dd-desc {
 .locale-city {
     text-transform: capitalize;
 }
+
+.form-check-label {
+    color: black;
+}
+
+.trash-icon {
+    font-size: 18px;
+    margin-right: 10px;
+    color: #9C27B0;
+    cursor: pointer;
+}
+
+/* VERY IMPORTANT -- THIS ALLOWS GOOGLE AUTOCOMPLETE TO SHOW UP ON MODALS */
+.pac-container {
+    z-index: 10000!important;
+  }

@@ -17,13 +17,12 @@ module.exports = function(app) {
                 locale_country : req.body.locale_country 
             
             })
-        })
                 
-    //     }).then((dbLocale) => {
-    //         return res.json(dbLocale);
-    //     }).catch((err) => {
-    //         res.json(err);
-    //     });
-    // });
+        }).then((dbLocale) => {
+            return res.json(dbLocale);
+        }).catch((err) => {
+            res.json(err);
+        });
+    });
 
 };

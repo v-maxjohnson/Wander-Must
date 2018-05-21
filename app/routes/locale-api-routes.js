@@ -21,7 +21,7 @@ module.exports = function(app) {
                 return res.json(dbLocale.id);
             } 
         }).catch(err => {
-            res.json("err");
+            res.json(err);
         });
     });
 

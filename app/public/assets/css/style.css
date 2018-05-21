@@ -4,24 +4,8 @@
     left: 0;
     right: 0;
     height: 200px;
-    top: -35px;
+    top: -200px;
 }
-.profile-handle img {
-    max-width: 800px!important;
-    margin: 0 auto;
-    width: 100%;
-    transform: translate3d(0, -50%, 0);
-    
-}
-.handle-image{
-    width: 800px;
-}
-
-.items-section {
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-}
-
 
 .handle-top {
     position: absolute;
@@ -116,9 +100,14 @@ small.dd-option-desciption.dd-desc {
 
 .trash-icon {
     font-size: 18px;
-    margin-right: 10px;
+    margin-right: 5px;
     color: #9C27B0;
     cursor: pointer;
+}
+
+.non-click-label {
+    color: black!important;
+    margin-left: 5px!important;
 }
 
 /* VERY IMPORTANT -- THIS ALLOWS GOOGLE AUTOCOMPLETE TO SHOW UP ON MODALS */

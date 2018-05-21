@@ -48,8 +48,6 @@ module.exports = function(app) {
             .then(bool => {
                 if( ! bool ) {//if not, then add new item
                     dbSuitcase.addItem(req.params.item_id);
-                    //do we need to return the full object here for any reason?
-                    // return res.json(dbSuitcase);
                 }
                 else {//otherwise, just return the suitcase object
                     return res.json(dbSuitcase);
@@ -60,6 +58,27 @@ module.exports = function(app) {
         });
     });
 
+    //DELETE route for deleting an item in a suitcase
+    app.delete("/api/suitcase/:suitcase_id/:item_id", (req, res) => {
+        db.Suitcase.findOne({
+            where : {
+                id : req.params.suitcase_id
+            }, 
+            include : [db.Item]
+        }).then(dbSuitcase => {
+            dbSuitcase.removeItem(req.params.item_id)
+            .then(function(){
+                return res.json(dbSuitcase);
+            })
+            .catch((err) => {
+                res.json(err);
+            })
+        }).catch(err => {
+                res.json(err);
+        });
+    });
+
+    
     //DELETE route for deleting a **suitcase**
     app.delete("/api/suitcases/:suitcase_id", (req, res) => {
         db.Suitcase.destroy({

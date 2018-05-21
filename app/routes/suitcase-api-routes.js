@@ -36,34 +36,29 @@ module.exports = function(app) {
         });
     });
 
-    //POST route for getting the **item** then checking if it already exist in thier suitcase before adding new items
-    app.post("/api/items/:suitcase_id/:item_id", (req, res) => {
+    //POST route for checking if an item already exist in the user's suitcase so that no duplicates can be added
+    app.post("/api/suitcase/:suitcase_id/:item_id", (req, res) => {
         db.Suitcase.findOne({
             where : {
                 id : req.params.suitcase_id
-            }
-        })
-        .then(results => {
-            if( results ){
-                db.Suitcase.hasItem(results).then(bool => {
-                    if( ! bool )
-                        db.Suitcase.addItem(results);
-                    else
-                        res.send("Error message");
-                });   
-            }
+            },
+            include : [db.Item]
+        }).then(dbSuitcase => {
+            dbSuitcase.hasItem(req.params.item_id) //check to see if the suitcase has the Item already
+            .then(bool => {
+                if( ! bool ) {//if not, then add new item
+                    dbSuitcase.addItem(req.params.item_id);
+                    //do we need to return the full object here for any reason?
+                    // return res.json(dbSuitcase);
+                }
+                else {//otherwise, just return the suitcase object
+                    return res.json(dbSuitcase);
+                }
+            });   
+        }).catch(err => {
+                res.json(err);
         });
     });
-
-    // db.Item.findOne({
-    //     where: {
-    //         id: 3
-    //     }
-    // }).then(item => {
-    //     dbSuitcase.addItem(item).then(response => {
-    //         res.json(response);
-    //     });
-    // })
 
     //DELETE route for deleting a **suitcase**
     app.delete("/api/suitcases/:suitcase_id", (req, res) => {

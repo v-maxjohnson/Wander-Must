@@ -59,6 +59,17 @@
     right: 0;
 }
 
+.suitcase-header {
+    background: none!important;
+    color: black!important;
+    font-family: "Reem Kufi", sans-serif;
+    font-size: 16px!important;
+}
+
+.suitcase-nav {
+    justify-content: center;
+}
+
 label.dd-option-text {
     color: black;
 }

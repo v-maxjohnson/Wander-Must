@@ -34,7 +34,7 @@ module.exports = function (app) {
                     locale_id: localeResult.id
                 },
                 include: [
-            
+
                     db.Locale
                 ]
             }).then((dbSuitcases) => {
@@ -48,8 +48,37 @@ module.exports = function (app) {
 
     //GET route for getting all **items** pertaining to a specific suitcase
     app.get("/suitcase/:id", (req, res) => {
-            res.render("suitcase");
+        db.Suitcase.findOne({
+            where: {
+                id: req.params.id
+            },
+            include: [
+                { model: db.User },
+                { model: db.Item },
+                { model: db.Locale }
+            ]
+        }).then((dbSuitcase) => {
+            res.render("suitcase", { suitcase: dbSuitcase });
+        }).catch((err) => {
+            res.json(err);
         });
+    });
+
+    // route to display a user's specific suitcase
+    // app.get("/suitcase/:id", (req, res) => {
+    //     db.Suitcase.findOne({
+    //         where: {
+    //             id: req.params.id
+    //         }
+    //     }).then(function (dbSuitcase) {
+    //         let suitcaseObject = {
+    //             suitcase_items: dbSuitcase
+    //         };
+    //         res.render("suitcase", suitcaseObject);
+    //     }).catch((err) => {
+    //         res.json(err);
+    //     });
+    // });
 
     // route to display a user's specific profile
     app.get("/profile/:id", (req, res) => {

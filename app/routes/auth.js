@@ -29,10 +29,22 @@ module.exports = function (app, passport) {
         res.render("profile");
     });
 
-    app.get("/auth/twitter", passport.authenticate("twitter"));
+    app.get("/auth/google", passport.authenticate("google"));
 
-    app.get('/auth/twitter/return',
+    app.get('/auth/google/redirect',
+    passport.authenticate('google', {
+        failureRedirect: '/index'
+    }),
+    function (req, res) {
+        // Successful authentication, redirect to customer profile.
+        res.redirect('/profile');
+    });
+
+    app.get("/login/twitter", passport.authenticate("twitter"));
+
+    app.get('/login/twitter/return',
         passport.authenticate('twitter', {
+
             failureRedirect: '/index'
         }),
         function (req, res) {
@@ -42,23 +54,37 @@ module.exports = function (app, passport) {
 
     // route for signing up aka applying
     // the strategy for our /signup route
-    app.post("/signup", passport.authenticate("local-signup", {
-        successRedirect: "/profile",
+    // app.post("/api/users", passport.authenticate("local-signup", {
+    //     successRedirect: "/profile",
         //the only way this failureRedirect is triggered is if there is something thrown on the front end
-        failureRedirect: "/signup"
-    }));
+        // failureRedirect: "/signup"
+    // }));
+
+    app.post("/api/users", function (req, res, next) {
+        passport.authenticate("local-signup", function (err, user, info) {
+            if (err) {
+                return next(err);
+            }
+            req.login(user, function(err) {
+                // if (err) { return next (err); }
+                // return user;
+                return res.redirect("/profile/" + user.id);
+            })
+            })(req, res, next);
+    });
 
     app.post("/api/signin", function (req, res, next) {
         passport.authenticate("local-signin", function (err, user, info) {
             if (err) {
                 return next(err);
             }
-            if (user) {
+            req.login(user, function(err) {
+                if (err) { return next (err); }
                 return res.redirect("/profile/" + user.id);
-            }
-            console.log(user);
-            console.log(info);
+            });
         })(req, res, next);
+        console.log("from the /api/signin route: " + req.user);
+        
     });
 
     function isLoggedIn(req, res, next) {

@@ -1,5 +1,3 @@
-
-
 // When user clicks new-suitcase-btn
 $("#new-suitcase-btn").on("click", function (event) {
     event.preventDefault();
@@ -21,10 +19,10 @@ $("#new-suitcase-btn").on("click", function (event) {
         locale_city: locationArray[0],
         locale_admin: locationArray[1],
         locale_country: locationArray[2]
-    }
+    };
 
-
-var newSuitcase;
+    var newSuitcase;
+    
     console.log(newLocale, newSuitcase);
 
     $.post("/api/locale", newLocale)

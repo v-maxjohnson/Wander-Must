@@ -20,9 +20,15 @@
           <div class="card card-nav-tabs card-plain">
             <div class="suitcase-header card-header card-header-default">
               <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
-              <div class="nav-tabs-navigation">
+              <div id="suitcase-nav" class="nav-tabs-navigation" data-suitcase_id="{{suitcase.id}}">
                 <div class="nav-tabs-wrapper">
                   <ul class="nav suitcase-nav">
+                    <li class="nav-item ">
+                      <p class="nav-link" id="suitcase-user">{{suitcase.User.username}}</p>
+                    </li>
+                    <li class="nav-item ">
+                      <p class="nav-link" id="suitcase-user-gender">{{suitcase.User.gender}}</p>
+                    </li>
                     <li class="nav-item ">
                       <a class="nav-link" id="suitcase-locale" data-city="{{suitcase.Locale.locale_city}}" data-admin="{{suitcase.Locale.locale_admin}}" data-country="{{suitcase.Locale.locale_country}}" href="/search/{{suitcase.Locale.locale_city}}">{{suitcase.Locale.locale_city}}</a>
                     </li>
@@ -117,13 +123,7 @@
                   <div class="title row">
                     <span class="badge badge-pill badge-info">Toiletries</span>
                   </div>
-                  <div class="row" id="toiletries">
-
-                    {{!-- {{#each user.Suitcases}}
-        
-                        {{> items }}
-          
-                    {{/each}} --}}
+                  <div class="row cat-row" id="toiletries">
 
                   </div>
                 </div>
@@ -134,7 +134,7 @@
                   <div class="title row">
                     <span class="badge badge-pill badge-primary">Clothing</span>
                   </div>
-                  <div class="row" id="clothing">
+                  <div class="row cat-row" id="clothing">
                       
                   </div>
                 </div>
@@ -146,7 +146,7 @@
                   <div class="title row">
                     <span class="badge badge-pill badge-success">Accessories</span>
                   </div>
-                  <div class="row" id="accessories">
+                  <div class="row cat-row" id="accessories">
                     
                   </div>
                 </div>
@@ -158,7 +158,7 @@
                   <div class="title row">
                     <span class="badge badge-pill badge-default">Electronics</span>
                   </div>
-                  <div class="row" id="electronics">
+                  <div class="row cat-row" id="electronics">
                       
                   </div>
                 </div>

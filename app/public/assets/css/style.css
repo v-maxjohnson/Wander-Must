@@ -82,8 +82,11 @@ small.dd-option-desciption.dd-desc {
     color: black;
 }
 
-.city-name {
+.city-name p {
+    margin-top: 10px;
     font-family: "Reem Kufi", sans-serif;
+    font-size: 24px!important;
+    line-height: 32px;
 }
 
 .locale-city {

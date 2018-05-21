@@ -22,16 +22,16 @@
               <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
               <div class="nav-tabs-navigation">
                 <div class="nav-tabs-wrapper">
-                  <ul class="nav suitcase-nav" data-tabs="tabs">
+                  <ul class="nav suitcase-nav">
                     <li class="nav-item ">
-                      <a class="nav-link" href="/search/{{suitcase.Locale.locale_city}}" data-toggle="tab">{{suitcase.Locale.locale_city}}</a>
+                      <a class="nav-link" id="suitcase-locale" data-city="{{suitcase.Locale.locale_city}}" data-admin="{{suitcase.Locale.locale_admin}}" data-country="{{suitcase.Locale.locale_country}}" href="/search/{{suitcase.Locale.locale_city}}">{{suitcase.Locale.locale_city}}</a>
                     </li>
                     <li class="nav-item">
-                      <p class="nav-link d-inline-block" id="suitcase-startDate" data-toggle="tab">{{suitcase.start_date}}</p>-<p class="nav-link d-inline-block" id="suitcase-endDate" data-toggle="tab">{{suitcase.end_date}}</p>
+                      <p class="nav-link d-inline-block" data-start="{{suitcase.start_date}}" id="suitcase-startDate">{{suitcase.start_date}}</p>-<p class="nav-link d-inline-block" data-end="{{suitcase.end_date}}" id="suitcase-endDate">{{suitcase.end_date}}</p>
                     </li>
                     
                     <li class="nav-item">
-                      <p class="nav-link" id="suitcase-travelCategory" data-toggle="tab">{{suitcase.travel_category}}</p>
+                      <p class="nav-link" id="suitcase-travelCategory">{{suitcase.travel_category}}</p>
                     </li>
                     <!-- <li class="nav-item">
                         <form class="form-inline ml-auto">
@@ -44,6 +44,20 @@
                           </form>
                     </li> -->
                     
+                  </ul>
+                  <ul class="nav suitcase-nav">
+                    <li class="nav-item ">
+                      <p class="nav-link" id="highF"></p>
+                    </li>
+                    <li class="nav-item ">
+                      <p class="nav-link" id="highC"></p>
+                    </li>
+                    <li class="nav-item ">
+                      <p class="nav-link" id="lowF"></p>
+                    </li>
+                    <li class="nav-item ">
+                      <p class="nav-link" id="lowC"></p>
+                    </li>
                   </ul>
                 </div>
               </div>

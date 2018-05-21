@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+    var url = window.location.href.split("/");
+    if (url[url.length - 2] === "suitcase") { 
+
     var dateObjOne = $("#suitcase-startDate").text();
     var dateObjTwo = $("#suitcase-endDate").text();
     console.log(dateObjOne);
@@ -43,10 +46,9 @@ $(document).ready(function () {
         $("#chirp-box").val("");
     });
 
-    var url = window.location.href.split("/");
-    var id = url[url.length - 1];
+    var suitcaseApiId = url[url.length - 1];
 
-    $.get("/api/suitcase/" + id, function (dbSuitcase) {
+    $.get("/api/suitcase/" + suitcaseApiId, function (dbSuitcase) {
         if (dbSuitcase.Items) {
             if (dbSuitcase.Items.length !== 0) {
 
@@ -85,5 +87,5 @@ $(document).ready(function () {
             }
         }
     });
-
+    };
 });

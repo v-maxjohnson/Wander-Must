@@ -18,7 +18,7 @@ module.exports = function(app) {
                 });
             }
             else {
-                return res.json(dbLocale.id);
+                return res.json(dbLocale);
             } 
         }).catch(err => {
             res.json(err);

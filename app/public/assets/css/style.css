@@ -1,11 +1,62 @@
 .handle {
-    
-    position: absolute; 
+    position: absolute;
+    width: 100%;
+    left: 0;
+    right: 0;
+    height: 200px;
+    top: -200px;
 }
-.handle-image {
-    position: relative;
-    top: -400;
-    width: 500px;
+.handle-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    width: 75%;
+    height: 50%;
+    margin: 0 auto;
+    border-radius: 25px 25px 0 0;
+    font-family: "Courgette", cursive;
+    color: black;
+    text-align: center;
+}
+
+.handle-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 75%;
+    height: 50%;
+    margin: 0 auto;
+}
+
+.handle-left {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    width: 12%;
+    height: 100%;
+    background-color: white;
+}
+
+.handle-right {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    width: 12%;
+    height: 100%;
+    background-color: white;
+}
+
+.handle-text {
+    font-size: 6vw;
+    position: absolute;
+    bottom: 25%;
+    left: 0;
+    right: 0;
 }
 
 label.dd-option-text {

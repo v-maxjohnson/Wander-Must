@@ -1,29 +1,26 @@
 .handle {
     position: absolute;
-    width: 100%;
+    /* width: 100%; */
     left: 0;
     right: 0;
-    height: 200px;
-    top: -35px;
+    top: -42px;
 }
 .profile-handle img {
-    max-width: 800px!important;
+    max-width: 2000px!important;
     margin: 0 auto;
-    width: 100%;
     transform: translate3d(0, -50%, 0);
-    
+    width: 200%;
+    margin: 0 auto;
 }
 .handle-image{
-    width: 800px;
+    width: 100px;
+    margin: 0 auto;
 }
 
 .items-section {
     margin-bottom: 10px;
     padding-bottom: 10px;
 }
-
-
-
 
 .handle-top {
     position: absolute;

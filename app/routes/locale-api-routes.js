@@ -10,20 +10,19 @@ module.exports = function(app) {
                 locale_city : req.body.locale_city
             }
         }).then(dbLocale => {
-            if (dbLocale) 
-            db.Locale.create({
-                locale_city : req.body.locale_city,
-                locale_admin : req.body.locale_admin,
-                locale_country : req.body.locale_country 
-            
-            })
-        })
-                
-    //     }).then((dbLocale) => {
-    //         return res.json(dbLocale);
-    //     }).catch((err) => {
-    //         res.json(err);
-    //     });
-    // });
+            if (dbLocale === null) {
+                db.Locale.create({
+                    locale_city : req.body.locale_city,
+                    locale_admin : req.body.locale_admin,
+                    locale_country : req.body.locale_country 
+                });
+            }
+            else {
+                return res.json(dbLocale.id);
+            } 
+        }).catch(err => {
+            res.json("err");
+        });
+    });
 
 };

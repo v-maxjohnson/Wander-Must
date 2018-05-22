@@ -102,6 +102,7 @@ module.exports = function (app) {
         }).then(function (dbUser) {
             res.render("profile", { user: dbUser });
         }).catch((err) => {
+
             res.json(err);
         });
     });

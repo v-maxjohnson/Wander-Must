@@ -23,7 +23,7 @@ $(document).ready(function () {
                 type: "post",
                 data: { ids: checkedArray },
                 success: () => {
-                    window.location.href = "/suitcase/" + suitcaseId
+                    window.location.href = "/suitcase/" + suitcaseId;
                 }
             })
         });

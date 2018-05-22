@@ -37,7 +37,10 @@ $(document).ready(function () {
             $.ajax({
                 url: "/api/suitcase/" + suitcaseId + "/addItems",
                 type: "post",
-                data: { ids: checkedArray } 
+                data: { ids: checkedArray },
+                success: () => {
+                    window.location.href = "/suitcase/" + suitcaseId
+                }
             })
            
         });

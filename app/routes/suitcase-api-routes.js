@@ -59,6 +59,7 @@ module.exports = function(app) {
 
             dbSuitcase.setItems(itemsArr).then(result => res.json(result));       
         }).catch(err => {
+            console.log(err);
                 res.json(err);
         });
     });

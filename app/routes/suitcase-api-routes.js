@@ -22,17 +22,28 @@ module.exports = function(app) {
 
     //POST route for creating and saving a new **suitcase**
     app.post("/api/suitcases", (req, res) => {
-        db.Suitcase.create({
-            start_date : req.body.start_date,
-            end_date : req.body.end_date,
-            travel_category : req.body.travel_category,
-            user_id: req.body.user_id,
-            locale_id: req.body.locale_id
-        }).then((dbSuitcase) => {
-            return res.json(dbSuitcase);
-        }).catch((err) => {
-            console.log(err);
-            res.json(err);
+        db.Locale.findOne({
+            where:{
+                id: req.body.locale_id
+            },
+            include: [ db.Suitcase ]
+        }).then( locale => {
+            if( locale ){
+                db.Suitcase.create({
+                    start_date : req.body.start_date,
+                    end_date : req.body.end_date,
+                    travel_category : req.body.travel_category,
+                    user_id: req.body.user_id,
+                    locale_id: req.body.locale_id
+                })
+                .then(suitcase => res.json(Object.assign(suitcase, {
+                    "hadPreviousSuitcases" : (locale.Suitcases.length !== 0)
+                })))
+                .catch(err => {
+                    console.log(err);
+                    res.json(err);
+                });                
+            }
         });
     });
 
@@ -44,17 +55,31 @@ module.exports = function(app) {
             },
             include : [db.Item]
         }).then(dbSuitcase => {
-            dbSuitcase.Items.forEach((i) => {
-                if (req.body.ids.indexOf(i.id) === -1) {
-                    req.body.ids.push(i.id);
-                }
-                dbSuitcase.setItems(req.body.ids);
-            });
-                  
+            let itemsArr = req.body.ids.concat( dbSuitcase.Items.map(i => i.id) );
+
+            dbSuitcase.setItems(itemsArr).then(result => res.json(result));       
         }).catch(err => {
                 res.json(err);
         });
     });
+
+    app.post("/api/suitcase/:suitcase_id/addItems", (req, res) => {
+        db.Suitcase.findOne({
+            where : {
+                id : req.params.suitcase_id
+            },
+            include : [db.Item]
+        })
+        .then(
+            dbSuitcase => dbSuitcase.setItems(req.body.ids.concat( dbSuitcase.Items.map ( i => i.id ) ))
+        )
+        .then(
+            result => res.json(result)     
+        )
+        .catch(err => {
+                res.json(err);
+        });
+    });    
 
     //DELETE route for deleting an item in a suitcase
     app.delete("/api/suitcase/:suitcase_id/:item_id", (req, res) => {

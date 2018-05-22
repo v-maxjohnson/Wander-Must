@@ -37,22 +37,20 @@ module.exports = function(app) {
     });
 
     //POST route for checking if an item already exist in the user's suitcase so that no duplicates can be added
-    app.post("/api/suitcase/:suitcase_id/:item_id", (req, res) => {
+    app.post("/api/suitcase/:suitcase_id/addItems", (req, res) => {
         db.Suitcase.findOne({
             where : {
                 id : req.params.suitcase_id
             },
             include : [db.Item]
         }).then(dbSuitcase => {
-            dbSuitcase.hasItem(req.params.item_id) //check to see if the suitcase has the Item already
-            .then(bool => {
-                if( ! bool ) {//if not, then add new item
-                    dbSuitcase.addItem(req.params.item_id);
+            dbSuitcase.Items.forEach((i) => {
+                if (req.body.ids.indexOf(i.id) === -1) {
+                    req.body.ids.push(i.id);
                 }
-                else {//otherwise, just return the suitcase object
-                    return res.json(dbSuitcase);
-                }
-            });   
+                dbSuitcase.setItems(req.body.ids);
+            });
+                  
         }).catch(err => {
                 res.json(err);
         });

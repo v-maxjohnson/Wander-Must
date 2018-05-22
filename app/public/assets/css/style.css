@@ -84,6 +84,10 @@
     font-size: 16px!important;
 }
 
+.new-suitcase {
+    display: inherit;
+}
+
 .suitcase-nav {
     justify-content: center;
     width: 100%;

@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    
+
     var whyMe = window.location.href;
-    
+
     if (whyMe.includes("/profile/")) {
         console.log("Why are you doing this to me");
         var user_id = whyMe.slice(30);
@@ -12,7 +12,7 @@ $(document).ready(function () {
     }
 
     var user = localStorage.getItem("user_id");
-    
+console.log(user);
     if (user) {
         $("#login-dropdown").hide();
         $("#profile-link").show();
@@ -22,5 +22,7 @@ $(document).ready(function () {
         $("#profile-link").hide();
         $("#suitcase-link").hide();
     }
+
+    $("#profile-link-button").attr("href", "/profile/" + user);
 
 });

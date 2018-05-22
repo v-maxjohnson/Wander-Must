@@ -57,6 +57,7 @@ $("#new-suitcase-btn").on("click", function (event) {
             $.post("/api/suitcases", newSuitcase)
                 // On success, run the following code
                 .then(function (dbSuitcase) {
+                    localStorage.removeItem("suitcase_id");
                     localStorage.setItem("suitcase_id", dbSuitcase.id);
                     if (!dbSuitcase.hadPreviousSuitcases ) {
                         window.location.href = "/search/" + dbLocale.locale_city;

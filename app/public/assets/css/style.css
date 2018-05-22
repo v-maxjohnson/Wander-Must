@@ -266,6 +266,7 @@ h1.ml8 {
 
 #login-dropdown,
 #profile-link,
-#suitcase-link {
+#suitcase-link,
+#logout {
     display: none;
 }

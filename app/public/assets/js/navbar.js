@@ -17,10 +17,12 @@ console.log(user);
         $("#login-dropdown").hide();
         $("#profile-link").show();
         $("#suitcase-link").show();
+        $("#logout").show();
     } else {
         $("#login-dropdown").show();
         $("#profile-link").hide();
         $("#suitcase-link").hide();
+        $("#logout").hide();
     }
 
     $("#profile-link-button").attr("href", "/profile/" + user);

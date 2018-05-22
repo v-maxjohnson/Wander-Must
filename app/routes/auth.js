@@ -107,12 +107,27 @@ module.exports = function (app, passport) {
         // localStorage.setItem("globalId", req.user.id)
     })
 
-    app.post(
-        "/api/signin/", 
-        passport.authenticate("local-signin", { failureRedirect: "/", successRedirect: "/loggedIn" }), 
-        function(req, res){
-        }
-    )
+    // app.post(
+    //     "/api/signin/", 
+    //     passport.authenticate("local-signin", { failureRedirect: "/", successRedirect: "/loggedIn" }), 
+    //     function(req, res){
+    //     }
+    // )
+
+    app.post("/api/signin", function (req, res, next) {
+        passport.authenticate("local-signin", function (err, user, info) {
+            if (err) {
+                return next(err);
+            }
+            req.login(user, function(err) {
+                if (err) { return next (err); }
+                return res.redirect("/profile/" + user.id);
+            });
+        })(req, res, next);
+        console.log("from the /api/signin route: " + req.user);
+        
+    });
+
     function isLoggedIn(req, res, next) {
         if (req.isAuthenticated())
             return next();

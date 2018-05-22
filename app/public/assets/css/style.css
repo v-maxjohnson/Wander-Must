@@ -1,11 +1,11 @@
 .handle {
     position: absolute;
-    /* width: 100%; */
+    width: 100%;
     left: 0;
     right: 0;
-<<<<<<< HEAD
     top: -42px;
 }
+
 .profile-handle img {
     max-width: 2000px!important;
     margin: 0 auto;
@@ -13,20 +13,16 @@
     width: 200%;
     margin: 0 auto;
 }
+
 .handle-image{
     width: 100px;
     margin: 0 auto;
-}
+} 
 
 .items-section {
     margin-bottom: 10px;
     padding-bottom: 10px;
 }
-=======
-    height: 200px;
-    top: -200px;
-}
->>>>>>> 2d01b322c3dacf20727c5a68d1920ba55a6f29db
 
 .handle-top {
     position: absolute;
@@ -90,6 +86,7 @@
 
 .suitcase-nav {
     justify-content: center;
+    width: 100%;
 }
 
 label.dd-option-text {

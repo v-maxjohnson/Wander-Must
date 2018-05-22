@@ -264,6 +264,10 @@ h1.ml8 {
     font-family: "Courgette", cursive;
 }
 
+#suitcase-link {
+    cursor: pointer;
+}
+
 #login-dropdown,
 #profile-link,
 #suitcase-link,

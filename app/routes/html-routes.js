@@ -36,6 +36,11 @@ module.exports = function (app) {
         res.redirect("/");
     });
 
+    // profile path must have a suitcase id -- otherwise, redirect to index
+    app.get("/profile/", (req, res) => {
+        res.redirect("/");
+    });
+
     // route to display all the suitcases that have the same locale city
     app.get("/search/:locale_city", (req, res) => {
         db.Locale.findOne({

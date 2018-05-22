@@ -24,13 +24,13 @@ module.exports = function (app, passport) {
       console.log(localStorage.getItem('myFirstKey'));
 
     app.get("/index", function (req, res) {
-        res.render("index")
+        res.render("index");
     });
 
     app.get("/logout", function (req, res) {
         req.session.destroy(function (err) {
-            res.redirect("/")
-        })
+            res.redirect("/");
+        });
     });
 
     app.get("/profile", isLoggedIn, function (req, res) {
@@ -38,17 +38,17 @@ module.exports = function (app, passport) {
     });
 
     app.get("/authSuccess", function(req, res){
-        console.log("/authSuccess route")
-        res.redirect("/profile/" + req.user.id)
-    })
+        console.log("/authSuccess route");
+        res.redirect("/profile/" + req.user.id);
+    });
 
     app.post(
         "/api/users/", 
         passport.authenticate("local-signup", { failureRedirect: "/", successRedirect: "/authSuccess" }), 
         function(req, res){
-            console.log("/api/users" + req.body)
+            console.log("/api/users" + req.body);
         }
-    )
+    );
 
     app.post("/api/signin", function (req, res, next) {
         passport.authenticate("local-signin", function (err, user, info) {
@@ -67,6 +67,6 @@ module.exports = function (app, passport) {
     function isLoggedIn(req, res, next) {
         if (req.isAuthenticated())
             return next();
-        res.redirect("/index")
+        res.redirect("/index");
     }
-}
+};

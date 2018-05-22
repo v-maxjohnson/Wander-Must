@@ -14,14 +14,18 @@ module.exports = function(app) {
                 db.Item.create({
                     item_name : req.body.item_name,
                     item_category : req.body.item_category
+                }).then((item) => {
+                    res.status(200).json(item);
                 });
             }
             else {
-                return res.json(dbItem);
+                return res.json({
+                    message: 'Item already exists.',
+                    item: dbItem
+                });
             }
         }).catch((err) => {
             res.json(err);
         });
     });
-
 };

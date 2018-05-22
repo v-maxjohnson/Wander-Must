@@ -15,6 +15,14 @@ var express = require("express");
 // passport is necessary for auth and is thus passed in this function
 module.exports = function (app, passport) {
 
+    if (typeof localStorage === "undefined" || localStorage === null) {
+        var LocalStorage = require('node-localstorage').LocalStorage;
+        localStorage = new LocalStorage('./scratch');
+      }
+       
+      localStorage.setItem('myFirstKey', 'myFirstValue');
+      console.log(localStorage.getItem('myFirstKey'));
+
     app.get("/index", function (req, res) {
         res.render("index")
     });
@@ -25,9 +33,9 @@ module.exports = function (app, passport) {
         })
     });
 
-    app.get("/profile", isLoggedIn, function (req, res) {
-        res.render("profile");
-    });
+    // app.get("/profile", isLoggedIn, function (req, res) {
+    //     res.render("profile");
+    // });
 
     app.get("/auth/google", passport.authenticate("google"));
 
@@ -60,18 +68,37 @@ module.exports = function (app, passport) {
         // failureRedirect: "/signup"
     // }));
 
-    app.post("/api/users", function (req, res, next) {
-        passport.authenticate("local-signup", function (err, user, info) {
-            if (err) {
-                return next(err);
-            }
-            req.login(user, function(err) {
-                // if (err) { return next (err); }
-                // return user;
-                return res.redirect("/profile/" + user.id);
-            })
-            })(req, res, next);
-    });
+    // app.post("/api/users", function (req, res, next) {
+    //     passport.authenticate("local-signup", {
+    //         failureRedirect: "/",
+    //         successRedirect: '/profile'
+    //     },
+    //      function (err, user, info) {
+    //         if (err) {
+    //             return next(err);
+    //         }
+
+    //         req.login(user, function(err) {
+    //             console.log(user);
+    //             // if (err) { return next (err); }
+    //             // return user;
+    //             return res.redirect("/profile/" + user.id);
+    //         })
+    //      })(req, res, next);
+    // });
+
+    app.get("/profile", function(req, res){
+        res.json(req.user)
+        // res.redirect("/profile/" + req.user.id)
+        // localStorage.setItem("globalId", req.user.id)
+    })
+
+    app.post(
+        "/api/users/", 
+        passport.authenticate("local-signup", { failureRedirect: "/", successRedirect: "/profile" }), 
+        function(req, res){
+        }
+    )
 
     app.post("/api/signin", function (req, res, next) {
         passport.authenticate("local-signin", function (err, user, info) {

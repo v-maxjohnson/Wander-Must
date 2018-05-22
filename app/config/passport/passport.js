@@ -13,15 +13,16 @@ module.exports = function (passport, user) {
     // passport needs to save a user ID which it uses 
     // to retrieve user details when needed
     passport.serializeUser(function (user, done) {
-        console.log("Serializer : ", user)
+        // console.log("Serializer : ", user)
         done(null, user.id);
     });
 
     //deserializes the user's session 
     passport.deserializeUser(function (id, done) {
-        done(null, id)
+        //done(null, id)
         User.findById(id).then(function(user) {
             if (user) {
+                console.log("Deseriailzer working...")
                 done(null, user.get());
             } 
             else {
@@ -142,10 +143,10 @@ module.exports = function (passport, user) {
         function (req, email, password, done) {
             var User = user;
 
-            //production env password validator
-            // var isValidPassword = function(userpass, password) {
-            //     return bCrypt.compareSync(password, userpass);
-            // }
+            // production env password validator
+            var isValidPassword = function(userpass, password) {
+                return bCrypt.compareSync(password, userpass);
+            }
 
             User.findOne({
                     where: {
@@ -153,13 +154,11 @@ module.exports = function (passport, user) {
                     }
                 }).then(function (user) {
 
-                    // if (!user.password === password) {
-
-                    //     // for production : if (!isValidPassword(user.password, password)) {
-                    //         return done(null, false, {
-                    //             message: 'Incorrect password.'
-                    //         });
-                    //     }                
+                    if (!user.password === password) {
+                            return done(null, false, {
+                                message: 'Incorrect password.'
+                            });
+                        }                
                     if (!user) {
                         return done(null, false, {
                             message: 'email does not exist'

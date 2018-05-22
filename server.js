@@ -55,9 +55,15 @@ var authRoute = require("./app/routes/auth.js")(app, passport);
 // loads passport strategies for authentication
 require("./app/config/passport/passport.js")(passport, db.User);
 
+let seq = db.sequelize.sync();
 // syncs all defined models to the database and starts the server to begin listening
-db.sequelize.sync().then(function () {
+seq.then(() => {
     app.listen(PORT, function () {
         console.log("App listening on PORT " + PORT);
     });
 });
+
+module.exports = { 
+    app: app, 
+    seq: seq 
+};

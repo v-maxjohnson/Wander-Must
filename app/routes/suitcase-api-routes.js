@@ -71,14 +71,17 @@ module.exports = function (app) {
             },
             include: [db.Item]
         })
-            .then(
-                dbSuitcase => dbSuitcase.setItems(req.body.ids.concat(dbSuitcase.Items.map(i => i.id)))
-            )
+            .then(dbSuitcase => {
+                let existingItems = dbSuitcase.Items.map(i => i.id);
+                let newItems = req.body.ids;
+                let allItems = newItems.concat(existingItems).map(i => Number(i));
+
+                return dbSuitcase.setItems(allItems);
+            })
             .then(
                 result => res.json(result)
             )
             .catch(err => {
-                console.log(err);
                 res.json(err);
             });
     });

@@ -1,8 +1,13 @@
 $(document).ready(function () {
     var currentSuitcase = parseInt(localStorage.getItem("suitcase_id"));
-    $(".suitcase-partial").each(function () {
-        if (parseInt($(this).data("id")) === currentSuitcase) {
-            $(this).hide();
-        }
-    });
+    var url = window.location.href.split("/");
+
+    if (url[url.length - 2] === "search") {
+
+        $(".suitcase-partial").each(function () {
+            if (parseInt($(this).data("id")) === currentSuitcase) {
+                $(this).hide();
+            }
+        });
+    };
 });

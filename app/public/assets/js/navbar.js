@@ -6,17 +6,19 @@ $(document).ready(function () {
         console.log("Why are you doing this to me")
         var userId = whyMe.slice(30);
         console.log(userId);
-        localStorage.setItem("userId", userId);
+        localStorage.setItem("user_id", userId);
     } else {
         console.log("yeah i know it's a hack but....")
     }
-
-    if (!req.user) {
+var user = localStorage.getItem("user_id");
+    if (user) {
         $("#login-dropdown").hide();
         $("#profile-link").show();
+        $("#suitcase-link").show();
     } else {
         $("#login-dropdown").show();
         $("#profile-link").hide();
+        $("#suitcase-link").hide();
     }
 
 

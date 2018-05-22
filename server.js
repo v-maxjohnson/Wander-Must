@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 //Passport session
-app.use(session({ secret: "Xander-must",resave: true, saveUninitialized:true})); // session secret
+app.use(session({ secret: "Xander-must", resave: true, saveUninitialized: true })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
@@ -34,10 +34,18 @@ app.engine('handlebars', exphbs({
     extname: '.handlebars',
     defaultLayout: 'main',
     partialsDir: path.join(__dirname, 'app/views/partials'),
-    layoutsDir: path.join(__dirname, 'app/views/layouts')
-  }));
+    layoutsDir: path.join(__dirname, 'app/views/layouts'),
+    helpers: {
+        ifCond: function (v1, v2, options) {
+            if (v1 === v2) {
+                return options.fn(this);
+            }
+            return options.inverse(this);
+        }
+    }
+}));
 app.set('view engine', 'handlebars');
-app.set('views',path.join(__dirname,'app/views'))
+app.set('views', path.join(__dirname, 'app/views'))
 
 // might perhaps initialize the passport session after the static path declaration
 // to avoid having authentication (deserializeUser) around every request
@@ -63,7 +71,7 @@ seq.then(() => {
     });
 });
 
-module.exports = { 
-    app: app, 
-    seq: seq 
+module.exports = {
+    app: app,
+    seq: seq
 };

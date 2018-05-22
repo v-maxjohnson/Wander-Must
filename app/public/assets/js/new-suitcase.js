@@ -14,16 +14,33 @@ $("#new-suitcase-btn").on("click", function (event) {
     var location = $("#suitcase-city").val().trim().toLowerCase();
     var locationArray = [];
     locationArray = location.split(", ");
+    console.log(locationArray);
 
-    var newLocale = {
-        locale_city: locationArray[0],
-        locale_admin: locationArray[1],
-        locale_country: locationArray[2]
-    };
+    var newLocale;
+    if (locationArray.length === 3) {
+        newLocale = {
+            locale_city: locationArray[0],
+            locale_admin: locationArray[1],
+            locale_country: locationArray[2]
+        };
+    } else if (locationArray.length > 3) {
+        newLocale = {
+            locale_city: locationArray[0],
+            locale_admin: locationArray[locationArray.length-2],
+            locale_country: locationArray[locationArray.length-1]
+        };
+    } else {
+        newLocale = {
+            locale_city: locationArray[0],
+            locale_admin: locationArray[1],
+            locale_country: locationArray[1]
+        };
+    }
+    
 
     var newSuitcase;
     
-    console.log(newLocale, newSuitcase);
+    
 
     $.post("/api/locale", newLocale)
         // On success, run the following code
@@ -40,6 +57,7 @@ $("#new-suitcase-btn").on("click", function (event) {
             $.post("/api/suitcases", newSuitcase)
                 // On success, run the following code
                 .then(function (dbSuitcase) {
+                    localStorage.setItem("suitcase_id", dbSuitcase.id);
                     window.location.href = "/search/" + dbLocale.locale_city;
                 });
         });

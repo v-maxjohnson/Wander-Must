@@ -5,7 +5,11 @@ $(document).ready(function () {
 
     if (url[url.length - 2] === "suitcase") {
 
+        // suitcase id of current suitcase
         var suitcaseApiId = $("#suitcase-nav").data("suitcase_id");
+
+        // suitcase of current user's suitcase
+        var suitcaseId = localStorage.getItem("suitcase_id");
 
         var dateObjOne = $("#suitcase-startDate").text();
         var dateObjTwo = $("#suitcase-endDate").text();
@@ -21,32 +25,21 @@ $(document).ready(function () {
         $("#add-items").on("click", function (event) {
             event.preventDefault();
 
-            // Make a newChirp object
-            var newItem = {
-                item_name: $("#item-name").val().trim(),
-                item_category: $("#item-category").val().trim()
-            };
+            var checkedArray =[];
+            
 
-            console.log(newItem);
+            $(".form-check-input:checked").each(function () {
+                var checked_id = $(this).data("item_id");
+                checkedArray.push(checked_id);
+            });
 
-            $.post("/api/items", newChirp)
-                // On success, run the following code
-                .then(function () {
-
-                    var row = $("<div>");
-                    row.addClass("chirp");
-
-                    row.append("<p>" + newChirp.author + " chirped: </p>");
-                    row.append("<p>" + newChirp.body + "</p>");
-                    row.append("<p>At " + moment(newChirp.created_at).format("h:mma on dddd") + "</p>");
-
-                    $("#chirp-area").prepend(row);
-
-                });
-
-            // Empty each input box by replacing the value with an empty string
-            $("#author").val("");
-            $("#chirp-box").val("");
+            console.log(checkedArray);
+            $.ajax({
+                url: "/api/suitcase/" + suitcaseId + "/addItems",
+                type: "post",
+                data: { ids: checkedArray } 
+            })
+           
         });
 
         $("body").on("click", ".trash-icon", function (event) {
@@ -56,7 +49,7 @@ $(document).ready(function () {
                 url: "/api/suitcase/" + suitcaseApiId + "/" + itemApiId,
                 type: "DELETE"
             })
-            .then(buildItems);
+                .then(buildItems);
 
         });
 
@@ -71,13 +64,12 @@ $(document).ready(function () {
                             var formCheck = $("<div>");
                             formCheck.addClass("form-check offset-1 col-5 col-lg-3");
                             var formLabel = $("<label>");
-                            var formInput = $("<input class='form-check-input' type='checkbox' checked />");
+                            var formInput = $("<input class='form-check-input' type='checkbox' checked='checked' />").attr("data-item_id", dbSuitcase.Items[i].id);
                             var spans = $("<span class='form-check-sign'><span class='check'></span></span>");
                             var trashSpan = $("<span class='fa fa-trash trash-icon'>&nbsp;</span>").attr("data-item_id", dbSuitcase.Items[i].id);
                             var userCheckOne = localStorage.getItem("user_id");
-                        var userCheckTwo = $("#suitcase-user").data("user-id");
-                        console.log(userCheckOne, userCheckTwo);
-                
+                            var userCheckTwo = $("#suitcase-user").data("user-id");
+
                             if (parseInt(userCheckOne) !== parseInt(userCheckTwo)) {
                                 formLabel.addClass("form-check-label").text(dbSuitcase.Items[i].item_name);
                                 formLabel.append(formInput).append(spans);
@@ -87,10 +79,6 @@ $(document).ready(function () {
                                 formCheck.append(trashSpan).append(formLabel);
                                 $("#add-items").hide();
                             }
-
-
-                            // formLabel.append(formInput).append(spans);
-                            // formCheck.append(trashSpan).append(formLabel);
 
                             switch (dbSuitcase.Items[i].item_category) {
                                 case "toiletries":

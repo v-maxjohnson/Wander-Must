@@ -22,6 +22,10 @@ module.exports = function (app) {
         res.render("search");
     });
 
+    app.get("/suitcase-start", (req, res) => {
+        res.render("suitcase-start");
+    });
+
     // suitcase path must have a suitcase id -- otherwise, redirect to index
     app.get("/suitcase/", (req, res) => {
         res.redirect("/");

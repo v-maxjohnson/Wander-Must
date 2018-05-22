@@ -22,17 +22,28 @@ module.exports = function(app) {
 
     //POST route for creating and saving a new **suitcase**
     app.post("/api/suitcases", (req, res) => {
-        db.Suitcase.create({
-            start_date : req.body.start_date,
-            end_date : req.body.end_date,
-            travel_category : req.body.travel_category,
-            user_id: req.body.user_id,
-            locale_id: req.body.locale_id
-        }).then((dbSuitcase) => {
-            return res.json(dbSuitcase);
-        }).catch((err) => {
-            console.log(err);
-            res.json(err);
+        db.Locale.findOne({
+            where:{
+                id: req.body.locale_id
+            },
+            include: [ db.Suitcase ]
+        }).then( locale => {
+            if( locale ){
+                db.Suitcase.create({
+                    start_date : req.body.start_date,
+                    end_date : req.body.end_date,
+                    travel_category : req.body.travel_category,
+                    user_id: req.body.user_id,
+                    locale_id: req.body.locale_id
+                })
+                .then(suitcase => res.json(Object.assign(suitcase, {
+                    "hadPreviousSuitcases" : (locale.Suitcases.length !== 0)
+                })))
+                .catch(err => {
+                    console.log(err);
+                    res.json(err);
+                });                
+            }
         });
     });
 

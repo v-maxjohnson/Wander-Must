@@ -15,7 +15,7 @@ module.exports = function(app) {
                     locale_city : req.body.locale_city,
                     locale_admin : req.body.locale_admin,
                     locale_country : req.body.locale_country 
-                });
+                }).then(newLocale => res.json(newLocale));
             }
             else {
                 return res.json(dbLocale);

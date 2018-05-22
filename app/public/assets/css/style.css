@@ -263,3 +263,10 @@ h1.ml8 {
 .wandermust-font {
     font-family: "Courgette", cursive;
 }
+
+#login-dropdown,
+#profile-link,
+#suitcase-link,
+#logout {
+    display: none;
+}

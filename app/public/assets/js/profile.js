@@ -15,3 +15,10 @@ $(document).ready(function () {
         $(this).text(momentString);
     });
 });
+
+$.get("/loggedIn")
+
+.then(function(dbUser) {
+    localStorage.getItem("user_id", dbUser.id);
+    window.location.href="/profile/" + dbUser.id;
+});

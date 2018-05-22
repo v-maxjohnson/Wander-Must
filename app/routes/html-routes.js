@@ -23,7 +23,12 @@ module.exports = function (app) {
     });
 
     app.get("/suitcase-start", (req, res) => {
-        res.render("suitcase-start");
+        db.Item.findAll({})
+            .then((dbAllItems) => {
+                res.render("suitcase-start", { items: dbAllItems });
+            }).catch((err) => {
+                res.json(err);
+            });
     });
 
     // suitcase path must have a suitcase id -- otherwise, redirect to index
@@ -31,7 +36,12 @@ module.exports = function (app) {
         res.redirect("/");
     });
 
-    // route to display a user's specific suitcase
+    // profile path must have a suitcase id -- otherwise, redirect to index
+    app.get("/profile/", (req, res) => {
+        res.redirect("/");
+    });
+
+    // route to display all the suitcases that have the same locale city
     app.get("/search/:locale_city", (req, res) => {
         db.Locale.findOne({
             where: {
@@ -42,10 +52,7 @@ module.exports = function (app) {
                 where: {
                     locale_id: localeResult.id
                 },
-                include: [
-
-                    db.Locale
-                ]
+                include: [ db.Locale ]
             }).then((dbSuitcases) => {
                 res.render("search", { suitcases: dbSuitcases });
             }).catch((err) => {
@@ -72,22 +79,6 @@ module.exports = function (app) {
             res.json(err);
         });
     });
-
-    // route to display a user's specific suitcase
-    // app.get("/suitcase/:id", (req, res) => {
-    //     db.Suitcase.findOne({
-    //         where: {
-    //             id: req.params.id
-    //         }
-    //     }).then(function (dbSuitcase) {
-    //         let suitcaseObject = {
-    //             suitcase_items: dbSuitcase
-    //         };
-    //         res.render("suitcase", suitcaseObject);
-    //     }).catch((err) => {
-    //         res.json(err);
-    //     });
-    // });
 
     // route to display a user's specific profile
     app.get("/profile/:id", (req, res) => {

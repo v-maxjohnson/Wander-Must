@@ -1,6 +1,5 @@
 $(document).ready(function () {
 
-
     var url = window.location.href.split("/");
 
     if (url[url.length - 2] === "suitcase") {
@@ -27,7 +26,6 @@ $(document).ready(function () {
 
             var checkedArray =[];
             
-
             $(".form-check-input:checked").each(function () {
                 var checked_id = $(this).data("item_id");
                 checkedArray.push(checked_id);
@@ -37,8 +35,11 @@ $(document).ready(function () {
             $.ajax({
                 url: "/api/suitcase/" + suitcaseId + "/addItems",
                 type: "post",
-                data: { ids: checkedArray } 
-            })
+                data: { ids: checkedArray },
+                success: () => {
+                    window.location.href = "/suitcase/" + suitcaseId;
+                }
+            });
            
         });
 
@@ -99,7 +100,7 @@ $(document).ready(function () {
                     }
                 }
             });
-        };
-        buildItems();
-    };
+        }
+    buildItems();
+    }
 });

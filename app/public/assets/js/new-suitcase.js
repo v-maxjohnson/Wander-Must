@@ -58,7 +58,7 @@ $("#new-suitcase-btn").on("click", function (event) {
                 // On success, run the following code
                 .then(function (dbSuitcase) {
                     localStorage.setItem("suitcase_id", dbSuitcase.id);
-                    if (dbSuitcase.hadPreviousSuitcases ) {
+                    if (!dbSuitcase.hadPreviousSuitcases ) {
                         window.location.href = "/search/" + dbLocale.locale_city;
                     }
                     else {

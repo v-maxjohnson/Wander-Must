@@ -36,7 +36,7 @@ module.exports = function (app) {
         res.redirect("/");
     });
 
-    // route to display a user's specific suitcase
+    // route to display all the suitcases that have the same locale city
     app.get("/search/:locale_city", (req, res) => {
         db.Locale.findOne({
             where: {
@@ -47,10 +47,7 @@ module.exports = function (app) {
                 where: {
                     locale_id: localeResult.id
                 },
-                include: [
-
-                    db.Locale
-                ]
+                include: [ db.Locale ]
             }).then((dbSuitcases) => {
                 res.render("search", { suitcases: dbSuitcases });
             }).catch((err) => {

@@ -28,7 +28,7 @@ module.exports = function(app) {
             },
             include: [ db.Suitcase ]
         }).then( locale => {
-            if( locale ){
+            if( locale ) {
                 db.Suitcase.create({
                     start_date : req.body.start_date,
                     end_date : req.body.end_date,
@@ -48,21 +48,21 @@ module.exports = function(app) {
     });
 
     //POST route for checking if an item already exist in the user's suitcase so that no duplicates can be added
-    app.post("/api/suitcase/:suitcase_id/addItems", (req, res) => {
-        db.Suitcase.findOne({
-            where : {
-                id : req.params.suitcase_id
-            },
-            include : [db.Item]
-        }).then(dbSuitcase => {
-            let itemsArr = req.body.ids.concat( dbSuitcase.Items.map(i => i.id) );
+    // app.post("/api/suitcase/:suitcase_id/addItems", (req, res) => {
+    //     db.Suitcase.findOne({
+    //         where : {
+    //             id : req.params.suitcase_id
+    //         },
+    //         include : [db.Item]
+    //     }).then(dbSuitcase => {
+    //         let itemsArr = req.body.ids.concat( dbSuitcase.Items.map(i => i.id) );
 
-            dbSuitcase.setItems(itemsArr).then(result => res.json(result));       
-        }).catch(err => {
-            console.log(err);
-                res.json(err);
-        });
-    });
+    //         dbSuitcase.setItems(itemsArr).then(result => res.json(result));       
+    //     }).catch(err => {
+    //         console.log(err);
+    //             res.json(err);
+    //     });
+    // });
 
     app.post("/api/suitcase/:suitcase_id/addItems", (req, res) => {
         db.Suitcase.findOne({
@@ -96,7 +96,7 @@ module.exports = function(app) {
             })
             .catch((err) => {
                 res.json(err);
-            })
+            });
         }).catch(err => {
                 res.json(err);
         });

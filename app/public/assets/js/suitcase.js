@@ -59,17 +59,23 @@ $(document).ready(function () {
 
         });
 
+        var userCheckOne = localStorage.getItem("user_id");
+        var userCheckTwo = $("#suitcase-user").data("user-id");
+
+        $("#suitcase-locale").on("click", function () {
+            if (parseInt(userCheckOne) === parseInt(userCheckTwo)) {
+                localStorage.setItem("suitcase_id", suitcaseApiId);
+            }
+        });
+
+
         function buildItems() {
             $(".cat-row").empty();
             $.get("/api/suitcase/" + suitcaseApiId, function (dbSuitcase) {
                 if (dbSuitcase.Items) {
                     if (dbSuitcase.Items.length !== 0) {
 
-                        var userCheckOne = localStorage.getItem("user_id");
-                        var userCheckTwo = $("#suitcase-user").data("user-id");
-
                         for (var i = 0; i < dbSuitcase.Items.length; i++) {
-                            
 
                             var formCheck = $("<div>");
                             formCheck.addClass("form-check offset-1 col-5 col-lg-3");
@@ -102,10 +108,11 @@ $(document).ready(function () {
                                     break;
                                 case "electronics":
                                     $("#electronics").append(formCheck);
-                                    return;
                                     break;
                             }
                         }
+                    } else {
+                        $("#add-items").hide();
                     }
                 }
             });

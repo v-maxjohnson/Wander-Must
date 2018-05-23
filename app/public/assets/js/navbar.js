@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     if (whyMe.includes("/profile/")) {
         console.log("Why are you doing this to me");
-        var user_id = whyMe.slice(30);
+        var user_id = whyMe.slice(42);
         console.log(user_id);
         localStorage.setItem("user_id", user_id);
     } else {

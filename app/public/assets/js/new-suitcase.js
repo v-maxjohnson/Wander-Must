@@ -36,12 +36,9 @@ $("#new-suitcase-btn").on("click", function (event) {
             locale_country: locationArray[1]
         };
     }
-    
 
     var newSuitcase;
     
-    
-
     $.post("/api/locale", newLocale)
         // On success, run the following code
         .then(function (dbLocale) {
@@ -59,7 +56,9 @@ $("#new-suitcase-btn").on("click", function (event) {
                 .then(function (dbSuitcase) {
                     localStorage.removeItem("suitcase_id");
                     localStorage.setItem("suitcase_id", dbSuitcase.id);
-                    if (!dbSuitcase.hadPreviousSuitcases ) {
+
+                    console.log(dbSuitcase);
+                    if (dbSuitcase.hadPreviousSuitcases ) {
                         window.location.href = "/search/" + dbLocale.locale_city;
                     }
                     else {

@@ -1,7 +1,6 @@
 // requiring bcrypyt, which is used to hash passwords
 var bCrypt = require('bcrypt');
 
-
 // instantiating the passport functionality and passing the function 
 // a user to process
 module.exports = function (passport, user) {
@@ -22,7 +21,6 @@ module.exports = function (passport, user) {
         //done(null, id)
         User.findById(id).then(function(user) {
             if (user) {
-                console.log("Deseriailzer working...")
                 done(null, user.get());
             } 
             else {
@@ -75,85 +73,24 @@ module.exports = function (passport, user) {
                 }
             });
         }
-
     ));
-
-    // passport.use('google', new GoogleStrategy ({
-    //     clientID: process.env.GOOGLE_CLIENT_ID,
-    //     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    //     callbackURL: '/auth/google/redirect'
-    // }), (token, refreshToken, profile, done) => {
-    //     return done (null, {
-    //         profile: profile,
-    //         token: token
-    //     })
-    // }
-    // )
-
-    // passport.use("twitter", new Strategy({
-    //         consumerKey: process.env.TWITTER_CONSUMER_KEY,
-    //         consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-    //         callbackURL: 'http://localhost:3000/login/twitter/return'
-    //     },
-    //     function (token, tokenSecret, profile, cb) {
-    //         User.findOrCreate({
-    //             where: {
-    //                 username: profile.username
-    //             }
-    //         }).then(function (user) {
-    //             if (user) {
-    //                 return done(null, false, {
-    //                     message: 'Sorry, that email is already taken'
-    //                 });
-    //             } else {
-    //                 var data = {
-    //                     username: profile.username,
-    //                     email: profile.username + "@gmail.com",
-    //                     password: "password",
-    //                     user_image: req.body.user_image,
-    //                     gender: req.body.gender
-    //                 };
-    //                 // a method that actually creates a new record in the DB for a new user
-    //                 User.create(data).then(function (newUser, created) {
-    //                     if (!newUser) {
-    //                         return done(null, false);
-    //                     }
-    //                     if (newUser) {
-    //                         return done(null, newUser);
-    //                     }
-    //                 });
-
-    //             }
-    //         })
-    //         //     //where the user will be created in the db    
-    //         //million dollar question is how I'll try and look up the user in our database when 
-    //         //we don't have access to an email, password, or id that matches something in our database
-    //         //username it is!
-    //         // return cb(null, profile);
-    //         // console.log(cb);
-    //         // console.log(profile);
-    //     }));
 
     passport.use('local-signin', new LocalStrategy({
             usernameField: 'email',
             passwordField: 'password',
             passReqToCallback: true
         },
-
         function (req, email, password, done) {
             var User = user;
-
             // production env password validator
             var isValidPassword = function(userpass, password) {
                 return bCrypt.compareSync(password, userpass);
             }
-
             User.findOne({
                     where: {
                         email: email
                     }
                 }).then(function (user) {
-
                     if (!user.password === password) {
                             return done(null, false, {
                                 message: 'Incorrect password.'
@@ -164,13 +101,10 @@ module.exports = function (passport, user) {
                             message: 'email does not exist'
                         });
                     }
-
                     var userinfo = user.get();
                     return done(null, userinfo);
                 })
-
                 .catch(function (err) {
-                    console.log("Error: ", err);
                     return done(null, false, {
                         message: "Whoops, something went wrong with your sign-in"
                     });

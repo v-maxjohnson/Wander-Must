@@ -34,7 +34,7 @@ module.exports = function (app, passport) {
                 return next(err);
             }
             req.login(user, function(err) {
-                if (err) { return next (err); }
+                if (err) { return res.redirect("/"); }
                 return res.redirect("/profile/" + user.id);
             });
         })(req, res, next);        

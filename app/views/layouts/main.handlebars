@@ -124,7 +124,7 @@
             <div class="md-form mb-5">
               <i class="fa fa-plane prefix" style="color:green"></i>
               <select class="custom-select" id="travelselect">
-                <option selected>&nbsp;</option>
+                <option selected></option>
                 <option value="business">Business</option>
                 <option value="leisure">Leisure</option>
                 <option value="adventure">Adventure</option>
@@ -142,7 +142,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-calendar mr-2" style="color:purple"></i>
                   </span>
-                  <input type='text' id="start-date" class="form-control" />
+                  <input type='text' id="start-date" class="form-control" required/>
 
                 </div>
                 <label data-error="wrong" data-success="right" for="start-date">Start Date</label>
@@ -154,7 +154,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-calendar mr-2" style="color:purple"></i>
                   </span>                  
-                  <input type='text' id="end-date" class="form-control" />
+                  <input type='text' id="end-date" class="form-control" required/>
                 </div>
                 <label data-error="wrong" data-success="right" for="end-date">End Date</label>
               </div>

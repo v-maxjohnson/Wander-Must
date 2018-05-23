@@ -1,14 +1,17 @@
-// When user clicks new-suitcase-btn
+// click handler when user clicks new-suitcase-btn
 $("#new-suitcase-btn").on("click", function (event) {
     event.preventDefault();
 
+    // store form input values in variables
     var travelSelect = $("#travelselect").val().trim();
     var startDate = $("#start-date").val();
     var endDate = $("#end-date").val();
-    var location = $("#suitcase-city").val().trim().toLowerCase().replace(/\s+/g, '_');
+    var location = $("#suitcase-city").val().trim().toLowerCase().replace(/\s+/g, '_'); // replace spaces with underscores
 
+    // make sure the input isn't blank
     if (travelSelect !== "" && startDate !== "" && endDate !== "" && location !== "") {
 
+        // format dates for db using Moment
         var startDateObj = new Date(startDate);
         var endDateObj = new Date(endDate);
         var momentObjOne = moment(startDateObj);
@@ -16,10 +19,16 @@ $("#new-suitcase-btn").on("click", function (event) {
         startDate = momentObjOne.format('YYYY-MM-DD');
         endDate = momentObjTwo.format('YYYY-MM-DD');
 
+        // create array to hold locale values
         var locationArray = [];
+
+        // create a temporary array for the australia fix below
         var tempArray = [];
+
+        // separate the locale values by comma & underscore and put them in the array 
         locationArray = location.split(",_");
 
+        // if the location is in australia, there is no delimiter between city and state except a space, so it enters as one value. split that value into 2 and create a location array that matches the other formatting 
         if (locationArray[locationArray.length - 1] === "australia") {
             // locationArray[2] = tempArray[2];
             tempArray = locationArray[0].split("_");
@@ -28,8 +37,10 @@ $("#new-suitcase-btn").on("click", function (event) {
             locationArray[2] = "australia";
         }
 
+        // locale object declaration
         var newLocale;
 
+        // logic to handle how different countries list their cities on google and make sure data formatting is consistent and create locale object
         if (locationArray.length === 3) {
             newLocale = {
                 locale_city: locationArray[0],
@@ -50,11 +61,14 @@ $("#new-suitcase-btn").on("click", function (event) {
             };
         }
 
+        // new suitcase object declaration
         var newSuitcase;
 
+        // AJAX post request with new locale to api endpoint
         $.post("/api/locale", newLocale)
             // On success, run the following code
             .then(function (dbLocale) {
+                // get back the new locale object and then add the id to the new suitcase object as well as the user input
                 newSuitcase = {
                     start_date: startDate,
                     end_date: endDate,
@@ -63,19 +77,23 @@ $("#new-suitcase-btn").on("click", function (event) {
                     locale_id: dbLocale.id
                 };
 
-                // Send an AJAX POST-request with jQuery
+                // AJAX post request with new suitcase to api endpoint
                 $.post("/api/suitcases", newSuitcase)
                     // On success, run the following code
                     .then(function (dbSuitcase) {
+
+                        // reset localstorage to hold new suitcase id
                         localStorage.removeItem("suitcase_id");
                         localStorage.setItem("suitcase_id", dbSuitcase.id);
-                  
-                    if (dbSuitcase.hadPreviousSuitcases ) {
-                        window.location.href = "/search/" + dbLocale.locale_city;
-                    }
-                    else {
-                        window.location.href = "/suitcase-start";
-                    }
-                });
-        });
+
+                        // check to see if there are any cities with a suitcase
+                        if (dbSuitcase.hadPreviousSuitcases) { // if so, redirect to display other suitcases with that city
+                            window.location.href = "/search/" + dbLocale.locale_city;
+                        }
+                        else { // else redirect to the add items page
+                            window.location.href = "/suitcase-start";
+                        }
+                    });
+            });
+        }
 });

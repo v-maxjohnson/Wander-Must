@@ -127,6 +127,10 @@ small.dd-option-desciption.dd-desc {
     cursor: pointer;
 }
 
+.icn {
+    float: left;
+}
+
 .non-click-label {
     color: black!important;
     margin-left: 5px!important;

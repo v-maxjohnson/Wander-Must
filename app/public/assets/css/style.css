@@ -10,6 +10,11 @@ html {
     top: -42px;
 }
 
+.dropdown-menu {
+    position: absolute;
+    left: -100px;
+}
+
 .profile-handle img {
     max-width: 2000px!important;
     margin: 0 auto;

@@ -15,14 +15,16 @@ html {
     left: -100px;
 }
 
-
-
 .profile-handle img {
     max-width: 2000px!important;
     margin: 0 auto;
     transform: translate3d(0, -50%, 0);
     width: 200%;
     margin: 0 auto;
+}
+
+.animals {
+    max-height: 300px;
 }
 
 .handle-image{

@@ -10,4 +10,6 @@ $(document).ready(function () {
             }
         });
     };
+    var cityText = $(".locale-city").text().replace(/_/g, ' ');
+    $(".locale-city").text(cityText);
 });

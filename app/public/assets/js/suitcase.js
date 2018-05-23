@@ -3,7 +3,8 @@ $(document).ready(function () {
     var url = window.location.href.split("/");
 
     if (url[url.length - 2] === "suitcase") {
-
+        var cityText = $("#suitcase-locale").text().replace(/_/g, ' ');
+        $("#suitcase-locale").text(cityText);
         // suitcase id of current suitcase
         var suitcaseApiId = $("#suitcase-nav").data("suitcase_id");
 

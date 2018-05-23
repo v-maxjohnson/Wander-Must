@@ -1,17 +1,18 @@
 //require our models
 var db = require("../models");
 
-module.exports = function(app) {
-   
+module.exports = function (app) {
+
     //----- NOT SURE WE WILL USE THIS ONE -----//
     //GET route for getting all **users**
     app.get("/api/users", (req, res) => {
         db.User.findAll({
             include: [
-                { model: db.Suitcase, include: [
-                    { model : db.Locale },
-                    { model: db.Item }
-                    ] 
+                {
+                    model: db.Suitcase, include: [
+                        { model: db.Locale },
+                        { model: db.Item }
+                    ]
                 }
             ]
         }).then((dbUser) => {
@@ -42,8 +43,8 @@ module.exports = function(app) {
     //DELETE route for deleting a **user**
     app.delete("/api/users/:id", (req, res) => {
         db.User.destroy({
-            where : {
-                id : req.params.id
+            where: {
+                id: req.params.id
             }
         }).then((dbUser) => {
             res.json(dbUser);

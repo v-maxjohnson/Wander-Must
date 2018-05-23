@@ -28,25 +28,25 @@ describe('Test route functionality', () => {
             db.Item.destroy({
                 where: {}
             })
-            .then((err) => {
-                return done();
-            });
+                .then((err) => {
+                    return done();
+                });
         })
     });
     // test suite
     describe('/POST item', () => {
         // individual test
         it('should create a new item', (done) => {
-          chai.request(app)
-              .post('/api/items')
-              .send(new_record)
-              .end((err, res) => {
-                  res.should.have.status(200);
-                  res.body.should.be.an('object');
-                //   res.body.item_name.should.not.be(null);
-                  res.body.item_name.should.equal(new_record.item_name);
-                done();
-            });
+            chai.request(app)
+                .post('/api/items')
+                .send(new_record)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an('object');
+                    //   res.body.item_name.should.not.be(null);
+                    res.body.item_name.should.equal(new_record.item_name);
+                    done();
+                });
         });
 
         it('should not create the same item', (done) => {
@@ -58,9 +58,9 @@ describe('Test route functionality', () => {
                     res.body.should.be.an('object');
                     res.body.message.should.equal('Item already exists.');
                     res.body.item.item_name.should.equal(new_record.item_name);
-                  done();
-              });
-          });
+                    done();
+                });
+        });
     });
 });
 

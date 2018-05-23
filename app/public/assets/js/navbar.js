@@ -11,8 +11,10 @@ $(document).ready(function () {
         console.log("yeah i know it's a hack but....");
     }
 
+    // get user id from localstorage
     var user = localStorage.getItem("user_id");
-console.log(user);
+
+    // change context of navbar based on whether the user is logged in or not
     if (user) {
         $("#login-dropdown").hide();
         $("#profile-link").show();
@@ -25,6 +27,7 @@ console.log(user);
         $("#logout").hide();
     }
 
+    // change href of profile link to take user to their profile
     $("#profile-link-button").attr("href", "/profile/" + user);
 
 });

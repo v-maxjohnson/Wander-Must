@@ -1,22 +1,3 @@
-// const ddslick = require("ddslick");
-
-// $(function(){
-//   let avatarOptions = [
-//       { id: 0, text: "Koala", "img" : "koala.jpg" }
-//   ]
-
-//   $(".image-selector").select2({
-//       templateResult : state => {
-//         if( ! state.id ) return state.text;
-
-//         let basePath = "/path/to/images/";
-
-//         let html = $(`<span><img src="${basePath}${state.img}" /><span>${state.text}</span></span>`)
-
-//         return html;
-//       }
-//   })
-
 var avatarOps = [
     {
         text: "pig",
@@ -54,44 +35,52 @@ var avatarOps = [
         imageSrc: "/assets/img/faces/elephant.png"
     }
 ];
-    
+
 
 $('#avatar').ddslick({
     data: avatarOps,
     width: "80%",
     selectText: "Select your spirit animal",
-    imagePosition:"left",
+    imagePosition: "left",
     background: "transparent",
     color: "black",
-    onSelected: function(selectedAvatar){
+    onSelected: function (selectedAvatar) {
         //callback function: do something with selectedData;
         console.log(selectedAvatar);
-    }   
+    }
 });
 
 $('#avatar').find('input[type=hidden]:first').attr("name", "avatar");
 
 $("#signup-btn").on("click", function (event) {
     event.preventDefault();
-    
-    var newUser = {
-        username: $("#user-name").val().trim(),
-        email: $("#user-email").val().trim().toLowerCase(),
-        password: $("#user-password").val(),
-        gender: $("#user-gender").val().trim(),
-        user_image: $('[name="avatar"]')[0].value
-    }
 
-    console.log(newUser);
+    var newName = $("#user-name").val().trim();
+    var newEmail = $("#user-email").val().trim().toLowerCase();
+    var newPassword = $("#user-password").val();
+    var newGender = $("#user-gender").val().trim();
+    var newImage = $('[name="avatar"]')[0].value;
 
-    // Send an AJAX POST-request with jQuery
-    $.post("/api/users", newUser)
-    
-        // On success, run the following code
-        .then(function (dbUser) {
-            // localStorage.setItem("user_id", dbUser.id);
-            window.location.href="/authSuccess";
-        });
+    if (newName !== "" && newEmail !== "" && newPassword !== "" && newGender !== "gender" && newImage !== "") {
 
-    
+        var newUser = {
+            username: newName,
+            email: newEmail,
+            password: newPassword,
+            gender: newGender,
+            user_image: newImage
+        }
+
+        console.log(newUser);
+
+        // Send an AJAX POST-request with jQuery
+        $.post("/api/users", newUser)
+
+            // On success, run the following code
+            .then(function (dbUser) {
+                // localStorage.setItem("user_id", dbUser.id);
+                window.location.href = "/authSuccess";
+            });
+    };
+
 });

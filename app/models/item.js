@@ -28,8 +28,8 @@ module.exports = function (sequelize, DataTypes) {
   );
 
   Item.associate = function (models) {
-    Item.belongsToMany(models.Suitcase, { 
-      through: "suitcase_items", 
+    Item.belongsToMany(models.Suitcase, {
+      through: "suitcase_items",
       timestamps: false
     });
   };

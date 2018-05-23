@@ -34,11 +34,15 @@
     color: white;
     -webkit-text-stroke-color: white;
     -webkit-text-stroke-width: 2px;
-    font-size: 55px;
+    font-size: 35px;
     position: absolute;
     top: 30%;
     left: 5%;
     text-transform: capitalize;
+}
+
+.title-div {
+    max-width: 100%;
 }
 
 .trip-details {

@@ -111,22 +111,39 @@
           </h2>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-        
-        <div class="modal-body text-center">
-          <div class="md-form mb-5">
-            <i class="fa fa-map-marker prefix grey-text"></i>
-            <input type="text" id="suitcase-city" class="form-control validate">
-            <label data-error="wrong" data-success="right" for="suitcase-city">City</label>
+        <div class="modal-body ">
+          <div class="row">
+          <div class="col-6">
+            <div class="md-form mb-5">
+              <i class="fa fa-map-marker prefix" style="color:aqua"></i>
+              <input type="text" id="suitcase-city" class="form-control validate">
+              <label class="text-center" data-error="wrong" data-success="right" for="suitcase-city">City</label>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="md-form mb-5">
+              <i class="fa fa-plane prefix" style="color:green"></i>
+              <select class="custom-select" id="travelselect">
+                <option selected>&nbsp;</option>
+                <option value="business">Business</option>
+                <option value="leisure">Leisure</option>
+                <option value="adventure">Adventure</option>
+                <option value="vacation">Vacation</option>
+              </select>
+              <label data-error="wrong" data-success="right" for="travelselect">Travel Type</label>
+            </div>
+          </div>
           </div>
 
           <div class="row">
             <div class="col-6">
               <div class="md-form mb-5">
                 <div class='input-group date' id='datetimepicker1'>
-                  <input type='text' id="start-date" class="form-control" />
                   <span class="input-group-addon">
-                    <span class="fa fa-calendar"></span>
+                    <i class="fa fa-calendar" style="color:purple"></i>
                   </span>
+                  <input type='text' id="start-date" class="form-control" />
+
                 </div>
                 <label data-error="wrong" data-success="right" for="start-date">Start Date</label>
               </div>
@@ -134,10 +151,10 @@
             <div class="col-6">
               <div class="md-form mb-5">
                 <div class='input-group date' id='datetimepicker2'>
-                  <input type='text' id="end-date" class="form-control" />
                   <span class="input-group-addon">
-                    <span class="fa fa-calendar"></span>
-                  </span>
+                    <i class="fa fa-calendar" style="color:purple"></i>
+                  </span>                  
+                  <input type='text' id="end-date" class="form-control" />
                 </div>
                 <label data-error="wrong" data-success="right" for="end-date">End Date</label>
               </div>
@@ -145,17 +162,7 @@
           </div>
 
 
-          <div class="md-form mb-5">
-            <i class="fa fa-plane prefix grey-text"></i>
-            <select class="custom-select" id="travelselect">
-              <option selected>&nbsp;</option>
-              <option value="business">Business</option>
-              <option value="leisure">Leisure</option>
-              <option value="adventure">Adventure</option>
-              <option value="vacation">Vacation</option>
-            </select>
-            <label data-error="wrong" data-success="right" for="travelselect">Travel Type</label>
-          </div>
+
 
         </div>
         <div class="modal-footer">

@@ -15,6 +15,13 @@ var avatarOps = [
         imageSrc: "/assets/img/faces/raccoon.png"
     },
     {
+        text: "elephant",
+        value: "/assets/img/faces/elephant.png",
+        selected: false,
+        description: "You love to travel in packs. You travel to build your global community!",
+        imageSrc: "/assets/img/faces/elephant.png"
+    },
+    {
         text: "lion",
         value: "/assets/img/faces/lion.png",
         selected: false,
@@ -27,20 +34,15 @@ var avatarOps = [
         selected: false,
         description: "All things sunny! Bring you the fuity drink and let you fly around with your friends",
         imageSrc: "/assets/img/faces/toucan.png"
-    },
-    {
-        text: "elephant",
-        value: "/assets/img/faces/elephant.png",
-        selected: false,
-        description: "You love to travel in packs. You travel to build your global community!",
-        imageSrc: "/assets/img/faces/elephant.png"
     }
+    
 ];
 
 // set parameters for ddslick
 $('#avatar').ddslick({
     data: avatarOps,
     width: "80%",
+    height: "350px",
     selectText: "Select your spirit animal",
     imagePosition: "left",
     background: "transparent",

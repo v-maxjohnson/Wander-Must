@@ -21,7 +21,6 @@ module.exports = function (app, passport) {
       }
        
       localStorage.setItem('myFirstKey', 'myFirstValue');
-      console.log(localStorage.getItem('myFirstKey'));
 
     app.get("/index", function (req, res) {
         res.render("index");

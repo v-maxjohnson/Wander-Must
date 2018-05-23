@@ -17,9 +17,9 @@ module.exports = function (app) {
         res.render("signup", { layout: 'signup_layout.handlebars' });
     });
 
-    // route to display basic search page through handlebars
+    // locale search path must have a locale name -- otherwise, redirect to index
     app.get("/search/", (req, res) => {
-        res.render("search");
+        res.render("/");
     });
 
     app.get("/suitcase-start", (req, res) => {

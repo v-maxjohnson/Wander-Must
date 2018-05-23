@@ -9,6 +9,10 @@ $(document).ready(function () {
                 $(this).hide();
             }
         });
+
+        if ($(".suitcase-partial:visible").length === 0) {
+            window.location.href = "/suitcase-start";
+        }
     };
     var cityText = $(".locale-city").text().replace(/_/g, ' ');
     $(".locale-city").text(cityText);

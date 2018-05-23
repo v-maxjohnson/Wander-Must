@@ -95,5 +95,5 @@ $("#new-suitcase-btn").on("click", function (event) {
                         }
                     });
             });
-    };
+        }
 });

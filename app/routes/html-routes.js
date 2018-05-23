@@ -56,7 +56,6 @@ module.exports = function (app) {
             }).then((dbSuitcases) => {
                 res.render("search", { suitcases: dbSuitcases });
             }).catch((err) => {
-                console.log(err);
                 res.json(err);
             });
         });

@@ -43,7 +43,6 @@ module.exports = function (app) {
                         res.json(newObj);                       
                     })
                     .catch(err => {
-                        console.log(err);
                         res.json(err);
                     });
             }

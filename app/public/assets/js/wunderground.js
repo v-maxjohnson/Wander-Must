@@ -8,9 +8,6 @@ $(document).ready(function () {
         var wuAdmin = $("#suitcase-locale").attr("data-admin");
         var wuCountry = $("#suitcase-locale").attr("data-country");
 
-        // already formatted for underscores in new-suitcase.js to replace spaces since thats what is acceptable input
-        
-
         // pick out start and end date from data attributes, put in array, and pick out per index 
         var startDate = $("#suitcase-startDate").attr("data-start");
         var startDateArray = [];
@@ -27,9 +24,9 @@ $(document).ready(function () {
 
         // differentiating queryURL structure depending on USA (needs state/city) vs. anywhere else (needs country/city)
         if (wuCountry === "usa") {
-            var queryURL = "http://api.wunderground.com/api/" + authKey + "/planner_" + startMonth + startDay + endMonth + endDay + "/q/" + wuAdmin + "/" + wuCity + ".json";
+            var queryURL = "https://api.wunderground.com/api/" + authKey + "/planner_" + startMonth + startDay + endMonth + endDay + "/q/" + wuAdmin + "/" + wuCity + ".json";
         } else {
-            var queryURL = "http://api.wunderground.com/api/" + authKey + "/planner_" + startMonth + startDay + endMonth + endDay + "/q/" + wuCountry + "/" + wuCity + ".json";
+            var queryURL = "https://api.wunderground.com/api/" + authKey + "/planner_" + startMonth + startDay + endMonth + endDay + "/q/" + wuCountry + "/" + wuCity + ".json";
         }
 
         $.ajax({

@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+    // format the city title for each suitcase
     $(".suitcase-title").each(function () {
         var cityText = $(this).data("city").replace(/_/g, ' ');
         $(this).text(cityText);
@@ -7,6 +8,7 @@ $(document).ready(function () {
 
     $(".travel-dates").each(function () {
 
+        // format dates for each suitcase
         var dateString = $(this).text();
         var dateArray = [];
         dateArray = dateString.split(" - ");

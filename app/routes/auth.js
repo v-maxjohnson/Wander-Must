@@ -17,14 +17,14 @@ module.exports = function (app, passport) {
         res.render("profile");
     });
 
-    app.get("/authSuccess", function(req, res){
+    app.get("/authSuccess", function (req, res) {
         res.redirect("/profile/" + req.user.id);
     });
 
     app.post(
-        "/api/users/", 
-        passport.authenticate("local-signup", { failureRedirect: "/", successRedirect: "/authSuccess" }), 
-        function(req, res){
+        "/api/users/",
+        passport.authenticate("local-signup", { failureRedirect: "/", successRedirect: "/authSuccess" }),
+        function (req, res) {
         }
     );
 
@@ -33,11 +33,11 @@ module.exports = function (app, passport) {
             if (err) {
                 return next(err);
             }
-            req.login(user, function(err) {
+            req.login(user, function (err) {
                 if (err) { return res.redirect("/"); }
                 return res.redirect("/profile/" + user.id);
             });
-        })(req, res, next);        
+        })(req, res, next);
     });
 
     function isLoggedIn(req, res, next) {

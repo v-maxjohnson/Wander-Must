@@ -52,7 +52,7 @@ module.exports = function (app) {
                 where: {
                     locale_id: localeResult.id
                 },
-                include: [ db.Locale ]
+                include: [db.Locale]
             }).then((dbSuitcases) => {
                 res.render("search", { suitcases: dbSuitcases });
             }).catch((err) => {

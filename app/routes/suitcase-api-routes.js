@@ -40,7 +40,7 @@ module.exports = function (app) {
                         let newObj = Object.assign(suitcase.get(), {
                             "hadPreviousSuitcases": (locale.Suitcases.length !== 0)
                         });
-                        res.json(newObj);                       
+                        res.json(newObj);
                     })
                     .catch(err => {
                         res.json(err);

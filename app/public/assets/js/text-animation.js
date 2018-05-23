@@ -13,64 +13,18 @@ $(document).ready(function () {
         easing: "easeOutExpo",
         duration: 950,
         delay: function(el, i) {
-            return 70*i;
+            return 150*i;
         }
         }).add({
         targets: '.ml2',
         opacity: 0,
         duration: 1000,
         easing: "easeOutExpo",
-        delay: 1000
+        delay: 10000
         });
 
-        anime.timeline({loop: true})
-    .add({
-        targets: '.ml8 .circle-white',
-        scale: [0, 3],
-        opacity: [1, 0],
-        easing: "easeInOutExpo",
-        rotateZ: 360,
-        duration: 1100
-    }).add({
-        targets: '.ml8 .circle-container',
-        scale: [0, 1],
-        duration: 1100,
-        easing: "easeInOutExpo",
-        offset: '-=1000'
-    }).add({
-        targets: '.ml8 .circle-dark',
-        scale: [0, 1],
-        duration: 1100,
-        easing: "easeOutExpo",
-        offset: '-=600'
-    }).add({
-        targets: '.ml8 .letters-left',
-        scale: [0, 1],
-        duration: 1200,
-        offset: '-=550'
-    }).add({
-        targets: '.ml8 .bang',
-        scale: [0, 1],
-        rotateZ: [45, 15],
-        duration: 1200,
-        offset: '-=1000'
-    }).add({
-        targets: '.ml8',
-        opacity: 0,
-        duration: 1000,
-        easing: "easeOutExpo",
-        delay: 1400
-    });
-
-    anime({
-    targets: '.ml8 .circle-dark-dashed',
-    rotateZ: 360,
-    duration: 8000,
-    easing: "linear",
-    loop: true
-    });
-
-        var ml4 = {};
+    
+    var ml4 = {};
     ml4.opacityIn = [0,1];
     ml4.scaleIn = [0.2, 1];
     ml4.scaleOut = 3;

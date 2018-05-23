@@ -31,8 +31,7 @@ $(document).ready(function () {
                 var checked_id = $(this).data("item_id");
                 checkedArray.push(checked_id);
             });
-
-            console.log(checkedArray);
+            
             $.ajax({
                 url: "/api/suitcase/" + suitcaseId + "/addItems",
                 type: "post",

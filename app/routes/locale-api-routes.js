@@ -21,7 +21,6 @@ module.exports = function(app) {
                 return res.json(dbLocale);
             } 
         }).catch(err => {
-            console.log(err);
             res.json(err);
         });
     });

@@ -45,8 +45,6 @@ $('#avatar').ddslick({
     background: "transparent",
     color: "black",
     onSelected: function(selectedAvatar){
-        //callback function: do something with selectedData;
-        console.log(selectedAvatar);
     }   
 });
 

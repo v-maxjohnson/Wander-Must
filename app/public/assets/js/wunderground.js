@@ -8,9 +8,6 @@ $(document).ready(function () {
         var wuAdmin = $("#suitcase-locale").attr("data-admin");
         var wuCountry = $("#suitcase-locale").attr("data-country");
 
-        // already formatted for underscores in new-suitcase.js to replace spaces since thats what is acceptable input
-        
-
         // pick out start and end date from data attributes, put in array, and pick out per index 
         var startDate = $("#suitcase-startDate").attr("data-start");
         var startDateArray = [];

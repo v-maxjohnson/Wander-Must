@@ -1,3 +1,4 @@
+// ddslick menu options
 var avatarOps = [
     {
         text: "pig",
@@ -14,6 +15,13 @@ var avatarOps = [
         imageSrc: "/assets/img/faces/raccoon.png"
     },
     {
+        text: "elephant",
+        value: "/assets/img/faces/elephant.png",
+        selected: false,
+        description: "You love to travel in packs. You travel to build your global community!",
+        imageSrc: "/assets/img/faces/elephant.png"
+    },
+    {
         text: "lion",
         value: "/assets/img/faces/lion.png",
         selected: false,
@@ -26,20 +34,15 @@ var avatarOps = [
         selected: false,
         description: "All things sunny! Bring you the fuity drink and let you fly around with your friends",
         imageSrc: "/assets/img/faces/toucan.png"
-    },
-    {
-        text: "elephant",
-        value: "/assets/img/faces/elephant.png",
-        selected: false,
-        description: "You love to travel in packs. You travel to build your global community!",
-        imageSrc: "/assets/img/faces/elephant.png"
     }
+    
 ];
 
-
+// set parameters for ddslick
 $('#avatar').ddslick({
     data: avatarOps,
     width: "80%",
+    height: "350px",
     selectText: "Select your spirit animal",
     imagePosition: "left",
     background: "transparent",
@@ -50,19 +53,24 @@ $('#avatar').ddslick({
     }
 });
 
+// find the ddslick hidden input and give it a name to access later
 $('#avatar').find('input[type=hidden]:first').attr("name", "avatar");
 
+// click handler for signup button
 $("#signup-btn").on("click", function (event) {
     event.preventDefault();
 
+    // assign user input to variables
     var newName = $("#user-name").val().trim();
     var newEmail = $("#user-email").val().trim().toLowerCase();
     var newPassword = $("#user-password").val();
     var newGender = $("#user-gender").val().trim();
     var newImage = $('[name="avatar"]')[0].value;
 
+    // make the ajax post if the data isn't empty or the default data
     if (newName !== "" && newEmail !== "" && newPassword !== "" && newGender !== "gender" && newImage !== "") {
 
+        // create the new user object using the user input
         var newUser = {
             username: newName,
             email: newEmail,
@@ -71,9 +79,7 @@ $("#signup-btn").on("click", function (event) {
             user_image: newImage
         }
 
-        console.log(newUser);
-
-        // Send an AJAX POST-request with jQuery
+        // Send an AJAX POST-request with jQuery to create a new user
         $.post("/api/users", newUser)
 
             // On success, run the following code

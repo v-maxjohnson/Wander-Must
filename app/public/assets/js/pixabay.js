@@ -8,9 +8,9 @@ $(document).ready(function () {
         var city = $(this).attr("data-city");
         var country = $(this).attr("data-country");
 
-        // replace spaces with + as acceptable input
-        var pixaCity = city.replace(/\s+/g, '+');
-        var pixaCountry = country.replace(/\s+/g, '+');
+        // replace underscores with '+' as acceptable input
+        var pixaCity = city.replace(/\s_/g, '+');
+        var pixaCountry = country.replace(/\s_/g, '+');
 
         var queryURL = "https://pixabay.com/api/?key=" + authKey + "&q=" + pixaCity + "+" + pixaCountry + "+skyline&image_type=photo";
 

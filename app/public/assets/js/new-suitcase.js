@@ -11,12 +11,21 @@ $("#new-suitcase-btn").on("click", function (event) {
     startDate = momentObjOne.format('YYYY-MM-DD');
     endDate = momentObjTwo.format('YYYY-MM-DD');
 
-    var location = $("#suitcase-city").val().trim().toLowerCase();
+    var location = $("#suitcase-city").val().trim().toLowerCase().replace(/\s+/g, '_');
     var locationArray = [];
-    locationArray = location.split(", ");
-    console.log(locationArray);
+    var tempArray = [];
+    locationArray = location.split(",_");
+
+    if (locationArray[locationArray.length-1] === "australia") {
+        // locationArray[2] = tempArray[2];
+        tempArray = locationArray[0].split("_");
+        locationArray[0] = tempArray[0];
+        locationArray[1] = tempArray[1];
+        locationArray[2] = "australia";
+    }
 
     var newLocale;
+
     if (locationArray.length === 3) {
         newLocale = {
             locale_city: locationArray[0],

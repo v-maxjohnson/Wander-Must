@@ -36,9 +36,12 @@ module.exports = function (app) {
                     user_id: req.body.user_id,
                     locale_id: req.body.locale_id
                 })
-                    .then(suitcase => res.json(Object.assign(suitcase, {
-                        "hadPreviousSuitcases": (locale.Suitcases.length !== 0)
-                    })))
+                    .then(suitcase => {
+                        let newObj = Object.assign(suitcase.get(), {
+                            "hadPreviousSuitcases": (locale.Suitcases.length !== 0)
+                        });
+                        res.json(newObj);                       
+                    })
                     .catch(err => {
                         console.log(err);
                         res.json(err);
@@ -48,22 +51,6 @@ module.exports = function (app) {
     });
 
     //POST route for checking if an item already exist in the user's suitcase so that no duplicates can be added
-    // app.post("/api/suitcase/:suitcase_id/addItems", (req, res) => {
-    //     db.Suitcase.findOne({
-    //         where : {
-    //             id : req.params.suitcase_id
-    //         },
-    //         include : [db.Item]
-    //     }).then(dbSuitcase => {
-    //         let itemsArr = req.body.ids.concat( dbSuitcase.Items.map(i => i.id) );
-
-    //         dbSuitcase.setItems(itemsArr).then(result => res.json(result));       
-    //     }).catch(err => {
-    //         console.log(err);
-    //             res.json(err);
-    //     });
-    // });
-
     app.post("/api/suitcase/:suitcase_id/addItems", (req, res) => {
         db.Suitcase.findOne({
             where: {
@@ -105,7 +92,6 @@ module.exports = function (app) {
             res.json(err);
         });
     });
-
 
     //DELETE route for deleting a **suitcase**
     app.delete("/api/suitcases/:suitcase_id", (req, res) => {

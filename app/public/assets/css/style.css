@@ -1,3 +1,7 @@
+html {
+    overflow-x: hidden;
+}
+
 .handle {
     position: absolute;
     width: 100%;
@@ -136,6 +140,14 @@ small.dd-option-desciption.dd-desc {
     margin-left: 5px!important;
 }
 
+.signup-page .page-header .container {
+    padding-top: 15vh;
+}
+
+.section-signup {
+    padding-top: 0px!important;
+}
+
 /* VERY IMPORTANT -- THIS ALLOWS GOOGLE AUTOCOMPLETE TO SHOW UP ON MODALS */
 .pac-container {
     z-index: 10000!important;
@@ -244,6 +256,7 @@ h1.ml8 {
     font-weight: 900;
     font-size: 7vwem;
     text-align: center;
+    padding-bottom: 10px;
 }
 .ml4 .letters {
     position: absolute;

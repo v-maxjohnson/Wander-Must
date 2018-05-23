@@ -17,7 +17,6 @@ $(document).ready(function () {
                 checkedArray.push(checked_id);
             });
 
-            console.log(checkedArray);
             $.ajax({
                 url: "/api/suitcase/" + suitcaseId + "/addItems",
                 type: "post",

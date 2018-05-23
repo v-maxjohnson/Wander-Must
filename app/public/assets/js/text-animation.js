@@ -76,4 +76,3 @@ $(document).ready(function () {
         delay: 500
     });
 });
-

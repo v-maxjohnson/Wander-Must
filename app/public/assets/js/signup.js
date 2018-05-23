@@ -1,22 +1,3 @@
-// const ddslick = require("ddslick");
-
-// $(function(){
-//   let avatarOptions = [
-//       { id: 0, text: "Koala", "img" : "koala.jpg" }
-//   ]
-
-//   $(".image-selector").select2({
-//       templateResult : state => {
-//         if( ! state.id ) return state.text;
-
-//         let basePath = "/path/to/images/";
-
-//         let html = $(`<span><img src="${basePath}${state.img}" /><span>${state.text}</span></span>`)
-
-//         return html;
-//       }
-//   })
-
 var avatarOps = [
     {
         text: "pig",
@@ -64,8 +45,6 @@ $('#avatar').ddslick({
     background: "transparent",
     color: "black",
     onSelected: function(selectedAvatar){
-        //callback function: do something with selectedData;
-        console.log(selectedAvatar);
     }   
 });
 
@@ -80,9 +59,7 @@ $("#signup-btn").on("click", function (event) {
         password: $("#user-password").val(),
         gender: $("#user-gender").val().trim(),
         user_image: $('[name="avatar"]')[0].value
-    }
-
-    console.log(newUser);
+    };
 
     // Send an AJAX POST-request with jQuery
     $.post("/api/users", newUser)

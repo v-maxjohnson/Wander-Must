@@ -69,15 +69,13 @@ $("#new-suitcase-btn").on("click", function (event) {
                     .then(function (dbSuitcase) {
                         localStorage.removeItem("suitcase_id");
                         localStorage.setItem("suitcase_id", dbSuitcase.id);
-
-                        console.log(dbSuitcase);
-                        if (dbSuitcase.hadPreviousSuitcases) {
-                            window.location.href = "/search/" + dbLocale.locale_city;
-                        }
-                        else {
-                            window.location.href = "/suitcase-start";
-                        }
-                    });
-            });
-    };
+                  
+                    if (dbSuitcase.hadPreviousSuitcases ) {
+                        window.location.href = "/search/" + dbLocale.locale_city;
+                    }
+                    else {
+                        window.location.href = "/suitcase-start";
+                    }
+                });
+        });
 });

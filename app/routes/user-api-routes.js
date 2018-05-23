@@ -21,21 +21,6 @@ module.exports = function(app) {
         });
     });
 
-    //POST route for saving a new **user**
-    // app.post("/api/users", (req, res) => {
-    //     db.User.create({
-    //         username : req.body.username,
-    //         email : req.body.email,
-    //         password : req.body.password,
-    //         gender : req.body.gender,
-    //         user_image : req.body.user_image
-    //     }).then((dbUser) => {
-    //         return res.json(dbUser);
-    //     }).catch((err) => {
-    //         res.json(err);
-    //     });
-    // });
-
     //----- NOT SURE THAT WE WILL USE THIS ONE -----//
     // //PUT route for updating email, password, or user_image for a **user**
     // app.put("/api/users/:id", (req, res) => {

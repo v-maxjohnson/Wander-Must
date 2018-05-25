@@ -55,7 +55,7 @@ require("./app/routes/item-api-routes.js")(app);
 require("./app/routes/suitcase-api-routes.js")(app);
 require("./app/routes/user-api-routes.js")(app);
 require("./app/routes/locale-api-routes.js")(app);
-require("./app/routes/html-routes.js")(app);
+require("./app/routes/html-routes.js")(app, passport);
 
 //routes for authorization
 var authRoute = require("./app/routes/auth.js")(app, passport);

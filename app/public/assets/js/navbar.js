@@ -1,9 +1,9 @@
 $(document).ready(function () {
 
-    var whyMe = window.location.href;
+    var url = window.location.href.split("/");
 
-    if (whyMe.includes("/profile/")) {
-        var user_id = whyMe.slice(42);
+    if (url[url.length - 2] === "profile") {
+        var user_id = url[url.length - 1];
         localStorage.setItem("user_id", user_id);
     }
 

@@ -9,9 +9,9 @@ module.exports = function (app, passport) {
         res.render("index");
     });
 
-    app.get("/index", (req, res) => {
-        res.render("index");
-    });
+    // app.get("/index", (req, res) => {
+    //     res.render("index");
+    // });
 
     app.get("/signup", function (req, res) {
         res.render("signup", { layout: 'signup_layout.handlebars' });
@@ -116,7 +116,7 @@ module.exports = function (app, passport) {
     function isLoggedIn(req, res, next) {
         if (req.isAuthenticated())
             return next();
-        res.redirect("/index");
+        res.redirect("/");
     }
 
 };

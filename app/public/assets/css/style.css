@@ -304,3 +304,10 @@ h1.ml8 {
 .datepicker {
     z-index: 1600 !important; /* has to be larger than 1050 */
   }
+
+  #user-name-text {
+      margin: 10px!important;
+      font-family: "Reem Kufi", sans-serif;
+      font-size: 18px;
+      text-transform: none!important;
+  }

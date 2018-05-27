@@ -13,7 +13,8 @@ $(document).ready(function () {
         var travelSelect = $("#travelselect").val();
         var startDate = $("#start-date").val();
         var endDate = $("#end-date").val();
-        var location = $("#suitcase-city").val().trim().toLowerCase().replace(/\s+/g, '_'); // replace spaces with underscores
+        var location = $("#suitcase-city").val().trim().toLowerCase().replace(/\s+-\s+/g, ', ');
+        location = location.replace(/\s+/g, '_'); // replace spaces with underscores
 
         // make sure the input isn't blank
         if (travelSelect !== "" && startDate !== "" && endDate !== "" && location !== "") {

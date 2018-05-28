@@ -9,7 +9,7 @@ The must have packing app.
 
 ![Wander-Must](https://github.com/MollyLJohnson/Wander-Must/blob/master/wandermust.png)
 
-In the world of travel, there are apps to assist with various parts of the overall experience, but no shared, social space for those with a true wanderlust. Wander-Must is a social network for world travelers looking for the unexpeted, but averse to unwelcome surprises. Knowing what to pack becomes easy with the following steps:
+In the world of travel, there are apps to assist with various parts of the overall experience, but no shared, social space for those with a true wanderlust. Wander-Must is a social network for world travelers looking for the unexpected, but averse to unwelcome surprises. Knowing what to pack becomes easy with the following steps:
 
 1. Sign up/Log in - create a unique username and choose your spirit animal
 
@@ -135,8 +135,8 @@ The Wander-Must Team:
 - **Molly Johnson** - [Molly Johnson](https://github.com/MollyLJohnson)
     - Models, Sequelize, API Routes, Styling
 
-- **Evan Seaman** - [Evan Seaman](https://github.com/evanjosephcode)
-    - External API, AJAX, jQuery, Test Suite
-
 - **Xander Rapstine** - [Xander Rapstine](https://github.com/Xandromus)
     - AJAX, jQuery, HTML Routes, Styling
+
+- **Evan Seaman** - [Evan Seaman](https://github.com/evanjosephcode)
+    - External API, AJAX, jQuery, Test Suite

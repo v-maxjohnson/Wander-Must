@@ -18,11 +18,11 @@ $(document).ready(function () {
     // change context of navbar based on whether the user is logged in or not
     if (user) {
         $("#login-dropdown").hide();
-        $("#profile-link, #suitcase-link, #logout, user-name-link").show();
+        $("#profile-link, #suitcase-link, #logout, #user-name-link").show();
         $("#user-name-text").text("Hello, " + name + "!");
     } else {
         $("#login-dropdown").show();
-        $("#profile-link, #suitcase-link, #logout, user-name-link").hide();
+        $("#profile-link, #suitcase-link, #logout, #user-name-link").hide();
     }
 
     // change href of profile link to take user to their profile

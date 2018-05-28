@@ -25,7 +25,12 @@
         <div class="row">
           <div class="offset-1 col-11">
             <div class="title row">
-              <span class="badge badge-pill badge-info">Toiletries</span>
+              <div>
+                <span class="badge badge-pill badge-info">Toiletries</span>
+              </div>
+              <div>
+                <button data-category="toiletries"  class="all btn btn-primary btn-sm ml-3">Select all</button>
+              </div>
             </div>
             <div class="row cat-row" id="toiletries">
               {{#each items}} {{#ifCond item_category "toiletries"}} {{> items }} {{/ifCond}} {{/each}}
@@ -36,7 +41,12 @@
         <div class="row">
           <div class="offset-1 col-11">
             <div class="title row">
-              <span class="badge badge-pill badge-primary">Clothing</span>
+              <div>
+                <span class="badge badge-pill badge-info">Clothing</span>
+              </div>
+              <div>
+                <button data-category="clothing" class="all btn btn-primary btn-sm ml-3">Select all</button>
+              </div>
             </div>
             <div class="row cat-row" id="clothing">
               {{#each items}} {{#ifCond item_category "clothing"}} {{> items }} {{/ifCond}} {{/each}}
@@ -48,7 +58,12 @@
         <div class="row">
           <div class="offset-1 col-11">
             <div class="title row">
-              <span class="badge badge-pill badge-success">Accessories</span>
+              <div>
+                <span class="badge badge-pill badge-info">Accessories</span>
+              </div>
+              <div>
+                <button data-category="accessories" class="all btn btn-primary btn-sm ml-3">Select all</button>
+              </div>
             </div>
             <div class="row cat-row" id="accessories">
               {{#each items}} {{#ifCond item_category "accessories"}} {{> items }} {{/ifCond}} {{/each}}
@@ -60,7 +75,12 @@
         <div class="row">
           <div class="offset-1 col-11">
             <div class="title row">
-              <span class="badge badge-pill badge-default">Electronics</span>
+              <div>
+                <span class="badge badge-pill badge-info">Electronics</span>
+              </div>
+              <div>
+                <button data-category="electronics" class="all btn btn-primary btn-sm ml-3">Select all</button>
+              </div>
             </div>
             <div class="row cat-row" id="electronics">
               {{#each items}} {{#ifCond item_category "electronics"}} {{> items }} {{/ifCond}} {{/each}}

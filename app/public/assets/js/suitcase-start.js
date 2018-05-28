@@ -5,6 +5,32 @@ $(document).ready(function () {
     // make sure that this is only available on the suitcase-start page
     if (url[url.length - 1] === "suitcase-start") {
 
+        // selecting all items in a category
+        $(".all").on("click", function () {
+
+            // variable to hold category of button
+            var cat = $(this).data("category");
+
+            // variable to hold current text of button
+            var selectText = $(this).text();
+
+            // ternary operator to change text after each click
+            selectText === "Select all" ? $(this).text("Unselect all") : $(this).text("Select all");
+
+            // check or uncheck each item in a category based on the text of the button
+            $(".form-check-input").each(function () {
+
+                // variable for category of each item
+                var catCheck = $(this).data("item-category");
+
+                // only perform the operation on items where the button and item category match
+                if (cat === catCheck) {
+                    // check all items in a category if the button text is select all, else uncheck all of them 
+                    selectText === "Select all" ? $(this).prop('checked', true) : $(this).prop('checked', false);
+                }
+            });
+        });
+
         // suitcase of user's current suitcase
         var suitcaseId = localStorage.getItem("suitcase_id");
 

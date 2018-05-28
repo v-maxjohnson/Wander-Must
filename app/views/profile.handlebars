@@ -9,7 +9,7 @@
               <img src="{{user.user_image}}" alt="Circle Image" class="img-fluid">
             </div>
             <div class="name">
-              <h3 class="title">{{user.username}}</h3>
+              <h3 id="profile-user-name" class="title">{{user.username}}</h3>
             </div>
           </div>
         </div>
@@ -18,7 +18,7 @@
         {{#each user.Suitcases}} {{> suitcase-card }} {{/each}}
         <!-- blank suitcase to add new suitcase -->
         <div class="container col-sm-12 col-md-6 col-lg-4">
-          <div class="suitcaseCard" class="suitcase-input" data-toggle="modal" data-target="#suitcase-modal">
+          <div class="suitcaseCard" id="blank-suitcase" class="suitcase-input" data-toggle="modal" data-target="#suitcase-modal">
             <div class="card add-card text-white no-shadow">
               <div class="suitcaseWrapper card-img">
                 <img class="suitcaseFrame img-responsive" src="/assets/img/suitcaseFrame.png" alt="Suitcase Frame">

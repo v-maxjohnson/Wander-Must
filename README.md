@@ -77,23 +77,35 @@ The color scheme and design were chosen to impart a modern, feminine aesthetic, 
 
 Here are some of the features to be included in any future development for this project:
 
-1. Persistent search bar to find cities
+1. Hosted photos of trips, avatar and items.
 
-2. Updating user details
+2. Persistent search bar to find cities
 
-3. Deleting suitcases
+3. Updating user details
 
-4. Updating suitcase details
+4. Deleting suitcases
 
-5. Note fields for suitcases
+5. Updating suitcase details
 
-6. User creation of new items not already in database
+6. Note fields for suitcases
 
-7. Password recovery and reset
+7. Multiple destination suitcases
 
-8. Social network signup/login
+8. User creation of new items not already in database
 
-9. Printable packing lists
+9. Password recovery and reset
+
+10. Social media signup/login
+
+11. Printable packing lists
+
+12. Create space for sites like expedia to show airfare/hotel prices
+
+13. More mobile-first design and creation of app
+
+14. Modals for quick view of suitcases
+
+15. Integration with other social media channels
 
 
 ## Node Packages Used

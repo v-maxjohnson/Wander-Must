@@ -44,6 +44,7 @@ $(document).ready(function () {
                 checkedArray.push(checked_id);
             });
 
+            // only execute if user has selected at least one item
             if (checkedArray.length) {
                 // ajax to pass the ids array to the endpoint and add them for user's current suitcase (for user who is visiting this suitcase)
                 $.ajax({

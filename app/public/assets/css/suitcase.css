@@ -1,3 +1,5 @@
+/* STYLES FOR SUITCASE CARDS */
+
 .suitcaseCard {
     max-height: 100%;
     margin-top: 10px;
@@ -10,7 +12,7 @@
 .suitcaseWrapper {
     max-width: 100%;
 }
-  
+
 .suitcaseFrame {
     position: relative;
     width: 100%;
@@ -18,6 +20,7 @@
     cursor: pointer;
     z-index: 5;
 }
+
 .suitcasePhoto {
     position: absolute;
     top: 0;
@@ -48,12 +51,13 @@
 .trip-details {
     opacity: 5%;
     padding: 2%;
-    position: absolute; 
+    position: absolute;
     bottom: 12%;
     right: 10%;
 }
+
 .card {
- box-shadow: none;
+    box-shadow: none;
 }
 
 .modal.show {
@@ -62,7 +66,8 @@
     justify-content: center;
     align-content: center;
     align-items: flex-start;
-    max-width: none;;
+    max-width: none;
+    ;
 }
 
 .modal .modal-dialog {
@@ -77,10 +82,10 @@
     font-weight: 400;
     font-size: 15px;
     text-align: right!important;
-    background-color: rgba(0,0,0,.7);
+    background-color: rgba(0, 0, 0, .7);
     border-radius: 15px;
     display: block;
-    box-shadow: 1px 1px 10px rgba(255,255,255,.5);
+    box-shadow: 1px 1px 10px rgba(255, 255, 255, .5);
 }
 
 .plus-icon {
@@ -89,7 +94,7 @@
     top: 50%;
     bottom: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
 }
 
 .add-card {
@@ -98,7 +103,7 @@
 }
 
 .add-card:hover {
-    background-color: rgba(0,0,0,.6);
+    background-color: rgba(0, 0, 0, .6);
     transition: .2s all ease-in-out;
     color: black!important;
 }

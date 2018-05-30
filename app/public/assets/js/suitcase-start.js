@@ -47,15 +47,18 @@ $(document).ready(function () {
                 checkedArray.push(checked_id);
             });
 
-            // ajax to pass the ids array to the endpoint and add them for user's current suitcase
-            $.ajax({
-                url: "/api/suitcase/" + suitcaseId + "/addItems",
-                type: "post",
-                data: { ids: checkedArray },
-                success: () => {
-                    window.location.href = "/suitcase/" + suitcaseId; // redirect to that suitcase upon success
-                }
-            })
+            // only execute if user has selected at least one item
+            if (checkedArray.length) {
+                // ajax to pass the ids array to the endpoint and add them for user's current suitcase
+                $.ajax({
+                    url: "/api/suitcase/" + suitcaseId + "/addItems",
+                    type: "post",
+                    data: { ids: checkedArray },
+                    success: () => {
+                        window.location.href = "/suitcase/" + suitcaseId; // redirect to that suitcase upon success
+                    }
+                })
+            };
         });
     };
 });

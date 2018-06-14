@@ -3,7 +3,7 @@ var express = require("express");
 // passport is necessary for auth and is thus passed in this function
 module.exports = function (app, passport) {
 
-    app.get("/index", function (req, res) {
+    app.get("/", function (req, res) {
         res.render("index");
     });
 
@@ -43,6 +43,6 @@ module.exports = function (app, passport) {
     function isLoggedIn(req, res, next) {
         if (req.isAuthenticated())
             return next();
-        res.redirect("/index");
+        res.redirect("/");
     }
 };

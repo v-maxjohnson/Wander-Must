@@ -3,7 +3,7 @@ var db = require("../models");
 
 module.exports = function (app) {
 
-    //GET route for getting all **items** pertaining to a specific suitcase
+    //GET route for getting all **items** pertaining to a specific *suitcase*
     app.get("/api/suitcase/:suitcase_id", (req, res) => {
         db.Suitcase.findOne({
             where: {
@@ -13,11 +13,28 @@ module.exports = function (app) {
                 { model: db.User },
                 { model: db.Item }
             ]
-        }).then((dbSuitcase) => {
-            res.json(dbSuitcase);
-        }).catch((err) => {
-            res.json(err);
-        });
+        }).then( dbSuitcase => 
+            res.json(dbSuitcase)
+        ).catch( err => 
+            res.json(err)
+        );
+    });
+
+    //GET route for getting all **suitcases** pertaining to a specific *location*
+    app.get("/api/suitcase/:locale", (req, res) => {
+        db.Suitcase.findAll({
+            where : {
+                locale_id: req.params.locale_id
+            },
+            include: [
+                { model: db.User },
+                { model: db.Item }
+            ]
+        }).then( dbSuitcases =>
+            res.json(dbSuitcases)
+        ).catch( err => 
+            res.json(err)
+        );
     });
 
     //POST route for creating and saving a new **suitcase**
@@ -27,7 +44,7 @@ module.exports = function (app) {
                 id: req.body.locale_id
             },
             include: [db.Suitcase]
-        }).then(locale => {
+        }).then( locale => {
             if (locale) {
                 db.Suitcase.create({
                     start_date: req.body.start_date,
@@ -36,20 +53,20 @@ module.exports = function (app) {
                     user_id: req.body.user_id,
                     locale_id: req.body.locale_id
                 })
-                    .then(suitcase => {
-                        let newObj = Object.assign(suitcase.get(), {
-                            "hadPreviousSuitcases": (locale.Suitcases.length !== 0)
-                        });
-                        res.json(newObj);
-                    })
-                    .catch(err => {
-                        res.json(err);
+                .then( suitcase => {
+                    let newObj = Object.assign(suitcase.get(), {
+                        "hadPreviousSuitcases": (locale.Suitcases.length !== 0)
                     });
+                    res.json(newObj);
+                })
+                .catch(err => {
+                    res.json(err);
+                });
             }
         });
     });
 
-    //POST route for checking if an item already exist in the user's suitcase so that no duplicates can be added
+    //POST route for checking if an **item** already exist in the user's *suitcase* so that no duplicates can be added
     app.post("/api/suitcase/:suitcase_id/addItems", (req, res) => {
         db.Suitcase.findOne({
             where: {
@@ -57,39 +74,39 @@ module.exports = function (app) {
             },
             include: [db.Item]
         })
-            .then(dbSuitcase => {
+            .then( dbSuitcase => {
                 let existingItems = dbSuitcase.Items.map(i => i.id);
                 let newItems = req.body.ids;
                 let allItems = newItems.concat(existingItems).map(i => Number(i));
 
                 return dbSuitcase.setItems(allItems);
             })
-            .then(
-                result => res.json(result)
+            .then( result => 
+                res.json(result)
             )
-            .catch(err => {
+            .catch( err => {
                 res.json(err);
             });
     });
 
-    //DELETE route for deleting an item in a suitcase
+    //DELETE route for deleting an **item** in a *suitcase*
     app.delete("/api/suitcase/:suitcase_id/:item_id", (req, res) => {
         db.Suitcase.findOne({
             where: {
                 id: req.params.suitcase_id
             },
             include: [db.Item]
-        }).then(dbSuitcase => {
+        }).then( dbSuitcase => {
             dbSuitcase.removeItem(req.params.item_id)
                 .then(function () {
                     return res.json(dbSuitcase);
                 })
-                .catch((err) => {
-                    res.json(err);
-                });
-        }).catch(err => {
-            res.json(err);
-        });
+                .catch( err =>
+                    res.json(err)
+                );
+        }).catch( err =>
+            res.json(err)
+        );
     });
 
     //DELETE route for deleting a **suitcase**
@@ -98,10 +115,11 @@ module.exports = function (app) {
             where: {
                 id: req.params.suitcase_id
             }
-        }).then((dbSuitcase) => {
-            res.json(dbSuitcase);
-        }).catch((err) => {
-            res.json(err);
-        });
+        }).then( dbSuitcase =>
+            res.json(dbSuitcase)
+        ).catch( err =>
+            res.json(err)
+        );
     });
+
 };

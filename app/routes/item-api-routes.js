@@ -9,14 +9,14 @@ module.exports = function (app) {
             where: {
                 item_name: req.body.item_name
             }
-        }).then(dbItem => {
+        }).then( dbItem => {
             if (dbItem === null) {
                 db.Item.create({
                     item_name: req.body.item_name,
                     item_category: req.body.item_category
-                }).then((item) => {
-                    res.status(200).json(item);
-                });
+                }).then( item =>
+                    res.status(200).json(item)
+                );
             }
             else {
                 return res.json({
@@ -24,8 +24,9 @@ module.exports = function (app) {
                     item: dbItem
                 });
             }
-        }).catch((err) => {
-            res.json(err);
-        });
+        }).catch( err =>
+            res.json(err)
+        );
     });
+    
 };

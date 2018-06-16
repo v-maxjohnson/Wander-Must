@@ -19,7 +19,7 @@ module.exports = function (sequelize, DataTypes) {
     item_amount: {
       type: DataTypes.INTEGER,
       // restrict item amount from being empty
-      allowNull: false
+      allowNull: true
     }
   }, {
       // disable timestamps

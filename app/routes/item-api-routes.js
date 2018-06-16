@@ -29,4 +29,20 @@ module.exports = function (app) {
         );
     });
     
+    //PUt route for updating an **item_amount** in a *user's suitcase*
+    app.put("/api/:item", (req, res) => {
+        dbSuitcase.Items.findOne({
+            where: {
+                id: req.params.id
+            }
+        }).then( dbItem => 
+            dbItem.update({
+                item_amount: req.body.amount
+            }).catch( err => 
+                res.json(err)
+            )
+        ).catch( err => 
+            res.json(err)
+        );
+    });
 };

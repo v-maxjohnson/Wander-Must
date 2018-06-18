@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import Navbar from "./Navbar";
 
 export default class Header extends Component {
   render() {
     return (
-      <div className="header">
-        { this.props.children }
-      </div>
+      <header>
+        <Navbar />
+      </header>
     )
   }
 }

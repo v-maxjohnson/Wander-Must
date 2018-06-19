@@ -3,9 +3,6 @@
 The must have packing app.
 
 
-<<<<<<< HEAD
-**Watch the [demo](https://drive.google.com/file/d/1ggXuoOLB8AeF9eidNcuNpyxsOlWJkOZc/view)**
-=======
 ## Concept
 
 [Wander-Must](https://wander-must.herokuapp.com/)
@@ -155,4 +152,3 @@ The Wander-Must Team:
 
 - **Evan Seaman** - [Evan Seaman](https://github.com/evanjosephcode)
     - External API, AJAX, jQuery, Test Suite
->>>>>>> 69f72176854c3d1d9c3f12cd6c241d19bb18d187

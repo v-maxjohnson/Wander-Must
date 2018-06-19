@@ -1,23 +1,44 @@
 import React, { Component } from 'react';
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem } from 'reactstrap';
+import "../styles/Navbar.css";
 
-export default class Navbar extends Component {
+export default class Navibar extends Component {
+  constructor(props) {
+    super(props);
+
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      isOpen: false
+    };
+  }
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
+
   render() {
     return (
-      <nav className="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" color-on-scroll="100" id="sectionsNav">
-    <div className="container">
+<div>
+        <Navbar className="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" color-on-scroll="100" id="sectionsNav">
+        <div className="container">
       <div className="navbar-translate">
-        <a className="navbar-brand wandermust-font" href="/">
-          Wander-Must </a>
-        <button className="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-          <span className="navbar-toggler-icon"></span>
-          <span className="navbar-toggler-icon"></span>
-        </button>
-      </div>
-      <div className="collapse navbar-collapse">
-        <ul className="navbar-nav ml-auto">
-
-          <li id="login-dropdown" className="nav-item dropdown">
+          <NavbarBrand className="navbar-brand wandermust-font"  href="/">Wander-Must</NavbarBrand>
+          <NavbarToggler onClick={this.toggle} />
+          <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav className="navbar-nav ml-auto" navbar>
+            <li id="login-dropdown" className="nav-item dropdown">
             <a href="#" className="dropdown-toggle nav-link" data-toggle="dropdown">
               <i className="fa fa-user-circle" title="Profile Page"> </i>
             </a>
@@ -61,11 +82,13 @@ export default class Navbar extends Component {
           <li className="nav-item" id="logout">
             <button className="btn btn-primary btn-sm px-3 py-2" id="logout-btn">Logout</button>
           </li>
-
-        </ul>
-      </div>
+            </Nav>
+          </Collapse>
+          </div>
     </div>
-  </nav>
+        </Navbar>
+      </div>
+   
     )
   }
 }

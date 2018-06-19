@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import "../styles/Main.css";
 
 export default class Main extends Component {
   render() {
     return (
       <div className="main">
-        <div className="page-header header-filter" data-parallax="true">
+        <div id="background-home" className="page-header header-filter" data-parallax="true">
           <div className="container">
             <div className="row">
               <div className="col-md-12">

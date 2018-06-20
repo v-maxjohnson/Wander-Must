@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import "../styles/Main.css";
 
-export default class Main extends Component {
+export default class Suitcase extends Component {
   render() {
     return (
-      <div className="main">
+      <div className="suitcase">
         { this.props.children }
       </div>
-        )
+    )
   }
 }

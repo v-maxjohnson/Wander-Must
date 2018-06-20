@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import Main from "../components/Main";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import "../styles/Search.css";
 
 export default class Search extends Component {
   render() {
     return (
-      <div className="search">
+      <div className="search profile-page sidebar-collapse">
         <Header />
         <Main>
           <div className="page-header header-filter" data-parallax="true" id="background-search"></div>
@@ -32,6 +33,7 @@ export default class Search extends Component {
             </div>
           </div>
         </Main>
+        <Footer />
       </div>
     )
   }

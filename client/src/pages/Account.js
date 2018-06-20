@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import Main from "../components/Main";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import "../styles/Account.css";
 
 export default class Account extends Component {
   render() {
     return (
-      <div className="account">
+      <div className="account profile-page sidebar-collapse">
         <Header />
         <Main>
           <div className="page-header header-filter" id="background-account" data-parallax="true"></div>
@@ -36,6 +37,7 @@ export default class Account extends Component {
             </div>
           </div>
         </Main>
+        <Footer />
       </div>
     )
   }

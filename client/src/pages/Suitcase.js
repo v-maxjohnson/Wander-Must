@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import Main from "../components/Main";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import suitcaseHandleWhite from "../suitcase-handle-white.png";
 import "../styles/Suitcase.css";
 
 export default class Suitcase extends Component {
   render() {
     return (
-      <div className="suitcase">
+      <div className="suitcase profile-page sidebar-collapse">
         <Header />
         <Main>
           <div className="page-header header-filter" data-parallax="true" id="background-suitcase"></div>
@@ -142,6 +143,7 @@ export default class Suitcase extends Component {
             </div>
           </div>
         </Main>
+        <Footer />
       </div>
     )
   }

@@ -7,14 +7,13 @@ import Items from "./pages/Items";
 import Profile from "./pages/Profile";
 import Search from "./pages/Search";
 import Suitcase from "./pages/Suitcase";
-import Footer from "./components/Footer";
 import "./App.css";
 
 class App extends Component {
   render() {
     return (
       <Router>
-        <div className="App profile-page sidebar-collapse">
+        <div className="App">
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/signup" component={Signup} />
@@ -26,7 +25,6 @@ class App extends Component {
             <Route exact path="/suitcase/:id" component={Suitcase} />
             {/* <Route component={NoMatch} /> */}
           </Switch>
-          <Footer />
         </div>
       </Router>
     );

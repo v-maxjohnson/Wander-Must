@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import Main from "../components/Main";
+import Header from "../components/Header";
 import "../styles/Home.css";
 
 export default class Home extends Component {
   render() {
     return (
       <div className="home">
+      <Header />
         <Main>
           <div id="background-home" className="page-header header-filter" data-parallax="true">
             <div className="container">

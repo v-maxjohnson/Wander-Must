@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import Main from "../components/Main";
+import Header from "../components/Header";
 import "../styles/Profile.css";
 
 export default class Profile extends Component {
   render() {
     return (
       <div className="profile">
+        <Header />
         <Main>
           <div className="page-header header-filter" id="background-profile" data-parallax="true"></div>
           <div className="main main-raised">

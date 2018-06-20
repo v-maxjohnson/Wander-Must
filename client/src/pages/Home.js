@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import Main from "../components/Main";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import "../styles/Home.css";
 
 export default class Home extends Component {
   render() {
     return (
-      <div className="home">
+      <div className="home profile-page sidebar-collapse">
       <Header />
         <Main>
           <div id="background-home" className="page-header header-filter" data-parallax="true">
@@ -138,6 +139,7 @@ export default class Home extends Component {
             </div>
           </div>
         </Main>
+        <Footer />
       </div>
     )
   }

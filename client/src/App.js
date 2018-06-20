@@ -7,7 +7,6 @@ import Items from "./pages/Items";
 import Profile from "./pages/Profile";
 import Search from "./pages/Search";
 import Suitcase from "./pages/Suitcase";
-import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./App.css";
 
@@ -16,7 +15,6 @@ class App extends Component {
     return (
       <Router>
         <div className="App profile-page sidebar-collapse">
-          <Header />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/signup" component={Signup} />

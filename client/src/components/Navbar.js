@@ -37,11 +37,15 @@ export default class Navibar extends Component {
                 <NavItem className="nav-item">
                   <Login />
                 </NavItem>
+                <NavItem id="user-name-link" className="nav-item">
+                  <p className="nav-link" id="user-name-text">&nbsp;
+            </p>
+
+                </NavItem>
                 <NavItem className="nav-item">
                   <a href="/profile/" id="profile-link-button" className="nav-link">
                     <i className="fa fa-user-circle" title="Profile Page"> </i>
                   </a>
-
                 </NavItem>
 
                 <NavItem className="nav-item">

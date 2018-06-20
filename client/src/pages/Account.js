@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import "../styles/Main.css";
 
-export default class Main extends Component {
+export default class Account extends Component {
   render() {
     return (
-      <div className="main">
+      <div className="account">
         { this.props.children }
       </div>
-        )
+    )
   }
 }

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import "../styles/Main.css";
 
-export default class Main extends Component {
+export default class Search extends Component {
   render() {
     return (
-      <div className="main">
+      <div className="search">
         { this.props.children }
       </div>
-        )
+    )
   }
 }

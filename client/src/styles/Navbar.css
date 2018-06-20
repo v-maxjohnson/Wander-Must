@@ -1,0 +1,21 @@
+/* NAVBAR */
+
+.dropdown-menu {
+    position: absolute;
+    left: -100px;
+}
+
+#suitcase-link {
+    cursor: pointer;
+}
+
+#user-name-text {
+    margin: 10px!important;
+    font-family: "Reem Kufi", sans-serif;
+    font-size: 18px;
+    text-transform: none!important;
+}
+
+.suitcase-input {
+    cursor: pointer;
+}

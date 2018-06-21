@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, Input } from 'reactstrap';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "../styles/Login.css";
 
 export default class Login extends Component {

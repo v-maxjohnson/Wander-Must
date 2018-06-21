@@ -1,0 +1,133 @@
+#background-suitcase {
+    background-image: url('../images/city-profile.jpg');
+}
+
+/* SUITCASE PAGES */
+
+.suitcase-header {
+    background: none!important;
+    color: black!important;
+    font-family: "Reem Kufi", sans-serif;
+    font-size: 16px!important;
+}
+
+.items-section {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+.new-suitcase {
+    display: inherit;
+}
+
+.suitcase-nav {
+    justify-content: center;
+    width: 100%;
+}
+
+.city-name p {
+    margin-top: 10px;
+    font-family: "Reem Kufi", sans-serif;
+    font-size: 24px!important;
+    line-height: 32px;
+}
+
+.locale-city {
+    text-transform: capitalize;
+}
+
+.form-check-label {
+    color: black;
+}
+
+.trash-icon {
+    font-size: 18px;
+    margin-right: 5px;
+    color: #9C27B0;
+    cursor: pointer;
+}
+
+.non-click-label {
+    color: black!important;
+    margin-left: 5px!important;
+}
+
+.badge-pill {
+    margin: .3125rem 1px!important;
+}
+
+/* HANDLE ON SUITCASE PAGES */
+
+.handle {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: -42px;
+}
+
+.profile-handle img {
+    max-width: 2000px!important;
+    margin: 0 auto;
+    transform: translate3d(0, -50%, 0);
+    width: 200%;
+    margin: 0 auto;
+}
+
+.handle-image {
+    width: 100px;
+    margin: 0 auto;
+}
+
+.handle-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    width: 75%;
+    height: 50%;
+    margin: 0 auto;
+    border-radius: 25px 25px 0 0;
+    font-family: "Courgette", cursive;
+    color: black;
+    text-align: center;
+}
+
+.handle-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 75%;
+    height: 50%;
+    margin: 0 auto;
+}
+
+.handle-left {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    width: 12%;
+    height: 100%;
+    background-color: white;
+}
+
+.handle-right {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    width: 12%;
+    height: 100%;
+    background-color: white;
+}
+
+.handle-text {
+    font-size: 6vw;
+    position: absolute;
+    bottom: 25%;
+    left: 0;
+    right: 0;
+}

@@ -11,8 +11,8 @@ export default class Suitcases extends Component {
                     <div className="suitcaseWrapper card-img">
                         <a className="suitcase-link" href="/suitcase/{this.props.id}">
                             <img className="suitcasePhoto img-responsive" src="" alt="Card image" data-id="{this.props.id}" data-city={this.props.Locale.locale_city}
-                                data-admin={this.props.Locale.locale_admin} data-country={this.props.Locale.locale_country} data-start={{this:start_date}}
-                                data-end={{this:end_date}}/>
+                                data-admin={this.props.Locale.locale_admin} data-country={this.props.Locale.locale_country} data-start={this.props.start_date}
+                                data-end={this.props.end_date}/>
                             <img className="suitcaseFrame img-responsive" src="/assets/img/suitcaseFrame.png" alt="Suitcase Frame" />
                         </a>
                     </div>

@@ -52,6 +52,18 @@
     margin-left: 5px!important;
 }
 
+.badge {
+    font-family: 'Reem Kufi', sans-serif;
+    text-transform: capitalize!important;
+    font-weight: 400;
+    font-size: 15px!important;
+    text-align: right!important;
+    background-color: rgba(0, 0, 0, .7);
+    border-radius: 15px;
+    display: block;
+    box-shadow: 1px 1px 10px rgba(255, 255, 255, .5);
+}
+
 .badge-pill {
     margin: .3125rem 1px!important;
 }

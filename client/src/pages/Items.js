@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Category from "../components/Category";
+import Item from "../components/Item";
 import "../styles/Items.css";
 import "../styles/Suitcase.css";
 
@@ -35,71 +37,64 @@ export default class Items extends Component {
               <div className="col-12">
                 <div id="items">
 
-                  <div className="row">
-                    <div className="offset-1 col-11">
-                      <div className="title row">
-                        <div>
-                          <span className="badge badge-pill badge-info">Toiletries</span>
-                        </div>
-                        <div>
-                          <button data-category="toiletries" className="all btn btn-primary btn-sm ml-3">Select all</button>
-                        </div>
+                  <Category>
+                    <div className="title row">
+                      <div>
+                        <span className="badge badge-pill badge-info">Toiletries</span>
                       </div>
-                      <div className="row cat-row" id="toiletries">
-
+                      <div>
+                        <button data-category="toiletries" className="all btn btn-primary btn-sm ml-3">Select all</button>
                       </div>
                     </div>
-                  </div>
+                    <div className="row cat-row" id="toiletries">
+                    <Item />
 
-                  <div className="row">
-                    <div className="offset-1 col-11">
-                      <div className="title row">
-                        <div>
-                          <span className="badge badge-pill badge-info">Clothing</span>
-                        </div>
-                        <div>
-                          <button data-category="clothing" className="all btn btn-primary btn-sm ml-3">Select all</button>
-                        </div>
+                    </div>
+                  </Category>
+
+                  <Category>
+                    <div className="title row">
+                      <div>
+                        <span className="badge badge-pill badge-info">Clothing</span>
                       </div>
-                      <div className="row cat-row" id="clothing">
-
+                      <div>
+                        <button data-category="clothing" className="all btn btn-primary btn-sm ml-3">Select all</button>
                       </div>
                     </div>
-                  </div>
+                    <div className="row cat-row" id="clothing">
+
+                    </div>
+                  </Category>
 
 
-                  <div className="row">
-                    <div className="offset-1 col-11">
-                      <div className="title row">
-                        <div>
-                          <span className="badge badge-pill badge-info">Accessories</span>
-                        </div>
-                        <div>
-                          <button data-category="accessories" className="all btn btn-primary btn-sm ml-3">Select all</button>
-                        </div>
+                  <Category>
+                    <div className="title row">
+                      <div>
+                        <span className="badge badge-pill badge-info">Accessories</span>
                       </div>
-                      <div className="row cat-row" id="accessories">
-
+                      <div>
+                        <button data-category="accessories" className="all btn btn-primary btn-sm ml-3">Select all</button>
                       </div>
                     </div>
-                  </div>
+                    <div className="row cat-row" id="accessories">
+
+                    </div>
+                  </Category>
 
 
-                  <div className="row">
-                    <div className="offset-1 col-11">
-                      <div className="title row">
-                        <div>
-                          <span className="badge badge-pill badge-info">Electronics</span>
-                        </div>
-                        <div>
-                          <button data-category="electronics" className="all btn btn-primary btn-sm ml-3">Select all</button>
-                        </div>
+                  <Category>
+                    <div className="title row">
+                      <div>
+                        <span className="badge badge-pill badge-info">Electronics</span>
                       </div>
-                      <div className="row cat-row" id="electronics">
-
+                      <div>
+                        <button data-category="electronics" className="all btn btn-primary btn-sm ml-3">Select all</button>
                       </div>
                     </div>
-                  </div>
+                    <div className="row cat-row" id="electronics">
+
+                    </div>
+                  </Category>
 
                 </div>
               </div>

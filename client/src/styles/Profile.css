@@ -1,3 +1,56 @@
 #background-profile {
     background-image: url('../images/city-profile.jpg');
 }
+
+.suitcaseFrame {
+    position: relative;
+    width: 100%;
+    background-repeat: none;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.suitcaseCard {
+    max-height: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    float: left;
+}
+
+.card {
+    box-shadow: none!important;
+}
+
+.suitcaseWrapper {
+    max-width: 100%;
+    box-shadow: none;
+}
+
+/* Add Suitcase only on profile */
+
+.plus-icon {
+    font-size: 55px;
+    position: absolute;
+    top: 50%;
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.suitcaseCard .card {
+    background: black;
+    /* this is to overwrite the loss of backgrounf through material kit */
+}
+
+.add-card {
+    background-color: black;
+    color: white!important;
+}
+
+.add-card:hover {
+    background-color: rgba(0, 0, 0, .6);
+    transition: .2s all ease-in-out;
+    color: black!important;
+}

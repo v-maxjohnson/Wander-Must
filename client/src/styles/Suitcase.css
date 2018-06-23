@@ -68,7 +68,17 @@
     margin: .3125rem 1px!important;
 }
 
-/* HANDLE ON SUITCASE PAGES */
+.plus-icon {
+    font-size: 55px;
+    position: absolute;
+    top: 50%;
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* HANDLE ON SUITCASE PAGES
 
 .handle {
     position: absolute;
@@ -142,4 +152,4 @@
     bottom: 25%;
     left: 0;
     right: 0;
-}
+} */

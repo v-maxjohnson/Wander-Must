@@ -12,12 +12,11 @@ const yelp = require('yelp-fusion');
 // from https://www.yelp.com/developers/v3/manage_app
 const apiKey = 'te8cuUAAywnS6fTyQVVOj1vRJ-ybh4BijgLA2wgVF6Hk3x70QSiymfYF5Day-HTlD1hwZkniAQcj8GSqId4LAdyjCmFBNoJfd5dDncvaV6PgiHXlPHC4fxqiE_QrW3Yx';
 
-var zipcode = 78746;
-var zipcode = zipcode ? zipcode : null;
-
+// var zipcode = 78746;
+// var zipcode = zipcode ? zipcode : null;
 
 // yelp only works up to 25 miles,
-let radiusMiles = 1;
+let radiusMiles = 5;
 
 if (radiusMiles >= 25) {
   radiusMiles = 25;
@@ -32,9 +31,9 @@ var radiusMeters = radiusMiles * 1600;
 
 const searchRequest = {
   // term could be name of a business too / restaurant / food types, etc. 
-  term: 'american',
+  term: 'bbq',
   // put in city and locale   
-  location: 'austin, tx' + '+' + zipcode,
+  location: 'austin, tx',
   radius: radiusMeters
 
 };

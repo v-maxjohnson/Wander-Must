@@ -11,7 +11,7 @@ import itemType from './item';
 export default new GraphQLObjectType({
     name: 'UserType',
     fields: () => ({
-        _id: {
+        id: {
             type: GraphQLString
         },
         username: {
@@ -29,14 +29,14 @@ export default new GraphQLObjectType({
         user_image : {
             type: GraphQLString
         },
-        locales: {
-            type: GraphQLList(localeType)
-        },
-        suitases: {
-            type: GraphQLList(suitcaseType)
-        },
-        items : {
-            type: GraphQLList(itemType)
+        Suitcases: {
+            type: GraphQLList(suitcaseType),
+            Locale: {
+                type: localeType
+                },
+            Items : {
+                type: GraphQLList(itemType)
+            }
         }
     })
 });

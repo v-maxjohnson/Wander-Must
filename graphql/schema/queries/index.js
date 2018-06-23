@@ -20,15 +20,15 @@ export default new GraphQLObjectType({
         },
         allLocales: {
             type: GraphQLList(localeType),
-            resolve: () => resolvers.locales.findAll()
+            resolve: () => resolvers.locale.findAll()
         },
         allSuitcases: {
             type: GraphQLList(suitcaseType),
-            resolve: () => resolvers.suitcases.findAll()
+            resolve: () => resolvers.suitcase.findAll()
         },
         allItems: {
             type: GraphQLList(itemType),
-            resolve: () => resolvers.items.findAll()
+            resolve: () => resolvers.item.findAll()
         }
     })
 })

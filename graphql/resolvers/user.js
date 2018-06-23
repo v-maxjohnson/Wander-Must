@@ -1,8 +1,28 @@
+//require our models
+var db = require("../../models");
+
+let unpackSequelize = data => {
+    data = data.map( node => node.get({plain: true}) )
+    return data;
+}
+
 export default {
     findAll : () => {
-        return [
-            {_id: "1", username: "aklatzke"},
-            {_id: "2", username: "xander"}
-        ]
+        return (
+            db.User.findAll({
+                include: [
+                    {
+                      model: db.Suitcase, include: [
+                            { model: db.Locale },
+                            { model: db.Item }
+                        ]
+                    }
+                ]
+            })
+            .then( dbUsers => unpackSequelize(dbUsers) )
+            .catch( err => 
+               err
+            )
+        )
     }
 }

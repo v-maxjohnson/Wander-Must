@@ -29,7 +29,7 @@ const travelCategory = new GraphQLEnumType({
 export default new GraphQLObjectType({
     name: 'SuitcaseType',
     fields: () => ({
-        _id: {
+        id: {
             type: GraphQLString
         },
         start_date: {
@@ -44,10 +44,10 @@ export default new GraphQLObjectType({
         notes: {
             type: GraphQLString
         },
-        locales: {
-            type: GraphQLList(localeType)
+        Locale: {
+            type: localeType
         },
-        items : {
+        Items : {
             type: GraphQLList(itemType)
         }
     })

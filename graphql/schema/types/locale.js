@@ -6,7 +6,7 @@ import {
 export default new GraphQLObjectType({
     name: 'LocaleType',
     fields: () => ({
-        _id: {
+        id: {
             type: GraphQLString
         },
         locale_city: {

@@ -26,7 +26,7 @@ const itemCategory = new GraphQLEnumType({
 export default new GraphQLObjectType({
     name: 'ItemType',
     fields: () => ({
-        _id: {
+        id: {
             type: GraphQLString
         },
         item_name: {

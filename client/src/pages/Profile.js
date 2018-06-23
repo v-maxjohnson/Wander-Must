@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import SuitcaseFrame from "../images/suitcaseFrame.png"
 import "../styles/Profile.css";
 
 export default class Profile extends Component {
@@ -32,7 +33,7 @@ export default class Profile extends Component {
                     <div className="suitcaseCard suitcase-input" id="blank-suitcase" data-toggle="modal" data-target="#suitcase-modal">
                       <div className="card add-card text-white no-shadow">
                         <div className="suitcaseWrapper card-img">
-                          <img className="suitcaseFrame img-responsive" src="/assets/img/suitcaseFrame.png" alt="Suitcase Frame" />
+                          <img className="suitcaseFrame img-responsive" src={SuitcaseFrame} alt="Suitcase Frame" />
                         </div>
                         <div className="card-img-overlay">
                           <i className="fa fa-plus plus-icon"></i>

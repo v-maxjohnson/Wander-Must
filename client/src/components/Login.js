@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, Input } from 'reactstrap';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+// import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "../styles/Login.css";
 
 export default class Login extends Component {
@@ -42,7 +42,7 @@ export default class Login extends Component {
             onChange={this.handleChange}
             />
             <label htmlFor="password">Password</label>
-            <Input name="password" type="password" name="password" 
+            <Input name="password" type="password"  
             value={this.state.password}
             onChange={this.handleChange}
             />

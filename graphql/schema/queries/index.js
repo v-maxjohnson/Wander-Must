@@ -16,7 +16,7 @@ export default new GraphQLObjectType({
     fields : () => ({
         allUsers: {
             type: GraphQLList(userType),
-            resolve: () => resolvers.users.findAll()
+            resolve: () => resolvers.user.findAll()
         },
         allLocales: {
             type: GraphQLList(localeType),

@@ -7,11 +7,10 @@ const graphQLHTTP = require('express-graphql');
 require('babel-register');
 const PORT = process.env.PORT || 3001;
 const app = express();
-let gqlSchema = require('./client/src/graphql/schema');
-
+let gqlSchema = require('./graphql/schema');
 
 app.use('/graphql', new graphQLHTTP({
- schema: gqlSchema,
+ schema: gqlSchema.default,
  graphiql: true,
  pretty: true
 }))

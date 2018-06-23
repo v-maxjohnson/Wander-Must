@@ -4,10 +4,15 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Category from "../components/Category";
 import Item from "../components/Item";
+import ItemsList from "../ItemsList.json";
 import "../styles/Items.css";
 import "../styles/Suitcase.css";
 
 export default class Items extends Component {
+  state = {
+    items: ItemsList
+  };
+
   render() {
     return (
       <div className="items profile-page sidebar-collapse">
@@ -47,7 +52,15 @@ export default class Items extends Component {
                       </div>
                     </div>
                     <div className="row cat-row" id="toiletries">
-                    <Item />
+                      {this.state.items
+                        .filter(item => (item.item_category === "toiletries"))
+                        .map(item => (
+                          <Item
+                            key={item.item_name}
+                            itemName={item.item_name}
+                            itemCategory={item.item_category}
+                          />
+                        ))}
 
                     </div>
                   </Category>
@@ -62,6 +75,15 @@ export default class Items extends Component {
                       </div>
                     </div>
                     <div className="row cat-row" id="clothing">
+                      {this.state.items
+                        .filter(item => (item.item_category === "clothing"))
+                        .map(item => (
+                          <Item
+                            key={item.item_name}
+                            itemName={item.item_name}
+                            itemCategory={item.item_category}
+                          />
+                        ))}
 
                     </div>
                   </Category>
@@ -77,6 +99,15 @@ export default class Items extends Component {
                       </div>
                     </div>
                     <div className="row cat-row" id="accessories">
+                      {this.state.items
+                        .filter(item => (item.item_category === "accessories"))
+                        .map(item => (
+                          <Item
+                            key={item.item_name}
+                            itemName={item.item_name}
+                            itemCategory={item.item_category}
+                          />
+                        ))}
 
                     </div>
                   </Category>
@@ -92,6 +123,15 @@ export default class Items extends Component {
                       </div>
                     </div>
                     <div className="row cat-row" id="electronics">
+                      {this.state.items
+                        .filter(item => (item.item_category === "electronics"))
+                        .map(item => (
+                          <Item
+                            key={item.item_name}
+                            itemName={item.item_name}
+                            itemCategory={item.item_category}
+                          />
+                        ))}
 
                     </div>
                   </Category>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, Input } from 'reactstrap';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+// import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "../styles/Login.css";
 
 export default class Login extends Component {
@@ -36,13 +36,13 @@ export default class Login extends Component {
         </DropdownToggle>
         <DropdownMenu className="dropdown-menu dropdown-with-icons">
           <form className="p-8 col-12" >
-            <label htmlFor="email" classname=".col-sm-offset-1">Email Address</label>
+            <label htmlFor="email" className="col-sm-offset-1">Email Address</label>
             <Input className="text" type="email" name="email" 
             value={this.state.email}
             onChange={this.handleChange}
             />
             <label htmlFor="password">Password</label>
-            <Input name="password" type="password" name="password" 
+            <Input name="password" type="password"  
             value={this.state.password}
             onChange={this.handleChange}
             />

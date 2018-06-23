@@ -1,9 +1,10 @@
 'use strict';
 
 // to do's
-// pass through zipcode from trim.val field for line 12
-// pass through city/locale as defined in line 37 instead of austin tx placeholder
-// pass through term in 36 instead of placeholder
+// pass through **zipcode** from trim.val field for line 14
+// pass through **radius** from user input line 20 
+// pass through city/locale as user defined in line 37
+// pass through term in 35 instead of placeholder
 
 const yelp = require('yelp-fusion');
 
@@ -11,18 +12,16 @@ const yelp = require('yelp-fusion');
 // from https://www.yelp.com/developers/v3/manage_app
 const apiKey = 'te8cuUAAywnS6fTyQVVOj1vRJ-ybh4BijgLA2wgVF6Hk3x70QSiymfYF5Day-HTlD1hwZkniAQcj8GSqId4LAdyjCmFBNoJfd5dDncvaV6PgiHXlPHC4fxqiE_QrW3Yx';
 
-var zipcode = 78704;
+var zipcode = 78746;
 var zipcode = zipcode ? zipcode : null;
 
 
 // yelp only works up to 25 miles,
-let radiusMiles = 50;
+let radiusMiles = 1;
 
 if (radiusMiles >= 25) {
   radiusMiles = 25;
-} else {
-  radiusMiles = 5;
-};
+}
 
 // console.log('************************************************************');
 // console.log(radiusMiles);

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import faces from "../images/faces"
 import SuitcaseFrame from "../images/suitcaseFrame.png"
 import "../styles/Profile.css";
 
@@ -19,7 +20,7 @@ export default class Profile extends Component {
                   <div className="col-md-6 ml-auto mr-auto">
                     <div className="profile">
                       <div className="avatar">
-                        <img src="" alt="Avatar" className="img-fluid" />
+                        <img src="{faces}/lion.png" alt="Avatar" className="img-fluid" />
                       </div>
                       <div className="name">
                         <h3 id="profile-user-name" className="title"> </h3>

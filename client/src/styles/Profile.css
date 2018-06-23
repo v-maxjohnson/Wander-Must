@@ -39,7 +39,7 @@
     transform: translate(-50%, -50%);
 }
 
-.card {
+.suitcaseCard .card {
     background: black;
     /* this is to overwrite the loss of backgrounf through material kit */
 }

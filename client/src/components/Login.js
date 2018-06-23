@@ -36,7 +36,7 @@ export default class Login extends Component {
         </DropdownToggle>
         <DropdownMenu className="dropdown-menu dropdown-with-icons">
           <form className="p-8 col-12" >
-            <label htmlFor="email" classname=".col-sm-offset-1">Email Address</label>
+            <label htmlFor="email" className="col-sm-offset-1">Email Address</label>
             <Input className="text" type="email" name="email" 
             value={this.state.email}
             onChange={this.handleChange}

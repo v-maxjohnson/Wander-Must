@@ -2,11 +2,13 @@ import {
     GraphQLObjectType,
     GraphQLString,
     GraphQLList,
-    GraphQLEnumType
+    GraphQLEnumType, 
+    GraphQLInt
   } from 'graphql';
 
 import localeType from './locale';
 import itemType from './item';
+import userType from './user';
 
 const travelCategory = new GraphQLEnumType({
     name: 'TravelCategoryEnum',
@@ -49,6 +51,9 @@ export default new GraphQLObjectType({
         },
         Items : {
             type: GraphQLList(itemType)
+        },
+        User: {
+            type: userType
         }
     })
 });

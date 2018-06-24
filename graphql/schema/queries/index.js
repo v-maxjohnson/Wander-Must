@@ -1,7 +1,8 @@
 import {
     GraphQLObjectType,
     GraphQLList,
-    GraphQLString
+    GraphQLString,
+    GraphQLInt
 } from 'graphql';
 
 import userType from '../types/user';
@@ -29,6 +30,15 @@ export default new GraphQLObjectType({
         allItems: {
             type: GraphQLList(itemType),
             resolve: () => resolvers.item.findAll()
+        },
+        getSuitcase: {
+            type: suitcaseType,
+            args: {
+                id: {
+                    type: GraphQLString
+                }
+            },
+            resolve: ( args ) => resolvers.suitcase.findById( args )
         }
     })
 })

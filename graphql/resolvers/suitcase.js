@@ -30,25 +30,20 @@ export default {
                 ]
             })
             .then( dbSuitcase =>  dbSuitcase ) 
-            )
             .catch( err => err )
-        
+        )
+    },
+    findByLocale: ( id ) => {
+        return (
+            db.Suitcase.findAll({
+                where: id,
+                include : [
+                    { model: db.Item },
+                    { model: db.User }
+                ]
+            })
+            .then( dbSuitcases => unpackSequelize(dbSuitcases) )
+            .catch( err => err )
+        )
     }
 }
-
-//GET route for getting all **suitcases** pertaining to a specific *location*
-// app.get("/api/suitcase/:locale", (req, res) => {
-//     db.Suitcase.findAll({
-//         where : {
-//             locale_id: req.params.locale_id
-//         },
-//         include: [
-//             { model: db.User },
-//             { model: db.Item }
-//         ]
-//     }).then( dbSuitcases =>
-//         res.json(dbSuitcases)
-//     ).catch( err => 
-//         res.json(err)
-//     );
-// });

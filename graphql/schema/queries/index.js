@@ -39,6 +39,15 @@ export default new GraphQLObjectType({
                 }
             },
             resolve: ( args ) => resolvers.suitcase.findById( args )
+        },
+        getAllSuitcasesForLocale: {
+            type: GraphQLList(suitcaseType),
+            args: {
+                locale_id: {
+                    type: GraphQLString
+                }
+            },
+            resolve: ( args ) => resolvers.suitcase.findByLocale( args )
         }
     })
 })

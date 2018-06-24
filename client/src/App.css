@@ -10154,7 +10154,7 @@ legend {
 }
 
 .serif-font {
-  font-family: Roboto Slab, Times New Roman, serif
+  font-family: "Roboto Slab", serif
 }
 
 * {
@@ -13658,7 +13658,7 @@ small {
 .media .media-heading,
 .title {
   font-weight: 700;
-  font-family: Roboto Slab, Times New Roman, serif
+  font-family: "Roboto Slab", serif
 }
 
 .card-title,

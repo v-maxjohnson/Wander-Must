@@ -1,22 +1,37 @@
 //require our models
 var db = require("../../models");
 
+let unpackSequelize = data => {
+    data = data.map( node => node.get( {plain: true} ) )
+    return data;
+ }
+
 export default {
-    // findAll: () => {
-    //     return [
-    //         db.Suitcase.findOne({
-    //             where: {
-    //                 id: req.params.suitcase_id
-    //             },
-    //             include: [
-    //                 { model: db.User },
-    //                 { model: db.Item }
-    //             ]
-    //         }).then(dbSuitcase =>
-    //             res.json(dbSuitcase)
-    //         ).catch(err =>
-    //             res.json(err)
-    //         )
-    //     ]
-    // }
+    findAll: () => {
+        return (
+            db.Suitcase.findAll({
+                include: [
+                    { model: db.User },
+                    { model: db.Item }
+                ]
+            })
+            .then( dbSuitcases => unpackSequelize( dbSuitcases ) )
+            .catch( err => err )
+        )
+    },
+    findById: ( id ) => {
+        return (
+            db.Suitcase.findOne({
+                where: {
+                    id: id
+                },
+                include: [
+                { model: db.User },
+                { model: db.Item }
+                ]
+            })
+            .then( dbSuitcase => unpackSequelize( dbSuitcase ) )
+            .catch( err => err )
+        )
+    }
 }

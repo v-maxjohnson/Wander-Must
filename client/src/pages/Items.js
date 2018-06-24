@@ -20,8 +20,7 @@ export default class Items extends Component {
 
     client.query({
       query: gql` 
-          query findAll {
-            allItems{
+            { allItems {
               item_name,
               item_category 
             }

@@ -29,6 +29,10 @@ export default new GraphQLObjectType({
         allItems: {
             type: GraphQLList(itemType),
             resolve: () => resolvers.item.findAll()
+        },
+        getSuitcase: {
+            type: suitcaseType,
+            resolve: ( id ) => resolvers.suitcase.findById( id )
         }
     })
 })

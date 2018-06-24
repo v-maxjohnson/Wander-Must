@@ -7,11 +7,30 @@ import Item from "../components/Item";
 import ItemsList from "../ItemsList.json";
 import "../styles/Items.css";
 import "../styles/Suitcase.css";
+import gql from "graphql-tag";
+// import client from "../App";
+import ApolloClient from 'apollo-boost';
+
+const client = new ApolloClient();
 
 export default class Items extends Component {
   state = {
-    items: ItemsList
+    items: {}
   };
+
+  componentDidMount() {
+  
+      client.query({
+       query: gql` 
+          query findAll {
+            allItems{
+              item_name,
+              item_category 
+            }
+        }` 
+      }).then(result => this.setState({items: result.data.allItems}));
+      
+  }
 
   render() {
     return (
@@ -75,7 +94,7 @@ export default class Items extends Component {
                       </div>
                     </div>
                     <div className="row cat-row" id="clothing">
-                      {this.state.items
+                      {/* {this.state.items
                         .filter(item => (item.item_category === "clothing"))
                         .map(item => (
                           <Item
@@ -83,7 +102,7 @@ export default class Items extends Component {
                             itemName={item.item_name}
                             itemCategory={item.item_category}
                           />
-                        ))}
+                        ))} */}
 
                     </div>
                   </Category>
@@ -99,7 +118,7 @@ export default class Items extends Component {
                       </div>
                     </div>
                     <div className="row cat-row" id="accessories">
-                      {this.state.items
+                      {/* {this.state.items
                         .filter(item => (item.item_category === "accessories"))
                         .map(item => (
                           <Item
@@ -107,7 +126,7 @@ export default class Items extends Component {
                             itemName={item.item_name}
                             itemCategory={item.item_category}
                           />
-                        ))}
+                        ))} */}
 
                     </div>
                   </Category>
@@ -123,7 +142,7 @@ export default class Items extends Component {
                       </div>
                     </div>
                     <div className="row cat-row" id="electronics">
-                      {this.state.items
+                      {/* {this.state.items
                         .filter(item => (item.item_category === "electronics"))
                         .map(item => (
                           <Item
@@ -131,7 +150,7 @@ export default class Items extends Component {
                             itemName={item.item_name}
                             itemCategory={item.item_category}
                           />
-                        ))}
+                        ))} */}
 
                     </div>
                   </Category>

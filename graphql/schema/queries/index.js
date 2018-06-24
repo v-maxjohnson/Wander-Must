@@ -13,7 +13,7 @@ import resolvers from '../../resolvers';
 
 export default new GraphQLObjectType({
     name: 'Query',
-    fields : () => ({
+    fields: () => ({
         allUsers: {
             type: GraphQLList(userType),
             resolve: () => resolvers.user.findAll()

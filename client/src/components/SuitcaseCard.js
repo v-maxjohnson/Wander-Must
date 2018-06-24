@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import "../styles/SuitcaseCard.css";
+// import "../styles/SuitcaseCard.css";
 import SuitcaseFrame from "../images/suitcaseFrame.png"
 
 export default class SuitcaseCard extends Component {

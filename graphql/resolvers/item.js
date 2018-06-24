@@ -2,7 +2,7 @@
 var db = require("../../models");
 
 let unpackSequelize = data => {
-    data = data.map( node => node.get({plain: true}) )
+    data = data.map( node => node.get( {plain: true} ) )
     return data;
 }
 
@@ -11,9 +11,7 @@ export default {
         return (
             db.Item.findAll({})
             .then( dbItems => unpackSequelize(dbItems) )
-            .catch( err => {
-                err
-            })
+            .catch( err => err )
         )
     }
 }

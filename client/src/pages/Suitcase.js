@@ -7,10 +7,12 @@ import Item from "../components/Item";
 import ItemsList from "../ItemsList.json";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
 import "../styles/Suitcase.css";
+import Wunderground from "../utils/Wunderground";
+
 
 export default class Suitcase extends Component {
   state = {
-    items: ItemsList
+    suitcase: {}
   };
 
   render() {
@@ -59,20 +61,13 @@ export default class Suitcase extends Component {
                           </li>
 
                         </ul>
-                        <ul className="nav suitcase-nav">
-                          <li className="nav-item ">
-                            <p className="nav-link" id="highF"></p>
-                          </li>
-                          <li className="nav-item ">
-                            <p className="nav-link" id="highC"></p>
-                          </li>
-                          <li className="nav-item ">
-                            <p className="nav-link" id="lowF"></p>
-                          </li>
-                          <li className="nav-item ">
-                            <p className="nav-link" id="lowC"></p>
-                          </li>
-                        </ul>
+                        <Wunderground
+                          startDate={this.state.suitcase.start_date}
+                          endDate={this.state.suitcase.end_date}
+                          city={this.state.suitcase.locale_city}
+                          admin={this.state.suitcase.locale_admin}
+                          country={this.state.suitcase.locale_country}
+                        />
                       </div>
                     </div>
                   </div>

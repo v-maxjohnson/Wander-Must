@@ -22,16 +22,16 @@ export default {
     findById: ( id ) => {
         return (
             db.Suitcase.findOne({
-                where: {
-                    id: id
-                },
-                include: [
-                { model: db.User },
-                { model: db.Item }
+                where: id, 
+                include : [ 
+                    { model: db.Item },
+                    { model: db.User },
+                    { model: db.Locale }
                 ]
             })
-            .then( dbSuitcase => unpackSequelize( dbSuitcase ) )
+            .then( dbSuitcase =>  dbSuitcase ) 
+            )
             .catch( err => err )
-        )
+        
     }
 }

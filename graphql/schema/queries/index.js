@@ -40,6 +40,15 @@ export default new GraphQLObjectType({
                 }
             },
             resolve: ( root, args ) => resolvers.suitcase.findById( args )
+        },
+        getUser: {
+            type: userType,
+            args: {
+                id: {
+                    type: GraphQLString
+                }
+            },
+            resolve: ( root, args ) => resolvers.user.findById( args )
         }
     })
 })

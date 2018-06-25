@@ -3,21 +3,53 @@ import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Yelp from "../components/Yelp";
-import UserData from "../scratch.json"
 import SuitcaseCard from "../components/SuitcaseCard"
 import SuitcaseFrame from "../images/suitcaseFrame.png"
 import "../styles/Profile.css";
+import gql from "graphql-tag";
+import ApolloClient from 'apollo-boost';
+
+const client = new ApolloClient();
 
 export default class Profile extends Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      data : UserData
+  state = {
+      userData : {
+        id: "",
+        username: "",
+        gender: "",
+        user_image: "",
+        Suitcases: []
+      }
     }
-  }
 
   componentDidMount() {
-    // GraphQL querie here to get data for this specific profile
+    client.query({
+      query: gql` 
+      {
+        getUser(id: "1") {
+          id
+          username
+          gender
+          user_image
+          Suitcases {
+            id
+            start_date
+            end_date
+            travel_category
+            notes
+            Locale {
+              id
+              locale_city
+              locale_admin
+              locale_country
+            }
+          }
+        }
+      }`
+    }).then(result => {
+      this.setState({ userData: result.data.getUser });
+      console.log(this.state.userData);
+    })
 
   }
 
@@ -34,18 +66,19 @@ export default class Profile extends Component {
                   <div className="col-md-6 ml-auto mr-auto">
                     <div className="profile">
                       <div className="avatar">
-                        <img src={this.state.data.User.profile_image} alt="Avatar" className="img-fluid" />
+                        <img src={this.state.userData.user_image} alt="Avatar" className="img-fluid" />
                       </div>
                       <div className="name">
-                        <h3 id="profile-user-name" className="title"> </h3>
+                        <h3 id="profile-user-name" className="title">{this.state.userData.username}</h3>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="row">
-                  {this.state.data.User.Suitcases.map((suitcase, i) => (
+                  {this.state.userData.Suitcases.map((suitcase) => (
                     <SuitcaseCard
-                      key={i}
+                      key={suitcase.id}
+                      id={suitcase.id}
                       city={suitcase.Locale.locale_city}
                       localeAdmin={suitcase.Locale.locale_admin}
                       country={suitcase.Locale.locale_country}

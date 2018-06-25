@@ -15,6 +15,9 @@ const client = new ApolloClient();
 export default class Suitcase extends Component {
   state = {
     suitcase: {
+      start_date: "",
+      end_date: "",
+      travel_category: "",
       Items: [],
       Locale: [],
       User: []
@@ -79,7 +82,7 @@ export default class Suitcase extends Component {
                 <div className="card card-nav-tabs card-plain">
                   <div className="suitcase-header card-header card-header-default">
 
-                    <div id="suitcase-nav" className="nav-tabs-navigation" data-suitcase_id="{{suitcase.id}}">
+                    <div id="suitcase-nav" className="nav-tabs-navigation">
                       <div className="nav-tabs-wrapper">
                         <ul className="nav suitcase-nav">
                           <li className="nav-item ">
@@ -92,12 +95,12 @@ export default class Suitcase extends Component {
                             <a className="nav-link" id="suitcase-locale" href={"/search/" + this.state.suitcase.Locale.locale_city}>{this.state.suitcase.Locale.locale_city}</a>
                           </li>
                           <li className="nav-item">
-                            <p className="nav-link d-inline-block" id="suitcase-startDate">{this.state.suitcase.start_date ?this.state.suitcase.start_date : null}</p>-
-                  <p className="nav-link d-inline-block" id="suitcase-endDate">{this.state.suitcase.end_date ?this.state.suitcase.end_date : null}</p>
+                            <p className="nav-link d-inline-block" id="suitcase-startDate">{this.state.suitcase.start_date}</p>-
+                  <p className="nav-link d-inline-block" id="suitcase-endDate">{this.state.suitcase.end_date}</p>
                           </li>
 
                           <li className="nav-item">
-                            <p className="nav-link" id="suitcase-travelCategory">{this.state.suitcase.travel_category ?this.state.suitcase.travel_category : null}</p>
+                            <p className="nav-link" id="suitcase-travelCategory">{this.state.suitcase.travel_category}</p>
                           </li>
 
                         </ul>

@@ -1,7 +1,9 @@
 import {
     GraphQLObjectType,
     GraphQLList,
-    GraphQLString
+    GraphQLID,
+  GraphQLString,
+  GraphQLNonNull
 } from 'graphql';
 
 import userType from '../types/user';
@@ -13,7 +15,7 @@ import resolvers from '../../resolvers';
 
 export default new GraphQLObjectType({
     name: 'Query',
-    fields : () => ({
+    fields: () => ({
         allUsers: {
             type: GraphQLList(userType),
             resolve: () => resolvers.user.findAll()
@@ -29,6 +31,24 @@ export default new GraphQLObjectType({
         allItems: {
             type: GraphQLList(itemType),
             resolve: () => resolvers.item.findAll()
+        },
+        getSuitcase: {
+            type: suitcaseType,
+            args: {
+                id: {
+                    type: GraphQLString
+                }
+            },
+            resolve: ( root, args ) => resolvers.suitcase.findById( args )
+        },
+        getUser: {
+            type: userType,
+            args: {
+                id: {
+                    type: GraphQLString
+                }
+            },
+            resolve: ( root, args ) => resolvers.user.findById( args )
         }
     })
 })

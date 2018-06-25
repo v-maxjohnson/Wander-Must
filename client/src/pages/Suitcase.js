@@ -89,7 +89,7 @@ export default class Suitcase extends Component {
                             <p className="nav-link" id="suitcase-user-gender">{this.state.suitcase.User.gender}</p>
                           </li>
                           <li className="nav-item ">
-                            <a className="nav-link" id="suitcase-locale" href="/search/{this.state.suitcase.Locale.locale_city}">{this.state.suitcase.Locale.locale_city}</a>
+                            <a className="nav-link" id="suitcase-locale" href={"/search/" + this.state.suitcase.Locale.locale_city}>{this.state.suitcase.Locale.locale_city}</a>
                           </li>
                           <li className="nav-item">
                             <p className="nav-link d-inline-block" id="suitcase-startDate">{this.state.suitcase.start_date ?this.state.suitcase.start_date : null}</p>-

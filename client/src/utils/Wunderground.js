@@ -1,72 +1,80 @@
 import React, { Component } from 'react';
 import axios from "axios";
 
+const authKey = "c62508752826c7d8";
+
 export default class Wunderground extends Component {
-  const authKey = "c62508752826c7d8";
 
-  var startDate = this.props.startDate;
-  var endDate = this.props.endDate;
+    state = {
+        highF: "",
+        highC: "",
+        lowF: "",
+        lowC: ""
+    }
 
+    componentDidMount() {
+        this.makeWunderAPICall();
+    }
 
+    makeWunderAPICall = () => {
+        var queryURL;
+        var startDate = this.props.startDate;
+        var endDate = this.props.endDate;
 
-  var startDateArray = [];
-  startDateArray = startDate.split("-");
-  var startMonth = startDateArray[0];
-  var startDay = startDateArray[1];
+        var startDateArray = [];
+        startDateArray = startDate.split("-");
+        var startMonth = startDateArray[1];
+        var startDay = startDateArray[2];
 
-  var endDateArray = [];
-  endDateArray = endDate.split("-");
-  var endMonth = endDateArray[0];
-  var endDay = endDateArray[1];
+        var endDateArray = [];
+        endDateArray = endDate.split("-");
+        var endMonth = endDateArray[1];
+        var endDay = endDateArray[2];
 
-
-  makeWunderAPICall = () => {
-    if (this.props.country === "usa") {
-            var queryURL = "https://api.wunderground.com/api/" + authKey + "/planner_" + startMonth + startDay + endMonth + endDay + "/q/" + this.props.admin + "/" + this.props.city + ".json";
+        if (this.props.country === "usa") {
+            queryURL = "https://api.wunderground.com/api/" + authKey + "/planner_" + startMonth + startDay + endMonth + endDay + "/q/" + this.props.admin + "/" + this.props.city + ".json";
         } else {
-            var queryURL = "https://api.wunderground.com/api/" + authKey + "/planner_" + startMonth + startDay + endMonth + endDay + "/q/" + this.props.country + "/" + this.props.city + ".json";
+            queryURL = "https://api.wunderground.com/api/" + authKey + "/planner_" + startMonth + startDay + endMonth + endDay + "/q/" + this.props.country + "/" + this.props.city + ".json";
         }
+        console.log(queryURL);
 
-        
-    axios.get(queryURL)
-    .then(function (response) {
+        axios.get(queryURL)
+            .then( (response) => {
+                console.log(response);
+                if (response) {
+                    this.setState({
+                        highF: response.data.trip.temp_high.avg.F,
+                        highC: response.data.trip.temp_high.avg.C,
+                        lowF: response.data.trip.temp_low.avg.F,
+                        lowC: response.data.trip.temp_low.avg.C
+                    });
+                    //     //   } else {
+                    //     //       <p>Data is not available for this city</p>
+                    //     //   }
+                }
+            })
+        // .catch(err => res.status(422).json(err));
+    }
 
-      if (response.trip.temp_high.avg.F !== "") {
-        <ul className="nav suitcase-nav">
-          <li className="nav-item ">
-            <p className="nav-link" id="highF"></p>
-          </li>
-          <li className="nav-item ">
-            <p className="nav-link" id="highC"></p>
-          </li>
-          <li className="nav-item ">
-            <p className="nav-link" id="lowF"></p>
-          </li>
-          <li className="nav-item ">
-            <p className="nav-link" id="lowC"></p>
-          </li>
-        </ul>
-      } else {
-          <p>Data is not available for this city</p>
-      }
-
-  })
-    .catch(err => res.status(422).json(err));
-
-
-  render() {
-    return (
-      <div className="wunderground" >
-          {this.makeWunderAPICall()}
-      </div>
-    )
-  }
+    render() {
+        return (
+            <div className="wunderground" >
+                
+                <ul className="nav suitcase-nav">
+                    <li className="nav-item ">
+                        <p className="nav-link" id="highF">{"High Avg: " + this.state.highF + "° F"}</p>
+                    </li>
+                    <li className="nav-item ">
+                        <p className="nav-link" id="highC">{"High Avg: " + this.state.highC + "° C"}</p>
+                    </li>
+                    <li className="nav-item ">
+                        <p className="nav-link" id="lowF">{"Low Avg: " + this.state.lowF + "° F"}</p>
+                    </li>
+                    <li className="nav-item ">
+                        <p className="nav-link" id="lowC">{"Low Avg: " + this.state.lowC + "° C"}</p>
+                    </li>
+                </ul>
+            </div>
+        )
+    }
 }
-
-// $("#highF").html("High Avg: " + response.trip.temp_high.avg.F + "&deg; F");
-//           $("#highC").html("High Avg: " + response.trip.temp_high.avg.C + "&deg; C");
-
-//           $("#lowF").html("Low Avg: " + response.trip.temp_low.avg.F + "&deg; F");
-//           $("#lowC").html("Low Avg: " + response.trip.temp_low.avg.C + "&deg; C");
-
-

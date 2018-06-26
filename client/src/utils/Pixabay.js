@@ -20,7 +20,6 @@ export default class Wunderground extends Component {
     }
 
     makePixabayCall = () => {
-        if (this.state.rendered) {
         city = this.props.city;
         country = this.props.country;
         var pixaCity = city.replace(/\s_/g, '+');
@@ -46,7 +45,6 @@ export default class Wunderground extends Component {
             //         // $(this).attr("src", "/assets/img/bg7.jpg");
             //     }
             // })
-    }
     }
 
 

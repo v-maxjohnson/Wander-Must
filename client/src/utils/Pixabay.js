@@ -31,7 +31,7 @@ export default class Wunderground extends Component {
         axios.get(queryURL)
             .then(function (response) {
                 if (response) {
-                    this.props.setCityImgSrc(response.hits[0].webformatURL)
+                    this.props.setCityImageSrc(response.hits[0].webformatURL)
                 } else {
 
                     // $(this).attr("src", "/assets/img/bg7.jpg");

@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
-// import "../styles/SuitcaseCard.css";
+import Moment from 'react-moment';
 import Pixabay from "../utils/Pixabay";
+import "../styles/SuitcaseCard.css";
 import SuitcaseFrame from "../images/suitcaseFrame.png"
 
 export default class SuitcaseCard extends Component {
 
     state = {
-        cityImageSrc: ""
+        cityImageSrc: "" 
     }
 
-    setCityImgSrc = (url) => {
-        this.setState({ cityImgSrc: url })
+    setCityImageSrc = (url) => {
+        this.setState({ cityImageSrc: url})
     }
-    
-
 
     render() {
       return (
@@ -26,7 +25,7 @@ export default class SuitcaseCard extends Component {
                         <Pixabay
                             city={this.props.city}
                             country={this.props.country}
-                            setCityImageSrc={this.setCityImgSrc}
+                            setCityImageSrc={this.setCityImageSrc}
                         />
                             <img
                                 className="suitcasePhoto img-responsive"
@@ -40,9 +39,10 @@ export default class SuitcaseCard extends Component {
                             <h5 className="card-title suitcase-title"> {this.props.city} </h5>
                         </div>
                         <div className="trip-details">
-                            <p className="badge travel-dates py-2">{this.props.startDate} - {this.props.endDate}</p>
-                            <br/>
-                            <p className="badge travel-category py-2">{this.props.category}</p>
+                            <p className="badge travel-dates py-2">
+                            <Moment format="MMM DD, YYYY">{this.props.startDate}</Moment> - <Moment format="MMM DD, YYYY">{this.props.endDate}
+                            </Moment></p>
+                            <p className="badge travel-category py-2">{this.props.category.toLowerCase()}</p>
                         </div>
                     </div>
                 </div>

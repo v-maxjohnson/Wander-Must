@@ -7,6 +7,7 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
 
+    this.handleChange = this.handleChange.bind(this);
     this.toggle = this.toggle.bind(this);
     this.state = {
       dropdownOpen: false,
@@ -28,6 +29,18 @@ export default class Login extends Component {
     });
   }
 
+  handleSubmitEvent = event => {
+    event.preventDefault();
+    const data = new FormData(event.target);
+
+    // fetch('/api/signin', {
+    //   method: 'POST',
+    //   data: data
+    // }).then(function(response){
+    //   console.log(response)
+    // })
+  }
+
   render() {
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="login-dropdown">
@@ -35,7 +48,7 @@ export default class Login extends Component {
           <i className="fa fa-user-circle" title="Profile Page"> </i>
         </DropdownToggle>
         <DropdownMenu className="dropdown-menu dropdown-with-icons">
-          <form className="p-8 col-12" >
+          <form className="p-8 col-12" onSubmit={this.handleSubmitEvent}>
             <label htmlFor="email" className="col-sm-offset-1">Email Address</label>
             <Input className="text" type="email" name="email" 
             value={this.state.email}

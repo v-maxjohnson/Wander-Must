@@ -36,7 +36,6 @@ export default class Wunderground extends Component {
         } else {
             queryURL = "https://api.wunderground.com/api/" + authKey + "/planner_" + startMonth + startDay + endMonth + endDay + "/q/" + this.props.country + "/" + this.props.city + ".json";
         }
-        console.log(queryURL);
 
         axios.get(queryURL)
             .then( (response) => {
@@ -58,8 +57,7 @@ export default class Wunderground extends Component {
 
     render() {
         return (
-            <div className="wunderground" >
-                
+            <div className="wunderground">
                 <ul className="nav suitcase-nav">
                     <li className="nav-item ">
                         <p className="nav-link" id="highF">{"High Avg: " + this.state.highF + "° F"}</p>

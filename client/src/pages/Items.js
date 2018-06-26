@@ -20,11 +20,12 @@ export default class Items extends Component {
 
     client.query({
       query: gql` 
-            { allItems {
-              item_name,
-              item_category 
-            }
-        }`
+            { 
+              allItems {
+                item_name,
+                item_category 
+              }
+            }`
     }).then(result => {
       this.setState({ items: result.data.allItems });
     })

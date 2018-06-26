@@ -2,50 +2,54 @@ import React, { Component } from 'react';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Yelp from "../components/Yelp";
 import SuitcaseCard from "../components/SuitcaseCard"
 import SuitcaseFrame from "../images/suitcaseFrame.png"
 import "../styles/Profile.css";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 
+const GET_USER_QUERY = gql`
+query getUser( $id: String! ){
+  getUser(id: $id) {
+    id
+    username
+    gender
+    user_image
+    Suitcases {
+      id
+      start_date
+      end_date
+      travel_category
+      notes
+      Locale {
+        id
+        locale_city
+        locale_admin
+        locale_country
+      }
+    }
+  }
+}`;
+
 const client = new ApolloClient();
 
 export default class Profile extends Component {
   state = {
-      userData : {
-        id: "",
-        username: "",
-        gender: "",
-        user_image: "",
-        Suitcases: []
-      }
-    }
+    userData: {
+      id: "",
+      username: "",
+      gender: "",
+      user_image: "",
+      Suitcases: []
+    },
+    number: "2"
+  }
 
   componentDidMount() {
+
     client.query({
-      query: gql` 
-      {
-        getUser(id: "1") {
-          id
-          username
-          gender
-          user_image
-          Suitcases {
-            id
-            start_date
-            end_date
-            travel_category
-            notes
-            Locale {
-              id
-              locale_city
-              locale_admin
-              locale_country
-            }
-          }
-        }
-      }`
+      query: GET_USER_QUERY,
+      variables: { id: this.state.number }
     }).then(result => {
       this.setState({ userData: result.data.getUser });
       console.log(this.state.userData);
@@ -82,11 +86,13 @@ export default class Profile extends Component {
                       city={suitcase.Locale.locale_city}
                       localeAdmin={suitcase.Locale.locale_admin}
                       country={suitcase.Locale.locale_country}
-                      src={suitcase.Locale.locale_image} 
+                      src={suitcase.Locale.locale_image}
                       startDate={suitcase.start_date}
                       endDate={suitcase.end_date}
-                      category={suitcase.category}
+                      category={suitcase.travel_category}
                     />
+                    
+
                   ))}
 
                   <div className="container col-sm-12 col-md-6 col-lg-4">
@@ -106,8 +112,6 @@ export default class Profile extends Component {
               </div>
             </div>
           </div>
-
-          <Yelp />
 
         </Main>
         <Footer />

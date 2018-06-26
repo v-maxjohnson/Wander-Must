@@ -4,6 +4,7 @@ import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Category from "../components/Category";
+import Yelp from "../utils/Yelp";
 import Item from "../components/Item";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
 import "../styles/Suitcase.css";
@@ -38,6 +39,8 @@ query getSuitcase( $id: String! ){
 
 const client = new ApolloClient();
 
+let cityNoUnderscores = "";
+
 export default class Suitcase extends Component {
   state = {
     suitcase: {
@@ -56,7 +59,7 @@ export default class Suitcase extends Component {
 
     client.query({
       query: GET_SUITCASE_QUERY,
-      variables : { id: this.state.number }
+      variables: { id: this.state.number }
     }).then(result => {
       this.setState({ suitcase: result.data.getSuitcase, rendered: true });
       console.log(this.state.suitcase, this.state.rendered);
@@ -67,13 +70,22 @@ export default class Suitcase extends Component {
   renderWunderground = () => {
     if (this.state.rendered) {
       return (
-      <Wunderground
-        startDate={this.state.suitcase.start_date}
-        endDate={this.state.suitcase.end_date}
-        city={this.state.suitcase.Locale.locale_city}
-        admin={this.state.suitcase.Locale.locale_admin}
-        country={this.state.suitcase.Locale.locale_country}
-      />
+        <Wunderground
+          startDate={this.state.suitcase.start_date}
+          endDate={this.state.suitcase.end_date}
+          city={this.state.suitcase.Locale.locale_city}
+          admin={this.state.suitcase.Locale.locale_admin}
+          country={this.state.suitcase.Locale.locale_country}
+        />
+      )
+    }
+  }
+
+  renderCityWithoutUnderscores = () => {
+    if (this.state.rendered) {
+      cityNoUnderscores = this.state.suitcase.Locale.locale_city.replace(/_/g, ' ');
+      return (
+        cityNoUnderscores
       )
     }
   }
@@ -111,7 +123,7 @@ export default class Suitcase extends Component {
                             <p className="nav-link" id="suitcase-user-gender">{this.state.suitcase.User.gender}</p>
                           </li>
                           <li className="nav-item ">
-                            <a className="nav-link" id="suitcase-locale" href={"/search/" + this.state.suitcase.Locale.locale_city}>{this.state.suitcase.Locale.locale_city}</a>
+                            <a className="nav-link" id="suitcase-locale" href={"/search/" + this.state.suitcase.Locale.locale_city}>{this.renderCityWithoutUnderscores()}</a>
                           </li>
                           <li className="nav-item">
                             <p className="nav-link d-inline-block" id="suitcase-startDate">

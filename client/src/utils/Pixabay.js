@@ -13,10 +13,9 @@ export default class Wunderground extends Component {
         rendered: false
     }
 
-
     componentDidMount() {
-        this.setState({rendered: true})
-        this.makePixabayAPICall();
+        this.setState({ rendered: true });
+        this.makePixabayCall();
     }
 
     makePixabayCall = () => {
@@ -26,35 +25,30 @@ export default class Wunderground extends Component {
         var pixaCountry = country.replace(/\s_/g, '+');
         var queryURL = "https://pixabay.com/api/?key=" + authKey + "&q=" + pixaCity + "+" + pixaCountry + "+skyline&image_type=photo";
 
-
         axios.get(queryURL)
-            .then(function (response) {
-                if (response) {
-                    this.props.setCityImageSrc(response.hits[0].webformatURL)
-                } else {
+            .then((response) => {
+                console.log(queryURL);
+                if (this.state.rendered && response.data.hits[0].webformatURL) {
+                    let url = response.data.hits[0].webformatURL;
+                    console.log(url);
+                    this.props.setCityImageSrc(url)
 
-                    // $(this).attr("src", "/assets/img/bg7.jpg");
                 }
+                // if (response.hits[0].webformatURL) {
+                //     // need to figure out what to replace this jQuery DOM stuff w for react 
+                //     // $(this).attr("src", response.hits[0].webformatURL);
+                // } else {
+
+                //     // $(this).attr("src", "/assets/img/bg7.jpg");
+                // }
             })
-
-            // .then(function (response) {
-            //     if (response.hits[0].webformatURL) {
-            //         {this.props.setCityImgSrc(url)}
-            //     } else {
-
-            //         // $(this).attr("src", "/assets/img/bg7.jpg");
-            //     }
-            // })
     }
 
-
-render() {
-    return (
-        <div className="pixabay">
-            {this.props.children}
-        </div>
-    )
+    render() {
+        return (
+            <div className="pixabay">
+                {this.props.children}
+            </div>
+        )
+    }
 }
-
-}
-

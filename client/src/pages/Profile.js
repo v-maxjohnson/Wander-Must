@@ -91,6 +91,8 @@ export default class Profile extends Component {
                       endDate={suitcase.end_date}
                       category={suitcase.travel_category}
                     />
+                    
+
                   ))}
 
                   <div className="container col-sm-12 col-md-6 col-lg-4">

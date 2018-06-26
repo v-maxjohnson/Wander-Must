@@ -1,8 +1,20 @@
 import React, { Component } from 'react';
 // import "../styles/SuitcaseCard.css";
+import Pixabay from "../utils/Pixabay";
 import SuitcaseFrame from "../images/suitcaseFrame.png"
 
 export default class SuitcaseCard extends Component {
+
+    state = {
+        cityImageSrc: ""
+    }
+
+    setCityImgSrc = (url) => {
+        this.setState({ cityImgSrc: url })
+    }
+    
+
+
     render() {
       return (
 
@@ -11,15 +23,14 @@ export default class SuitcaseCard extends Component {
                 <div className="card bg-dark text-white no-shadow">
                     <div className="suitcaseWrapper card-img">
                         <a className="suitcase-link" href={"/suitcase/" + this.props.id}>
+                        <Pixabay
+                            city={this.props.city}
+                            country={this.props.country}
+                            setCityImageSrc={this.setCityImgSrc}
+                        />
                             <img
                                 className="suitcasePhoto img-responsive"
-                                src={this.props.src} alt="City Skyline"
-                                // data-id="{this.props.id}"
-                                // data-city={this.props.city}
-                                // data-admin={this.props.localeAdmin}
-                                // data-country={this.props.country}
-                                // data-start={this.props.startDate}
-                                // data-end={this.props.endDate}
+                                src={this.state.cityImageSrc} alt="City Skyline"
                             />
                             <img className="suitcaseFrame img-responsive" src={SuitcaseFrame} alt="Suitcase Frame" />
                         </a>

@@ -7,6 +7,17 @@ var radiusMiles = 5;
 
 export default class Yelp extends Component {
 
+  state = {
+    // these are user inputs
+    sort_by: "", 
+    price: "",
+    radius: ""
+    // may have to add output values in state 
+}
+
+  componentDidMount() {
+    this.makeYelpCall();
+}
 
 // yelp only works up to 25 miles,
 makeYelpCall = () => {
@@ -37,12 +48,12 @@ client.search(searchRequest).then(response => {
     if (output.length < 10 && !item.is_closed) {
       let objCopy = {}
       output.push({
-        name: "Business name: " + item.name,
-        rating: "User Rating: " + item.rating,
-        thumbnail: "Thumbnail photo: " + item.image_url,
-        href: "Thumbnail href: " + item.url,
+        name: item.name,
+        rating: item.rating,
+        thumbnail: item.image_url,
+        href: item.url,
         categories: item.categories.map(category => category.title),
-        priceRating: item.price ? "Price: " + item.price : "No price available"
+        priceRating: item.price ? item.price : "No price available"
       });
     }
   })
@@ -52,4 +63,13 @@ client.search(searchRequest).then(response => {
 });
 
 }
+
+render() {
+  return (
+      <div className="yelp" >
+        {this.props.children}
+      </div>
+  )
+}
+
 }

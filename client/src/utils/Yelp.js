@@ -7,6 +7,17 @@ var radiusMiles = 5;
 
 export default class Yelp extends Component {
 
+  state = {
+    // these are user inputs
+    sort_by: "", 
+    price: "",
+    radius: ""
+    // may have to add output values in state 
+}
+
+  componentDidMount() {
+    this.makeYelpCall();
+}
 
 // yelp only works up to 25 miles,
 makeYelpCall = () => {
@@ -52,4 +63,13 @@ client.search(searchRequest).then(response => {
 });
 
 }
+
+render() {
+  return (
+      <div className="yelp" >
+        {this.props.children}
+      </div>
+  )
+}
+
 }

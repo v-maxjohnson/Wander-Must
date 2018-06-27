@@ -1,0 +1,20 @@
+
+.card-yelp {
+    box-sizing: border-box!important;
+    
+}
+.card-title-wrapper {
+    width: 200px;
+    overflow: hidden;
+    text-size-adjust: 80%;
+}
+
+.card-img-top {
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 200px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    margin-right: auto;
+    margin-left: auto;
+}

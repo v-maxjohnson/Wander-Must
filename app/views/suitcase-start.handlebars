@@ -1,0 +1,102 @@
+<div class="page-header header-filter" data-parallax="true" style="background-image: url('/assets/img/city-profile.jpg');"></div>
+<div class="main main-raised">
+  <div class="profile-content">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-lg-12 ml-auto mr-auto">
+          <div class="profile">
+            <!-- where we can put weather!!!! -->
+          </div>
+        </div>
+      </div>
+      <div class="row text-center new-suitcase">
+        <h2 class="wanderlust text-center">You are a true EXPLORER!</h2>
+        <h3 class="text-center">Scroll down and add more items to your packing list.</h3>
+        <img class="img-fluid animals" src="/assets/img/faces/animals.png" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Start items List -->
+  <div class="row">
+    <div class="col-12">
+      <div id="items">
+        <!-- Toiletries -->
+        <div class="row">
+          <div class="offset-1 col-11">
+            <div class="title row">
+              <div>
+                <span class="badge badge-pill badge-info">Toiletries</span>
+              </div>
+              <div>
+                <button data-category="toiletries"  class="all btn btn-primary btn-sm ml-3">Select all</button>
+              </div>
+            </div>
+            <div class="row cat-row" id="toiletries">
+              {{#each items}} {{#ifCond item_category "toiletries"}} {{> items }} {{/ifCond}} {{/each}}
+            </div>
+          </div>
+        </div>
+        <!-- Clothing -->
+        <div class="row">
+          <div class="offset-1 col-11">
+            <div class="title row">
+              <div>
+                <span class="badge badge-pill badge-info">Clothing</span>
+              </div>
+              <div>
+                <button data-category="clothing" class="all btn btn-primary btn-sm ml-3">Select all</button>
+              </div>
+            </div>
+            <div class="row cat-row" id="clothing">
+              {{#each items}} {{#ifCond item_category "clothing"}} {{> items }} {{/ifCond}} {{/each}}
+            </div>
+          </div>
+        </div>
+
+        <!-- Accessories -->
+        <div class="row">
+          <div class="offset-1 col-11">
+            <div class="title row">
+              <div>
+                <span class="badge badge-pill badge-info">Accessories</span>
+              </div>
+              <div>
+                <button data-category="accessories" class="all btn btn-primary btn-sm ml-3">Select all</button>
+              </div>
+            </div>
+            <div class="row cat-row" id="accessories">
+              {{#each items}} {{#ifCond item_category "accessories"}} {{> items }} {{/ifCond}} {{/each}}
+            </div>
+          </div>
+        </div>
+
+        <!-- Electronics -->
+        <div class="row">
+          <div class="offset-1 col-11">
+            <div class="title row">
+              <div>
+                <span class="badge badge-pill badge-info">Electronics</span>
+              </div>
+              <div>
+                <button data-category="electronics" class="all btn btn-primary btn-sm ml-3">Select all</button>
+              </div>
+            </div>
+            <div class="row cat-row" id="electronics">
+              {{#each items}} {{#ifCond item_category "electronics"}} {{> items }} {{/ifCond}} {{/each}}
+            </div>
+          </div>
+        </div>
+        <!-- Ends Items -->
+      </div>
+    </div>
+    <!-- End Items List -->
+  </div>
+  <div class="row">
+    <div class="col-6 mx-auto my-3 text-center">
+      <button id="add-items" class="btn btn-primary btn-lg">Add Selected Items To My Suitcase</button>
+    </div>
+  </div>
+</div>
+
+</div>

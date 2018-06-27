@@ -1,18 +1,98 @@
 import React, { Component } from 'react';
+import Moment from 'react-moment';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Category from "../components/Category";
+<<<<<<< HEAD
 import YelpCarosel from "../components/YelpCarousel";
+=======
+import Yelp from "../utils/Yelp";
+>>>>>>> 63cd207bf201c6516e0b4e05a9939041242ad7b3
 import Item from "../components/Item";
-import ItemsList from "../ItemsList.json";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
 import "../styles/Suitcase.css";
+import Wunderground from "../utils/Wunderground";
+import gql from "graphql-tag";
+import ApolloClient from 'apollo-boost';
+
+const GET_SUITCASE_QUERY = gql` 
+query getSuitcase( $id: String! ){
+  getSuitcase(id: $id) {
+    start_date
+    end_date
+    travel_category
+    Items {
+      id
+      item_name
+      item_category
+    }
+    Locale {
+      id
+      locale_city
+      locale_admin
+      locale_country
+    }
+    User {
+      id
+      username
+      gender
+    }
+  }
+}`;
+
+const client = new ApolloClient();
+
+let cityNoUnderscores = "";
 
 export default class Suitcase extends Component {
   state = {
-    items: ItemsList
+    suitcase: {
+      start_date: "",
+      end_date: "",
+      travel_category: "",
+      Items: [],
+      Locale: [],
+      User: []
+    },
+    rendered: false,
+    number: "5"
   };
+
+  componentDidMount() {
+
+    client.query({
+      query: GET_SUITCASE_QUERY,
+      variables: { id: this.state.number }
+    }).then(result => {
+      this.setState({ suitcase: result.data.getSuitcase, rendered: true });
+      console.log(this.state.suitcase, this.state.rendered);
+    })
+
+  }
+
+  renderWunderground = () => {
+    if (this.state.rendered) {
+      return (
+        <Wunderground
+          startDate={this.state.suitcase.start_date}
+          endDate={this.state.suitcase.end_date}
+          city={this.state.suitcase.Locale.locale_city}
+          admin={this.state.suitcase.Locale.locale_admin}
+          country={this.state.suitcase.Locale.locale_country}
+        />
+      )
+    }
+  }
+
+  renderCityWithoutUnderscores = () => {
+    if (this.state.rendered) {
+      cityNoUnderscores = this.state.suitcase.Locale.locale_city.replace(/_/g, ' ');
+      return (
+        cityNoUnderscores
+      )
+    }
+  }
 
   render() {
     return (
@@ -37,43 +117,37 @@ export default class Suitcase extends Component {
                 <div className="card card-nav-tabs card-plain">
                   <div className="suitcase-header card-header card-header-default">
 
-                    <div id="suitcase-nav" className="nav-tabs-navigation" data-suitcase_id="{{suitcase.id}}">
+                    <div id="suitcase-nav" className="nav-tabs-navigation">
                       <div className="nav-tabs-wrapper">
                         <ul className="nav suitcase-nav">
                           <li className="nav-item ">
-                            <p className="nav-link" data-user-id="{{suitcase.User.id}}" id="suitcase-user"></p>
+                            <p className="nav-link" id="suitcase-user">{this.state.suitcase.User.username}</p>
                           </li>
                           <li className="nav-item ">
-                            <p className="nav-link" id="suitcase-user-gender"></p>
+                            <p className="nav-link" id="suitcase-user-gender">{this.state.suitcase.User.gender}</p>
                           </li>
                           <li className="nav-item ">
-                            <a className="nav-link" id="suitcase-locale" data-city="" data-admin=""
-                              data-country="" href="/search/{{suitcase.Locale.locale_city}}">&nbsp;</a>
+                            <a className="nav-link" id="suitcase-locale" href={"/search/" + this.state.suitcase.Locale.locale_city}>{this.renderCityWithoutUnderscores()}</a>
                           </li>
                           <li className="nav-item">
-                            <p className="nav-link d-inline-block" data-start="{{suitcase.start_date}}" id="suitcase-startDate"></p>-
-                  <p className="nav-link d-inline-block" data-end="{{suitcase.end_date}}" id="suitcase-endDate"></p>
+                            <p className="nav-link d-inline-block" id="suitcase-startDate">
+                              <Moment format="MMM DD, YYYY">
+                                {this.state.suitcase.start_date}
+                              </Moment>
+                            </p>-
+                  <p className="nav-link d-inline-block" id="suitcase-endDate">
+                              <Moment format="MMM DD, YYYY">
+                                {this.state.suitcase.end_date}
+                              </Moment>
+                            </p>
                           </li>
 
                           <li className="nav-item">
-                            <p className="nav-link" id="suitcase-travelCategory"></p>
+                            <p className="nav-link" id="suitcase-travelCategory">{this.state.suitcase.travel_category}</p>
                           </li>
 
                         </ul>
-                        <ul className="nav suitcase-nav">
-                          <li className="nav-item ">
-                            <p className="nav-link" id="highF"></p>
-                          </li>
-                          <li className="nav-item ">
-                            <p className="nav-link" id="highC"></p>
-                          </li>
-                          <li className="nav-item ">
-                            <p className="nav-link" id="lowF"></p>
-                          </li>
-                          <li className="nav-item ">
-                            <p className="nav-link" id="lowC"></p>
-                          </li>
-                        </ul>
+                        {this.renderWunderground()}
                       </div>
                     </div>
                   </div>
@@ -96,16 +170,16 @@ export default class Suitcase extends Component {
                         </div>
                       </div>
                       <div className="row cat-row" id="toiletries">
-                        {this.state.items
-                          .filter(item => (item.item_category === "toiletries"))
+                        {this.state.suitcase.Items
+                          .filter(item => (item.item_category === "TOILETRIES"))
                           .map(item => (
                             <Item
                               key={item.item_name}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
                             />
-                          ))}
-
+                          ))
+                        }
                       </div>
                     </Category>
 
@@ -119,16 +193,17 @@ export default class Suitcase extends Component {
                         </div>
                       </div>
                       <div className="row cat-row" id="clothing">
-                        {this.state.items
-                          .filter(item => (item.item_category === "clothing"))
+                        {this.state.suitcase.Items
+                          .filter(item => (item.item_category === "CLOTHING"))
                           .map(item => (
                             <Item
                               key={item.item_name}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
                             />
-                          ))}
+                          ))
 
+                        }
                       </div>
                     </Category>
 
@@ -143,16 +218,17 @@ export default class Suitcase extends Component {
                         </div>
                       </div>
                       <div className="row cat-row" id="accessories">
-                        {this.state.items
-                          .filter(item => (item.item_category === "accessories"))
+                        {this.state.suitcase.Items
+                          .filter(item => (item.item_category === "ACCESSORIES"))
                           .map(item => (
                             <Item
                               key={item.item_name}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
                             />
-                          ))}
+                          ))
 
+                        }
                       </div>
                     </Category>
 
@@ -167,16 +243,17 @@ export default class Suitcase extends Component {
                         </div>
                       </div>
                       <div className="row cat-row" id="electronics">
-                        {this.state.items
-                          .filter(item => (item.item_category === "electronics"))
+                        {this.state.suitcase.Items
+                          .filter(item => (item.item_category === "ELECTRONICS"))
                           .map(item => (
                             <Item
                               key={item.item_name}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
                             />
-                          ))}
+                          ))
 
+                        }
                       </div>
                     </Category>
 
@@ -189,7 +266,7 @@ export default class Suitcase extends Component {
                   <button id="add-items" className="btn btn-primary btn-lg">Add Selected Items To My Suitcase</button>
                 </div>
                 <div className="col-12 text-center" id="add-more-items-holder">
-                  <a className="btn btn-lg btn-primary mt-3 mb-3 px-3 pb-2 pt-3" id="add-more-items" href="/suitcase-start">
+                  <a className="btn btn-lg btn-primary mt-3 mb-3 px-3 pb-2 pt-3" id="add-more-items" href="/items">
 
                     <p>See Full List of Items To Choose From</p>
 

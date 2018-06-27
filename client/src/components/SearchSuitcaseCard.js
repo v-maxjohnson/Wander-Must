@@ -4,7 +4,7 @@ import Pixabay from "../utils/Pixabay";
 import "../styles/SuitcaseCard.css";
 import SuitcaseFrame from "../images/suitcaseFrame.png"
 
-export default class SuitcaseCard extends Component {
+export default class SearchSuitcaseCard extends Component {
 
     state = {
         cityImageSrc: ""
@@ -30,15 +30,15 @@ export default class SuitcaseCard extends Component {
         <div className="suitcase-partial container col-sm-12 col-md-6 col-lg-4">
             <div className="suitcaseCard">
                 <div className="card bg-dark text-white no-shadow">
-                    <div className="suitcaseWrapper card-img">
-                        <a className="suitcase-link" href={"/suitcase/" + this.props.id}>
+                    <div className="suitcaseWrapper card-img" onClick={() => { this.props.showQuickViewModal(); this.props.setQuickViewModalIndex(this.props.idx) } }>
+                        
                         {this.renderPixabay()}
                             <img
                                 className="suitcasePhoto img-responsive"
                                 src={this.state.cityImageSrc} alt="City Skyline"
                             />
                             <img className="suitcaseFrame img-responsive" src={SuitcaseFrame} alt="Suitcase Frame" />
-                        </a>
+                        
                     </div>
                     <div className="card-img-overlay">
                         <div className="title-div">

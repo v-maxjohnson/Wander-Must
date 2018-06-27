@@ -26,6 +26,11 @@ query getSuitcasesByLocale( $locale_city: String! ){
       username
       gender
     }
+    Items {
+      id
+      item_name
+      item_category
+    }
   }
 }`;
 
@@ -127,8 +132,9 @@ export default class Search extends Component {
             </div>
           </div>
         </Main>
-        <Footer />
         {this.renderQuickViewModal()}
+        <Footer />
+        
       </div>
     )
   }

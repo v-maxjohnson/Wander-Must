@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Courgette|Reem+Kufi|Material+Icons");
+
+.modal {
+    
+}
+
+.modal-content {
+    padding: 15px;
+    height: 100%!important;
+}
+
+.modal-header {
+    
+}
+
+.modal-dialog {
+    height: 90%!important;
+    overflow-y: initial!important;
+}
+
+.modal-title {
+    font-family: "Courgette", cursive!important;
+    margin-bottom: 30px!important;
+}
+
+.modal-body {
+    height: 100%;
+    overflow-y: auto;
+    /* font-size: 20px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    text-align: left; */
+}
+
+.modal-lg {
+    width: 90%!important;
+    max-width: none!important;
+}
+
+/* .modal-row {
+    flex-direction: column;
+} */
+
+.suitcase-header {
+    background: none!important;
+    color: black!important;
+    font-family: "Reem Kufi", sans-serif!important;
+    font-size: 16px!important;
+}
+
+.items-section {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+.new-suitcase {
+    display: inherit;
+}
+
+.suitcase-nav {
+    justify-content: center;
+    width: 100%;
+}
+
+.city-name p {
+    margin-top: 10px;
+    font-family: "Reem Kufi", sans-serif;
+    font-size: 24px!important;
+    line-height: 32px;
+}
+
+.locale-city {
+    text-transform: capitalize;
+}
+
+.form-check-label {
+    color: black;
+}
+
+.trash-icon {
+    font-size: 18px;
+    margin-right: 5px;
+    color: #9C27B0;
+    cursor: pointer;
+}
+
+.non-click-label {
+    color: black!important;
+    margin-left: 5px!important;
+}

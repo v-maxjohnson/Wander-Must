@@ -7,26 +7,32 @@ import SuitcaseFrame from "../images/suitcaseFrame.png"
 export default class SuitcaseCard extends Component {
 
     state = {
-        cityImageSrc: "" 
+        cityImageSrc: ""
     }
 
     setCityImageSrc = (url) => {
         this.setState({ cityImageSrc: url})
     }
 
+    renderPixabay = () => {
+        if (this.props.rendered) {
+            return <Pixabay
+            city={this.props.city}
+            country={this.props.country}
+            setCityImageSrc={this.setCityImageSrc}
+        />
+        }
+    }
+
     render() {
       return (
 
-        <div className="suitcase-partial container col-sm-12 col-md-6 col-lg-4" data-id="{this.props.id}">
+        <div className="suitcase-partial container col-sm-12 col-md-6 col-lg-4">
             <div className="suitcaseCard">
                 <div className="card bg-dark text-white no-shadow">
                     <div className="suitcaseWrapper card-img">
                         <a className="suitcase-link" href={"/suitcase/" + this.props.id}>
-                        <Pixabay
-                            city={this.props.city}
-                            country={this.props.country}
-                            setCityImageSrc={this.setCityImageSrc}
-                        />
+                        {this.renderPixabay()}
                             <img
                                 className="suitcasePhoto img-responsive"
                                 src={this.state.cityImageSrc} alt="City Skyline"

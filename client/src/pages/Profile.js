@@ -42,6 +42,7 @@ export default class Profile extends Component {
       user_image: "",
       Suitcases: []
     },
+    rendered: false,
     number: "2"
   }
 
@@ -51,7 +52,7 @@ export default class Profile extends Component {
       query: GET_USER_QUERY,
       variables: { id: this.state.number }
     }).then(result => {
-      this.setState({ userData: result.data.getUser });
+      this.setState({ userData: result.data.getUser, rendered: true });
       console.log(this.state.userData);
     })
 
@@ -79,7 +80,7 @@ export default class Profile extends Component {
                   </div>
                 </div>
                 <div className="row">
-                  {this.state.userData.Suitcases.map((suitcase) => (
+                  {this.state.userData.Suitcases.map(suitcase => (
                     <SuitcaseCard
                       key={suitcase.id}
                       id={suitcase.id}
@@ -90,9 +91,8 @@ export default class Profile extends Component {
                       startDate={suitcase.start_date}
                       endDate={suitcase.end_date}
                       category={suitcase.travel_category}
+                      rendered={this.state.rendered}
                     />
-                    
-
                   ))}
 
                   <div className="container col-sm-12 col-md-6 col-lg-4">

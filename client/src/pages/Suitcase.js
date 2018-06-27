@@ -3,6 +3,7 @@ import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Category from "../components/Category";
+import YelpCarosel from "../components/YelpCarousel";
 import Item from "../components/Item";
 import ItemsList from "../ItemsList.json";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
@@ -196,7 +197,9 @@ export default class Suitcase extends Component {
                 </div>
               </div>
             </div>
+            <YelpCarosel />
           </div>
+          
         </Main>
         <Footer />
       </div>

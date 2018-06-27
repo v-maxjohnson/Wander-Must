@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import SuitcaseCard from "../components/SuitcaseCard"
+import SearchSuitcaseCard from "../components/SearchSuitcaseCard"
 import "../styles/Search.css";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
+import QuickViewModal from '../components/QuickViewModal';
 
 const GET_SUITCASES_BY_LOCALE_QUERY = gql`
 query getSuitcasesByLocale( $locale_city: String! ){
@@ -32,19 +33,21 @@ const client = new ApolloClient();
 
 export default class Search extends Component {
   state = {
-    suitcaseData: [ 
+    suitcaseData: [
       {
-      travel_category: "",
-      Locale: {
-        id: "",
-        locale_city: "",
-        locale_admin: "",
-        locale_country: ""
+        travel_category: "",
+        Locale: {
+          id: "",
+          locale_city: "",
+          locale_admin: "",
+          locale_country: ""
+        }
       }
-    }
     ],
     city: "austin",
-    rendered: false
+    openQuickViewModal: false,
+    rendered: false,
+    index: 0
   }
 
   componentDidMount() {
@@ -57,6 +60,27 @@ export default class Search extends Component {
       console.log(this.state.suitcaseData)
     })
 
+  }
+
+  showQuickViewModal = () => {
+    this.setState({ openQuickViewModal: true });
+  }
+
+  resetQuickViewModal = () => {
+    this.setState({ openQuickViewModal: false });
+  }
+
+  renderQuickViewModal = () => {
+    if (this.state.openQuickViewModal) {
+      return <QuickViewModal
+        quickViewData={this.state.suitcaseData[this.state.index]}
+        resetQuickViewModal={this.resetQuickViewModal}
+      />
+    }
+  }
+
+  setQuickViewModalIndex = (idx) => {
+    this.setState({ index: idx})
   }
 
   render() {
@@ -74,16 +98,17 @@ export default class Search extends Component {
 
                       <div className="city-name">
                         <p>Here are some suitcases for
-                <span className="locale-city"> {this.state.city}</span>. Click on a suitcase and start adding items to yours!</p>
+                <span className="locale-city"> {this.state.suitcaseData[0].Locale.locale_city}</span>. Click on a suitcase and start adding items to yours!</p>
 
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="row">
-                {this.state.suitcaseData.map((suitcase, i) => (
-                    <SuitcaseCard
+                  {this.state.suitcaseData.map((suitcase, i) => (
+                    <SearchSuitcaseCard
                       key={i}
+                      idx={i}
                       id={suitcase.id}
                       city={suitcase.Locale.locale_city}
                       localeAdmin={suitcase.Locale.locale_admin}
@@ -93,6 +118,8 @@ export default class Search extends Component {
                       endDate={suitcase.end_date}
                       category={suitcase.travel_category}
                       rendered={this.state.rendered}
+                      showQuickViewModal={this.showQuickViewModal}
+                      setQuickViewModalIndex={this.setQuickViewModalIndex}
                     />
                   ))}
                 </div>
@@ -101,6 +128,7 @@ export default class Search extends Component {
           </div>
         </Main>
         <Footer />
+        {this.renderQuickViewModal()}
       </div>
     )
   }

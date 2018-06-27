@@ -4,11 +4,8 @@ import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Category from "../components/Category";
-<<<<<<< HEAD
 import YelpCarosel from "../components/YelpCarousel";
-=======
 import Yelp from "../utils/Yelp";
->>>>>>> 63cd207bf201c6516e0b4e05a9939041242ad7b3
 import Item from "../components/Item";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
 import "../styles/Suitcase.css";

@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-<<<<<<< HEAD
 import YelpCarosel from "../components/YelpCarousel";
 import UserData from "../scratch.json"
-=======
->>>>>>> 63cd207bf201c6516e0b4e05a9939041242ad7b3
 import SuitcaseCard from "../components/SuitcaseCard"
 import SuitcaseFrame from "../images/suitcaseFrame.png"
 import "../styles/Profile.css";
@@ -118,11 +115,8 @@ export default class Profile extends Component {
             </div>
           </div>
 
-<<<<<<< HEAD
           <YelpCarosel />
 
-=======
->>>>>>> 63cd207bf201c6516e0b4e05a9939041242ad7b3
         </Main>
         <Footer />
       </div>

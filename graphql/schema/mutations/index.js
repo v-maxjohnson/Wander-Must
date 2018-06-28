@@ -1,20 +1,45 @@
-import { GraphQLObjectType } from 'graphql';
+import { 
+    GraphQLObjectType,
+    GraphQLString 
+} from 'graphql';
 
-import itemMutations from './item';
-import localeMutation from './locale';
-import suitcaseMutations from './suitcase';
+import localeType from './../types/locale';
+import itemType from './../types/item';
+import resolvers from './../../resolvers';
+
 
 export default new GraphQLObjectType ({
     name: 'Mutations',
     fields: () => ({
-        itemMutations:{
-            type: itemMutations
+        createNewItem: {
+            type: itemType,
+            args: {
+                item_name: {
+                    type: GraphQLString
+                }
+            },
+            resolve: ( args ) => resolvers.item.create( args )
         },
-        localeMutation:{
-            type: localeMutation
-        },
+        createNewLocale: {
+            type: localeType,
+            args: {
+                locale_city: {
+                    type: GraphQLString
+                },
+                locale_admin: {
+                    type: GraphQLString
+                },
+                locale_country: {
+                    type: GraphQLString
+                }
+            },
+            resolve: ( root, args ) => resolvers.locale.create( args )
+        }
         // suitcaseMutations:{
         //     type: suitcaseMutations
         // }
     })
 });
+
+
+///////// PUT ALL MUTATIONS IN THIS FILE INSTEAD OF SEPARATING THEM ALL

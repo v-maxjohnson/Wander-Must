@@ -12,29 +12,30 @@ export default {
             db.Locale.findAll({})
             .then( dbLocales => unpackSequelize(dbLocales) )
             .catch( err => err )
-        )
+        ) 
     },
-    create : ( city, admin, country ) => {
+    create : ( {locale_city, locale_admin, locale_country} ) => {
         return (
             db.Locale.findOne({
-                where: city
+                where: { 
+                    locale_city: locale_city 
+                }
             })
-            .then( dbLocale => dbLocale
-            //     {
-            //     // if( dbLocale === null ) {
-            //     //     db.Locale.create({
-            //     //         locale_city: city,
-            //     //         locale_admin: admin,
-            //     //         locale_country: country
-            //     //     }).then( dbLocale => dbLocale )
-            //     // }
-            //     // else {
-            //     //     return dbLocale
-            //     // }
-            // }
-        )
-            // .then( newLocale => newLocale )
-            .catch( err => err )
+            .then( dbLocale => {
+                if( dbLocale === null ) {
+                    return db.Locale.create({
+                        locale_city: locale_city,
+                        locale_admin: locale_admin,
+                        locale_country: locale_country
+                    })
+                    .then( createdDBLocale => createdDBLocale )
+                    .catch( err => console.log(err.message) )
+                }
+                else {
+                    return dbLocale
+                }
+            })
+            .catch( err => console.log(err) )
         )
     }
 }

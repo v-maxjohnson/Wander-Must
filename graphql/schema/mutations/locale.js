@@ -22,7 +22,9 @@ export default new GraphQLObjectType ({
                     type: GraphQLString
                 }
             },
-            resolve: ( args ) => resolvers.locale.create( args )
+            resolve: ( root, args ) => {
+                resolvers.locale.create( args )
+            }
         }
     })
 })

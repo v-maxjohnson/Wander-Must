@@ -7,6 +7,7 @@
   "dependencies": {
     "mysql2": "^1.5.3",
     "react": "^16.0.0",
+    "react-datepicker": "^1.5.0",
     "react-dom": "^16.0.0",
     "react-scripts": "1.0.14",
     "react-slick": "^0.23.1",

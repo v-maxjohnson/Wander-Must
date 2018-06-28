@@ -12,7 +12,7 @@
     
 } */
 
-.new-suitcase-modal .modal-dialog {
+.new-suitcase-modal.modal-dialog {
     
 }
 
@@ -31,7 +31,8 @@
 }
 
 .new-suitcase-modal.modal-lg {
-    max-width: 1200px;;
+    max-width: none;
+    width: 70%;
 }
 
 .new-suitcase-modal .fa-map-marker {
@@ -45,6 +46,10 @@
 .new-suitcase-modal .fa-calendar {
     color: purple;
 }
+
+/* .date div:first-of-type {
+    width: 100%;
+} */
 
 /* .modal-row {
     flex-direction: column;

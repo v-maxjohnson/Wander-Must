@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import SearchSuitcaseCard from "../components/SearchSuitcaseCard"
-import "../styles/Search.css";
-import gql from "graphql-tag";
-import ApolloClient from 'apollo-boost';
 import QuickViewModal from '../components/QuickViewModal';
 import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import Yelp from "../components/Yelp";
+import SearchSuitcaseCard from "../components/SearchSuitcaseCard";
+import "../styles/Search.css";
+import gql from "graphql-tag";
+import ApolloClient from 'apollo-boost';
 
 const GET_SUITCASES_BY_LOCALE_QUERY = gql`
 query getSuitcasesByLocale( $locale_city: String! ){

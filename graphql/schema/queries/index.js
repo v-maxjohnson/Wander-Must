@@ -2,7 +2,6 @@ import {
     GraphQLObjectType,
     GraphQLList,
     GraphQLString,
-    GraphQLInt
 } from 'graphql';
 
 import userType from '../types/user';
@@ -38,16 +37,16 @@ export default new GraphQLObjectType({
                     type: GraphQLString
                 }
             },
-            resolve: ( args ) => resolvers.suitcase.findById( args )
+            resolve: ( root, args ) => resolvers.suitcase.findById( args )
         },
         getAllSuitcasesForLocale: {
             type: GraphQLList(suitcaseType),
             args: {
-                locale_id: {
+                locale_city: {
                     type: GraphQLString
                 }
             },
-            resolve: ( args ) => resolvers.suitcase.findByLocale( args )
+            resolve: ( root, args ) => resolvers.suitcase.findByLocale( args )
         }
     })
 })

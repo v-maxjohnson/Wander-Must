@@ -15,11 +15,6 @@ module.exports = function (sequelize, DataTypes) {
       values: ['toiletries', 'clothing', 'electronics', 'accessories'],
       // restrict category from being selected if it doesn't have a text value
       allowNull: false
-    },
-    item_amount: {
-      type: DataTypes.INTEGER,
-      // restrict item amount from being empty
-      allowNull: true
     }
   }, {
       // disable timestamps

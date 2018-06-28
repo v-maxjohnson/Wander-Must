@@ -5,12 +5,12 @@ import localeType from './types/locale'
 import suitcaseType from './types/suitcase'
 import userType from './types/user';
 
-import query from './queries';
-// import mutations from './mutations';
+import queries from './queries';
+import mutations from './mutations';
 
 export default new GraphQLSchema({
-  query: query,
-  // mutation: mutations,
+  query: queries,
+  mutation: mutations,
   types: [
       itemType,
       localeType,

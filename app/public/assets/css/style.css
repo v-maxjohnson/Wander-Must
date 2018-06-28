@@ -1,0 +1,362 @@
+/* BASIC STYLES */
+
+html {
+    overflow-x: hidden;
+}
+
+.dark-text {
+    color: black;
+}
+
+.icn {
+    float: left;
+}
+
+
+
+/* NAVBAR */
+
+.dropdown-menu {
+    position: absolute;
+    left: -100px;
+}
+
+#suitcase-link {
+    cursor: pointer;
+}
+
+#login-dropdown,
+#profile-link,
+#suitcase-link,
+#logout {
+    display: none;
+}
+
+#user-name-text {
+    margin: 10px!important;
+    font-family: "Reem Kufi", sans-serif;
+    font-size: 18px;
+    text-transform: none!important;
+}
+
+
+
+/* HEADER */
+
+.wandermust {
+    font-family: "Courgette", cursive;
+    font-weight: lighter;
+    text-shadow: 4px 4px 6px black;
+    color: white;
+    -webkit-text-stroke-color: white;
+    -webkit-text-stroke-width: 2px;
+    font-size: 80px;
+    text-align: center;
+}
+
+.wandermust-font {
+    font-family: "Courgette", cursive;
+}
+
+
+
+/* HANDLE ON SUITCASE PAGES */
+
+.handle {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: -42px;
+}
+
+.profile-handle img {
+    max-width: 2000px!important;
+    margin: 0 auto;
+    transform: translate3d(0, -50%, 0);
+    width: 200%;
+    margin: 0 auto;
+}
+
+.handle-image {
+    width: 100px;
+    margin: 0 auto;
+}
+
+.handle-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    width: 75%;
+    height: 50%;
+    margin: 0 auto;
+    border-radius: 25px 25px 0 0;
+    font-family: "Courgette", cursive;
+    color: black;
+    text-align: center;
+}
+
+.handle-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 75%;
+    height: 50%;
+    margin: 0 auto;
+}
+
+.handle-left {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    width: 12%;
+    height: 100%;
+    background-color: white;
+}
+
+.handle-right {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    width: 12%;
+    height: 100%;
+    background-color: white;
+}
+
+.handle-text {
+    font-size: 6vw;
+    position: absolute;
+    bottom: 25%;
+    left: 0;
+    right: 0;
+}
+
+
+
+/* ANIMALS HEADER ON SUITCASE START PAGE */
+
+.animals {
+    max-height: 300px;
+}
+
+
+
+/* SUITCASE PAGES */
+
+.suitcase-header {
+    background: none!important;
+    color: black!important;
+    font-family: "Reem Kufi", sans-serif;
+    font-size: 16px!important;
+}
+
+.items-section {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+.new-suitcase {
+    display: inherit;
+}
+
+.suitcase-nav {
+    justify-content: center;
+    width: 100%;
+}
+
+.city-name p {
+    margin-top: 10px;
+    font-family: "Reem Kufi", sans-serif;
+    font-size: 24px!important;
+    line-height: 32px;
+}
+
+.locale-city {
+    text-transform: capitalize;
+}
+
+.form-check-label {
+    color: black;
+}
+
+.trash-icon {
+    font-size: 18px;
+    margin-right: 5px;
+    color: #9C27B0;
+    cursor: pointer;
+}
+
+.non-click-label {
+    color: black!important;
+    margin-left: 5px!important;
+}
+
+.badge-pill {
+    margin: .3125rem 1px!important;
+}
+
+
+
+/* SIGNUP PAGE */
+
+.signup-page .page-header .container {
+    padding-top: 15vh;
+}
+
+.section-signup {
+    padding-top: 0px!important;
+}
+
+
+
+/* DDSLICK IMAGE SELECT ON SIGNUP PAGE */
+
+label.dd-option-text {
+    color: black;
+}
+
+small.dd-option-desciption.dd-desc {
+    color: rgb(37, 34, 34);
+}
+
+
+
+/* NEW SUITCASE MODAL */
+
+.pac-container {
+    z-index: 10000!important;
+}
+
+.datepicker {
+    z-index: 1600 !important;
+    /* has to be larger than 1050 */
+}
+
+
+
+/* ANIMATION STYLES */
+
+h1.ml8 {
+    font-weight: 900;
+    font-size: 4.5em;
+    color: #fff;
+    width: 3em;
+    height: 3em;
+}
+
+.icon:hover {
+    animation: bounce 1s;
+}
+
+.ml8 .letters-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    height: 1em;
+}
+
+.ml8 .letters {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    line-height: 0.7em;
+    right: -0.12em;
+    top: -0.2em;
+}
+
+.ml8 .bang {
+    font-size: 1.4em;
+    top: auto;
+    left: -0.06em;
+}
+
+.ml8 .circle {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+}
+
+.ml8 .circle-white {
+    width: 3em;
+    height: 3em;
+    border: 2px dashed white;
+    border-radius: 2em;
+}
+
+.ml8 .circle-dark {
+    width: 2.2em;
+    height: 2.2em;
+    background-color: #4f7b86;
+    border-radius: 3em;
+    z-index: 1;
+}
+
+.ml8 .circle-dark-dashed {
+    border-radius: 2.4em;
+    background-color: transparent;
+    border: 2px dashed #4f7b86;
+    width: 2.3em;
+    height: 2.3em;
+}
+
+.ml2 {
+    font-weight: 900;
+    font-size: 3.5em;
+}
+
+.ml2 .letter {
+    display: inline-block;
+    line-height: 1em;
+}
+
+
+.ml4 {
+    position: relative;
+    font-weight: 900;
+    font-size: 7vwem;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.ml4 .letters {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    top: 0.3em;
+    right: 0;
+    opacity: 0;
+}
+
+
+
+/* ANIMATIONS */
+
+@keyframes bounce {
+    0%,
+    20%,
+    60%,
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+
+    40% {
+        -webkit-transform: translateY(-20px);
+        transform: translate(-20px);
+    }
+    80% {
+        -webkit-transform: translateY(-10px);
+        transform: translateY(-10px);
+    }
+}

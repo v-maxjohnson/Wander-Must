@@ -1,0 +1,89 @@
+<div class="page-header header-filter" filter-color="purple" style="background-image: url('/assets/img/bg7.jpg')">
+  <div class="container">
+    <div class="section section-signup page-header">
+      <h1 class="ml4">
+        <span class="letters letters-1">Ready</span>
+        <span class="letters letters-2">Set</span>
+        <span class="wandermust letters letters-3">Wander-Must</span>
+      </h1>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-lg-6 col-sm-9 ml-auto mr-auto">
+            <div class="card card-signup">
+              <form class="form" method="POST" action="">
+                <div class="card-header card-header-primary text-center">
+                  <h4>Sign Up</h4>
+                  <div class="social-line">
+                    <a href="#pablo" class="btn btn-link btn-just-icon">
+                      <i class="fa fa-facebook-square"></i>
+                    </a>
+                    <a href="/login/twitter" class="btn btn-link btn-just-icon">
+                      <i class="fa fa-twitter"></i>
+                    </a>
+                    <a href="#pablo" class="btn btn-link btn-just-icon">
+                      <i class="fa fa-google-plus"></i>
+                    </a>
+                  </div>
+                </div>
+                <p class="text-divider">Or Be Old Fashioned</p>
+                <div class="card-body">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">face</i>
+                      </span>
+                    </div>
+                    <input type="text" class="form-control" id="user-name" placeholder="Username..." required>
+                  </div>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">email</i>
+                      </span>
+                    </div>
+                    <input type="email" class="form-control" id="user-email" placeholder="Email..." required>
+                  </div>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">lock_outline</i>
+                      </span>
+                    </div>
+                    <input type="password" class="form-control" id="user-password" placeholder="Password..." required>
+                  </div>
+
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">supervised_user_circle</i>
+                      </span>
+                    </div>
+                    <select class="custom-select" id="user-gender" name="gender" required>
+                      <option selected>Gender</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="noGender">I prefer not to answer</option>
+                    </select>
+                  </div>
+
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">looks</i>
+                      </span>
+                    </div>
+                    <br> {{!-- Drop down built in signup.js --}}
+                    <div id="avatar"></div>
+                  </div>
+
+                </div>
+                <div class="card-footer justify-content-center">
+                  <button id="signup-btn" class="btn btn-primary btn-lg">Get Started</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,109 @@
+/* STYLES FOR SUITCASE CARDS */
+
+.suitcaseCard {
+    max-height: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    float: left;
+}
+
+.suitcaseWrapper {
+    max-width: 100%;
+}
+
+.suitcaseFrame {
+    position: relative;
+    width: 100%;
+    background-repeat: none;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.suitcasePhoto {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.suitcase-title {
+    font-family: "Courgette", cursive;
+    font-weight: lighter;
+    text-shadow: 4px 4px 6px black;
+    padding-left: 20px;
+    color: white;
+    -webkit-text-stroke-color: white;
+    -webkit-text-stroke-width: 2px;
+    font-size: 35px;
+    position: absolute;
+    top: 30%;
+    left: 5%;
+    text-transform: capitalize;
+}
+
+.title-div {
+    max-width: 100%;
+}
+
+.trip-details {
+    opacity: 5%;
+    padding: 2%;
+    position: absolute;
+    bottom: 12%;
+    right: 10%;
+}
+
+.card {
+    box-shadow: none;
+}
+
+.modal.show {
+    display: flex!important;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: flex-start;
+    max-width: none;
+    ;
+}
+
+.modal .modal-dialog {
+    margin: 0 auto!important;
+    max-width: none!important;
+    width: 70%!important;
+}
+
+.badge {
+    font-family: 'Reem Kufi', sans-serif;
+    text-transform: capitalize;
+    font-weight: 400;
+    font-size: 15px;
+    text-align: right!important;
+    background-color: rgba(0, 0, 0, .7);
+    border-radius: 15px;
+    display: block;
+    box-shadow: 1px 1px 10px rgba(255, 255, 255, .5);
+}
+
+.plus-icon {
+    font-size: 55px;
+    position: absolute;
+    top: 50%;
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.add-card {
+    background-color: black;
+    color: white!important;
+}
+
+.add-card:hover {
+    background-color: rgba(0, 0, 0, .6);
+    transition: .2s all ease-in-out;
+    color: black!important;
+}

@@ -1,0 +1,131 @@
+<div class="page-header header-filter" data-parallax="true" style="background-image: url('/assets/img/city-profile.jpg');"></div>
+<div class="main main-raised">
+  <div class="profile-content">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 ml-auto mr-auto">
+          <div class="profile profile-handle">
+            <div class="handle">
+              <img src="/assets/img/suitcase-handle-white.png" alt="WM Handle" class="handle-image">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Card Search bar for Open Case -->
+      <div class="card card-nav-tabs card-plain">
+        <div class="suitcase-header card-header card-header-default">
+          <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+          <div id="suitcase-nav" class="nav-tabs-navigation" data-suitcase_id="{{suitcase.id}}">
+            <div class="nav-tabs-wrapper">
+              <ul class="nav suitcase-nav">
+                <li class="nav-item ">
+                  <p class="nav-link" data-user-id="{{suitcase.User.id}}" id="suitcase-user">{{suitcase.User.username}}</p>
+                </li>
+                <li class="nav-item ">
+                  <p class="nav-link" id="suitcase-user-gender">{{suitcase.User.gender}}</p>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link" id="suitcase-locale" data-city="{{suitcase.Locale.locale_city}}" data-admin="{{suitcase.Locale.locale_admin}}"
+                    data-country="{{suitcase.Locale.locale_country}}" href="/search/{{suitcase.Locale.locale_city}}">{{suitcase.Locale.locale_city}}</a>
+                </li>
+                <li class="nav-item">
+                  <p class="nav-link d-inline-block" data-start="{{suitcase.start_date}}" id="suitcase-startDate">{{suitcase.start_date}}</p>-
+                  <p class="nav-link d-inline-block" data-end="{{suitcase.end_date}}" id="suitcase-endDate">{{suitcase.end_date}}</p>
+                </li>
+
+                <li class="nav-item">
+                  <p class="nav-link" id="suitcase-travelCategory">{{suitcase.travel_category}}</p>
+                </li>
+
+              </ul>
+              <ul class="nav suitcase-nav">
+                <li class="nav-item ">
+                  <p class="nav-link" id="highF"></p>
+                </li>
+                <li class="nav-item ">
+                  <p class="nav-link" id="highC"></p>
+                </li>
+                <li class="nav-item ">
+                  <p class="nav-link" id="lowF"></p>
+                </li>
+                <li class="nav-item ">
+                  <p class="nav-link" id="lowC"></p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Start items List -->
+    <div class="row">
+      <div class="col-12">
+        <div id="items">
+          <!-- Toiletries -->
+          <div class="row">
+            <div class="offset-1 col-11">
+              <div class="title row">
+                <span class="badge badge-pill badge-info">Toiletries</span>
+              </div>
+              <div class="row cat-row" id="toiletries">
+
+              </div>
+            </div>
+          </div>
+          <!-- Clothing -->
+          <div class="row">
+            <div class="offset-1 col-11">
+              <div class="title row">
+                <span class="badge badge-pill badge-primary">Clothing</span>
+              </div>
+              <div class="row cat-row" id="clothing">
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Accessories -->
+          <div class="row">
+            <div class="offset-1 col-11">
+              <div class="title row">
+                <span class="badge badge-pill badge-success">Accessories</span>
+              </div>
+              <div class="row cat-row" id="accessories">
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Electronics -->
+          <div class="row">
+            <div class="offset-1 col-11">
+              <div class="title row">
+                <span class="badge badge-pill badge-default">Electronics</span>
+              </div>
+              <div class="row cat-row" id="electronics">
+
+              </div>
+            </div>
+          </div>
+          <!-- Ends Items -->
+        </div>
+      </div>
+      <!-- End Items List -->
+    </div>
+    <div class="row">
+      <div class="col-6 mx-auto my-3 text-center">
+        <button id="add-items" class="btn btn-primary btn-lg">Add Selected Items To My Suitcase</button>
+      </div>
+      <div class="col-12 text-center" id="add-more-items-holder">
+        <a class="btn btn-lg btn-primary mt-3 mb-3 px-3 pb-2 pt-3" id="add-more-items" href="/suitcase-start">
+
+          <p>See Full List of Items To Choose From</p>
+
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

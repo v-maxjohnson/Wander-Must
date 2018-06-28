@@ -7,6 +7,7 @@ import "../styles/Search.css";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 import QuickViewModal from '../components/QuickViewModal';
+import Yelp from "../components/Yelp";
 
 const GET_SUITCASES_BY_LOCALE_QUERY = gql`
 query getSuitcasesByLocale( $locale_city: String! ){
@@ -137,6 +138,7 @@ export default class Search extends Component {
                 </div>
               </div>
             </div>
+            <Yelp />
           </div>
         </Main>
         {this.renderQuickViewModal()}

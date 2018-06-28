@@ -7,8 +7,8 @@ export default class YelpCard extends Component {
         <div className="col-2">
         <div className="card card-yelp">
             
-            <img className="card-img-top" src={this.props.image} alt="Resturant"/>
-            <div class="card-img-overlay">
+            <img className="card-img-top" src={this.props.image} alt="Restaurant"/>
+            <div className="card-img-overlay">
             <p className="card-text text-white">{this.props.rating} ---- {this.props.price}</p>
             <h4 className="card-title card-title-wrapper text-white">{this.props.name}</h4>
             </div>

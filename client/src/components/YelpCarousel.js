@@ -1,69 +1,31 @@
-import React from 'react';
-import ItemsCarousel from 'react-items-carousel';
-import Yelp from "../components/Yelp";
-import range from 'lodash/range';
- 
+import React from "react";
+import Slider from "react-slick";
+import YelpCard from './YelpCard';
+
 export default class YelpCarousel extends React.Component {
- 
-  componentWillMount() {
-    this.setState({
-      children: Yelp.map,
-      activeItemIndex: 0,
-    });
- 
-    setTimeout(() => {
-      this.setState({
-        children: createChildren(9),
-      })
-    }, 100);
-  }
- 
-  createChildren = n => range(n).map(i => <div key={i} >{i}</div>);
-  changeActiveItem = (activeItemIndex) => this.setState({ activeItemIndex });
- 
   render() {
-    const {
-      activeItemIndex,
-      children,
-    } = this.state;
- 
+    var settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 3,
+      slidesToScroll: 2
+    };
     return (
-    <ItemsCarousel
-      numberOfCards={3}
-      freeScrolling={true}
-      showSlither={true}
-      slidesToScroll={1}
-      firstAndLastGutter={false}
-      gutter={10}
+      <Slider {...settings}>
+        {this.props.yelpResults.map((yelp, i) => (
+          <YelpCard
+            key={i}
+            image={yelp.thumbnail}
+            name={yelp.name}
+            rating={yelp.rating}
+            category={yelp.categories}
+            price={yelp.priceRating}
+            website={yelp.href}
+          />
+        ))} 
+      </Slider>        
 
-      enablePlaceholder
-      minimumPlaceholderTime={2000}
-      numberOfPlaceholderItems={6}
-      appShellItem={<PlaceholderComponent />}
-
-      rightChevron={<ChevronRight />}
-      leftChevron={<ChevronLeft />}
-      chevronWidth={20}
-      outsideChevron={true}
-
-      springConfig={{"stiffness":120,"damping":14}}
-
-      requestToChangeActive={() => this.setState({ activeItemIndex })}
-      activeItemIndex={activeItemIndex}
-      activePosition={'left'}
-      children={[
-        {/* <Yelp key={0} />,
-        <Yelp key={1} />,
-        <Yelp key={2} />,
-        <Yelp key={3} />,
-        <Yelp key={4} />,
-        <Yelp key={5} />,
-        <Yelp key={6} />,
-        <Yelp key={7} />,
-        <Yelp key={8} />,
-        <Yelp key={9} />, */}
-      ]}
-    />
-    );  
+    );
   }
 } 

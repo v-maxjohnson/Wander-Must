@@ -42,7 +42,7 @@ export default class SearchSuitcaseCard extends Component {
                     </div>
                     <div className="card-img-overlay">
                         <div className="title-div">
-                            <h5 className="card-title suitcase-title"> {this.props.city} </h5>
+                            <h5 className="card-title suitcase-title">{this.props.userName}, {this.props.gender}</h5>
                         </div>
                         <div className="trip-details">
                             <p className="badge travel-dates py-2">

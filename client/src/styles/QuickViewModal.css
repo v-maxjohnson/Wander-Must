@@ -1,17 +1,17 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Courgette|Reem+Kufi|Material+Icons");
 
-.modal {
+/* .modal {
     
-}
+} */
 
 .modal-content {
     padding: 15px;
     height: 100%!important;
 }
 
-.modal-header {
+/* .modal-header {
     
-}
+} */
 
 .modal-dialog {
     height: 90%!important;

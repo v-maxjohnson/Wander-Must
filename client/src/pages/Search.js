@@ -46,6 +46,11 @@ export default class Search extends Component {
           locale_city: "",
           locale_admin: "",
           locale_country: ""
+        },
+        User: {
+          id: "",
+          username: "",
+          gender: ""
         }
       }
     ],
@@ -122,6 +127,8 @@ export default class Search extends Component {
                       startDate={suitcase.start_date}
                       endDate={suitcase.end_date}
                       category={suitcase.travel_category}
+                      userName={suitcase.User.username}
+                      gender={suitcase.User.gender}
                       rendered={this.state.rendered}
                       showQuickViewModal={this.showQuickViewModal}
                       setQuickViewModalIndex={this.setQuickViewModalIndex}

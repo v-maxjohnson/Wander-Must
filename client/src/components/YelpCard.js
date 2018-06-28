@@ -4,7 +4,7 @@ import "../styles/Yelp.css";
 export default class YelpCard extends Component {
   render() {
     return (
-        <div className="col-2">
+        <div className="mb-2">
         <div className="card card-yelp">
             
             <img className="card-img-top" src={this.props.image} alt="Restaurant"/>
@@ -22,3 +22,4 @@ export default class YelpCard extends Component {
     )
   }
 }
+

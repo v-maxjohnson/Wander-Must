@@ -1,18 +1,23 @@
-import React from "react";
+import React, { Component } from 'react';
 import Slider from "react-slick";
-import YelpCard from './YelpCard';
+import '../styles/Yelp.css'
+import YelpCard from './YelpCard.js'
 
-export default class YelpCarousel extends React.Component {
+
+export default class YelpCarousel extends Component {
   render() {
-    var settings = {
+    const settings = {
       dots: true,
       infinite: true,
       speed: 500,
-      slidesToShow: 3,
+      slidesToShow: 4,
       slidesToScroll: 2
     };
     return (
-      <Slider {...settings}>
+      <div>
+        <h2> Single Item</h2>
+
+        <Slider {...settings}>
         {this.props.yelpResults.map((yelp, i) => (
           <YelpCard
             key={i}
@@ -24,8 +29,8 @@ export default class YelpCarousel extends React.Component {
             website={yelp.href}
           />
         ))} 
-      </Slider>        
-
+        </Slider>
+      </div>
     );
   }
-} 
+}

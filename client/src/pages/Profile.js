@@ -3,7 +3,6 @@ import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Yelp from "../components/Yelp";
-import UserData from "../scratch.json"
 import SuitcaseCard from "../components/SuitcaseCard"
 import SuitcaseFrame from "../images/suitcaseFrame.png"
 import "../styles/Profile.css";
@@ -113,9 +112,10 @@ export default class Profile extends Component {
                 </div>
               </div>
             </div>
+            <Yelp />
           </div>
 
-          
+        
 
         </Main>
         <Footer />

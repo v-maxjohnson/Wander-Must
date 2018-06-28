@@ -1,10 +1,13 @@
 import { 
     GraphQLObjectType,
-    GraphQLString 
+    GraphQLString,
+    GraphQLInt
 } from 'graphql';
 
+import suitcaseType from './../types/suitcase';
 import localeType from './../types/locale';
 import itemType from './../types/item';
+
 import resolvers from './../../resolvers';
 
 
@@ -34,10 +37,41 @@ export default new GraphQLObjectType ({
                 }
             },
             resolve: ( root, args ) => resolvers.locale.create( args )
+        },
+        createNewSuitcase: {
+            type: suitcaseType,
+            args: {
+
+            },
+            resolve: ( root, args ) => resolvers.suitcase.create( args )
+        },
+        updateItemAmountOnSuitcase: {
+            type: suitcaseType,
+            args: {
+                id: {
+                    type: GraphQLString
+                },
+                item_id: {
+                    type: GraphQLString
+                },
+                item_amount: {
+                    type: GraphQLInt
+                }
+            },
+            resolve : ( root, args ) => resolvers.item.updateItemOnSuitcase( args )
+        },
+        deleteItemFromSuitcase: {
+            type: itemType,
+            args: {
+                item_id: {
+                    type: GraphQLString
+                },
+                suitcase_id: {
+                    type: GraphQLString
+                }
+            },
+            resolve : ( root, args ) => resolvers.suitcase.deleteItem( args )
         }
-        // suitcaseMutations:{
-        //     type: suitcaseMutations
-        // }
     })
 });
 

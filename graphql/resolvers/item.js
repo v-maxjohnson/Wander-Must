@@ -14,24 +14,27 @@ export default {
             .catch( err => err )
         )
     },
-    create : ( name ) => {
+    create : ( {item_name} ) => {
         return (
             db.Item.findOne({
-                where: name
+                where: {
+                    item_name : item_name
+                }
             })
             .then( dbItem => {
                 if (dbItem === null ) {
-                    db.Item.create({
+                    return db.Item.create({
                         item_name: req.body.item_name,
                         item_category: req.body.item_category
                     })
-                    .then( item => item )
+                    .then( createdDBItem => createdDBItem )
+                    .catch( err => console.log(err.message) )
                 }
                 else {
-                    console.log("item already exists")
+                    return dbItem
                 }
             })
-            .catch( err => err )
+            .catch( err => console.log(err) )
         )
     }
 }

@@ -35,30 +35,56 @@ export default {
     },
     findByLocale: ( {locale_city} ) => {
         return db.Locale.findOne({ 
-            where: { locale_city }
+            where: { 
+                locale_city : locale_city 
+            }
         })
         .then( dbLocale => {
-                return db.Suitcase.findAll({
-                    where: {
-                        locale_id : dbLocale.dataValues.id
-                    },
-                    include: [
-                        { model: db.User }
-                    ]
-                })
-                .then( dbSuitcases => {
-                    return unpackSequelize( dbSuitcases )
-                })
+            return db.Suitcase.findAll({
+                where: {
+                    locale_id : dbLocale.dataValues.id
+                },
+                include: [
+                    { model: db.User }
+                ]
+            })
+            .then( dbSuitcases => {
+                return unpackSequelize( dbSuitcases )
+            })
         })
     },
+    // deleteItem: ( {suitcase_id, item_id} ) => {
+    //     return 
+    // }
+
+    
+    // create : ( {} ) => {
+    //     return db.Locale.findOne({
+    //         where: {
+    //             id: req.body.locale_id
+    //         },
+    //         include: [db.Suitcase]
+    //     })
+    //     .then( locale => {
+    //         if (locale) {
+    //             return db.Suitcase.create({
+    //                 start_date: req.body.start_date,
+    //                 end_date: req.body.end_date,
+    //                 travel_category: req.body.travel_category,
+    //                 user_id: req.body.user_id,
+    //                 locale_id: req.body.locale_id
+    //             })
+    //             .then( suitcase => {
+    //                 let newObj = Object.assign(suitcase.get(), {
+    //                     "hadPreviousSuitcases": (locale.Suitcases.length !== 0)
+    //                 });
+    //                 res.json(newObj);
+    //             })
+    //             .catch( err => console.log(err.message)
+    //     });
+    // }
 
 
-
-    // create: () => {
-    //     return (
-
-    //     )
-    // },
     // updateItemOnSuitcase : ({ id, itemId, amount }) => {
     //     return (
     //         db.Suitcase.findOne({

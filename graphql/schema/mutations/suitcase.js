@@ -1,32 +1,3 @@
-import {
-    GraphQLObjectType,
-    GraphQLString
-} from 'graphql';
-
-import suitcaseType from './../types/suitcase';
-import resolvers from './../../resolvers';
-
-export default new GraphQLObjectType ({
-    name: 'suitcaseMutations',
-    fields: () => ({
-        // updateItemAmount: {
-        //     type: itemType,
-        //     args: {}
-        //         id: {
-        //             type: GraphQLString
-        //         },
-        //         item_id: {
-        //             type: GraphQLString
-        //         },
-        //     item_amount: {
-        //             type: GraphQLInt
-        //         }
-        //     },
-        //     resolve : ( args ) => resolvers.item.updateItemOnSuitcase( args )
-        // }
-    })
-})
-
 //POST route for checking if an **item** already exist in the user's *suitcase* so that no duplicates can be added
 // app.post("/api/suitcase/:suitcase_id/addItems", (req, res) => {
 //     db.Suitcase.findOne({
@@ -49,17 +20,6 @@ export default new GraphQLObjectType ({
 //             res.json(err);
 //         });
 // });
-
-
-        // deleteItemFromSuitcase: {
-        //     type: itemType,
-        //     args: {
-        //         id: {
-        //             type: GraphQLString
-        //         }
-        //     },
-        //     resolve : ( args ) => resolvers.suitcase.removeItem( args )
-        // }
 
 //DELETE route for deleting an **item** in a *suitcase*
 // app.delete("/api/suitcase/:suitcase_id/:item_id", (req, res) => {
@@ -109,33 +69,4 @@ export default new GraphQLObjectType ({
 //     ).catch( err =>
 //         res.json(err)
 //     );
-// });
-
-//POST route for creating and saving a new **suitcase**
-// app.post("/api/suitcases", (req, res) => {
-//     db.Locale.findOne({
-//         where: {
-//             id: req.body.locale_id
-//         },
-//         include: [db.Suitcase]
-//     }).then( locale => {
-//         if (locale) {
-//             db.Suitcase.create({
-//                 start_date: req.body.start_date,
-//                 end_date: req.body.end_date,
-//                 travel_category: req.body.travel_category,
-//                 user_id: req.body.user_id,
-//                 locale_id: req.body.locale_id
-//             })
-//             .then( suitcase => {
-//                 let newObj = Object.assign(suitcase.get(), {
-//                     "hadPreviousSuitcases": (locale.Suitcases.length !== 0)
-//                 });
-//                 res.json(newObj);
-//             })
-//             .catch(err => {
-//                 res.json(err);
-//             });
-//         }
-//     });
 // });

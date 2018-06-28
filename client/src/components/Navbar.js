@@ -49,7 +49,7 @@ export default class Navibar extends Component {
                 </NavItem>
 
                 <NavItem className="nav-item">
-                  <span className="suitcase-input" data-toggle="modal" data-target="#suitcase-modal">
+                  <span className="suitcase-input" onClick={() => this.props.showNewSuitcaseModal() }>
                     <a className="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Add new suitcase">
                       <i className="fa fa-suitcase" data-toggle="tooltip" title="Add new Suitcase"> </i>
                     </a>

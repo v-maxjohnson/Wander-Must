@@ -1,29 +1,29 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Courgette|Reem+Kufi|Material+Icons");
 
-/* .modal {
+/* .quick-view-modal  .modal {
     
 } */
 
-.modal-content {
+.quick-view-modal .modal-content {
     padding: 15px;
     height: 100%!important;
 }
 
-/* .modal-header {
+/* .quick-view-modal  .modal-header {
     
 } */
 
-.modal-dialog {
+.quick-view-modal .modal-dialog {
     height: 90%!important;
     overflow-y: initial!important;
 }
 
-.modal-title {
+.quick-view-modal .modal-title {
     font-family: "Courgette", cursive!important;
     margin-bottom: 30px!important;
 }
 
-.modal-body {
+.quick-view-modal .modal-body {
     height: 100%;
     overflow-y: auto;
     /* font-size: 20px;
@@ -34,7 +34,7 @@
     text-align: left; */
 }
 
-.modal-lg {
+.quick-view-modal.modal-lg {
     width: 90%!important;
     max-width: none!important;
 }
@@ -43,50 +43,50 @@
     flex-direction: column;
 } */
 
-.suitcase-header {
+.quick-view-modal .suitcase-header {
     background: none!important;
     color: black!important;
     font-family: "Reem Kufi", sans-serif!important;
     font-size: 16px!important;
 }
 
-.items-section {
+.quick-view-modal .items-section {
     margin-bottom: 10px;
     padding-bottom: 10px;
 }
 
-.new-suitcase {
+.quick-view-modal .new-suitcase {
     display: inherit;
 }
 
-.suitcase-nav {
+.quick-view-modal .suitcase-nav {
     justify-content: center;
     width: 100%;
 }
 
-.city-name p {
+.quick-view-modal .city-name p {
     margin-top: 10px;
     font-family: "Reem Kufi", sans-serif;
     font-size: 24px!important;
     line-height: 32px;
 }
 
-.locale-city {
+.quick-view-modal .locale-city {
     text-transform: capitalize;
 }
 
-.form-check-label {
+.quick-view-modal .form-check-label {
     color: black;
 }
 
-.trash-icon {
+.quick-view-modal .trash-icon {
     font-size: 18px;
     margin-right: 5px;
     color: #9C27B0;
     cursor: pointer;
 }
 
-.non-click-label {
+.quick-view-modal .non-click-label {
     color: black!important;
     margin-left: 5px!important;
 }

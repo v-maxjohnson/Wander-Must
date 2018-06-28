@@ -29,7 +29,7 @@ export default class QuickViewModal extends Component {
   render() {
     return (
       <div>
-        <Modal centered={true} isOpen={this.state.modal} toggle={this.toggle} className="modal-lg">
+        <Modal centered={true} isOpen={this.state.modal} toggle={this.toggle} className="quick-view-modal modal-lg">
           <ModalHeader toggle={this.toggle}>Wander-Must</ModalHeader>
           <div className="suitcase-header">
             <div id="suitcase-nav" className="nav-tabs-navigation">

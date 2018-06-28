@@ -6,7 +6,9 @@ export default class Header extends Component {
   render() {
     return (
       <header>
-        <Navibar />
+        <Navibar
+          showNewSuitcaseModal={this.props.showNewSuitcaseModal}
+        />
       </header>
     )
   }

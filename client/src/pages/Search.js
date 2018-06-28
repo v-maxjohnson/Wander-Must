@@ -7,6 +7,7 @@ import "../styles/Search.css";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 import QuickViewModal from '../components/QuickViewModal';
+import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import Yelp from "../components/Yelp";
 
 const GET_SUITCASES_BY_LOCALE_QUERY = gql`
@@ -57,6 +58,7 @@ export default class Search extends Component {
     ],
     city: "austin",
     openQuickViewModal: false,
+    openNewSuitcaseModal: false,
     rendered: false,
     index: 0
   }
@@ -91,13 +93,31 @@ export default class Search extends Component {
   }
 
   setQuickViewModalIndex = (idx) => {
-    this.setState({ index: idx})
+    this.setState({ index: idx })
+  }
+
+  showNewSuitcaseModal = () => {
+    this.setState({ openNewSuitcaseModal: true });
+  }
+
+  resetNewSuitcaseModal = () => {
+    this.setState({ openNewSuitcaseModal: false });
+  }
+
+  renderNewSuitcaseModal = () => {
+    if (this.state.openNewSuitcaseModal) {
+      return <NewSuitcaseModal
+        resetNewSuitcaseModal={this.resetNewSuitcaseModal}
+      />
+    }
   }
 
   render() {
     return (
       <div className="search profile-page sidebar-collapse">
-        <Header />
+        <Header
+          showNewSuitcaseModal={this.showNewSuitcaseModal}
+        />
         <Main>
           <div className="page-header header-filter" data-parallax="true" id="background-search"></div>
           <div className="main main-raised">
@@ -142,8 +162,9 @@ export default class Search extends Component {
           </div>
         </Main>
         {this.renderQuickViewModal()}
+        {this.renderNewSuitcaseModal()}
         <Footer />
-        
+
       </div>
     )
   }

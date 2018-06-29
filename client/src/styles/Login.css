@@ -1,0 +1,20 @@
+.login-dropdown button,
+.login-dropdown button:hover {
+    background-color: transparent!important;
+}
+
+
+.login-dropdown button i {
+    color: white;
+    font-size: 1.25rem!important;
+    margin: 0!important;
+    top: 0!important;
+    bottom: 0!important;
+}
+
+.login-dropdown .btn.btn-secondary,
+.login-dropdown .btn.btn-secondary:active,
+.login-dropdown .btn.btn-secondary:focus,
+.login-dropdown .btn.btn-secondary:hover {
+    box-shadow: none;
+}

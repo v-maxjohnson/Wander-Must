@@ -1,26 +1,32 @@
-# Wander-Must
+# Create React Express App
 
-The must have packing app.
+## About This Boilerplate
 
+This setup allows for a Node/Express/React app which can be easily deployed to Heroku.
 
-## Concept
+The front-end React app will auto-reload as it's updated via webpack dev server, and the backend Express app will auto-reload independently with nodemon.
 
-[Wander-Must](https://wander-must.herokuapp.com/)
+## Starting the app locally
 
-![Wander-Must](https://github.com/MollyLJohnson/Wander-Must/blob/master/wandermust.png)
+Start by installing front and backend dependencies. While in this directory, run the following command:
 
-In the world of travel, there are apps to assist with various parts of the overall experience, but no shared, social space for those with a true wanderlust. Wander-Must is a social network for world travelers looking for the unexpected, but averse to unwelcome surprises. Knowing what to pack becomes easy with the following steps:
+```
+yarn install
+``
 
-1. Sign up/Log in - create a unique username and choose your spirit animal
+This should install node modules within the server and the client folder.
 
-2. Choose a destination, your travel dates, and the type of travel (Business, Leisure, Adventure, Vacation) and create a new suitcase
+After both installations complete, run the following command in your terminal:
 
-3. If another user has already visited your destination, explore their experiences and add items to your suitcase
+```
+yarn start
+```
 
-4. If you are the first to visit a destination, pick and choose what you may need from a list of 100 items and add them to your suitcase
+Your app should now be running on <http://localhost:3000>. The Express server should intercept any AJAX requests from the client.
 
-5. Update your suitcase as needed, adding and deleting items
+## Deployment (Heroku)
 
+<<<<<<< HEAD
 
 ## Application
 
@@ -152,3 +158,6 @@ The Wander-Must Team:
 
 - **Evan Seaman** - [Evan Seaman](https://github.com/evanjosephcode)
     - External API, AJAX, jQuery, Test Suite
+=======
+To deploy, simply add and commit your changes, and push to Heroku. As is, the NPM scripts should take care of the rest.
+>>>>>>> 6ec5045351ef9cf1652840490265bc8f0a6f88e8

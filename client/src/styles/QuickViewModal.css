@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Courgette|Reem+Kufi|Material+Icons");
+
+/* .quick-view-modal  .modal {
+    
+} */
+
+.quick-view-modal .modal-content {
+    padding: 15px;
+    height: 100%!important;
+}
+
+/* .quick-view-modal  .modal-header {
+    
+} */
+
+.quick-view-modal.modal-dialog {
+    height: 90%!important;
+    overflow-y: initial!important;
+}
+
+.quick-view-modal .modal-title {
+    font-family: "Courgette", cursive!important;
+    margin-bottom: 30px!important;
+}
+
+.quick-view-modal .modal-body {
+    height: 100%;
+    overflow-y: auto;
+    /* font-size: 20px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    text-align: left; */
+}
+
+.quick-view-modal.modal-lg {
+    width: 90%!important;
+    max-width: none!important;
+}
+
+/* .modal-row {
+    flex-direction: column;
+} */
+
+.quick-view-modal .suitcase-header {
+    background: none!important;
+    color: black!important;
+    font-family: "Reem Kufi", sans-serif!important;
+    font-size: 16px!important;
+}
+
+.quick-view-modal .items-section {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+.quick-view-modal .new-suitcase {
+    display: inherit;
+}
+
+.quick-view-modal .suitcase-nav {
+    justify-content: center;
+    width: 100%;
+}
+
+.quick-view-modal .city-name p {
+    margin-top: 10px;
+    font-family: "Reem Kufi", sans-serif;
+    font-size: 24px!important;
+    line-height: 32px;
+}
+
+.quick-view-modal .locale-city {
+    text-transform: capitalize;
+}
+
+.quick-view-modal .form-check-label {
+    color: black;
+}
+
+.quick-view-modal .trash-icon {
+    font-size: 18px;
+    margin-right: 5px;
+    color: #9C27B0;
+    cursor: pointer;
+}
+
+.quick-view-modal .non-click-label {
+    color: black!important;
+    margin-left: 5px!important;
+}

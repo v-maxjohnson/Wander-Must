@@ -31,7 +31,7 @@ export default class Account extends Component {
     },
     rendered: false,
     openNewSuitcaseModal: false,
-    number: "2"
+    number: "16"
   }
 
   componentDidMount() {

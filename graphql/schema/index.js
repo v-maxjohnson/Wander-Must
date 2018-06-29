@@ -6,14 +6,14 @@ import suitcaseType from './types/suitcase'
 import userType from './types/user';
 // import gqlTag from "graphql-tag";
 
-import query from './queries';
-// import mutations from './mutations';
+import queries from './queries';
+import mutations from './mutations';
 
 // export const client = new ApolloClient();
 
 export default new GraphQLSchema({
-  query: query,
-  // mutation: mutations,
+  query: queries,
+  mutation: mutations,
   types: [
       itemType,
       localeType,

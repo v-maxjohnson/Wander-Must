@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import "../styles/Account.css";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
@@ -28,6 +29,7 @@ export default class Account extends Component {
       user_image: ""
     },
     rendered: false,
+    openNewSuitcaseModal: false,
     number: "2"
   }
 
@@ -43,10 +45,28 @@ export default class Account extends Component {
 
   }
 
+  showNewSuitcaseModal = () => {
+    this.setState({ openNewSuitcaseModal: true });
+  }
+
+  resetNewSuitcaseModal = () => {
+    this.setState({ openNewSuitcaseModal: false });
+  }
+
+  renderNewSuitcaseModal = () => {
+    if (this.state.openNewSuitcaseModal) {
+      return <NewSuitcaseModal
+        resetNewSuitcaseModal={this.resetNewSuitcaseModal}
+      />
+    }
+  }
+
   render() {
     return (
       <div className="account profile-page sidebar-collapse">
-        <Header />
+        <Header
+          showNewSuitcaseModal={this.showNewSuitcaseModal}
+        />
         <Main>
           <div className="page-header header-filter" id="background-account" data-parallax="true"></div>
           <div className="main main-raised">
@@ -56,7 +76,7 @@ export default class Account extends Component {
                   <div className="col-md-6 ml-auto mr-auto">
                     <div className="profile">
                       <div className="avatar">
-                        <img src={this.state.userData.user_image}  alt="Avatar" className="img-fluid" />
+                        <img src={this.state.userData.user_image} alt="Avatar" className="img-fluid" />
                       </div>
                       <div className="name">
                         <h3 id="profile-user-name" className="title">{this.state.userData.username} </h3>
@@ -66,35 +86,36 @@ export default class Account extends Component {
                 </div>
                 <div className="row">
 
-                <div className="card card-nav-tabs card-plain">
-    <div className="suitcase-header card-header card-header-default">
+                  <div className="card card-nav-tabs card-plain">
+                    <div className="suitcase-header card-header card-header-default">
 
-        <div id="suitcase-nav" className="nav-tabs-navigation">
-            <div className="nav-tabs-wrapper">
-                <ul className="nav suitcase-nav">
-                    <li className="nav-item ">
-                        <p className="nav-link" id="suitcase-user">{this.state.userData.username}</p>
-                    </li>
-                    <li className="nav-item ">
-                        <p className="nav-link" id="suitcase-user-gender">{this.state.userData.gender}</p>
-                    </li>
-                    <li className="nav-item ">
-                        <p className="nav-link" id="suitcase-user-email">{this.state.userData.email}</p>
-                    </li>
+                      <div id="suitcase-nav" className="nav-tabs-navigation">
+                        <div className="nav-tabs-wrapper">
+                          <ul className="nav suitcase-nav">
+                            <li className="nav-item ">
+                              <p className="nav-link" id="suitcase-user">{this.state.userData.username}</p>
+                            </li>
+                            <li className="nav-item ">
+                              <p className="nav-link" id="suitcase-user-gender">{this.state.userData.gender}</p>
+                            </li>
+                            <li className="nav-item ">
+                              <p className="nav-link" id="suitcase-user-email">{this.state.userData.email}</p>
+                            </li>
 
-                </ul>
-            </div>
-        </div>
-    </div>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
 
-</div>
-                 
+                  </div>
+
 
                 </div>
               </div>
             </div>
           </div>
         </Main>
+        {this.renderNewSuitcaseModal()}
         <Footer />
       </div>
     )

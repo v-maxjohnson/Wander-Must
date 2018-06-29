@@ -42,7 +42,7 @@ export default {
         .then( dbLocale => {
             return db.Suitcase.findAll({
                 where: {
-                    locale_id : dbLocale.dataValues.id
+                    locale_id : dbLocale.id
                 },
                 include: [
                     { model: db.User }

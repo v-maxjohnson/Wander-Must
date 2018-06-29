@@ -45,7 +45,7 @@ export default class Profile extends Component {
     },
     openNewSuitcaseModal: false,
     rendered: false,
-    number: "2"
+    number: "16"
   }
 
   componentDidMount() {

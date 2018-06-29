@@ -1,9 +1,11 @@
 import { 
     GraphQLObjectType,
     GraphQLString,
-    GraphQLInt
+    GraphQLInt,
+    GraphQLEnumType
 } from 'graphql';
 
+import travelCategory from './../types/suitcase';
 import suitcaseType from './../types/suitcase';
 import localeType from './../types/locale';
 import itemType from './../types/item';

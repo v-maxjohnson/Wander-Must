@@ -60,4 +60,12 @@ export default class Yelp extends Component {
     });
 
   }
+
+  render() {
+    return (
+        <div className="yelp" >
+          {this.props.children}
+        </div>
+    )
+  }
 }

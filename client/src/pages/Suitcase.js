@@ -54,7 +54,7 @@ export default class Suitcase extends Component {
     },
     rendered: false,
     openNewSuitcaseModal: false,
-    number: "5"
+    number: "24"
   };
 
   componentDidMount() {

@@ -33,19 +33,19 @@ export default {
             .catch( err => err )
         )
     },
-    findByLocale: ( {locale_city} ) => {
+    findByLocale: ( locale_city ) => {
         return db.Locale.findOne({ 
-            where: { 
-                locale_city : locale_city 
-            }
+            where: locale_city
         })
         .then( dbLocale => {
             return db.Suitcase.findAll({
                 where: {
-                    locale_id : dbLocale.dataValues.id
+                    locale_id : dbLocale.id
                 },
                 include: [
-                    { model: db.User }
+                    { model: db.Item },
+                    { model: db.User },
+                    { model: db.Locale }
                 ]
             })
             .then( dbSuitcases => {

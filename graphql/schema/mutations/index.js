@@ -49,7 +49,7 @@ export default new GraphQLObjectType ({
                     type: GraphQLString
                 },
                 travel_category: {
-                    type: travelCategory
+                    type: suitcaseType.travelCategory
                 },
                 user_id: {
                     type: GraphQLString

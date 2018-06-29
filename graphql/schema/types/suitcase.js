@@ -10,7 +10,7 @@ import localeType from './locale';
 import itemType from './item';
 import userType from './user';
 
-export const travelCategory = new GraphQLEnumType({
+const travelCategory = new GraphQLEnumType({
     name: 'TravelCategoryEnum',
     values: {
         BUSINESS: {

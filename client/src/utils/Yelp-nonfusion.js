@@ -19,12 +19,14 @@ export default class Yelp extends Component {
     this.makeYelpCall();
   }
 
+  radiusMiles = '';
+
   makeYelpCall = () => {
-    if (radiusMiles >= 25) {
-      radiusMiles = 25;
+    if (this.state.radiusMiles >= 25) {
+      this.state.radiusMiles = 25;
     }
 
-    var radiusMeters = radiusMiles * 1600;
+    var radiusMeters = this.state.radiusMiles * 1600;
 
 
     let params = [{

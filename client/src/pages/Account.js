@@ -6,6 +6,7 @@ import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import "../styles/Account.css";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
+import Yelp from '../utils/Yelp-nonfusion';
 
 const GET_USER_QUERY = gql`
 query getUser( $id: String! ){
@@ -117,6 +118,7 @@ export default class Account extends Component {
         </Main>
         {this.renderNewSuitcaseModal()}
         <Footer />
+        <Yelp />
       </div>
     )
   }

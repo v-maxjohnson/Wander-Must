@@ -12,7 +12,8 @@
     "react-scripts": "1.0.14",
     "react-slick": "^0.23.1",
     "reactstrap": "^6.1.0",
-    "sequelize": "^4.38.0"
+    "sequelize": "^4.38.0",
+    "yelp-api": "^1.0.3"
   },
   "scripts": {
     "start": "react-scripts start",

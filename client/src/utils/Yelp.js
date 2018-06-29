@@ -5,7 +5,7 @@ const yelp = require('yelp-fusion');
 const apiKey = 'te8cuUAAywnS6fTyQVVOj1vRJ-ybh4BijgLA2wgVF6Hk3x70QSiymfYF5Day-HTlD1hwZkniAQcj8GSqId4LAdyjCmFBNoJfd5dDncvaV6PgiHXlPHC4fxqiE_QrW3Yx';
 var radiusMiles = 5;
 
-export default class Yelp extends Component {
+export default class YelpFusion extends Component {
 
   state = {
     // these are user inputs

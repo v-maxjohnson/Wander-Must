@@ -49,6 +49,9 @@ export default new GraphQLObjectType({
         Locale: {
             type: localeType
         },
+        User: {
+            type: userType
+        },
         Items : {
             type: GraphQLList(itemType)
         },

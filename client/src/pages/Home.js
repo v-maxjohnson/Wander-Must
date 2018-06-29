@@ -2,13 +2,37 @@ import React, { Component } from 'react';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import "../styles/Home.css";
 
 export default class Home extends Component {
+
+  state = {
+    openNewSuitcaseModal: false,
+  }
+
+  showNewSuitcaseModal = () => {
+    this.setState({ openNewSuitcaseModal: true });
+  }
+
+  resetNewSuitcaseModal = () => {
+    this.setState({ openNewSuitcaseModal: false });
+  }
+
+  renderNewSuitcaseModal = () => {
+    if (this.state.openNewSuitcaseModal) {
+      return <NewSuitcaseModal
+        resetNewSuitcaseModal={this.resetNewSuitcaseModal}
+      />
+    }
+  }
+
   render() {
     return (
       <div className="home profile-page sidebar-collapse">
-      <Header />
+        <Header
+          showNewSuitcaseModal={this.showNewSuitcaseModal}
+        />
         <Main>
           <div id="background-home" className="page-header header-filter" data-parallax="true">
             <div className="container">
@@ -139,6 +163,7 @@ export default class Home extends Component {
             </div>
           </div>
         </Main>
+        {this.renderNewSuitcaseModal()}
         <Footer />
       </div>
     )

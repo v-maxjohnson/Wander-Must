@@ -1,0 +1,21 @@
+<div class="suitcase-partial container col-sm-12 col-md-6 col-lg-4" data-id="{{this.id}}">
+    <div class="suitcaseCard">
+        <div class="card bg-dark text-white no-shadow">
+            <div class="suitcaseWrapper card-img">
+                <a class="suitcase-link" href="/suitcase/{{this.id}}">
+                    <img class="suitcasePhoto img-responsive" src="" alt="Card image" data-id="{{this.id}}" data-city={{Locale.locale_city}}
+                        data-admin={{Locale.locale_admin}} data-country={{Locale.locale_country}} data-start={{this:start_date}}
+                        data-end={{this:end_date}} data-user={{Users.username}}/>
+                    <img class="suitcaseFrame img-responsive" src="/assets/img/suitcaseFrame.png" alt="Suitcase Frame">
+                </a>
+            </div>
+            <div class="card-img-overlay">
+                <h5 class="card-title suitcase-title"> {{Users.username}} </h5>
+                <div class="trip-details">
+                    <p class="badge travel-dates py-2">{{start_date}} - {{end_date}}</p>
+                    <p class="badge travel-category py-2">{{travel_category}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

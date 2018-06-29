@@ -7,12 +7,12 @@ let unpackSequelize = data => {
 }
 
 export default {
-    findAll : () => {
+    findAll: () => {
         return (
             db.User.findAll({
                 include: [
                     {
-                      model: db.Suitcase, include: [
+                        model: db.Suitcase, include: [
                             { model: db.Locale },
                             { model: db.Item }
                         ]
@@ -22,5 +22,21 @@ export default {
             .then( dbUsers => unpackSequelize(dbUsers) )
             .catch( err => err )
         )
+    },
+    findById: (id) => {
+        return (
+            db.User.findOne({
+                where: id,
+                include: [
+                    {
+                        model: db.Suitcase,
+                        include: [db.Locale]
+                    }
+                ]
+            })
+                .then(dbUser => dbUser)
+        )
+            .catch(err => err)
+
     }
 }

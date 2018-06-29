@@ -1,0 +1,36 @@
+<div class="page-header header-filter" data-parallax="true" style="background-image: url('/assets/img/city-profile.jpg');"></div>
+<div class="main main-raised">
+  <div class="profile-content">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 ml-auto mr-auto">
+          <div class="profile">
+            <div class="avatar">
+              <img src="{{user.user_image}}" alt="Circle Image" class="img-fluid">
+            </div>
+            <div class="name">
+              <h3 id="profile-user-name" class="title">{{user.username}}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        {{#each user.Suitcases}} {{> suitcase-card }} {{/each}}
+        <!-- blank suitcase to add new suitcase -->
+        <div class="container col-sm-12 col-md-6 col-lg-4">
+          <div class="suitcaseCard" id="blank-suitcase" class="suitcase-input" data-toggle="modal" data-target="#suitcase-modal">
+            <div class="card add-card text-white no-shadow">
+              <div class="suitcaseWrapper card-img">
+                <img class="suitcaseFrame img-responsive" src="/assets/img/suitcaseFrame.png" alt="Suitcase Frame">
+              </div>
+              <div class="card-img-overlay">
+                <i class="fa fa-plus plus-icon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

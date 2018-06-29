@@ -1,7 +1,8 @@
 import { 
     GraphQLObjectType,
     GraphQLString,
-    GraphQLInt
+    GraphQLInt,
+    GraphQLEnumType
 } from 'graphql';
 
 import travelCategory from './../types/suitcase';
@@ -49,7 +50,7 @@ export default new GraphQLObjectType ({
                     type: GraphQLString
                 },
                 travel_category: {
-                    type: suitcaseType.travelCategory
+                    type: GraphQLEnumType
                 },
                 user_id: {
                     type: GraphQLString

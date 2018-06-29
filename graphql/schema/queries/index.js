@@ -1,9 +1,7 @@
 import {
     GraphQLObjectType,
     GraphQLList,
-    GraphQLID,
-  GraphQLString,
-  GraphQLNonNull
+    GraphQLString,
 } from 'graphql';
 
 import userType from '../types/user';
@@ -18,15 +16,15 @@ export default new GraphQLObjectType({
     fields: () => ({
         allUsers: {
             type: GraphQLList(userType),
-            resolve: () => resolvers.user.findAll()
+            resolve : () => resolvers.user.findAll()
         },
         allLocales: {
             type: GraphQLList(localeType),
-            resolve: () => resolvers.locale.findAll()
+            resolve : () => resolvers.locale.findAll()
         },
         allSuitcases: {
             type: GraphQLList(suitcaseType),
-            resolve: () => resolvers.suitcase.findAll()
+            resolve : () => resolvers.suitcase.findAll()
         },
         allItems: {
             type: GraphQLList(itemType),
@@ -39,7 +37,16 @@ export default new GraphQLObjectType({
                     type: GraphQLString
                 }
             },
-            resolve: ( root, args ) => resolvers.suitcase.findById( args )
+            resolve : ( root, args ) => resolvers.suitcase.findById( args )
+        },
+        getAllSuitcasesForLocale: {
+            type: GraphQLList(suitcaseType),
+            args: {
+                locale_city: {
+                    type: GraphQLString
+                }
+            },
+            resolve : ( root, args ) => resolvers.suitcase.findByLocale( args )
         },
         getUser: {
             type: userType,
@@ -48,16 +55,7 @@ export default new GraphQLObjectType({
                     type: GraphQLString
                 }
             },
-            resolve: ( root, args ) => resolvers.user.findById( args )
+            resolve : ( root, args ) => resolvers.user.findById( args )
         },
-        getSuitcasesByLocale: {
-            type: GraphQLList(suitcaseType),
-            args: {
-                locale_city: {
-                    type: GraphQLString
-                }
-            },
-            resolve: ( root, args ) => resolvers.suitcase.findByLocale( args )
-        }
     })
 })

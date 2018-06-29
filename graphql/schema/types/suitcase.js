@@ -2,7 +2,8 @@ import {
     GraphQLObjectType,
     GraphQLString,
     GraphQLList,
-    GraphQLEnumType
+    GraphQLEnumType, 
+    GraphQLInt
   } from 'graphql';
 
 import localeType from './locale';
@@ -53,6 +54,9 @@ export default new GraphQLObjectType({
         },
         Items : {
             type: GraphQLList(itemType)
+        },
+        User: {
+            type: userType
         }
     })
 });

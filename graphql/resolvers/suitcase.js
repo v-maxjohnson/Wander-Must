@@ -57,8 +57,8 @@ export default {
     //     return 
     // }
 
-    
-    // create : ( {} ) => {
+
+    // create : ( {start_date, end_date, travel_category, user_id, locale_id} ) => {
     //     return db.Locale.findOne({
     //         where: {
     //             id: req.body.locale_id
@@ -85,21 +85,22 @@ export default {
     // }
 
 
-    // updateItemOnSuitcase : ({ id, itemId, amount }) => {
-    //     return (
-    //         db.Suitcase.findOne({
-    //             where: id
-    //         })
-    //         .then( dbSuitcase => {
-    //             dbSuitcase.findOne({
-    //                 where: itemId
-    //             })
-    //             .then( dbSuitcaseItem => {
-    //                 dbSuitcaseItem.update({
-    //                     item_amount: amount
-    //                 })
-    //             })
-    //         })
-    //     )
-    // }
+    updateItemOnSuitcase : ({ suitcase_id, item_id, item_amount }) => {
+        return db.Suitcase.findOne({
+            where: {
+                suitcase_id : suitcase_id
+            }
+        })
+        .then( dbSuitcase => {
+            return dbSuitcase.findOne({
+                where: { 
+                    item_id : item_id 
+                }
+            })
+            .then( dbItem => {
+                return dbItem.update({ item_amount: item_amount })
+            })
+            .catch( err => console.log(err.message) )
+        })
+    }
 }

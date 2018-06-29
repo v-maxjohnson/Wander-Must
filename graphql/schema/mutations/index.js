@@ -21,7 +21,7 @@ export default new GraphQLObjectType ({
                     type: GraphQLString
                 }
             },
-            resolve: ( args ) => resolvers.item.create( args )
+            resolve : ( args ) => resolvers.item.create( args )
         },
         createNewLocale: {
             type: localeType,
@@ -36,14 +36,28 @@ export default new GraphQLObjectType ({
                     type: GraphQLString
                 }
             },
-            resolve: ( root, args ) => resolvers.locale.create( args )
+            resolve : ( root, args ) => resolvers.locale.create( args )
         },
         createNewSuitcase: {
             type: suitcaseType,
             args: {
-
+                start_date: {
+                    type: GraphQLString
+                },
+                end_date: {
+                    type: GraphQLString
+                },
+                travel_category: {
+                    type: travelCategory
+                },
+                user_id: {
+                    type: GraphQLString
+                },
+                locale_id: {
+                    type: GraphQLString
+                }
             },
-            resolve: ( root, args ) => resolvers.suitcase.create( args )
+            resolve : ( root, args ) => resolvers.suitcase.create( args )
         },
         updateItemAmountOnSuitcase: {
             type: suitcaseType,

@@ -50,7 +50,7 @@ export default new GraphQLObjectType ({
                     type: GraphQLString
                 },
                 travel_category: {
-                    type: GraphQLEnumType
+                    type: GraphQLEnumType(travelCategory)
                 },
                 user_id: {
                     type: GraphQLString

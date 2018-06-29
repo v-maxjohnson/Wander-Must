@@ -290,7 +290,9 @@ export default class Suitcase extends Component {
                 </div>
               </div>
             </div>
-            <Yelp/>
+            <div className="yelp-wrapper">
+              <Yelp/>
+            </div>
           </div>
 
         </Main>

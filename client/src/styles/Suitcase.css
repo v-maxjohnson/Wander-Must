@@ -77,6 +77,11 @@
     transform: translate(-50%, -50%);
 }
 
+.yelp-wrapper {
+    max-width: 100%;
+    margin: 10px;
+}
+
 
 /* HANDLE ON SUITCASE PAGES */
 

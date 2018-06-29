@@ -15,7 +15,7 @@ export default class YelpCarousel extends Component {
     };
     return (
       <div>
-        <h2> Single Item</h2>
+        <h3> Want more to do in the city?</h3>
 
         <Slider {...settings}>
         {this.props.yelpResults.map((yelp, i) => (

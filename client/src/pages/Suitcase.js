@@ -5,7 +5,6 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Category from "../components/Category";
 import NewSuitcaseModal from "../components/NewSuitcaseModal";
-import YelpCarosel from "../components/YelpCarousel";
 import Yelp from "../components/Yelp";
 import Item from "../components/Item";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
@@ -291,7 +290,9 @@ export default class Suitcase extends Component {
                 </div>
               </div>
             </div>
-            <Yelp/>
+            <div className="yelp-wrapper">
+              <Yelp/>
+            </div>
           </div>
 
         </Main>

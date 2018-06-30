@@ -1,26 +1,48 @@
 import React, { Component } from 'react';
 import "../styles/Yelp.css";
+import { log } from 'util';
 
 export default class YelpCard extends Component {
+    constructor() {
+        super();
+        this.brightenImage.bind(this);
+    }
+
+    brightenImage(e) {
+        console.log('mouse enter; does this even work?');
+        
+        console.log(e.target);
+    }
+
   render() {
     return (
-        <div className="mb-2">
+        
         <div className="card card-yelp">
+
             <div className="card-img-wrapper">
-                <img className="card-img-top" src={this.props.image} alt="Restaurant"/>
-                <div className="card-img-overlay">
-                <p className="card-text text-white">{this.props.rating} ---- {this.props.price}</p>
-                <h4 className="card-title card-title-wrapper text-white">{this.props.name}</h4>
-                </div>
+                <img className="card-img-top yelp-img" src={this.props.image} alt="Restaurant"/>
             </div>
-            <div className="card-body">
-                <div className="card-text">{this.props.category.map ((child, i) => <p key={i}>{child}</p>)}</div>
-                <a className="btn btn-primary" href={this.props.website} >
-                    <i className="fa fa-window-restore" data-toggle="tooltip" title="Go to website"> </i>
-                </a>
+            <div className="card-img-overlay" onMouseEnter={this.brightenImage}>
+                <div className="row">
+                    <div className="offset-8 col-md-4">
+                        <p className="card-text text-right yelp-rating">{this.props.rating} ---- {this.props.price}</p>
+                    </div>
+                    <div className="col-md-12">
+                        <h2 className="card-title yelp-title">{this.props.name}</h2>
+                    </div>
+                    <div className="col-md-12 col-sm-12">
+                        <div className="card-text">{this.props.category.join(', ')}</div>
+                    </div>
+                    <div className="col-md-12">
+                        <a className="btn btn-default btn-fab btn-round" href={this.props.website} target="_blank" >
+                            <i className="fa fa-window-restore" data-toggle="tooltip" title="Go to website"> </i>
+                        </a>
+                    </div>
+                </div>  
             </div>
+
         </div>
-        </div>
+        
         
     )
   }

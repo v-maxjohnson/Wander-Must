@@ -45,7 +45,7 @@ export default class Profile extends Component {
     },
     openNewSuitcaseModal: false,
     rendered: false,
-    number: "2"
+    number: "16"
   }
 
   componentDidMount() {
@@ -91,7 +91,7 @@ export default class Profile extends Component {
                   <div className="col-md-6 ml-auto mr-auto">
                     <div className="profile">
                       <div className="avatar">
-                        <img src={this.state.userData.user_image} alt="Avatar" className="img-fluid" />
+                        <img src={this.state.userData.user_image} alt="Avatar" className="img-raised rounded-circle img-fluid" />
                       </div>
                       <div className="name">
                         <h3 id="profile-user-name" className="title">{this.state.userData.username}</h3>

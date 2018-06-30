@@ -10,18 +10,34 @@
     overflow: hidden
 }
 
-.card-img-top {
-    max-height: 200px;
+.yelp-img{
     width: 100%;
-    overflow: hidden;
-    margin-right: auto;
-    margin-left: auto;
-    opacity: 90%;
+    height: 20vw;
+    object-fit: cover;
+    opacity: 0.5;
 }
 
+/* .yelp-img:hover {
+    opacity: 1.0;
+} */
+
 .card-img-wrapper {
-    
     max-height: 100px;
     margin: 2px;
-    max-height: 200px;
+    max-height: 300px;
+}
+
+.yelp-title {
+    font-size: 20px;
+    color: white!important;
+    stroke-width: 10px;
+    text-shadow: 2px 2px 3px rgba(0,0,0,.8);
+    opacity: 1.0!important;
+}
+
+.yelp-rating {
+    color: white!important;
+    background-color: grey;
+    padding-right: 5px;
+
 }

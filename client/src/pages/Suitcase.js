@@ -40,6 +40,7 @@ query getSuitcase( $id: String! ){
 
 const client = new ApolloClient();
 
+let suitcaseId = localStorage.getItem("suitcase_id");
 let cityNoUnderscores = "";
 
 export default class Suitcase extends Component {
@@ -54,7 +55,11 @@ export default class Suitcase extends Component {
     },
     rendered: false,
     openNewSuitcaseModal: false,
+<<<<<<< HEAD
     number: "24"
+=======
+    number: suitcaseId
+>>>>>>> d739c8eb9e749d82a2bbec16442f7ad0845c2f5e
   };
 
   componentDidMount() {

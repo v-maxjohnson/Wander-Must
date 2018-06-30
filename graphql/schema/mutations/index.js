@@ -1,13 +1,15 @@
 import { 
     GraphQLObjectType,
     GraphQLString,
-    GraphQLInt
+    GraphQLInt,
+    GraphQLEnumType
 } from 'graphql';
 
+// import travelCategory from './../types/suitcase';
 import suitcaseType from './../types/suitcase';
 import localeType from './../types/locale';
 import itemType from './../types/item';
-
+import travelCategory from './../types/suitcase';
 import resolvers from './../../resolvers';
 
 
@@ -47,9 +49,9 @@ export default new GraphQLObjectType ({
                 end_date: {
                     type: GraphQLString
                 },
-                travel_category: {
-                    type: travelCategory
-                },
+                // travel_category: {
+                //     type: travelCategory
+                // },
                 user_id: {
                     type: GraphQLString
                 },

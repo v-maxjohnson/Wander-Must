@@ -38,6 +38,9 @@ query getSuitcasesByLocale( $locale_city: String! ){
 
 const client = new ApolloClient();
 
+let cityName = localStorage.getItem("city_name");
+let cityNoUnderscores = "";
+
 export default class Search extends Component {
   state = {
     suitcaseData: [
@@ -56,7 +59,7 @@ export default class Search extends Component {
         }
       }
     ],
-    city: "austin",
+    city: cityName,
     openQuickViewModal: false,
     openNewSuitcaseModal: false,
     rendered: false,
@@ -73,6 +76,15 @@ export default class Search extends Component {
       console.log(this.state.suitcaseData)
     })
 
+  }
+
+  renderCityWithoutUnderscores = () => {
+    if (this.state.rendered) {
+      cityNoUnderscores = this.state.suitcaseData[0].Locale.locale_city.replace(/_/g, ' ');
+      return (
+        cityNoUnderscores
+      )
+    }
   }
 
   showQuickViewModal = () => {
@@ -129,7 +141,7 @@ export default class Search extends Component {
 
                       <div className="city-name">
                         <p>Here are some suitcases for
-                <span className="locale-city"> {this.state.suitcaseData[0].Locale.locale_city}</span>. Click on a suitcase and start adding items to yours!</p>
+                <span className="locale-city"> {this.renderCityWithoutUnderscores()}</span>. Click on a suitcase and start adding items to yours!</p>
 
                       </div>
                     </div>

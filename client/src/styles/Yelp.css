@@ -21,6 +21,10 @@
     opacity: 1.0;
 } */
 
+.food-categories {
+    font-weight: bold;
+}
+
 .card-img-wrapper {
     max-height: 100px;
     margin: 2px;

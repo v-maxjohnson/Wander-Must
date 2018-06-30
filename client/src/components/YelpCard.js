@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import "../styles/Yelp.css";
-import { log } from 'util';
+
 
 export default class YelpCard extends Component {
 
@@ -22,7 +22,7 @@ render() {
                         <h2 className="card-title yelp-title">{this.props.name}</h2>
                     </div>
                     <div className="col-md-12 col-sm-12">
-                        <div className="card-text">{this.props.category.join(', ')}</div>
+                        <div className="card-text food-categories">{this.props.category.join(', ')}</div>
                     </div>
                     <div className="col-md-12">
                         <a className="btn btn-default btn-fab btn-round" href={this.props.website} target="_blank" >

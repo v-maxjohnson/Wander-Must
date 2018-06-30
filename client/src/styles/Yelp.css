@@ -1,0 +1,50 @@
+@import "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css";
+@import "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css";
+
+.card-yelp {
+    box-sizing: border-box!important;
+    margin: 10px;
+}
+.card-title-wrapper {
+    width: 200px;
+    overflow: hidden
+}
+
+.yelp-img{
+    width: 100%;
+    height: 20vw;
+    object-fit: cover;
+    opacity: 0.5;
+}
+
+/* .yelp-img:hover {
+    opacity: 1.0;
+} */
+
+.food-categories {
+    font-weight: bold;
+}
+
+.card-img-wrapper {
+    max-height: 100px;
+    margin: 2px;
+    max-height: 300px;
+}
+
+.yelp-title {
+    font-size: 25px;
+    color: white!important;
+    stroke-width: 10px;
+    text-shadow: 2px 2px 3px rgba(0,0,0,.8);
+    font-weight: bold;
+    font-family: "Courgette", cursive!important;
+}
+
+.yelp-rating {
+    font-size: 18px;
+    color: white!important;
+    text-shadow: 2px 2px 3px rgba(0,0,0,.8);
+    padding-right: 5px;
+    font-weight: bold;
+
+}

@@ -20,15 +20,15 @@ class App extends Component {
         <Router>
           <div className="App">
             <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/signup" component={Signup} />
-              <Route exact path="/account/:id" component={Account} />
-              <Route exact path="/items" component={Items} />
-              <Route exact path="/profile/:id" component={Profile} />
-              <Route exact path="/search/:city" component={Search} />
-              <Route exact path="/search/:user" component={Search} />
-              <Route exact path="/suitcase/:id" component={Suitcase} />
-              {/* <Route component={NoMatch} /> */}
+                <Route exact path="/" component={Home} />
+                <Route exact path="/signup" component={Signup} />
+                <Route exact path="/account/:id" component={Account} />
+                <Route exact path="/items" component={Items} />
+                <Route exact path="/profile/:id" component={Profile} />
+                <Route exact path="/search/:city" component={Search} />
+                <Route exact path="/search/:user" component={Search} />
+                <Route exact path="/suitcase/:id" component={Suitcase} />
+                {/* <Route component={NoMatch} /> */}
             </Switch>
           </div>
         </Router>

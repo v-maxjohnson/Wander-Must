@@ -4,7 +4,8 @@ import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Category from "../components/Category";
-import Yelp from "../utils/Yelp";
+import NewSuitcaseModal from "../components/NewSuitcaseModal";
+import Yelp from "../components/Yelp";
 import Item from "../components/Item";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
 import "../styles/Suitcase.css";
@@ -39,6 +40,7 @@ query getSuitcase( $id: String! ){
 
 const client = new ApolloClient();
 
+let suitcaseId = localStorage.getItem("suitcase_id");
 let cityNoUnderscores = "";
 
 export default class Suitcase extends Component {
@@ -52,7 +54,8 @@ export default class Suitcase extends Component {
       User: []
     },
     rendered: false,
-    number: "5"
+    openNewSuitcaseModal: false,
+    number: suitcaseId
   };
 
   componentDidMount() {
@@ -90,10 +93,28 @@ export default class Suitcase extends Component {
     }
   }
 
+  showNewSuitcaseModal = () => {
+    this.setState({ openNewSuitcaseModal: true });
+  }
+
+  resetNewSuitcaseModal = () => {
+    this.setState({ openNewSuitcaseModal: false });
+  }
+
+  renderNewSuitcaseModal = () => {
+    if (this.state.openNewSuitcaseModal) {
+      return <NewSuitcaseModal
+        resetNewSuitcaseModal={this.resetNewSuitcaseModal}
+      />
+    }
+  }
+
   render() {
     return (
       <div className="suitcase profile-page sidebar-collapse">
-        <Header />
+        <Header
+          showNewSuitcaseModal={this.showNewSuitcaseModal}
+        />
         <Main>
           <div className="page-header header-filter" data-parallax="true" id="background-suitcase"></div>
           <div className="main main-raised">
@@ -270,8 +291,13 @@ export default class Suitcase extends Component {
                 </div>
               </div>
             </div>
+            <div className="yelp-wrapper">
+              <Yelp/>
+            </div>
           </div>
+
         </Main>
+        {this.renderNewSuitcaseModal()}
         <Footer />
       </div>
     )

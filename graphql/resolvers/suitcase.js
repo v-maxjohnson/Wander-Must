@@ -51,15 +51,6 @@ export default {
             })
             .catch( err => console.log(err) )
     },
-    deleteItem: ( {suitcase_id, item_id} ) => {
-        return db.Suitcase.findOne({
-            where: {
-                id: suitcase_id
-            }
-        })
-        .then( suitcase => suitcase.delete( {item_id: item_id} ) )
-        .catch( err => console.log(err) )
-    },
     create: ( {start_date, end_date, travel_category, user_id, locale_id} ) => {
         return db.Locale.findOne({
             where: {
@@ -87,21 +78,12 @@ export default {
             })
             .catch( err => console.log(err) )
     },
-    updateItemOnSuitcase: ( {suitcase_id, item_id, item_amount} ) => {
-        return db.Suitcase.findOne({
-            where: {
-                suitcase_id: suitcase_id
-            }
+    delete: ( id ) => {
+        return db.Suitcase.destroy({
+            where: id
         })
-            .then( dbSuitcase => {
-                return dbSuitcase.findOne({
-                    where: {
-                        item_id: item_id
-                    }
-                })
-                    .then( dbItem => dbItem.update( {item_amount: item_amount} ) )
-                    .catch( err => console.log(err.message) )
-            })
+            .then( console.log("suitcase deleted") )
+            .catch( err => console.log(err) )
     },
     addItem: ( {id, item_ids} ) => {
         return db.Suitcase.findOne({
@@ -119,6 +101,35 @@ export default {
             })
                 .then( result => result )
                 .catch( err => console.log(err.message) )
-    }
+    },
+    updateItemOnSuitcase: ( {suitcase_id, item_id, item_amount} ) => {
+        return db.Suitcase.findOne({
+            where: {
+                suitcase_id: suitcase_id
+            }
+        })
+            .then( dbSuitcase => {
+                return dbSuitcase.findOne({
+                    where: {
+                        item_id: item_id
+                    }
+                })
+                    .then( dbItem => dbItem.update( {item_amount: item_amount} ) )
+                    .catch( err => console.log(err.message) )
+            })
+    },
+    deleteItem: ( {suitcase_id, item_id} ) => {
+        return db.Suitcase.findOne({
+            where: {
+                id: suitcase_id
+            }
+        })
+            .then( suitcase => {
+                suitcase.removeItem( {item_id: item_id} )
+                return suitcase 
+            })
+            .catch( err => console.log(err) )
+    },
+    
 
 }

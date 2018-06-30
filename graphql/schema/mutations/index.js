@@ -2,14 +2,13 @@ import {
     GraphQLObjectType,
     GraphQLString,
     GraphQLInt,
-    GraphQLEnumType
+    GraphQLList
 } from 'graphql';
 
-// import travelCategory from './../types/suitcase';
 import suitcaseType from './../types/suitcase';
 import localeType from './../types/locale';
 import itemType from './../types/item';
-import travelCategory from './../types/suitcase';
+// import travelCategory from './../types/suitcase';
 import resolvers from './../../resolvers';
 
 
@@ -60,6 +59,18 @@ export default new GraphQLObjectType ({
                 }
             },
             resolve : ( root, args ) => resolvers.suitcase.create( args )
+        },
+        addItemToSuitcase: {
+            type: suitcaseType,
+            args: {
+                id: {
+                    type: GraphQLString
+                },
+                item_ids: {
+                    type: GraphQLList
+                }
+            },
+            resolve : ( root, args ) => resolvers.suitcase.addItem( args )
         },
         updateItemAmountOnSuitcase: {
             type: suitcaseType,

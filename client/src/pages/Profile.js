@@ -33,6 +33,7 @@ query getUser( $id: String! ){
 }`;
 
 const client = new ApolloClient();
+let idNumber = localStorage.getItem("user_id");
 
 export default class Profile extends Component {
   state = {
@@ -45,7 +46,7 @@ export default class Profile extends Component {
     },
     openNewSuitcaseModal: false,
     rendered: false,
-    number: "16"
+    number: idNumber
   }
 
   componentDidMount() {

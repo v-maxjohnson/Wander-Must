@@ -47,6 +47,10 @@
     color: purple;
 }
 
+.pac-container {
+    z-index: 10000!important;
+}
+
 /* .date div:first-of-type {
     width: 100%;
 } */

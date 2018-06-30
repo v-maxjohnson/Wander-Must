@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Autocomplete from 'react-google-autocomplete';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
@@ -31,16 +32,16 @@ export default class NewSuitcaseModal extends Component {
   }
 
   handleStartSelect = (startDate) => {
-      this.setState({
-        startSelect: startDate
-      });
+    this.setState({
+      startSelect: startDate
+    });
   }
 
   handleEndSelect = (endDate) => {
     this.setState({
       endSelect: endDate
     });
-}
+  }
 
   toggle = () => {
     this.props.resetNewSuitcaseModal();
@@ -56,7 +57,14 @@ export default class NewSuitcaseModal extends Component {
               <div className="col-6">
                 <div className="md-form mb-5">
                   <i className="fa fa-map-marker prefix"></i>
-                  <input type="text" id="suitcase-city" className="form-control validate" />
+                  <Autocomplete
+                    className="form-control"
+                    style={{ width: '90%' }}
+                    onPlaceSelected={(place) => {
+                      console.log(place);
+                    }}
+                    types={['(cities)']}
+                  />
                   <label className="text-center" data-error="wrong" data-success="right" htmlFor="suitcase-city">City</label>
                 </div>
               </div>

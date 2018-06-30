@@ -12,6 +12,8 @@ import "../styles/Suitcase.css";
 import Wunderground from "../utils/Wunderground";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
+import Autocomplete from 'react-autocomplete'; 
+
 
 const GET_SUITCASE_QUERY = gql` 
 query getSuitcase( $id: String! ){
@@ -53,9 +55,11 @@ export default class Suitcase extends Component {
       Locale: [],
       User: []
     },
+    allItems: [],
     rendered: false,
     openNewSuitcaseModal: false,
-    number: suitcaseId
+    number: suitcaseId,
+    value: ''
   };
 
   componentDidMount() {
@@ -68,6 +72,65 @@ export default class Suitcase extends Component {
       console.log(this.state.suitcase, this.state.rendered);
     })
 
+    client.query({
+      query: gql` 
+            { 
+              allItems {
+                item_name,
+                item_category 
+              }
+            }`
+    }).then(result => {
+      this.setState({ allItems: result.data.allItems });
+    })
+
+  }
+
+  renderAutocomplete = () => {
+    if (this.state.value !== "") {
+      return (
+        <Autocomplete 
+                    items={this.state.allItems
+                      .map(wmItem => (
+                        { id: wmItem.id, label: wmItem.item_name }
+                      ))}
+                    shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
+                    getItemValue={item => item.label}
+                    renderItem={(item, highlighted) =>
+                      <div
+                        key={item.id}
+                        style={{ backgroundColor: highlighted ? '#eee' : 'transparent'}}
+                      >
+                        {item.label}
+                      </div>
+                    }
+                    value={this.state.value}
+                    onChange={e => this.setState({ value: e.target.value })}
+                    onSelect={value => this.setState({ value })}
+                  />
+      )
+    } else {
+      return (
+      <Autocomplete 
+                    items={[
+                      { label: '' },
+                    ]}
+                    shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
+                    getItemValue={item => item.label}
+                    renderItem={(item, highlighted) =>
+                      <div
+                        key={item.id}
+                        style={{ backgroundColor: highlighted ? '#eee' : 'transparent'}}
+                      >
+                      </div>
+                    }
+                    value={this.state.value}
+                    onChange={e => this.setState({ value: e.target.value })}
+                    onSelect={value => this.setState({ value })}
+                  />
+                  )
+
+    }
   }
 
   renderWunderground = () => {
@@ -169,6 +232,14 @@ export default class Suitcase extends Component {
                     </div>
                   </div>
 
+                </div>
+              </div>
+
+
+
+              <div className="row">
+                <div className="col-12">
+                  {this.renderAutocomplete()}
                 </div>
               </div>
 

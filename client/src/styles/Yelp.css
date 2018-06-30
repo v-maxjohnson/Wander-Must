@@ -32,16 +32,19 @@
 }
 
 .yelp-title {
-    font-size: 20px;
+    font-size: 25px;
     color: white!important;
     stroke-width: 10px;
     text-shadow: 2px 2px 3px rgba(0,0,0,.8);
-    opacity: 1.0!important;
+    font-weight: bold;
+    font-family: "Courgette", cursive!important;
 }
 
 .yelp-rating {
+    font-size: 18px;
     color: white!important;
-    background-color: grey;
+    text-shadow: 2px 2px 3px rgba(0,0,0,.8);
     padding-right: 5px;
+    font-weight: bold;
 
 }

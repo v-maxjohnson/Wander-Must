@@ -3,24 +3,15 @@ import "../styles/Yelp.css";
 import { log } from 'util';
 
 export default class YelpCard extends Component {
-    constructor() {
-        super();
-        this.brightenImage.bind(this);
-    }
 
-    brightenImage(e) {
-        console.log('mouse enter; does this even work?');
-        
-        console.log(e.target);
-    }
 
-  render() {
+render() {
     return (
         
         <div className="card card-yelp">
 
             <div className="card-img-wrapper">
-                <img className="card-img-top yelp-img" src={this.props.image} alt="Restaurant"/>
+                <img className="card-img-top yelp-img" src={this.props.image} alt="Restaurant" />
             </div>
             <div className="card-img-overlay" onMouseEnter={this.brightenImage}>
                 <div className="row">
@@ -41,10 +32,7 @@ export default class YelpCard extends Component {
                 </div>  
             </div>
 
-        </div>
-        
-        
+        </div>        
     )
-  }
-}
+}}
 

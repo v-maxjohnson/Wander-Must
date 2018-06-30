@@ -117,6 +117,14 @@ export default {
                     .then( dbItem => dbItem.update( {item_amount: item_amount} ) )
                     .catch( err => console.log(err.message) )
             })
+            .catch( err => console.log(err) )
+    },
+    updateNote: ( {id, note} ) => {
+        return db.Suitcase.findOne({
+            where: id
+        })
+            .then( suitcase => suitcase.update( {notes: note} ) )
+            .catch( err => console.log(err) )
     },
     deleteItem: ( {suitcase_id, item_id} ) => {
         return db.Suitcase.findOne({

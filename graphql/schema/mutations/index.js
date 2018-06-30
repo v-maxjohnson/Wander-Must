@@ -72,6 +72,18 @@ export default new GraphQLObjectType ({
             },
             resolve : ( root, args ) => resolvers.suitcase.addItem( args )
         },
+        updateNoteOnSuitcase: {
+            type: suitcaseType,
+            args: {
+                id: {
+                    type: GraphQLString
+                },
+                note: {
+                    type: GraphQLString
+                }
+            },
+            resolve : ( root, args ) => resolvers.suitcase.updateNote( args )
+        },
         updateItemAmountOnSuitcase: {
             type: suitcaseType,
             args: {
@@ -85,7 +97,7 @@ export default new GraphQLObjectType ({
                     type: GraphQLInt
                 }
             },
-            resolve : ( root, args ) => resolvers.item.updateItemOnSuitcase( args )
+            resolve : ( root, args ) => resolvers.suitcase.updateItemOnSuitcase( args )
         },
         deleteItemFromSuitcase: {
             type: itemType,

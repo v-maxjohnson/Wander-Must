@@ -102,7 +102,7 @@ export default {
                 .then( result => result )
                 .catch( err => console.log(err.message) )
     },
-    updateItemOnSuitcase: ( {suitcase_id, item_id, item_amount} ) => {
+    updateItem: ( {suitcase_id, item_id, item_amount} ) => {
         return db.Suitcase.findOne({
             where: {
                 suitcase_id: suitcase_id

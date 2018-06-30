@@ -15,6 +15,7 @@ import resolvers from './../../resolvers';
 export default new GraphQLObjectType ({
     name: 'Mutations',
     fields: () => ({
+        //CREATE NEW SUITCASE, LOCALE, OR ITEM
         createNewItem: {
             type: itemType,
             args: {
@@ -60,6 +61,7 @@ export default new GraphQLObjectType ({
             },
             resolve : ( root, args ) => resolvers.suitcase.create( args )
         },
+        // MODIFY ITEMS ON SUITCASE
         addItemToSuitcase: {
             type: suitcaseType,
             args: {
@@ -71,18 +73,6 @@ export default new GraphQLObjectType ({
                 }
             },
             resolve : ( root, args ) => resolvers.suitcase.addItem( args )
-        },
-        updateNoteOnSuitcase: {
-            type: suitcaseType,
-            args: {
-                id: {
-                    type: GraphQLString
-                },
-                note: {
-                    type: GraphQLString
-                }
-            },
-            resolve : ( root, args ) => resolvers.suitcase.updateNote( args )
         },
         updateItemAmountOnSuitcase: {
             type: suitcaseType,
@@ -97,7 +87,7 @@ export default new GraphQLObjectType ({
                     type: GraphQLInt
                 }
             },
-            resolve : ( root, args ) => resolvers.suitcase.updateItemOnSuitcase( args )
+            resolve : ( root, args ) => resolvers.suitcase.updateItem( args )
         },
         deleteItemFromSuitcase: {
             type: itemType,
@@ -110,6 +100,29 @@ export default new GraphQLObjectType ({
                 }
             },
             resolve : ( root, args ) => resolvers.suitcase.deleteItem( args )
+        },
+        // MODIFY NOTE ON SUITCASE
+        updateNoteOnSuitcase: {
+            type: suitcaseType,
+            args: {
+                id: {
+                    type: GraphQLString
+                },
+                note: {
+                    type: GraphQLString
+                }
+            },
+            resolve : ( root, args ) => resolvers.suitcase.updateNote( args )
+        },
+        // DELETE SUITCASE
+        deleteSuitcase: {
+            type: suitcaseType,
+            args: {
+                id: {
+                    type: GraphQLString
+                }
+            },
+            resolve : ( root, args ) => resolvers.suitcase.delete( args )
         }
     })
 });

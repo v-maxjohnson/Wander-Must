@@ -31,28 +31,29 @@ export default class Login extends Component {
 
   handleSubmitEvent = event => {
     event.preventDefault();
-    // const data = new FormData(event.target);
-    console.log(`
-      ${this.state.email}
-      ${this.state.password}    
-    `)
+    const data = {
+      email: this.state.email,
+      password: this.state.password
+    }
+    let newData = JSON.stringify(data);
+    console.log('auth request credentials: ' + newData);
 
-    fetch('/api/signin', {
+    fetch('api/signin', {
       method: 'POST',
-      body: {
-        email: this.state.email,
-        password: this.state.password
-      }
-    }).then(result => {
-      if (result.status === 200) {
-        // want to place redirect to profile page and
-        // update to setState (isLoggedIn) here
-        // this.setState({})
-        console.log("success!!")
-      } else {
-        console.log("NOT SUCCESSFUL; go home")
-      }
-      console.log(result)
+      headers: {
+        'Accept' : 'application/json',
+        'Content-Type':'application/json'
+      },
+      body: newData
+    })
+    .then(res => res.json())
+    .then(result => {
+      console.log('result: ' + JSON.stringify(result));
+      // if (result.status === 200) {
+      //   // console.log("success!!")
+      // } else {
+      //   console.log("failure!!")
+      // }
     })
   }
 

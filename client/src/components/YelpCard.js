@@ -13,7 +13,7 @@ render() {
             <div className="card-img-wrapper">
                 <img className="card-img-top yelp-img" src={this.props.image} alt="Restaurant" />
             </div>
-            <div className="card-img-overlay" onMouseEnter={this.brightenImage}>
+            <div className="card-img-overlay" >
                 <div className="row">
                     <div className="offset-8 col-md-4">
                         <p className="card-text text-right yelp-rating">{this.props.rating} ---- {this.props.price}</p>

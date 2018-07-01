@@ -185,6 +185,7 @@ export default class Account extends Component {
                         <Button color="warning">-----Goodbye FOREVER-------</Button>
                       </Col>
                     </FormGroup>
+                    <br/>
                   </Form>
                 </div>
 

@@ -33,7 +33,7 @@ query getUser( $id: String! ){
 }`;
 
 const client = new ApolloClient();
-let idNumber = localStorage.getItem("user_id");
+let userIdNumber = localStorage.getItem("user_id");
 
 export default class Profile extends Component {
   state = {
@@ -46,14 +46,14 @@ export default class Profile extends Component {
     },
     openNewSuitcaseModal: false,
     rendered: false,
-    number: idNumber
+    userIdNumber: userIdNumber
   }
 
   componentDidMount() {
 
     client.query({
       query: GET_USER_QUERY,
-      variables: { id: this.state.number }
+      variables: { id: this.state.userIdNumber }
     }).then(result => {
       this.setState({ userData: result.data.getUser, rendered: true });
       console.log(this.state.userData);
@@ -117,7 +117,7 @@ export default class Profile extends Component {
                   ))}
 
                   <div className="container col-sm-12 col-md-6 col-lg-4">
-                    <div className="suitcaseCard suitcase-input" id="blank-suitcase" onClick={() => this.showNewSuitcaseModal() }>
+                    <div className="suitcaseCard suitcase-input" id="blank-suitcase" onClick={() => this.showNewSuitcaseModal()}>
                       <div className="card add-card text-white no-shadow">
                         <div className="suitcaseWrapper card-img">
                           <img className="suitcaseFrame img-responsive" src={SuitcaseFrame} alt="Suitcase Frame" />
@@ -132,7 +132,7 @@ export default class Profile extends Component {
                 </div>
               </div>
             </div>
-            
+
           </div>
 
         </Main>

@@ -230,11 +230,11 @@ export default class Suitcase extends Component {
 
 
 
-              <div className="row">
+              <div className="row mb-5">
                 <div className="col-12">
-                <div className="auto-items">
+                <div className="auto-items col-12">
                   <Autocomplete
-
+                    
                     items={this.setAutocompleteItems()}
                     shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
                     getItemValue={item => item.label}

@@ -81,12 +81,12 @@ export default class Login extends Component {
           <form className="p-8 col-12" onSubmit={this.handleSubmitEvent}>
             <label htmlFor="email" className="col-sm-offset-1">Email Address</label>
             <Input className="text" type="email" name="email" 
-            value={this.state.userData.email}
+            value={this.state.email}
             onChange={this.handleChange}
             />
             <label htmlFor="password">Password</label>
             <Input name="password" type="password"  
-            value={this.state.userData.password}
+            value={this.state.password}
             onChange={this.handleChange}
             />
             <div className="row">

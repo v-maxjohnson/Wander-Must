@@ -12,7 +12,14 @@ export default class Login extends Component {
     this.state = {
       dropdownOpen: false,
       email: "",
-      password: ""
+      password: "",
+      isAuthenticated: false,
+      userData: {
+        id: "",
+        username: "",
+        gender: "",
+        user_image: ""
+      }
     };
   }
 
@@ -31,13 +38,13 @@ export default class Login extends Component {
 
   handleSubmitEvent = event => {
     event.preventDefault();
+    // data that's going into the submit form
     const data = {
-      email: this.state.email,
-      password: this.state.password
+      email: this.state.userData.email,
+      password: this.state.userData.password
     }
+    // converting the data to JSON to pass in on the fetch req
     let newData = JSON.stringify(data);
-    console.log('auth request credentials: ' + newData);
-
     fetch('api/signin', {
       method: 'POST',
       headers: {
@@ -46,14 +53,21 @@ export default class Login extends Component {
       },
       body: newData
     })
+    //receiving the response as json
     .then(res => res.json())
     .then(result => {
-      console.log('result: ' + JSON.stringify(result));
-      // if (result.status === 200) {
-      //   // console.log("success!!")
-      // } else {
-      //   console.log("failure!!")
-      // }
+      this.setState ({
+        isAuthenticated: true,
+        dropdownOpen: false,
+        email: "",
+        password: "",
+        userData: {
+          id: result.id,
+          username: result.username,
+          gender: result.gender,
+          user_image: result.user_image
+        }
+      })
     })
   }
 
@@ -67,12 +81,12 @@ export default class Login extends Component {
           <form className="p-8 col-12" onSubmit={this.handleSubmitEvent}>
             <label htmlFor="email" className="col-sm-offset-1">Email Address</label>
             <Input className="text" type="email" name="email" 
-            value={this.state.email}
+            value={this.state.userData.email}
             onChange={this.handleChange}
             />
             <label htmlFor="password">Password</label>
             <Input name="password" type="password"  
-            value={this.state.password}
+            value={this.state.userData.password}
             onChange={this.handleChange}
             />
             <div className="row">

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button, CustomInput, Col, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -77,7 +78,7 @@ export default class Account extends Component {
                   <div className="col-md-6 ml-auto mr-auto">
                     <div className="profile">
                       <div className="avatar">
-                        <img src={this.state.userData.user_image} alt="Avatar" className="img-fluid" />
+                        <img src={this.state.userData.user_image} alt="Avatar" className="img-raised rounded-circle img-fluid" />
                       </div>
                       <div className="name">
                         <h3 id="profile-user-name" className="title">{this.state.userData.username} </h3>
@@ -112,9 +113,60 @@ export default class Account extends Component {
 
 
                 </div>
+                <div className="form-container offset-2 col-8">
+                  <Form>
+                    <FormGroup row>
+                      <Label for="exampleEmail" sm={3}>Email</Label>
+                      <Col sm={9}>
+                        <Input type="email" name="email" id="exampleEmail" placeholder={this.state.userData.email} />
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <Label for="username" sm={3}>User Name</Label>
+                      <Col sm={9}>
+                        <Input type="username" name="username" id="exampleUsername" placeholder={this.state.userData.username} />
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <Label for="examplePassword" sm={3}>Password</Label>
+                      <Col sm={4}>
+                        <Input type="password" name="password" id="examplePassword" placeholder="change password" />
+                      </Col>
+                      <Col sm={5}>
+                        <Input type="password" name="password" id="examplePassword" placeholder="password confirmation" />
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <Label for="exampleCheckbox" sm={3}>Inline</Label>
+                      <Col sm={9}>
+                        <div>
+                          <CustomInput type="radio" name="customRadio" id="exampleCustomInline" label="Female" inline />
+                          <CustomInput type="radio" name="customRadio" id="exampleCustomInline2" label="Male" inline />
+                          <CustomInput type="radio" name="customRadio" id="exampleCustomInline3" label="Beyond Society's Gender Definitions" inline />
+                        </div>
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <Label for="exampleCustomFileBrowser" sm={3}>Avatar</Label>
+                      <Col sm={9}>
+                        <CustomInput type="file" id="exampleCustomFileBrowser" name="customFile" label="Show us who you are. Upload an image." />
+                      </Col>
+                    </FormGroup>
+                    <FormGroup check row>
+                      <Col sm={{ size: 2, offset: 5 }}>
+                        <Button color="primary">Submit</Button>
+                      </Col>
+                    </FormGroup>
+                  </Form>
+                </div>
+
               </div>
             </div>
           </div>
+
+
+
+
         </Main>
         {this.renderNewSuitcaseModal()}
         <Footer />

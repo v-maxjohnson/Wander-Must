@@ -8,6 +8,7 @@ import {
 import suitcaseType from './../types/suitcase';
 import localeType from './../types/locale';
 import itemType from './../types/item';
+import userType from './../types/user';
 // import travelCategory from './../types/suitcase';
 import resolvers from './../../resolvers';
 
@@ -123,7 +124,42 @@ export default new GraphQLObjectType ({
                 }
             },
             resolve : ( root, args ) => resolvers.suitcase.delete( args )
-        }
+        },
+        // MODIFY USER INFO
+        updateUserInfo: {
+            type: userType,
+            args: {
+                id: {
+                    type: GraphQLString
+                },
+                username: {
+                    type: GraphQLString
+                },
+                email: {
+                    type: GraphQLString
+                },
+                password: {
+                    type: GraphQLString
+                },
+                gender: {
+                    type: GraphQLString
+                },
+                user_image: {
+                    type: GraphQLString
+                }
+            },
+            resolve : ( root, args ) => resolvers.user.changeInfo( args ) 
+        },
+        // DELETE USER
+        deleteUser: {
+            type: userType,
+            args: {
+                id: {
+                    type: GraphQLString
+                }
+            },
+            resolve : ( root, args ) => resolver.user.delete( args ) 
+        },
     })
 });
 

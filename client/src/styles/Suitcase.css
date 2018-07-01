@@ -11,6 +11,11 @@
     font-size: 16px!important;
 }
 
+.auto-items {
+    z-index: 9999;
+    position: absolute
+}
+
 .items-section {
     margin-bottom: 10px;
     padding-bottom: 10px;

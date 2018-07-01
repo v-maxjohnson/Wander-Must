@@ -7,11 +7,19 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
 
+    this.handleChange = this.handleChange.bind(this);
     this.toggle = this.toggle.bind(this);
     this.state = {
       dropdownOpen: false,
       email: "",
-      password: ""
+      password: "",
+      isAuthenticated: false,
+      userData: {
+        id: "",
+        username: "",
+        gender: "",
+        user_image: ""
+      }
     };
   }
 
@@ -28,6 +36,41 @@ export default class Login extends Component {
     });
   }
 
+  handleSubmitEvent = event => {
+    event.preventDefault();
+    // data that's going into the submit form
+    const data = {
+      email: this.state.userData.email,
+      password: this.state.userData.password
+    }
+    // converting the data to JSON to pass in on the fetch req
+    let newData = JSON.stringify(data);
+    fetch('api/signin', {
+      method: 'POST',
+      headers: {
+        'Accept' : 'application/json',
+        'Content-Type':'application/json'
+      },
+      body: newData
+    })
+    //receiving the response as json
+    .then(res => res.json())
+    .then(result => {
+      this.setState ({
+        isAuthenticated: true,
+        dropdownOpen: false,
+        email: "",
+        password: "",
+        userData: {
+          id: result.id,
+          username: result.username,
+          gender: result.gender,
+          user_image: result.user_image
+        }
+      })
+    })
+  }
+
   render() {
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="login-dropdown">
@@ -35,7 +78,7 @@ export default class Login extends Component {
           <i className="fa fa-user-circle" title="Profile Page"> </i>
         </DropdownToggle>
         <DropdownMenu className="dropdown-menu dropdown-with-icons">
-          <form className="p-8 col-12" >
+          <form className="p-8 col-12" onSubmit={this.handleSubmitEvent}>
             <label htmlFor="email" className="col-sm-offset-1">Email Address</label>
             <Input className="text" type="email" name="email" 
             value={this.state.email}

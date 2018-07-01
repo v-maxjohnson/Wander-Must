@@ -29,13 +29,23 @@ module.exports = function (app, passport) {
     );
 
     app.post("/api/signin", function (req, res, next) {
+        var parsedReq = JSON.stringify(req.body);
+        console.log('auth.js req: ' + parsedReq);
+
         passport.authenticate("local-signin", function (err, user, info) {
             if (err) {
+                console.log('if (err) error: ' + err);
                 return next(err);
             }
             req.login(user, function (err) {
-                if (err) { return res.redirect("/"); }
-                return res.redirect("/profile/" + user.id);
+                if (err) { 
+                    //TO DO : pass error back from server through below statement
+                    return res.status(400).json({
+                        success: false,
+                        message: 'Could not process the form.'
+                      });
+                }
+                return res.json(user);
             });
         })(req, res, next);
     });

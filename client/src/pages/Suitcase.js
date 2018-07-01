@@ -61,7 +61,7 @@ export default class Suitcase extends Component {
     allItems: [],
     rendered: false,
     openNewSuitcaseModal: false,
-    number: suitcaseId,
+    suitcaseId: suitcaseId,
     value: ''
   };
 
@@ -69,7 +69,7 @@ export default class Suitcase extends Component {
 
     client.query({
       query: GET_SUITCASE_QUERY,
-      variables: { id: this.state.number }
+      variables: { id: this.state.suitcaseId }
     }).then(result => {
       this.setState({ suitcase: result.data.getSuitcase, rendered: true });
       console.log(this.state.suitcase, this.state.rendered);

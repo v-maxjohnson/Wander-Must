@@ -33,7 +33,7 @@ export default class Account extends Component {
     },
     rendered: false,
     openNewSuitcaseModal: false,
-    userIdNumber: useridNumber
+    userIdNumber: userIdNumber
   }
 
   componentDidMount() {

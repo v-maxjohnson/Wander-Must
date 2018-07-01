@@ -44,6 +44,9 @@ const client = new ApolloClient();
 
 let suitcaseId = localStorage.getItem("suitcase_id");
 let cityNoUnderscores = "";
+let autocompleteItems;
+let renderAutoValue;
+
 
 export default class Suitcase extends Component {
   state = {
@@ -86,56 +89,41 @@ export default class Suitcase extends Component {
 
   }
 
+  setAutocompleteItems = () => {
+    if (this.state.value !== "") { 
+    autocompleteItems = 
+    this.state.allItems
+      .map((wmItem, i) => (
+        { key: i, id: wmItem.id, label: wmItem.item_name }
+      ))
+    } else {
+    autocompleteItems = 
+    [
+      { key: "01", label: '' },
+    ]
+    }
+    return autocompleteItems
+  }
+
   renderAutocomplete = () => {
     if (this.state.value !== "") {
-      return (
-        <div className="auto-items">
-        <Autocomplete
-        
-                    items={this.state.allItems
-                      .map(wmItem => (
-                        { id: wmItem.id, label: wmItem.item_name }
-                      ))}
-                    shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
-                    getItemValue={item => item.label}
-                    renderItem={(item, highlighted) =>
-                      <div
-                        key={item.id}
-                        style={{ backgroundColor: highlighted ? '#eee' : 'transparent'}}
-                      >
-                        {item.label}
-                      </div>
-                    }
-                    value={this.state.value}
-                    onChange={e => this.setState({ value: e.target.value })}
-                    onSelect={value => this.setState({ value })  }
-                  />
-                  </div>
-                  
-      )
+      renderAutoValue =
+      (item, highlighted) =>
+      <div
+      key={item.key}
+      style={{ backgroundColor: highlighted ? '#eee' : 'transparent'}}
+      >
+      {item.label}
+    </div>
     } else {
-      return (
-        <div className="auto-items">
-      <Autocomplete 
-                    items={[
-                      { label: '' },
-                    ]}
-                    shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
-                    getItemValue={item => item.label}
-                    renderItem={(item) =>
-                      <div
-                        key={item.id}
-                      >
-                      </div>
-                    }
-                    value={this.state.value}
-                    onChange={e => this.setState({ value: e.target.value })}
-                    onSelect={value => this.setState({ value })}
-                  />
-                  </div>
-                  )
-
+      renderAutoValue =
+      (item) =>
+      <div
+        key={item.key}
+      >
+      </div>
     }
+    return renderAutoValue
   }
 
   renderWunderground = () => {
@@ -244,7 +232,19 @@ export default class Suitcase extends Component {
 
               <div className="row">
                 <div className="col-12">
-                  {this.renderAutocomplete()}
+                <div className="auto-items">
+                  <Autocomplete
+
+                    items={this.setAutocompleteItems()}
+                    shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
+                    getItemValue={item => item.label}
+                    renderItem={this.renderAutocomplete()}
+                    
+                    value={this.state.value}
+                    onChange={e => this.setState({ value: e.target.value })}
+                    onSelect={value => this.setState({ value })  }
+                  />
+                  </div>
                 </div>
               </div>
 
@@ -265,9 +265,9 @@ export default class Suitcase extends Component {
                       <div className="row cat-row" id="toiletries">
                         {this.state.suitcase.Items
                           .filter(item => (item.item_category === "TOILETRIES"))
-                          .map(item => (
+                          .map((item, i) => (
                             <Item
-                              key={item.item_name}
+                              key={i}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
                             />
@@ -288,9 +288,9 @@ export default class Suitcase extends Component {
                       <div className="row cat-row" id="clothing">
                         {this.state.suitcase.Items
                           .filter(item => (item.item_category === "CLOTHING"))
-                          .map(item => (
+                          .map((item, i) => (
                             <Item
-                              key={item.item_name}
+                              key={i}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
                             />
@@ -313,9 +313,9 @@ export default class Suitcase extends Component {
                       <div className="row cat-row" id="accessories">
                         {this.state.suitcase.Items
                           .filter(item => (item.item_category === "ACCESSORIES"))
-                          .map(item => (
+                          .map((item, i) => (
                             <Item
-                              key={item.item_name}
+                              key={i}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
                             />
@@ -338,9 +338,9 @@ export default class Suitcase extends Component {
                       <div className="row cat-row" id="electronics">
                         {this.state.suitcase.Items
                           .filter(item => (item.item_category === "ELECTRONICS"))
-                          .map(item => (
+                          .map((item, i) => (
                             <Item
-                              key={item.item_name}
+                              key={i}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
                             />

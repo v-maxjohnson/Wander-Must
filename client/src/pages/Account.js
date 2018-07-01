@@ -137,7 +137,7 @@ export default class Account extends Component {
                       </Col>
                     </FormGroup>
                     <FormGroup row>
-                      <Label for="exampleCheckbox" sm={3}>Inline</Label>
+                      <Label for="exampleCheckbox" sm={3}>Gender</Label>
                       <Col sm={9}>
                         <div>
                           <CustomInput type="radio" name="customRadio" id="exampleCustomInline" label="Female" inline />
@@ -149,12 +149,39 @@ export default class Account extends Component {
                     <FormGroup row>
                       <Label for="exampleCustomFileBrowser" sm={3}>Avatar</Label>
                       <Col sm={9}>
-                        <CustomInput type="file" id="exampleCustomFileBrowser" name="customFile" label="Show us who you are. Upload an image." />
+                        <CustomInput type="file" id="exampleCustomFileBrowser" name="customFile" label="Show us who you are w/ an image." />
                       </Col>
                     </FormGroup>
                     <FormGroup check row>
                       <Col sm={{ size: 2, offset: 5 }}>
                         <Button color="primary">Submit</Button>
+                      </Col>
+                    </FormGroup>
+                  </Form>
+                  <div>
+                    <br/>
+                    <hr/>
+                    <br/>
+                    <br/>
+                  </div>
+
+                  <Form>
+
+                    <FormGroup row>
+                      <Label for="exampleEmail" sm={3}>Delete Account?</Label>
+                      <Col sm={9}>
+                        <Input type="textarea" name="text" id="exampleEmail" placeholder="Please tell us why you want to leave us! We love you... we're codependent, and we want to fix it" />
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <Label for="exampleEmail" sm={3}>Type "Bye!"</Label>
+                      <Col sm={9}>
+                        <Input type="text" name="text" id="exampleEmail" placeholder="Bye!" />
+                      </Col>
+                    </FormGroup>
+                    <FormGroup check row>
+                      <Col sm={{ size: 12, offset: 4 }}>
+                        <Button color="warning">-----Goodbye FOREVER-------</Button>
                       </Col>
                     </FormGroup>
                   </Form>

@@ -10,6 +10,7 @@ import "../styles/Suitcase.css";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 
+
 const client = new ApolloClient();
 
 export default class Items extends Component {

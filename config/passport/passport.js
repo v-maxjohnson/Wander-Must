@@ -82,10 +82,10 @@ module.exports = function (passport, user) {
     },
         function (req, email, password, done) {
             var User = user;
-            // production env password validator
-            var isValidPassword = function (userpass, password) {
-                return bCrypt.compareSync(password, userpass);
-            }
+            // production env password validator; comment out during testing
+            // var isValidPassword = function (userpass, password) {
+            //     return bCrypt.compareSync(password, userpass);
+            // }
             User.findOne({
                 where: {
                     email: email

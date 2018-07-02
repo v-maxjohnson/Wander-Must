@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import Moment from 'react-moment';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Category from "../components/Category";
 import NewSuitcaseModal from "../components/NewSuitcaseModal";
+import ConfirmationModal from "../components/ConfirmationModal";
 import Yelp from "../components/Yelp";
 import Item from "../components/Item";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
@@ -12,7 +14,7 @@ import "../styles/Suitcase.css";
 import Wunderground from "../utils/Wunderground";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
-import Autocomplete from 'react-autocomplete'; 
+import Autocomplete from 'react-autocomplete';
 
 
 const GET_SUITCASE_QUERY = gql` 
@@ -40,12 +42,20 @@ query getSuitcase( $id: String! ){
   }
 }`;
 
+const DELETE_SUITCASE_QUERY = gql` 
+mutation deleteSuitcase( $id: String! ){
+    deleteSuitcase(id: $id) {
+      id
+    }
+}`;
+
 const client = new ApolloClient();
 
 let suitcaseId = localStorage.getItem("suitcase_id");
 let cityNoUnderscores = "";
 let autocompleteItems;
 let renderAutoValue;
+let loggedInUserIdNumber = localStorage.getItem("logged_in_user_id");
 
 
 export default class Suitcase extends Component {
@@ -61,8 +71,10 @@ export default class Suitcase extends Component {
     allItems: [],
     rendered: false,
     openNewSuitcaseModal: false,
+    openConfirmationModal: false,
     suitcaseId: suitcaseId,
-    value: ''
+    value: '',
+    loggedInUserIdNumber: loggedInUserIdNumber
   };
 
   componentDidMount() {
@@ -86,21 +98,20 @@ export default class Suitcase extends Component {
     }).then(result => {
       this.setState({ allItems: result.data.allItems });
     })
-
   }
 
   setAutocompleteItems = () => {
-    if (this.state.value !== "") { 
-    autocompleteItems = 
-    this.state.allItems
-      .map((wmItem, i) => (
-        { key: i, id: wmItem.id, label: wmItem.item_name }
-      ))
+    if (this.state.value !== "") {
+      autocompleteItems =
+        this.state.allItems
+          .map((wmItem, i) => (
+            { key: i, id: wmItem.id, label: wmItem.item_name }
+          ))
     } else {
-    autocompleteItems = 
-    [
-      { key: "01", label: '' },
-    ]
+      autocompleteItems =
+        [
+          { key: "01", label: '' },
+        ]
     }
     return autocompleteItems
   }
@@ -108,20 +119,20 @@ export default class Suitcase extends Component {
   renderAutocomplete = () => {
     if (this.state.value !== "") {
       renderAutoValue =
-      (item, highlighted) =>
-      <div
-      key={item.key}
-      style={{ backgroundColor: highlighted ? '#eee' : 'transparent'}}
-      >
-      {item.label}
-    </div>
+        (item, highlighted) =>
+          <div
+            key={item.key}
+            style={{ backgroundColor: highlighted ? '#eee' : 'transparent' }}
+          >
+            {item.label}
+          </div>
     } else {
       renderAutoValue =
-      (item) =>
-      <div
-        key={item.key}
-      >
-      </div>
+        (item) =>
+          <div
+            key={item.key}
+          >
+          </div>
     }
     return renderAutoValue
   }
@@ -163,6 +174,33 @@ export default class Suitcase extends Component {
         resetNewSuitcaseModal={this.resetNewSuitcaseModal}
       />
     }
+  }
+
+  showConfirmationModal = () => {
+    this.setState({ openConfirmationModal: true });
+  }
+
+  resetConfirmationModal = () => {
+    this.setState({ openConfirmationModal: false });
+  }
+
+  renderConfirmationModal = () => {
+    if (this.state.openConfirmationModal) {
+      return <ConfirmationModal
+        resetConfirmationModal={this.resetConfirmationModal}
+        deleteSuitcase={this.deleteSuitcase}
+      />
+    }
+  }
+
+  deleteSuitcase = () => {
+    client.mutate({
+      mutation: DELETE_SUITCASE_QUERY,
+      variables: { id: this.state.suitcaseId }
+    }).then(result => {
+      window.location = "/profile/" + this.state.loggedInUserIdNumber;
+      console.log(result);
+    })
   }
 
   render() {
@@ -208,7 +246,7 @@ export default class Suitcase extends Component {
                                 {this.state.suitcase.start_date}
                               </Moment>
                             </p>-
-                  <p className="nav-link d-inline-block" id="suitcase-endDate">
+                            <p className="nav-link d-inline-block" id="suitcase-endDate">
                               <Moment format="MMM DD, YYYY">
                                 {this.state.suitcase.end_date}
                               </Moment>
@@ -225,25 +263,33 @@ export default class Suitcase extends Component {
                     </div>
                   </div>
 
+                  <div className="row">
+                    <div className="col-12 text-center">
+                      {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
+                        <button className="btn btn-primary" onClick={() => { this.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
+                       ) : ( <div></div>
+                       )}
+                    </div>
+                  </div>
+
                 </div>
               </div>
 
 
-
               <div className="row mb-5">
                 <div className="col-12">
-                <div className="auto-items col-12">
-                  <Autocomplete
-                    
-                    items={this.setAutocompleteItems()}
-                    shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
-                    getItemValue={item => item.label}
-                    renderItem={this.renderAutocomplete()}
-                    
-                    value={this.state.value}
-                    onChange={e => this.setState({ value: e.target.value })}
-                    onSelect={value => this.setState({ value })  }
-                  />
+                  <div className="auto-items col-12">
+                    <Autocomplete
+
+                      items={this.setAutocompleteItems()}
+                      shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
+                      getItemValue={item => item.label}
+                      renderItem={this.renderAutocomplete()}
+
+                      value={this.state.value}
+                      onChange={e => this.setState({ value: e.target.value })}
+                      onSelect={value => this.setState({ value })}
+                    />
                   </div>
                 </div>
               </div>
@@ -368,12 +414,13 @@ export default class Suitcase extends Component {
               </div>
             </div>
             <div className="yelp-wrapper">
-              <Yelp/>
+              <Yelp />
             </div>
           </div>
 
         </Main>
         {this.renderNewSuitcaseModal()}
+        {this.renderConfirmationModal()}
         <Footer />
       </div>
     )

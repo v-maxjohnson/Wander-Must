@@ -13,9 +13,20 @@
 
 .auto-items {
     z-index: 9999;
-    position: absolute;
-   left: 70%;
+    position: relative!important;
+    left: 70%;
 }
+
+/* .auto-items div div {
+    position: absolute!important;
+    top: 0;
+} */
+
+/* .auto-items div div {
+    z-index: 9999;
+    position: relative!important;
+    left: 70%;
+} */
 
 .items-section {
     margin-bottom: 10px;

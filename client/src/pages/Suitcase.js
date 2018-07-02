@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import Moment from 'react-moment';
 import Main from "../components/Main";
 import Header from "../components/Header";
@@ -7,7 +6,7 @@ import Footer from "../components/Footer";
 import Category from "../components/Category";
 import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import ConfirmationModal from "../components/ConfirmationModal";
-import Yelp from "../components/Yelp";
+import Yelp from "../utils/Yelp";
 import Item from "../components/Item";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
 import "../styles/Suitcase.css";

@@ -31,6 +31,8 @@ app.use(session({ secret: "Xander-must", resave: true, saveUninitialized: true }
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
+require("./routes/yelpRoute.js")(app);
+
 //routes for authorization
 require("./routes/auth.js")(app, passport);
 

@@ -104,7 +104,7 @@ export default class Suitcase extends Component {
       autocompleteItems =
         this.state.allItems
           .map((wmItem, i) => (
-            { key: i, id: wmItem.id, label: wmItem.item_name }
+            { key: i, id: wmItem.id, label: wmItem.item_name, category: wmItem.item_category.toLowerCase() }
           ))
     } else {
       autocompleteItems =
@@ -123,7 +123,7 @@ export default class Suitcase extends Component {
             key={item.key}
             style={{ backgroundColor: highlighted ? '#eee' : 'transparent' }}
           >
-            {item.label}
+            {item.label} | <span className="auto-category">{item.category}</span>
           </div>
     } else {
       renderAutoValue =
@@ -266,8 +266,8 @@ export default class Suitcase extends Component {
                     <div className="col-12 text-center">
                       {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
                         <button className="btn btn-primary" onClick={() => { this.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
-                       ) : ( <div></div>
-                       )}
+                      ) : (<div></div>
+                        )}
                     </div>
                   </div>
 
@@ -275,23 +275,39 @@ export default class Suitcase extends Component {
               </div>
 
 
-              <div className="row mb-5">
-                <div className="col-12">
-                  <div className="auto-items col-12">
-                    <Autocomplete
+              <div className="input-group mb-3 auto-items">
+                <Autocomplete
 
-                      items={this.setAutocompleteItems()}
-                      shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
-                      getItemValue={item => item.label}
-                      renderItem={this.renderAutocomplete()}
-
-                      value={this.state.value}
-                      onChange={e => this.setState({ value: e.target.value })}
-                      onSelect={value => this.setState({ value })}
-                    />
-                  </div>
+                  items={this.setAutocompleteItems()}
+                  shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
+                  getItemValue={item => item.label}
+                  renderItem={this.renderAutocomplete()}
+                  wrapperStyle={
+                    {
+                      position: 'relative',
+                      zIndex: 9999
+                    }
+                  }
+                  menuStyle={
+                    {
+                      position: 'absolute',
+                      cursor: "pointer",
+                      top: "35px",
+                      left: 0,
+                      backgroundColor: "white"
+                    }
+                  }
+                  value={this.state.value}
+                  onChange={e => this.setState({ value: e.target.value })}
+                  onSelect={value => this.setState({ value })}
+                />
+                <div className="input-group-append">
+                  <button type="button"><i className="fa fa-search"></i> Find an item</button>
                 </div>
               </div>
+
+
+
 
 
               <div className="row">

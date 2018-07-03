@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 
 // variable for current year
 let year = new Date().getFullYear();
@@ -12,13 +13,13 @@ export default class Footer extends Component {
             <ul>
 
               <li>
-                <a className="wandermust-font" href="/">
+                <Link className="wandermust-font" to="/">
                   Wander-Must
-            </a>
+                </Link>
               </li>
 
               <li>
-                <a href="https://www.creative-tim.com/license">
+                <a href="https://www.creative-tim.com/license" target="_blank">
                   Licenses
             </a>
               </li>

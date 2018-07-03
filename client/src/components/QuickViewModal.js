@@ -42,7 +42,8 @@ export default class QuickViewModal extends Component {
                     <p className="nav-link" id="suitcase-user-gender"> {this.props.quickViewData.User.gender}</p>
                   </li>
                   <li className="nav-item ">
-                    <a className="nav-link" id="suitcase-locale" href={"/search/" + this.props.quickViewData.Locale.locale_city}>{this.renderCityWithoutUnderscores()}</a>
+                    <p className="nav-link" id="suitcase-locale">{this.renderCityWithoutUnderscores()}
+                    </p>
                   </li>
                   <li className="nav-item">
                     <p className="nav-link d-inline-block" id="suitcase-startDate">

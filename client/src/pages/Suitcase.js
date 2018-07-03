@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router'
+import { Redirect, Link } from "react-router-dom";
 import Profile from "./Profile";
 import Moment from 'react-moment';
 import Main from "../components/Main";
@@ -249,7 +249,7 @@ export default class Suitcase extends Component {
                             <p className="nav-link" id="suitcase-user-gender">{this.state.suitcase.User.gender}</p>
                           </li>
                           <li className="nav-item ">
-                            <a className="nav-link" id="suitcase-locale" href={"/search/" + this.state.suitcase.Locale.locale_city}>{this.renderCityWithoutUnderscores()}</a>
+                            <Link className="nav-link" id="suitcase-locale" to={"/search/" + this.state.suitcase.Locale.locale_city}>{this.renderCityWithoutUnderscores()}</Link>
                           </li>
                           <li className="nav-item">
                             <p className="nav-link d-inline-block" id="suitcase-startDate">
@@ -280,7 +280,7 @@ export default class Suitcase extends Component {
                             </button>
                           </li>
 
-                          
+
 
                         </ul>
                         {this.renderWunderground()}
@@ -458,11 +458,9 @@ export default class Suitcase extends Component {
                   <button id="add-items" className="btn btn-primary btn-lg">Add Selected Items To My Suitcase</button>
                 </div>
                 <div className="col-12 text-center" id="add-more-items-holder">
-                  <a className="btn btn-lg btn-primary mt-3 mb-3 px-3 pb-2 pt-3" id="add-more-items" href="/items">
-
+                  <Link className="btn btn-lg btn-primary mt-3 mb-3 px-3 pb-2 pt-3" id="add-more-items" to="/items">
                     <p>See Full List of Items To Choose From</p>
-
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

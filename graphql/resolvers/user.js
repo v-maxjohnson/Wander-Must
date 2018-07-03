@@ -35,19 +35,53 @@ export default {
             .catch( err => console.log(err.message) )
 
     },
-    // changeInfo: ( {id, username, email, password, gender, user_image} ) => {
+    changeName: ( {id, username} ) => {
+        return db.User.findOne({
+            where: {
+                id: id
+            }
+        })
+            .then( dbUser => dbUser.update( {username: username} ) )
+    },
+    changeEmail: ( {id, email} ) => {
+        return db.User.findOne({
+            where: {
+                id: id
+            }
+        })
+            .then( dbUser => dbUser.update( {email: email} ) )
+    },
+    // changePassword: ( {id, password} ) => {
     //     return db.User.findOne({
-    //         where: id
+    //         where: { 
+                //   id: id 
+                // }
     //     })
-    //         .then( user => {
-
-    //         })
+    //         .then( dbUser => dbUser.update( {password: password} ) )
+    // },
+    changeGender: ( {id, gender} ) => {
+        return db.User.findOne({
+            where: {
+                id: id
+            }
+        })
+            .then( dbUser => dbUser.update( {gender: gender} ) )
+    },
+    // changeImage: ( {id, user_image} ) => {
+    //     return db.User.findOne({
+    //         where: {
+            //     id: id
+            // }
+    //     })
+    //         .then( dbUser => dbUser.update( {user_image: user_image} ) )
     // },
     delete: ( id ) => {
         return db.User.destroy({
-            where: id
+            where: {
+                id: id
+            }
         })
-            .then(user => console.log("user was deleted") )
+            .then( console.log("user was deleted") )
             .catch( err => console.log(err.message) )
     }
 }

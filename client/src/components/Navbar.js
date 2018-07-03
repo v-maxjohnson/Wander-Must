@@ -38,8 +38,7 @@ export default class Navibar extends Component {
                   <Login />
                 </NavItem>
                 <NavItem id="user-name-link" className="nav-item">
-                  <p className="nav-link" id="user-name-text">&nbsp;
-            </p>
+                  <p className="nav-link" id="user-name-text">&nbsp;</p>
 
                 </NavItem>
                 <NavItem className="nav-item">

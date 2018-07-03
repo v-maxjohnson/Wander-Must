@@ -207,8 +207,8 @@ export default class Suitcase extends Component {
                               <Moment format="MMM DD, YYYY">
                                 {this.state.suitcase.start_date}
                               </Moment>
-                            </p>-
-                  <p className="nav-link d-inline-block" id="suitcase-endDate">
+                            </p>
+                            <p className="nav-link d-inline-block" id="suitcase-endDate">
                               <Moment format="MMM DD, YYYY">
                                 {this.state.suitcase.end_date}
                               </Moment>
@@ -218,6 +218,20 @@ export default class Suitcase extends Component {
                           <li className="nav-item">
                             <p className="nav-link" id="suitcase-travelCategory">{this.state.suitcase.travel_category}</p>
                           </li>
+
+                          <li className="nav-item">
+                            <button data-category="clothing" className="all btn btn-primary btn-sm btn-fab btn-round">
+                              <i className="fa fa-suitcase" title="Profile Page"> </i>
+                            </button>
+                          </li>
+
+                          <li className="nav-item">
+                            <button data-category="clothing" className="all btn btn-default btn-sm btn-fab btn-round">
+                              <i className="fa fa-pencil-square-o" title="Profile Page"> </i>
+                            </button>
+                          </li>
+
+                          
 
                         </ul>
                         {this.renderWunderground()}

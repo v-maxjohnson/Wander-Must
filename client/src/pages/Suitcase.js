@@ -168,7 +168,9 @@ export default class Suitcase extends Component {
     if(this.state.rendered) {
       axios.post("/api/uploadSuitcaseImage", formData)
         .then(res => {
-          console.log(res);
+          let url = res.data.url;
+
+          //update suitcase in database with image url
         })
         .catch(err => console.warn(err))
     }

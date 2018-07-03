@@ -63,12 +63,16 @@ export default class Account extends Component {
         data: formData 
       })
       .then(res => {
+        let url = res.data.url;
+
+        //update user_image in database with url
+
         this.setState({
           userData: {
             id: this.state.userData.id,
             username: this.state.userData.username,
             gender: this.state.userData.gender,
-            user_image: res.data.url
+            user_image: url
           }
         });
       })
@@ -112,7 +116,6 @@ export default class Account extends Component {
                       <div className="name">
                         <h3 id="profile-user-name" className="title">{this.state.userData.username} </h3>
                       </div>
-                        <input accepts=".jpg" type="file" onChange={this.handleImageChange} />
                     </div>
                   </div>
                 </div>

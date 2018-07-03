@@ -131,7 +131,7 @@ export default new GraphQLObjectType ({
             resolve : ( root, args ) => resolvers.suitcase.delete( args )
         },
         // MODIFY USER INFO
-        updateUserInfo: {
+        updateUserName: {
             type: userType,
             args: {
                 id: {
@@ -139,21 +139,57 @@ export default new GraphQLObjectType ({
                 },
                 username: {
                     type: GraphQLString
+                }
+            },
+            resolve : ( root, args ) => resolvers.user.changeName( args ) 
+        },
+        updateUserEmail: {
+            type: userType,
+            args: {
+                id: {
+                    type: GraphQLID
                 },
                 email: {
                     type: GraphQLString
+                }
+            },
+            resolve : ( root, args ) => resolvers.user.changeEmail( args ) 
+        },
+        updateUserPassword: {
+            type: userType,
+            args: {
+                id: {
+                    type: GraphQLID
                 },
-                password: {
+                email: {
                     type: GraphQLString
+                }
+            },
+            resolve : ( root, args ) => resolvers.user.changePassword( args ) 
+        },
+        updateUserGender: {
+            type: userType,
+            args: {
+                id: {
+                    type: GraphQLID
                 },
                 gender: {
                     type: GraphQLString
+                }
+            },
+            resolve : ( root, args ) => resolvers.user.changeGender( args ) 
+        },
+        updateUserImage: {
+            type: userType,
+            args: {
+                id: {
+                    type: GraphQLID
                 },
                 user_image: {
                     type: GraphQLString
                 }
             },
-            resolve : ( root, args ) => resolvers.user.changeInfo( args ) 
+            resolve : ( root, args ) => resolvers.user.changeImage( args ) 
         },
         // DELETE USER
         deleteUser: {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Collapse,
   Navbar,
@@ -6,7 +6,8 @@ import {
   NavbarBrand,
   Nav,
   NavItem
-} from 'reactstrap';
+} from "reactstrap";
+import { Redirect } from "react-router-dom";
 import Login from "./Login";
 import "../styles/Navbar.css";
 
@@ -19,15 +20,32 @@ export default class Navibar extends Component {
       isOpen: false
     };
   }
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
   }
+  
+  handleLogout = event => {
+    event.preventDefault();
+    fetch("logout", {method: "GET"})
+      .then(
+        this.setState({
+          isAuthenticated: false
+        }
+      )
+    )
+  }
+
+  maybeLogout() {
+    if (this.state.isAuthenticated === false) {return (<Redirect to="/" />)}
+  }
 
   render() {
     return (
       <div>
+        {this.maybeLogout()}
         <Navbar className="navbar navbar-transparent fixed-top navbar-expand-lg">
           <div className="container">
             <NavbarBrand className="navbar-brand wandermust-font">Wander-Must</NavbarBrand>
@@ -38,8 +56,7 @@ export default class Navibar extends Component {
                   <Login />
                 </NavItem>
                 <NavItem id="user-name-link" className="nav-item">
-                  <p className="nav-link" id="user-name-text">&nbsp;
-            </p>
+                  <p className="nav-link" id="user-name-text">&nbsp;</p>
 
                 </NavItem>
                 <NavItem className="nav-item">

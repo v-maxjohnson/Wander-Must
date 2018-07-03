@@ -34,7 +34,7 @@
         "categories": [ "Asian Fusion", "Vegetarian", "Gluten-Free" ],
         "priceRating": "$" 
     },{ 
-        "name": "Gus\"s World Famous Fried Chicken",
+        "name": "Gus\'s World Famous Fried Chicken",
         "rating": "4",
         "thumbnail": "https://s3-media3.fl.yelpcdn.com/bphoto/KfaOtHe3vtnXo3i3pe4uSQ/o.jpg",
         "href": "https://www.yelp.com/Busineename/guss-world-famous-fried-chicken-austin?adjust_creative=y13XC-PDbfLLoQuIV4oGSg&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=y13XC-PDbfLLoQuIV4oGSg",

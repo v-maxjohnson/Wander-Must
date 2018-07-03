@@ -1,15 +1,16 @@
 import { 
     GraphQLObjectType,
     GraphQLString,
+    GraphQLList,
     GraphQLInt,
-    GraphQLList
+    GraphQLID,
 } from 'graphql';
 
 import suitcaseType from './../types/suitcase';
 import localeType from './../types/locale';
 import itemType from './../types/item';
 import userType from './../types/user';
-// import travelCategory from './../types/suitcase';
+
 import resolvers from './../../resolvers';
 
 
@@ -17,15 +18,19 @@ export default new GraphQLObjectType ({
     name: 'Mutations',
     fields: () => ({
         //CREATE NEW SUITCASE, LOCALE, OR ITEM
-        createNewItem: {
-            type: itemType,
-            args: {
-                item_name: {
-                    type: GraphQLString
-                }
-            },
-            resolve : ( args ) => resolvers.item.create( args )
-        },
+        // don't wanna use this one yet
+        // createNewItem: {
+        //     type: itemType,
+        //     args: {
+        //         item_name: {
+        //             type: GraphQLString
+        //         },
+        //         item_category: {
+        //             type: GraphQLNonNull(itemCategory)
+        //         }
+        //     },
+        //     resolve : ( args ) => resolvers.item.create( args )
+        // },
         createNewLocale: {
             type: localeType,
             args: {
@@ -50,36 +55,36 @@ export default new GraphQLObjectType ({
                 end_date: {
                     type: GraphQLString
                 },
-                // travel_category: {
-                //     type: travelCategory
-                // },
-                user_id: {
+                travel_category: {
                     type: GraphQLString
                 },
+                user_id: {
+                    type: GraphQLID
+                },
                 locale_id: {
-                    type: GraphQLString
+                    type: GraphQLID
                 }
             },
             resolve : ( root, args ) => resolvers.suitcase.create( args )
         },
         // MODIFY ITEMS ON SUITCASE
-        // addItemToSuitcase: {
-        //     type: suitcaseType,
-        //     args: {
-        //         id: {
-        //             type: GraphQLString
-        //         },
-        //         item_ids: {
-        //             type: GraphQLList
-        //         }
-        //     },
-        //     resolve : ( root, args ) => resolvers.suitcase.addItem( args )
-        // },
-        updateItemAmountOnSuitcase: {
+        addItemToSuitcase: {
             type: suitcaseType,
             args: {
                 id: {
-                    type: GraphQLString
+                    type: GraphQLID
+                },
+                item_ids: {
+                    type: GraphQLList(GraphQLID)
+                }
+            },
+            resolve : ( root, args ) => resolvers.suitcase.addItem( args )
+        },
+        updateItemAmountOnSuitcase: {
+            type: itemType,
+            args: {
+                id: {
+                    type: GraphQLID
                 },
                 item_id: {
                     type: GraphQLString
@@ -91,14 +96,14 @@ export default new GraphQLObjectType ({
             resolve : ( root, args ) => resolvers.suitcase.updateItem( args )
         },
         deleteItemFromSuitcase: {
-            type: itemType,
+            type: suitcaseType,
             args: {
-                item_id: {
-                    type: GraphQLString
-                },
                 suitcase_id: {
-                    type: GraphQLString
-                }
+                    type: GraphQLID
+                },
+                item_id: {
+                    type: GraphQLID
+                },
             },
             resolve : ( root, args ) => resolvers.suitcase.deleteItem( args )
         },
@@ -107,7 +112,7 @@ export default new GraphQLObjectType ({
             type: suitcaseType,
             args: {
                 id: {
-                    type: GraphQLString
+                    type: GraphQLID
                 },
                 note: {
                     type: GraphQLString
@@ -120,7 +125,7 @@ export default new GraphQLObjectType ({
             type: suitcaseType,
             args: {
                 id: {
-                    type: GraphQLString
+                    type: GraphQLID
                 }
             },
             resolve : ( root, args ) => resolvers.suitcase.delete( args )
@@ -130,7 +135,7 @@ export default new GraphQLObjectType ({
             type: userType,
             args: {
                 id: {
-                    type: GraphQLString
+                    type: GraphQLID
                 },
                 username: {
                     type: GraphQLString
@@ -155,7 +160,7 @@ export default new GraphQLObjectType ({
             type: userType,
             args: {
                 id: {
-                    type: GraphQLString
+                    type: GraphQLID
                 }
             },
             resolve : ( root, args ) => resolver.user.delete( args ) 

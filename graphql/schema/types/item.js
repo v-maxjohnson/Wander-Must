@@ -1,11 +1,12 @@
 import {
     GraphQLObjectType,
     GraphQLString,
+    GraphQLID,
     GraphQLEnumType,
     GraphQLInt
   } from 'graphql';
 
-const itemCategory = new GraphQLEnumType({
+export const itemCategory = new GraphQLEnumType({
     name: 'ItemCategoryEnum',
     values: {
         TOILETRIES: {
@@ -27,7 +28,7 @@ export default new GraphQLObjectType({
     name: 'ItemType',
     fields: () => ({
         id: {
-            type: GraphQLString
+            type: GraphQLID
         },
         item_name: {
             type: GraphQLString

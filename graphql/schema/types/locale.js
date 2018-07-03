@@ -1,6 +1,7 @@
 import {
     GraphQLObjectType,
     GraphQLList,
+    GraphQLID,
     GraphQLString
   } from 'graphql';
   import suitcaseType from './suitcase';
@@ -9,7 +10,7 @@ export default new GraphQLObjectType({
     name: 'LocaleType',
     fields: () => ({
         id: {
-            type: GraphQLString
+            type: GraphQLID
         },
         locale_city: {
             type: GraphQLString

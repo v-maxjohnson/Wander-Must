@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router'
+import Profile from "./Profile";
 import Moment from 'react-moment';
 import Main from "../components/Main";
 import Header from "../components/Header";
@@ -197,14 +199,24 @@ export default class Suitcase extends Component {
       mutation: DELETE_SUITCASE_QUERY,
       variables: { id: this.state.suitcaseId }
     }).then(result => {
-      window.location = "/profile/" + this.state.loggedInUserIdNumber;
+      this.setState({
+        shouldRedirect: true
+      })
       console.log(result);
     })
+  }
+
+  maybeRedirect() {
+    if (this.state.shouldRedirect)
+      return (
+        <Redirect to={"/profile/" + this.state.loggedInUserIdNumber} render={(props) => <Profile {...props} />} />
+      )
   }
 
   render() {
     return (
       <div className="suitcase profile-page sidebar-collapse">
+        {this.maybeRedirect()}
         <Header
           showNewSuitcaseModal={this.showNewSuitcaseModal}
         />

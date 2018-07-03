@@ -163,7 +163,7 @@ export default new GraphQLObjectType ({
                     type: GraphQLID
                 }
             },
-            resolve : ( root, args ) => resolver.user.delete( args ) 
+            resolve : ( root, args ) => resolvers.user.delete( args ) 
         },
     })
 });

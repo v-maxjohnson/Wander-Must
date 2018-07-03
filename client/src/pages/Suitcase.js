@@ -4,7 +4,7 @@ import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Category from "../components/Category";
-import YelpCarosel from "../components/YelpCarousel";
+// import YelpCarosel from "../components/YelpCarousel";
 import Yelp from "../utils/Yelp";
 import Item from "../components/Item";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
@@ -12,6 +12,7 @@ import "../styles/Suitcase.css";
 import Wunderground from "../utils/Wunderground";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
+import axios from 'axios';
 
 const GET_SUITCASE_QUERY = gql` 
 query getSuitcase( $id: String! ){
@@ -91,6 +92,21 @@ export default class Suitcase extends Component {
     }
   }
 
+  handleImageChange = (e) => {
+    let file = e.target.files[0];
+    let formData = new FormData();
+    formData.append("fileToUpload", file);
+    console.log(formData.get("fileToUpload"));
+
+    if(this.state.rendered) {
+      axios.post("/api/uploadSuitcaseImage", formData)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => console.warn(err))
+    }
+  }
+
   render() {
     return (
       <div className="suitcase profile-page sidebar-collapse">
@@ -113,6 +129,8 @@ export default class Suitcase extends Component {
 
                 <div className="card card-nav-tabs card-plain">
                   <div className="suitcase-header card-header card-header-default">
+                      <input type="file" onChange={this.handleImageChange} />
+
 
                     <div id="suitcase-nav" className="nav-tabs-navigation">
                       <div className="nav-tabs-wrapper">
@@ -271,7 +289,6 @@ export default class Suitcase extends Component {
                 </div>
               </div>
             </div>
-            <YelpCarosel />
           </div>
           
         </Main>

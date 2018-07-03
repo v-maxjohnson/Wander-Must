@@ -4,7 +4,9 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../styles/Account.css";
 import gql from "graphql-tag";
+import axios from 'axios';
 import ApolloClient from 'apollo-boost';
+import { Image } from 'cloudinary-react';
 
 const GET_USER_QUERY = gql`
 query getUser( $id: String! ){
@@ -15,7 +17,7 @@ query getUser( $id: String! ){
     user_image
     email
   }
-}`;
+  }`;
 
 const client = new ApolloClient();
 
@@ -43,11 +45,37 @@ export default class Account extends Component {
 
   }
 
+  handleImageChange = (e) => {
+    let file = e.target.files[0];
+    let formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "poabwcdf")
+    console.log(formData.get("file"));
+
+    if(this.state.rendered) {
+      axios({
+        method: "POST",
+        url: "https://api.cloudinary.com/v1_1/dorxotpsj/upload",
+        data: formData 
+      })
+      .then(res => {
+        this.setState({
+          userData: {
+            id: this.state.userData.id,
+            username: this.state.userData.username,
+            gender: this.state.userData.gender,
+            user_image: res.data.url
+          }
+        });
+      })
+    }
+  }
+
   render() {
     return (
       <div className="account profile-page sidebar-collapse">
         <Header />
-        <Main>
+          <Main>
           <div className="page-header header-filter" id="background-account" data-parallax="true"></div>
           <div className="main main-raised">
             <div className="profile-content">
@@ -56,11 +84,12 @@ export default class Account extends Component {
                   <div className="col-md-6 ml-auto mr-auto">
                     <div className="profile">
                       <div className="avatar">
-                        <img src={this.state.userData.user_image}  alt="Avatar" className="img-fluid" />
+                        <img style={{"border-radius": "50%"}} src={this.state.userData.user_image}  alt="Avatar" className="img-fluid" />
                       </div>
                       <div className="name">
                         <h3 id="profile-user-name" className="title">{this.state.userData.username} </h3>
                       </div>
+                        <input accepts=".jpg" type="file" onChange={this.handleImageChange} />
                     </div>
                   </div>
                 </div>

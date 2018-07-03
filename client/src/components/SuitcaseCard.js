@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import Moment from 'react-moment';
 import Pixabay from "../utils/Pixabay";
+import Cloudinary from '../utils/Cloudinary';
 import "../styles/SuitcaseCard.css";
 import SuitcaseFrame from "../images/suitcaseFrame.png"
+import { Image } from 'cloudinary-react'
 
 export default class SuitcaseCard extends Component {
 
@@ -11,10 +13,10 @@ export default class SuitcaseCard extends Component {
     }
 
     setCityImageSrc = (url) => {
-        this.setState({ cityImageSrc: url})
+        this.setState({ cityImageSrc: url })
     }
 
-    renderPixabay = () => {
+    renderPicture = () => {
         if (this.props.rendered) {
             return <Pixabay
             city={this.props.city}
@@ -22,17 +24,19 @@ export default class SuitcaseCard extends Component {
             setCityImageSrc={this.setCityImageSrc}
         />
         }
+        return <Cloudinary
+            setCityImageSrc={this.setCityImageSrc}
+        />
     }
 
     render() {
       return (
-
         <div className="suitcase-partial container col-sm-12 col-md-6 col-lg-4">
             <div className="suitcaseCard">
                 <div className="card bg-dark text-white no-shadow">
                     <div className="suitcaseWrapper card-img">
                         <a className="suitcase-link" href={"/suitcase/" + this.props.id}>
-                        {this.renderPixabay()}
+                        {this.renderPicture()}
                             <img
                                 className="suitcasePhoto img-responsive"
                                 src={this.state.cityImageSrc} alt="City Skyline"

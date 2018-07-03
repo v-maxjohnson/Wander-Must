@@ -33,6 +33,10 @@ export default class SuitcaseCard extends Component {
         }
     }
 
+    setSuitcaseId = () => {
+        localStorage.setItem("suitcase_id", this.props.id)
+    }
+
     render() {
         return (
 
@@ -40,7 +44,7 @@ export default class SuitcaseCard extends Component {
                 <div className="suitcaseCard">
                     <div className="card bg-dark text-white no-shadow">
                         <div className="suitcaseWrapper card-img">
-                            <a className="suitcase-link" href={"/suitcase/" + this.props.id}>
+                            <a className="suitcase-link" href={"/suitcase/" + this.props.id} onClick={this.setSuitcaseId}>
                                 {this.renderPixabay()}
                                 <img
                                     className="suitcasePhoto img-responsive"

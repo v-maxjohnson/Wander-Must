@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import QuickViewModal from '../components/QuickViewModal';
 import NewSuitcaseModal from "../components/NewSuitcaseModal";
-import Yelp from "../components/Yelp";
+import Yelp from "../utils/Yelp";
 import SearchSuitcaseCard from "../components/SearchSuitcaseCard";
 import "../styles/Search.css";
 import gql from "graphql-tag";
@@ -40,6 +40,7 @@ const client = new ApolloClient();
 
 let cityName = localStorage.getItem("city_name");
 let cityNoUnderscores = "";
+let loggedInUserIdNumber = localStorage.getItem("logged_in_user_id");
 
 export default class Search extends Component {
   state = {
@@ -63,7 +64,8 @@ export default class Search extends Component {
     openQuickViewModal: false,
     openNewSuitcaseModal: false,
     rendered: false,
-    index: 0
+    index: 0,
+    loggedInUserIdNumber: loggedInUserIdNumber
   }
 
   componentDidMount() {
@@ -148,25 +150,27 @@ export default class Search extends Component {
                   </div>
                 </div>
                 <div className="row">
-                  {this.state.suitcaseData.map((suitcase, i) => (
-                    <SearchSuitcaseCard
-                      key={i}
-                      idx={i}
-                      id={suitcase.id}
-                      city={suitcase.Locale.locale_city}
-                      localeAdmin={suitcase.Locale.locale_admin}
-                      country={suitcase.Locale.locale_country}
-                      src={suitcase.Locale.locale_image}
-                      startDate={suitcase.start_date}
-                      endDate={suitcase.end_date}
-                      category={suitcase.travel_category}
-                      userName={suitcase.User.username}
-                      gender={suitcase.User.gender}
-                      rendered={this.state.rendered}
-                      showQuickViewModal={this.showQuickViewModal}
-                      setQuickViewModalIndex={this.setQuickViewModalIndex}
-                    />
-                  ))}
+                  {this.state.suitcaseData
+                    .filter(suitcase => (suitcase.User.id !== this.state.loggedInUserIdNumber))
+                    .map((suitcase, i) => (
+                      <SearchSuitcaseCard
+                        key={i}
+                        idx={i}
+                        id={suitcase.id}
+                        city={suitcase.Locale.locale_city}
+                        localeAdmin={suitcase.Locale.locale_admin}
+                        country={suitcase.Locale.locale_country}
+                        src={suitcase.Locale.locale_image}
+                        startDate={suitcase.start_date}
+                        endDate={suitcase.end_date}
+                        category={suitcase.travel_category}
+                        userName={suitcase.User.username}
+                        gender={suitcase.User.gender}
+                        rendered={this.state.rendered}
+                        showQuickViewModal={this.showQuickViewModal}
+                        setQuickViewModalIndex={this.setQuickViewModalIndex}
+                      />
+                    ))}
                 </div>
               </div>
             </div>

@@ -1,10 +1,9 @@
 import React, {
   Component
 } from 'react';
-const yelpAPI = require('yelp-api');
-const apiKey = 'te8cuUAAywnS6fTyQVVOj1vRJ-ybh4BijgLA2wgVF6Hk3x70QSiymfYF5Day-HTlD1hwZkniAQcj8GSqId4LAdyjCmFBNoJfd5dDncvaV6PgiHXlPHC4fxqiE_QrW3Yx';
-const yelp = new yelpAPI(apiKey);
-
+import YelpCarousel from '../components/YelpCarousel';
+import axios from "axios";
+import "../styles/Yelp.css";
 
 export default class Yelp extends Component {
 
@@ -12,18 +11,19 @@ export default class Yelp extends Component {
     // these are user inputs
     sort_by: "",
     price: "",
-    radiusMiles: 5
+    radiusMiles: 5,
+    yelpData: []
   }
 
   componentDidMount() {
     this.makeYelpCall();
   }
 
-  radiusMiles = '';
-
   makeYelpCall = () => {
     if (this.state.radiusMiles >= 25) {
-      this.state.radiusMiles = 25;
+      this.setState({
+        radiusMiles: 25
+      });
     }
 
     var radiusMeters = this.state.radiusMiles * 1600;
@@ -38,10 +38,15 @@ export default class Yelp extends Component {
       price: '1'
     }];
 
-
-    yelp.query('businesses/search', params).then(response => {
+    axios({
+      method: "post",
+      url: "/yelp",
+      data: params
+    })
+    .then((response) => {
+      console.log(response.data.businesses);
       let output = [];
-      response.jsonBody.businesses.forEach(item => {
+      response.data.businesses.forEach(item => {
         if (output.length < 10 && !item.is_closed) {
           output.push({
             name: item.name,
@@ -54,18 +59,19 @@ export default class Yelp extends Component {
         }
       })
       console.log(output);
-    }).catch(err => {
-      // Failure
-      console.log(err);
+      this.setState({
+        yelpData: output
+      })
     });
-
   }
 
   render() {
     return (
-        <div className="yelp" >
-          {this.props.children}
-        </div>
+      <YelpCarousel
+
+        yelpResults={this.state.yelpData}
+
+      />
     )
   }
 }

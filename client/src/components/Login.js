@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, Input } from 'reactstrap';
-// import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Redirect } from 'react-router-dom';
+import Profile from "../pages/Profile";
 import "../styles/Login.css";
 
 export default class Login extends Component {
@@ -11,9 +12,9 @@ export default class Login extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       dropdownOpen: false,
+      isAuthenticated: false,
       email: "",
       password: "",
-      isAuthenticated: false,
       userData: {
         id: "",
         username: "",
@@ -38,13 +39,13 @@ export default class Login extends Component {
 
   handleSubmitEvent = event => {
     event.preventDefault();
-    // data that's going into the submit form
     const data = {
-      email: this.state.userData.email,
-      password: this.state.userData.password
+      email: this.state.email,
+      password: this.state.password
     }
-    // converting the data to JSON to pass in on the fetch req
     let newData = JSON.stringify(data);
+    console.log('auth request credentials: ' + newData);
+
     fetch('api/signin', {
       method: 'POST',
       headers: {
@@ -53,27 +54,38 @@ export default class Login extends Component {
       },
       body: newData
     })
-    //receiving the response as json
     .then(res => res.json())
-    .then(result => {
+    .then(data => {
       this.setState ({
         isAuthenticated: true,
         dropdownOpen: false,
         email: "",
         password: "",
         userData: {
-          id: result.id,
-          username: result.username,
-          gender: result.gender,
-          user_image: result.user_image
+          id: data.id,
+          username: data.username,
+          gender: data.gender,
+          user_image: data.user_image
         }
       })
     })
   }
 
+  maybeRedirect() {
+    if (this.state.isAuthenticated === true) {
+      let userId = this.state.userData.id;
+      console.log('userId: ' + userId);
+      return (
+        <Redirect to={'/profile/' + userId} render={(props) => <Profile {...props} /> } />     
+      )
+    }
+    console.log('state after redirect: ' + JSON.stringify(this.state));
+  }
+
   render() {
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="login-dropdown">
+        {this.maybeRedirect()}
         <DropdownToggle className="dropdown-toggle nav-link" caret>
           <i className="fa fa-user-circle" title="Profile Page"> </i>
         </DropdownToggle>
@@ -87,7 +99,7 @@ export default class Login extends Component {
             <label htmlFor="password">Password</label>
             <Input name="password" type="password"  
             value={this.state.password}
-            onChange={this.handleChange}
+            onChange={this.handleChange} 
             />
             <div className="row">
               <div className="col-5">

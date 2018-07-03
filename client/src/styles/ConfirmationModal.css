@@ -1,0 +1,42 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Courgette|Reem+Kufi|Material+Icons");
+
+/* .confirmation-modal  .modal {
+    
+} */
+
+.confirmation-modal .modal-content {
+    padding: 15px;
+}
+
+/* .confirmation-modal  .modal-header {
+    
+} */
+
+/* .confirmation-modal.modal-dialog {
+    
+} */
+
+/* .confirmation-modal .modal-title {
+    
+} */
+
+.confirmation-modal .modal-body p {
+    font-family: "Reem Kufi", sans-serif!important;
+    font-size: 30px!important;
+    line-height: 36px;
+}
+
+.confirmation-modal .modal-footer .btn {
+    font-size: 16px!important;
+}
+
+/* 
+.confirmation-modal.modal-lg {
+    width: 90%!important;
+    max-width: none!important;
+} */
+
+/* .modal-row {
+    flex-direction: column;
+} */
+

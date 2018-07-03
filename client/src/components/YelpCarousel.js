@@ -18,7 +18,7 @@ export default class YelpCarousel extends Component {
         <h3 className="text-center"> Want more to do in the city?</h3>
 
         <Slider {...settings}>
-          {/* <div className="card-deck mb-2"> */}
+          
           {this.props.yelpResults.map((yelp, i) => (
             <YelpCard
               key={i}

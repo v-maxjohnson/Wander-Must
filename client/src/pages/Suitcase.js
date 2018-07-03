@@ -5,14 +5,15 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Category from "../components/Category";
 import NewSuitcaseModal from "../components/NewSuitcaseModal";
-import Yelp from "../components/Yelp";
+import ConfirmationModal from "../components/ConfirmationModal";
+import Yelp from "../utils/Yelp";
 import Item from "../components/Item";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
 import "../styles/Suitcase.css";
 import Wunderground from "../utils/Wunderground";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
-import Autocomplete from 'react-autocomplete'; 
+import Autocomplete from 'react-autocomplete';
 
 
 const GET_SUITCASE_QUERY = gql` 
@@ -40,12 +41,20 @@ query getSuitcase( $id: String! ){
   }
 }`;
 
+const DELETE_SUITCASE_QUERY = gql` 
+mutation deleteSuitcase( $id: String! ){
+    deleteSuitcase(id: $id) {
+      id
+    }
+}`;
+
 const client = new ApolloClient();
 
 let suitcaseId = localStorage.getItem("suitcase_id");
 let cityNoUnderscores = "";
 let autocompleteItems;
 let renderAutoValue;
+let loggedInUserIdNumber = localStorage.getItem("logged_in_user_id");
 
 
 export default class Suitcase extends Component {
@@ -61,15 +70,17 @@ export default class Suitcase extends Component {
     allItems: [],
     rendered: false,
     openNewSuitcaseModal: false,
-    number: suitcaseId,
-    value: ''
+    openConfirmationModal: false,
+    suitcaseId: suitcaseId,
+    value: '',
+    loggedInUserIdNumber: loggedInUserIdNumber
   };
 
   componentDidMount() {
 
     client.query({
       query: GET_SUITCASE_QUERY,
-      variables: { id: this.state.number }
+      variables: { id: this.state.suitcaseId }
     }).then(result => {
       this.setState({ suitcase: result.data.getSuitcase, rendered: true });
       console.log(this.state.suitcase, this.state.rendered);
@@ -86,21 +97,20 @@ export default class Suitcase extends Component {
     }).then(result => {
       this.setState({ allItems: result.data.allItems });
     })
-
   }
 
   setAutocompleteItems = () => {
-    if (this.state.value !== "") { 
-    autocompleteItems = 
-    this.state.allItems
-      .map((wmItem, i) => (
-        { key: i, id: wmItem.id, label: wmItem.item_name }
-      ))
+    if (this.state.value !== "") {
+      autocompleteItems =
+        this.state.allItems
+          .map((wmItem, i) => (
+            { key: i, id: wmItem.id, label: wmItem.item_name, category: wmItem.item_category.toLowerCase() }
+          ))
     } else {
-    autocompleteItems = 
-    [
-      { key: "01", label: '' },
-    ]
+      autocompleteItems =
+        [
+          { key: "01", label: '' },
+        ]
     }
     return autocompleteItems
   }
@@ -108,20 +118,20 @@ export default class Suitcase extends Component {
   renderAutocomplete = () => {
     if (this.state.value !== "") {
       renderAutoValue =
-      (item, highlighted) =>
-      <div
-      key={item.key}
-      style={{ backgroundColor: highlighted ? '#eee' : 'transparent'}}
-      >
-      {item.label}
-    </div>
+        (item, highlighted) =>
+          <div
+            key={item.key}
+            style={{ backgroundColor: highlighted ? '#eee' : 'transparent' }}
+          >
+            {item.label} | <span className="auto-category">{item.category}</span>
+          </div>
     } else {
       renderAutoValue =
-      (item) =>
-      <div
-        key={item.key}
-      >
-      </div>
+        (item) =>
+          <div
+            key={item.key}
+          >
+          </div>
     }
     return renderAutoValue
   }
@@ -163,6 +173,33 @@ export default class Suitcase extends Component {
         resetNewSuitcaseModal={this.resetNewSuitcaseModal}
       />
     }
+  }
+
+  showConfirmationModal = () => {
+    this.setState({ openConfirmationModal: true });
+  }
+
+  resetConfirmationModal = () => {
+    this.setState({ openConfirmationModal: false });
+  }
+
+  renderConfirmationModal = () => {
+    if (this.state.openConfirmationModal) {
+      return <ConfirmationModal
+        resetConfirmationModal={this.resetConfirmationModal}
+        deleteSuitcase={this.deleteSuitcase}
+      />
+    }
+  }
+
+  deleteSuitcase = () => {
+    client.mutate({
+      mutation: DELETE_SUITCASE_QUERY,
+      variables: { id: this.state.suitcaseId }
+    }).then(result => {
+      window.location = "/profile/" + this.state.loggedInUserIdNumber;
+      console.log(result);
+    })
   }
 
   render() {
@@ -207,8 +244,8 @@ export default class Suitcase extends Component {
                               <Moment format="MMM DD, YYYY">
                                 {this.state.suitcase.start_date}
                               </Moment>
-                            </p>-
-                  <p className="nav-link d-inline-block" id="suitcase-endDate">
+                            </p>
+                            <p className="nav-link d-inline-block" id="suitcase-endDate">
                               <Moment format="MMM DD, YYYY">
                                 {this.state.suitcase.end_date}
                               </Moment>
@@ -219,9 +256,32 @@ export default class Suitcase extends Component {
                             <p className="nav-link" id="suitcase-travelCategory">{this.state.suitcase.travel_category}</p>
                           </li>
 
+                          <li className="nav-item">
+                            <button data-category="clothing" className="all btn btn-primary btn-sm btn-fab btn-round">
+                              <i className="fa fa-suitcase" title="Profile Page"> </i>
+                            </button>
+                          </li>
+
+                          <li className="nav-item">
+                            <button data-category="clothing" className="all btn btn-default btn-sm btn-fab btn-round">
+                              <i className="fa fa-pencil-square-o" title="Profile Page"> </i>
+                            </button>
+                          </li>
+
+                          
+
                         </ul>
                         {this.renderWunderground()}
                       </div>
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col-12 text-center">
+                      {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
+                        <button className="btn btn-primary" onClick={() => { this.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
+                      ) : (<div></div>
+                        )}
                     </div>
                   </div>
 
@@ -229,24 +289,39 @@ export default class Suitcase extends Component {
               </div>
 
 
+              <div className="input-group mb-3 auto-items">
+                <Autocomplete
 
-              <div className="row">
-                <div className="col-12">
-                <div className="auto-items">
-                  <Autocomplete
-
-                    items={this.setAutocompleteItems()}
-                    shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
-                    getItemValue={item => item.label}
-                    renderItem={this.renderAutocomplete()}
-                    
-                    value={this.state.value}
-                    onChange={e => this.setState({ value: e.target.value })}
-                    onSelect={value => this.setState({ value })  }
-                  />
-                  </div>
+                  items={this.setAutocompleteItems()}
+                  shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
+                  getItemValue={item => item.label}
+                  renderItem={this.renderAutocomplete()}
+                  wrapperStyle={
+                    {
+                      position: 'relative',
+                      zIndex: 9999
+                    }
+                  }
+                  menuStyle={
+                    {
+                      position: 'absolute',
+                      cursor: "pointer",
+                      top: "35px",
+                      left: 0,
+                      backgroundColor: "white"
+                    }
+                  }
+                  value={this.state.value}
+                  onChange={e => this.setState({ value: e.target.value })}
+                  onSelect={value => this.setState({ value })}
+                />
+                <div className="input-group-append">
+                  <button type="button"><i className="fa fa-search"></i> Find an item</button>
                 </div>
               </div>
+
+
+
 
 
               <div className="row">
@@ -256,11 +331,14 @@ export default class Suitcase extends Component {
                     <Category>
                       <div className="title row">
                         <div>
-                          <span className="badge badge-pill badge-info">Toiletries</span>
+                          <button data-category="toiletries" className="all btn btn-default btn-sm btn-fab btn-round">
+                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
+                          </button>
                         </div>
                         <div>
-                          <button data-category="toiletries" className="all btn btn-primary btn-sm ml-3">Select all</button>
+                          <span className="badge badge-pill badge-info">Toiletries</span>
                         </div>
+
                       </div>
                       <div className="row cat-row" id="toiletries">
                         {this.state.suitcase.Items
@@ -279,11 +357,14 @@ export default class Suitcase extends Component {
                     <Category>
                       <div className="title row">
                         <div>
-                          <span className="badge badge-pill badge-info">Clothing</span>
+                          <button data-category="clothing" className="all btn btn-default btn-sm btn-fab btn-round">
+                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
+                          </button>
                         </div>
                         <div>
-                          <button data-category="clothing" className="all btn btn-primary btn-sm ml-3">Select all</button>
+                          <span className="badge badge-pill badge-primary">Clothing</span>
                         </div>
+
                       </div>
                       <div className="row cat-row" id="clothing">
                         {this.state.suitcase.Items
@@ -304,11 +385,14 @@ export default class Suitcase extends Component {
                     <Category>
                       <div className="title row">
                         <div>
-                          <span className="badge badge-pill badge-info">Accessories</span>
+                          <button data-category="accessories" className="all btn btn-default btn-sm btn-fab btn-round">
+                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
+                          </button>
                         </div>
                         <div>
-                          <button data-category="accessories" className="all btn btn-primary btn-sm ml-3">Select all</button>
+                          <span className="badge badge-pill badge-info">Accessories</span>
                         </div>
+
                       </div>
                       <div className="row cat-row" id="accessories">
                         {this.state.suitcase.Items
@@ -329,11 +413,14 @@ export default class Suitcase extends Component {
                     <Category>
                       <div className="title row">
                         <div>
-                          <span className="badge badge-pill badge-info">Electronics</span>
+                          <button data-category="electronics" className="all btn btn-default btn-sm btn-fab btn-round">
+                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
+                          </button>
                         </div>
                         <div>
-                          <button data-category="electronics" className="all btn btn-primary btn-sm ml-3">Select all</button>
+                          <span className="badge badge-pill badge-primary">Electronics</span>
                         </div>
+
                       </div>
                       <div className="row cat-row" id="electronics">
                         {this.state.suitcase.Items
@@ -368,12 +455,13 @@ export default class Suitcase extends Component {
               </div>
             </div>
             <div className="yelp-wrapper">
-              <Yelp/>
+              <Yelp />
             </div>
           </div>
 
         </Main>
         {this.renderNewSuitcaseModal()}
+        {this.renderConfirmationModal()}
         <Footer />
       </div>
     )

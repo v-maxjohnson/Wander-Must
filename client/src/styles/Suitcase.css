@@ -12,8 +12,15 @@
 }
 
 .auto-items {
-    z-index: 9999;
-    position: absolute
+    position: relative!important;
+    left: 70%;
+    font-family: "Reem Kufi", sans-serif!important;
+}
+
+.auto-category {
+    color: purple;
+    text-transform: capitalize;
+    cursor: default;
 }
 
 .items-section {

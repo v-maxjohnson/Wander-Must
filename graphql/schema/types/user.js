@@ -1,6 +1,7 @@
 import {
     GraphQLObjectType,
     GraphQLString,
+    GraphQLID,
     GraphQLList
   } from 'graphql';
 
@@ -12,7 +13,7 @@ export default new GraphQLObjectType({
     name: 'UserType',
     fields: () => ({
         id: {
-            type: GraphQLString
+            type: GraphQLID
         },
         username: {
             type: GraphQLString

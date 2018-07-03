@@ -280,8 +280,6 @@ export default class Suitcase extends Component {
                             </button>
                           </li>
 
-
-
                         </ul>
                         {this.renderWunderground()}
                       </div>
@@ -300,40 +298,41 @@ export default class Suitcase extends Component {
                 </div>
               </div>
 
+              {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
+                <div className="input-group mb-3 auto-items">
 
-              <div className="input-group mb-3 auto-items">
-                <Autocomplete
+                  <Autocomplete
 
-                  items={this.setAutocompleteItems()}
-                  shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
-                  getItemValue={item => item.label}
-                  renderItem={this.renderAutocomplete()}
-                  wrapperStyle={
-                    {
-                      position: 'relative',
-                      zIndex: 9999
+                    items={this.setAutocompleteItems()}
+                    shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
+                    getItemValue={item => item.label}
+                    renderItem={this.renderAutocomplete()}
+                    wrapperStyle={
+                      {
+                        position: 'relative',
+                        zIndex: 9999
+                      }
                     }
-                  }
-                  menuStyle={
-                    {
-                      position: 'absolute',
-                      cursor: "pointer",
-                      top: "35px",
-                      left: 0,
-                      backgroundColor: "white"
+                    menuStyle={
+                      {
+                        position: 'absolute',
+                        cursor: "pointer",
+                        top: "35px",
+                        left: 0,
+                        backgroundColor: "white"
+                      }
                     }
-                  }
-                  value={this.state.value}
-                  onChange={e => this.setState({ value: e.target.value })}
-                  onSelect={value => this.setState({ value })}
-                />
-                <div className="input-group-append">
-                  <button type="button"><i className="fa fa-search"></i> Find an item</button>
+                    value={this.state.value}
+                    onChange={e => this.setState({ value: e.target.value })}
+                    onSelect={value => this.setState({ value })}
+                  />
+                  <div className="input-group-append">
+                    <button type="button"><i className="fa fa-search"></i> Add an item</button>
+                  </div>
                 </div>
-              </div>
-
-
-
+              ) : (
+                  <div></div>
+                )}
 
 
               <div className="row">
@@ -360,6 +359,8 @@ export default class Suitcase extends Component {
                               key={i}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
+                              loggedInUserIdNumber={this.state.loggedInUserIdNumber}
+                              suitcaseUserId={this.state.suitcase.User.id}
                             />
                           ))
                         }
@@ -386,6 +387,8 @@ export default class Suitcase extends Component {
                               key={i}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
+                              loggedInUserIdNumber={this.state.loggedInUserIdNumber}
+                              suitcaseUserId={this.state.suitcase.User.id}
                             />
                           ))
 
@@ -414,6 +417,8 @@ export default class Suitcase extends Component {
                               key={i}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
+                              loggedInUserIdNumber={this.state.loggedInUserIdNumber}
+                              suitcaseUserId={this.state.suitcase.User.id}
                             />
                           ))
 
@@ -442,6 +447,8 @@ export default class Suitcase extends Component {
                               key={i}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
+                              loggedInUserIdNumber={this.state.loggedInUserIdNumber}
+                              suitcaseUserId={this.state.suitcase.User.id}
                             />
                           ))
 

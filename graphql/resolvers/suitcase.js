@@ -102,7 +102,8 @@ export default {
         return db.Suitcase.findOne({
             where: {
                 suitcase_id: suitcase_id
-            }
+            },
+            include: [ db.Item ]
         })
             .then( dbSuitcase => {
                 return dbSuitcase.findOne({
@@ -117,7 +118,9 @@ export default {
     },
     updateNote: ( {id, note} ) => {
         return db.Suitcase.findOne({
-            where: id
+            where: {
+                id: id
+            }
         })
             .then( suitcase => suitcase.update( {notes: note} ) )
             .catch( err => console.log(err) )
@@ -127,11 +130,9 @@ export default {
             where: {
                 id: suitcase_id
             },
-            include: [db.Item]
+            include: [ db.Item ]
         })
-            .then( suitcase => {
-                suitcase.removeItem( item_id )
-            })
+            .then( suitcase => suitcase.removeItem( item_id ) )
             .catch( err => console.log(err.message) ) // this mutation is working, it just doesn't return anything at the moment
     },
     

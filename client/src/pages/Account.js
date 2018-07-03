@@ -48,7 +48,7 @@ export default class Account extends Component {
     })
 
   }
-  
+
   handleImageChange = (e) => {
     let file = e.target.files[0];
     let formData = new FormData();
@@ -179,7 +179,7 @@ export default class Account extends Component {
                     <FormGroup row>
                       <Label for="exampleCustomFileBrowser" sm={3}>Avatar</Label>
                       <Col sm={9}>
-                        <CustomInput type="file" id="exampleCustomFileBrowser" name="customFile" label="Show us who you are w/ an image." />
+                        <CustomInput type="file" id="exampleCustomFileBrowser" name="customFile" label="Show us who you are w/ an image." onChange={this.handleImageChange}/>
                       </Col>
                     </FormGroup>
                     <FormGroup check row>

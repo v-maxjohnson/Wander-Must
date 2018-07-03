@@ -5,11 +5,8 @@
   "private": true,
   "proxy": "http://localhost:3001/",
   "dependencies": {
-<<<<<<< HEAD
     "cloudinary-react": "^1.0.6",
-=======
     "ajv": "^6.5.1",
->>>>>>> b497e4518f6f5f1af3b8f19b68a2ff89f365f6f5
     "mysql2": "^1.5.3",
     "react": "^16.0.0",
     "react-autocomplete": "^1.8.1",

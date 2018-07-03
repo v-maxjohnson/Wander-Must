@@ -4,7 +4,8 @@ import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Category from "../components/Category";
-// import YelpCarosel from "../components/YelpCarousel";
+import NewSuitcaseModal from "../components/NewSuitcaseModal";
+import ConfirmationModal from "../components/ConfirmationModal";
 import Yelp from "../utils/Yelp";
 import Item from "../components/Item";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
@@ -13,6 +14,7 @@ import Wunderground from "../utils/Wunderground";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 import axios from 'axios';
+import Autocomplete from 'react-autocomplete';
 
 const GET_SUITCASE_QUERY = gql` 
 query getSuitcase( $id: String! ){
@@ -39,9 +41,21 @@ query getSuitcase( $id: String! ){
   }
 }`;
 
+const DELETE_SUITCASE_QUERY = gql` 
+mutation deleteSuitcase( $id: String! ){
+    deleteSuitcase(id: $id) {
+      id
+    }
+}`;
+
 const client = new ApolloClient();
 
+let suitcaseId = localStorage.getItem("suitcase_id");
 let cityNoUnderscores = "";
+let autocompleteItems;
+let renderAutoValue;
+let loggedInUserIdNumber = localStorage.getItem("logged_in_user_id");
+
 
 export default class Suitcase extends Component {
   state = {
@@ -53,20 +67,73 @@ export default class Suitcase extends Component {
       Locale: [],
       User: []
     },
+    allItems: [],
     rendered: false,
-    number: "5"
+    openNewSuitcaseModal: false,
+    openConfirmationModal: false,
+    suitcaseId: suitcaseId,
+    value: '',
+    loggedInUserIdNumber: loggedInUserIdNumber
   };
 
   componentDidMount() {
 
     client.query({
       query: GET_SUITCASE_QUERY,
-      variables: { id: this.state.number }
+      variables: { id: this.state.suitcaseId }
     }).then(result => {
       this.setState({ suitcase: result.data.getSuitcase, rendered: true });
       console.log(this.state.suitcase, this.state.rendered);
     })
 
+    client.query({
+      query: gql` 
+            { 
+              allItems {
+                item_name,
+                item_category 
+              }
+            }`
+    }).then(result => {
+      this.setState({ allItems: result.data.allItems });
+    })
+  }
+
+  setAutocompleteItems = () => {
+    if (this.state.value !== "") {
+      autocompleteItems =
+        this.state.allItems
+          .map((wmItem, i) => (
+            { key: i, id: wmItem.id, label: wmItem.item_name, category: wmItem.item_category.toLowerCase() }
+          ))
+    } else {
+      autocompleteItems =
+        [
+          { key: "01", label: '' },
+        ]
+    }
+    return autocompleteItems
+  }
+
+  renderAutocomplete = () => {
+    if (this.state.value !== "") {
+      renderAutoValue =
+        (item, highlighted) =>
+          <div
+            key={item.key}
+            style={{ backgroundColor: highlighted ? '#eee' : 'transparent' }}
+          >
+            {item.label} | <span className="auto-category">{item.category}</span>
+          </div>
+    } else {
+      renderAutoValue =
+        (item) =>
+          <div
+            key={item.key}
+          >
+          </div>
+    }
+    return renderAutoValue
   }
 
   renderWunderground = () => {
@@ -107,10 +174,55 @@ export default class Suitcase extends Component {
     }
   }
 
+  showNewSuitcaseModal = () => {
+    this.setState({ openNewSuitcaseModal: true });
+  }
+
+  resetNewSuitcaseModal = () => {
+    this.setState({ openNewSuitcaseModal: false });
+  }
+
+  renderNewSuitcaseModal = () => {
+    if (this.state.openNewSuitcaseModal) {
+      return <NewSuitcaseModal
+        resetNewSuitcaseModal={this.resetNewSuitcaseModal}
+      />
+    }
+  }
+
+  showConfirmationModal = () => {
+    this.setState({ openConfirmationModal: true });
+  }
+
+  resetConfirmationModal = () => {
+    this.setState({ openConfirmationModal: false });
+  }
+
+  renderConfirmationModal = () => {
+    if (this.state.openConfirmationModal) {
+      return <ConfirmationModal
+        resetConfirmationModal={this.resetConfirmationModal}
+        deleteSuitcase={this.deleteSuitcase}
+      />
+    }
+  }
+
+  deleteSuitcase = () => {
+    client.mutate({
+      mutation: DELETE_SUITCASE_QUERY,
+      variables: { id: this.state.suitcaseId }
+    }).then(result => {
+      window.location = "/profile/" + this.state.loggedInUserIdNumber;
+      console.log(result);
+    })
+  }
+
   render() {
     return (
       <div className="suitcase profile-page sidebar-collapse">
-        <Header />
+        <Header
+          showNewSuitcaseModal={this.showNewSuitcaseModal}
+        />
         <Main>
           <div className="page-header header-filter" data-parallax="true" id="background-suitcase"></div>
           <div className="main main-raised">
@@ -150,7 +262,7 @@ export default class Suitcase extends Component {
                                 {this.state.suitcase.start_date}
                               </Moment>
                             </p>-
-                  <p className="nav-link d-inline-block" id="suitcase-endDate">
+                            <p className="nav-link d-inline-block" id="suitcase-endDate">
                               <Moment format="MMM DD, YYYY">
                                 {this.state.suitcase.end_date}
                               </Moment>
@@ -167,8 +279,52 @@ export default class Suitcase extends Component {
                     </div>
                   </div>
 
+                  <div className="row">
+                    <div className="col-12 text-center">
+                      {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
+                        <button className="btn btn-primary" onClick={() => { this.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
+                      ) : (<div></div>
+                        )}
+                    </div>
+                  </div>
+
                 </div>
               </div>
+
+
+              <div className="input-group mb-3 auto-items">
+                <Autocomplete
+
+                  items={this.setAutocompleteItems()}
+                  shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
+                  getItemValue={item => item.label}
+                  renderItem={this.renderAutocomplete()}
+                  wrapperStyle={
+                    {
+                      position: 'relative',
+                      zIndex: 9999
+                    }
+                  }
+                  menuStyle={
+                    {
+                      position: 'absolute',
+                      cursor: "pointer",
+                      top: "35px",
+                      left: 0,
+                      backgroundColor: "white"
+                    }
+                  }
+                  value={this.state.value}
+                  onChange={e => this.setState({ value: e.target.value })}
+                  onSelect={value => this.setState({ value })}
+                />
+                <div className="input-group-append">
+                  <button type="button"><i className="fa fa-search"></i> Find an item</button>
+                </div>
+              </div>
+
+
+
 
 
               <div className="row">
@@ -187,9 +343,9 @@ export default class Suitcase extends Component {
                       <div className="row cat-row" id="toiletries">
                         {this.state.suitcase.Items
                           .filter(item => (item.item_category === "TOILETRIES"))
-                          .map(item => (
+                          .map((item, i) => (
                             <Item
-                              key={item.item_name}
+                              key={i}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
                             />
@@ -210,9 +366,9 @@ export default class Suitcase extends Component {
                       <div className="row cat-row" id="clothing">
                         {this.state.suitcase.Items
                           .filter(item => (item.item_category === "CLOTHING"))
-                          .map(item => (
+                          .map((item, i) => (
                             <Item
-                              key={item.item_name}
+                              key={i}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
                             />
@@ -235,9 +391,9 @@ export default class Suitcase extends Component {
                       <div className="row cat-row" id="accessories">
                         {this.state.suitcase.Items
                           .filter(item => (item.item_category === "ACCESSORIES"))
-                          .map(item => (
+                          .map((item, i) => (
                             <Item
-                              key={item.item_name}
+                              key={i}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
                             />
@@ -260,9 +416,9 @@ export default class Suitcase extends Component {
                       <div className="row cat-row" id="electronics">
                         {this.state.suitcase.Items
                           .filter(item => (item.item_category === "ELECTRONICS"))
-                          .map(item => (
+                          .map((item, i) => (
                             <Item
-                              key={item.item_name}
+                              key={i}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
                             />
@@ -290,8 +446,10 @@ export default class Suitcase extends Component {
               </div>
             </div>
           </div>
-          
+
         </Main>
+        {this.renderNewSuitcaseModal()}
+        {this.renderConfirmationModal()}
         <Footer />
       </div>
     )

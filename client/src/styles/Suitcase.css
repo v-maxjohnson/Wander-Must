@@ -11,6 +11,18 @@
     font-size: 16px!important;
 }
 
+.auto-items {
+    position: relative!important;
+    left: 70%;
+    font-family: "Reem Kufi", sans-serif!important;
+}
+
+.auto-category {
+    color: purple;
+    text-transform: capitalize;
+    cursor: default;
+}
+
 .items-section {
     margin-bottom: 10px;
     padding-bottom: 10px;
@@ -75,6 +87,11 @@
     bottom: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.yelp-wrapper {
+    max-width: 100%;
+    margin: 10px;
 }
 
 

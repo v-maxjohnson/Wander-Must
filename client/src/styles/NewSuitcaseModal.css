@@ -1,0 +1,60 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Courgette|Reem+Kufi|Material+Icons");
+
+/* .new-suitcase-modal .modal {
+    
+} */
+
+.new-suitcase-modal .modal-content {
+
+}
+
+/* .new-suitcase-modal .modal-header {
+    
+} */
+
+.new-suitcase-modal.modal-dialog {
+    
+}
+
+.new-suitcase-modal .modal-title {
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    font-size: 2.25rem;
+}
+
+.new-suitcase-modal .modal-body {
+    /* font-size: 20px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    text-align: left; */
+}
+
+.new-suitcase-modal.modal-lg {
+    max-width: none;
+    width: 70%;
+}
+
+.new-suitcase-modal .fa-map-marker {
+    color: aqua;
+}
+
+.new-suitcase-modal .fa-plane {
+    color: green;
+}
+
+.new-suitcase-modal .fa-calendar {
+    color: purple;
+}
+
+.pac-container {
+    z-index: 10000!important;
+}
+
+/* .date div:first-of-type {
+    width: 100%;
+} */
+
+/* .modal-row {
+    flex-direction: column;
+} */

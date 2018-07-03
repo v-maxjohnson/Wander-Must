@@ -46,6 +46,22 @@
     text-transform: capitalize;
 }
 
+.suitcase-user {
+    font-family: "Reem Kufi", sans-serif!important;
+    text-shadow: 4px 4px 6px black;
+    padding-left: 20px;
+    color: white;
+    font-size: 35px;
+    position: absolute;
+    top: 30%;
+    left: 5%;
+    text-transform: capitalize;
+}
+
+.suitcase-user .fa {
+    font-weight: bold;
+}
+
 .title-div {
     max-width: 100%;
 }

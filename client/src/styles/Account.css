@@ -1,3 +1,13 @@
 #background-account {
     background-image: url('../images/city-profile.jpg');
 }
+
+.custom-file-label:after {
+    background-color: #e9ecef!important;
+    padding-bottom: 2px!important;
+    line-height: 1.7!important;
+}
+
+input:-webkit-autofill {
+    background-color: grey!important;
+}

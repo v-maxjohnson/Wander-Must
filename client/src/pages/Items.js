@@ -4,16 +4,19 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Category from "../components/Category";
 import Item from "../components/Item";
+import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import "../styles/Items.css";
 import "../styles/Suitcase.css";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 
+
 const client = new ApolloClient();
 
 export default class Items extends Component {
   state = {
-    items: []
+    items: [],
+    openNewSuitcaseModal: false
   };
 
   componentDidMount() {
@@ -31,10 +34,28 @@ export default class Items extends Component {
     })
   }
 
+  showNewSuitcaseModal = () => {
+    this.setState({ openNewSuitcaseModal: true });
+  }
+
+  resetNewSuitcaseModal = () => {
+    this.setState({ openNewSuitcaseModal: false });
+  }
+
+  renderNewSuitcaseModal = () => {
+    if (this.state.openNewSuitcaseModal) {
+      return <NewSuitcaseModal
+        resetNewSuitcaseModal={this.resetNewSuitcaseModal}
+      />
+    }
+  }
+
   render() {
     return (
       <div className="items profile-page sidebar-collapse">
-        <Header />
+        <Header
+          showNewSuitcaseModal={this.showNewSuitcaseModal}
+        />
         <Main>
           <div className="page-header header-filter" data-parallax="true" id="background-items"></div>
           <div className="main main-raised">
@@ -166,6 +187,7 @@ export default class Items extends Component {
           </div>
 
         </Main>
+        {this.renderNewSuitcaseModal()}
         <Footer />
       </div >
     )

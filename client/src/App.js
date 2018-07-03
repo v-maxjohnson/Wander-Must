@@ -17,6 +17,7 @@ const client = new ApolloClient();
 class App extends Component {
   render() {
     return (
+<<<<<<< HEAD
       <CloudinaryContext cloudName="dorxotpsj">
         <ApolloProvider client={client}>
           <Router>

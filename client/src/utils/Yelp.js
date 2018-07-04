@@ -32,11 +32,13 @@ export default class Yelp extends Component {
     let params = [{
       term: 'restaurants',
       //   location: this.props.city + "+" + this.props.country,
-      location: 'austin, tx',
+      location: this.props.city + ", " + this.props.admin,
       radius: radiusMeters,
       sort_by: 'rating',
       price: '1'
     }];
+
+    console.log(params);
 
     axios({
       method: "post",

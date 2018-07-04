@@ -180,6 +180,20 @@ export default class Suitcase extends Component {
     }
   }
 
+  renderYelp = () => {
+    if (this.state.rendered) {
+      return (
+        <div className="yelp-wrapper">
+          <Yelp
+            city={this.state.suitcase.Locale.locale_city}
+            admin={this.state.suitcase.Locale.locale_admin}
+            country={this.state.suitcase.Locale.locale_country}
+          />
+        </div>
+      )
+    }
+  }
+
   renderCityWithoutUnderscores = () => {
     if (this.state.rendered) {
       cityNoUnderscores = this.state.suitcase.Locale.locale_city.replace(/_/g, ' ');
@@ -240,7 +254,7 @@ export default class Suitcase extends Component {
       fetchPolicy: "no-cache"
     }).then(result => {
       this.setState({ value: "" })
-    }).catch (err => console.log(err))
+    }).catch(err => console.log(err))
   }
 
   deleteItemFromSuitcase = (itemId) => {
@@ -250,7 +264,7 @@ export default class Suitcase extends Component {
       fetchPolicy: "no-cache"
     }).then(result => {
       console.log(itemId)
-    }).catch (err => console.log(err))
+    }).catch(err => console.log(err))
   }
 
   maybeRedirect() {
@@ -533,9 +547,7 @@ export default class Suitcase extends Component {
                 </div>
               </div>
             </div>
-            <div className="yelp-wrapper">
-              <Yelp />
-            </div>
+            {this.renderYelp()}
           </div>
 
         </Main>

@@ -21,6 +21,7 @@ import Autocomplete from 'react-autocomplete';
 const GET_SUITCASE_QUERY = gql` 
 query getSuitcase( $id: String! ){
   getSuitcase(id: $id) {
+    id
     start_date
     end_date
     travel_category
@@ -43,11 +44,21 @@ query getSuitcase( $id: String! ){
   }
 }`;
 
-const DELETE_SUITCASE_QUERY = gql` 
-mutation deleteSuitcase( $id: String! ){
+const DELETE_SUITCASE_MUTATION = gql` 
+mutation deleteSuitcase( $id: ID ){
     deleteSuitcase(id: $id) {
       id
     }
+}`;
+
+const ADD_ITEM_TO_SUITCASE_MUTATION = gql`
+mutation addItemToSuitcase( $id: ID, $item_ids: [ID] ) {
+  addItemToSuitcase (id: $id, item_ids: $item_ids) {
+      id
+      Items {
+        id
+    }
+  }
 }`;
 
 const client = new ApolloClient();
@@ -57,6 +68,7 @@ let cityNoUnderscores = "";
 let autocompleteItems;
 let renderAutoValue;
 let loggedInUserIdNumber = localStorage.getItem("logged_in_user_id");
+// let itemsToAdd = [];
 
 
 export default class Suitcase extends Component {
@@ -75,6 +87,7 @@ export default class Suitcase extends Component {
     openConfirmationModal: false,
     suitcaseId: suitcaseId,
     value: '',
+    itemsToAdd: [],
     loggedInUserIdNumber: loggedInUserIdNumber
   };
 
@@ -92,6 +105,7 @@ export default class Suitcase extends Component {
       query: gql` 
             { 
               allItems {
+                id,
                 item_name,
                 item_category 
               }
@@ -123,6 +137,7 @@ export default class Suitcase extends Component {
         (item, highlighted) =>
           <div
             key={item.key}
+            id={item.id}
             style={{ backgroundColor: highlighted ? '#eee' : 'transparent' }}
           >
             {item.label} | <span className="auto-category">{item.category}</span>
@@ -196,12 +211,22 @@ export default class Suitcase extends Component {
 
   deleteSuitcase = () => {
     client.mutate({
-      mutation: DELETE_SUITCASE_QUERY,
+      mutation: DELETE_SUITCASE_MUTATION,
       variables: { id: this.state.suitcaseId }
     }).then(result => {
       this.setState({
         shouldRedirect: true
       })
+      console.log(result);
+    })
+  }
+
+  addItemToSuitcase = () => {
+    client.mutate({
+      mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
+      variables: { id: this.state.suitcase.id, item_ids: this.state.itemsToAdd }
+    }).then(result => {
+
       console.log(result);
     })
   }
@@ -324,10 +349,10 @@ export default class Suitcase extends Component {
                     }
                     value={this.state.value}
                     onChange={e => this.setState({ value: e.target.value })}
-                    onSelect={value => this.setState({ value })}
+                    onSelect={(value, item) => this.setState({ value: value, itemsToAdd: [...this.state.itemsToAdd, item.id] })}
                   />
                   <div className="input-group-append">
-                    <button type="button"><i className="fa fa-search"></i> Add an item</button>
+                    <button type="button" onClick={() => { this.addItemToSuitcase() }}><i className="fa fa-search"></i> Add an item</button>
                   </div>
                 </div>
               ) : (

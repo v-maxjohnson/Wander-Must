@@ -236,19 +236,21 @@ export default class Suitcase extends Component {
   addItemToSuitcase = () => {
     client.mutate({
       mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
-      variables: { id: this.state.suitcase.id, item_ids: this.state.itemsToAdd }
+      variables: { id: this.state.suitcase.id, item_ids: this.state.itemsToAdd },
+      fetchPolicy: "no-cache"
     }).then(result => {
       this.setState({ value: "" })
-    })
+    }).catch (err => console.log(err))
   }
 
   deleteItemFromSuitcase = (itemId) => {
     client.mutate({
       mutation: DELETE_ITEM_FROM_SUITCASE_MUTATION,
-      variables: { suitcase_id: this.state.suitcase.id, item_id: itemId }
+      variables: { suitcase_id: this.state.suitcase.id, item_id: itemId },
+      fetchPolicy: "no-cache"
     }).then(result => {
       console.log(itemId)
-    })
+    }).catch (err => console.log(err))
   }
 
   maybeRedirect() {

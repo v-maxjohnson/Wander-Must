@@ -11,8 +11,6 @@ import { Redirect, Link } from "react-router-dom";
 import Login from "./Login";
 import "../styles/Navbar.css";
 
-let loggedInUserIdNumber = localStorage.getItem("logged_in_user_id");
-
 export default class Navibar extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +18,7 @@ export default class Navibar extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
-      loggedInUserIdNumber: loggedInUserIdNumber
+      loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
     };
   }
 

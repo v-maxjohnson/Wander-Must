@@ -38,9 +38,7 @@ query getSuitcasesByLocale( $locale_city: String! ){
 
 const client = new ApolloClient();
 
-let cityName = localStorage.getItem("city_name");
 let cityNoUnderscores = "";
-let loggedInUserIdNumber = localStorage.getItem("logged_in_user_id");
 
 export default class Search extends Component {
   state = {
@@ -60,12 +58,12 @@ export default class Search extends Component {
         }
       }
     ],
-    city: cityName,
+    city: localStorage.getItem("city_name"),
     openQuickViewModal: false,
     openNewSuitcaseModal: false,
     rendered: false,
     index: 0,
-    loggedInUserIdNumber: loggedInUserIdNumber
+    loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
   }
 
   componentDidMount() {

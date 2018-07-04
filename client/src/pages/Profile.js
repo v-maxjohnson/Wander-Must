@@ -45,14 +45,14 @@ export default class Profile extends Component {
     },
     openNewSuitcaseModal: false,
     rendered: false,
-    userIdNumber: localStorage.getItem("user_id")
+    loggedInUserId: localStorage.getItem("logged_in_user_id")
   }
 
   componentDidMount() {
 
     client.query({
       query: GET_USER_QUERY,
-      variables: { id: this.state.userIdNumber },
+      variables: { id: this.state.loggedInUserId },
       fetchPolicy: "network-only"
     }).then(result => {
       this.setState({ userData: result.data.getUser, rendered: true });

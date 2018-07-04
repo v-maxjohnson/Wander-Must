@@ -61,12 +61,21 @@ mutation addItemToSuitcase( $id: ID, $item_ids: [ID] ) {
   }
 }`;
 
+const DELETE_ITEM_FROM_SUITCASE_MUTATION = gql`
+mutation deleteItemFromSuitcase( $suitcase_id: ID, $item_id: ID ) {
+  deleteItemFromSuitcase (suitcase_id: $suitcase_id, item_id: $item_id) {
+      id
+      Items {
+        id
+    }
+  }
+}`;
+
 const client = new ApolloClient();
 
 let cityNoUnderscores = "";
 let autocompleteItems;
 let renderAutoValue;
-let loggedInUserIdNumber = localStorage.getItem("logged_in_user_id");
 
 
 export default class Suitcase extends Component {
@@ -86,7 +95,7 @@ export default class Suitcase extends Component {
     suitcaseId: localStorage.getItem("suitcase_id"),
     value: '',
     itemsToAdd: [],
-    loggedInUserIdNumber: loggedInUserIdNumber
+    loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
   };
 
   componentDidMount() {
@@ -99,7 +108,7 @@ export default class Suitcase extends Component {
       }).then(result => {
         this.setState({ suitcase: result.data.getSuitcase, rendered: true });
       })
-    }, 1000)
+    }, 500)
 
     client.query({
       query: gql` 
@@ -233,6 +242,15 @@ export default class Suitcase extends Component {
     })
   }
 
+  deleteItemFromSuitcase = (itemId) => {
+    client.mutate({
+      mutation: DELETE_ITEM_FROM_SUITCASE_MUTATION,
+      variables: { suitcase_id: this.state.suitcase.id, item_id: itemId }
+    }).then(result => {
+      console.log(itemId)
+    })
+  }
+
   maybeRedirect() {
     if (this.state.shouldRedirect)
       return (
@@ -294,7 +312,7 @@ export default class Suitcase extends Component {
                             </li>
                           ) : (
                               <li className="nav-item">
-                              Loading . . .
+                                Loading . . .
                               </li>
                             )}
 
@@ -391,10 +409,12 @@ export default class Suitcase extends Component {
                           .map((item, i) => (
                             <Item
                               key={i}
+                              itemId={item.id}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
                               loggedInUserIdNumber={this.state.loggedInUserIdNumber}
                               suitcaseUserId={this.state.suitcase.User.id}
+                              deleteItemFromSuitcase={this.deleteItemFromSuitcase}
                             />
                           ))
                         }
@@ -419,10 +439,12 @@ export default class Suitcase extends Component {
                           .map((item, i) => (
                             <Item
                               key={i}
+                              itemId={item.id}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
                               loggedInUserIdNumber={this.state.loggedInUserIdNumber}
                               suitcaseUserId={this.state.suitcase.User.id}
+                              deleteItemFromSuitcase={this.deleteItemFromSuitcase}
                             />
                           ))
 
@@ -449,10 +471,12 @@ export default class Suitcase extends Component {
                           .map((item, i) => (
                             <Item
                               key={i}
+                              itemId={item.id}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
                               loggedInUserIdNumber={this.state.loggedInUserIdNumber}
                               suitcaseUserId={this.state.suitcase.User.id}
+                              deleteItemFromSuitcase={this.deleteItemFromSuitcase}
                             />
                           ))
 
@@ -479,10 +503,12 @@ export default class Suitcase extends Component {
                           .map((item, i) => (
                             <Item
                               key={i}
+                              itemId={item.id}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
                               loggedInUserIdNumber={this.state.loggedInUserIdNumber}
                               suitcaseUserId={this.state.suitcase.User.id}
+                              deleteItemFromSuitcase={this.deleteItemFromSuitcase}
                             />
                           ))
 

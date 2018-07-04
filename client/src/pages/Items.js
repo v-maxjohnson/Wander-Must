@@ -3,7 +3,7 @@ import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Category from "../components/Category";
-import Item from "../components/Item";
+import ListItem from "../components/ListItem";
 import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import "../styles/Items.css";
 import "../styles/Suitcase.css";
@@ -94,7 +94,7 @@ export default class Items extends Component {
                       {this.state.items
                         .filter(item => (item.item_category === "TOILETRIES"))
                         .map(item => (
-                          <Item
+                          <ListItem
                             key={item.item_name}
                             itemName={item.item_name}
                             itemCategory={item.item_category}
@@ -117,7 +117,7 @@ export default class Items extends Component {
                       {this.state.items
                         .filter(item => (item.item_category === "CLOTHING"))
                         .map(item => (
-                          <Item
+                          <ListItem
                             key={item.item_name}
                             itemName={item.item_name}
                             itemCategory={item.item_category}
@@ -141,7 +141,7 @@ export default class Items extends Component {
                       {this.state.items
                         .filter(item => (item.item_category === "ACCESSORIES"))
                         .map(item => (
-                          <Item
+                          <ListItem
                             key={item.item_name}
                             itemName={item.item_name}
                             itemCategory={item.item_category}
@@ -165,7 +165,7 @@ export default class Items extends Component {
                       {this.state.items
                         .filter(item => (item.item_category === "ELECTRONICS"))
                         .map(item => (
-                          <Item
+                          <ListItem
                             key={item.item_name}
                             itemName={item.item_name}
                             itemCategory={item.item_category}

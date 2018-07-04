@@ -19,7 +19,7 @@ export default class Footer extends Component {
               </li>
 
               <li>
-                <a href="https://www.creative-tim.com/license" target="_blank">
+                <a href="https://www.creative-tim.com/license" target="_blank" rel="noopener noreferrer">
                   Licenses
             </a>
               </li>

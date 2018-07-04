@@ -63,12 +63,10 @@ mutation addItemToSuitcase( $id: ID, $item_ids: [ID] ) {
 
 const client = new ApolloClient();
 
-let suitcaseId = localStorage.getItem("suitcase_id");
 let cityNoUnderscores = "";
 let autocompleteItems;
 let renderAutoValue;
 let loggedInUserIdNumber = localStorage.getItem("logged_in_user_id");
-// let itemsToAdd = [];
 
 
 export default class Suitcase extends Component {
@@ -85,7 +83,7 @@ export default class Suitcase extends Component {
     rendered: false,
     openNewSuitcaseModal: false,
     openConfirmationModal: false,
-    suitcaseId: suitcaseId,
+    suitcaseId: localStorage.getItem("suitcase_id"),
     value: '',
     itemsToAdd: [],
     loggedInUserIdNumber: loggedInUserIdNumber
@@ -93,13 +91,15 @@ export default class Suitcase extends Component {
 
   componentDidMount() {
 
-    client.query({
-      query: GET_SUITCASE_QUERY,
-      variables: { id: this.state.suitcaseId }
-    }).then(result => {
-      this.setState({ suitcase: result.data.getSuitcase, rendered: true });
-      console.log(this.state.suitcase, this.state.rendered);
-    })
+    this.lookupInterval = setInterval(() => {
+      client.query({
+        query: GET_SUITCASE_QUERY,
+        variables: { id: this.state.suitcaseId },
+        fetchPolicy: "network-only"
+      }).then(result => {
+        this.setState({ suitcase: result.data.getSuitcase, rendered: true });
+      })
+    }, 1000)
 
     client.query({
       query: gql` 
@@ -113,6 +113,10 @@ export default class Suitcase extends Component {
     }).then(result => {
       this.setState({ allItems: result.data.allItems });
     })
+  }
+
+  componentWillUnMount() {
+    clearInterval(this.lookupInterval)
   }
 
   setAutocompleteItems = () => {
@@ -217,7 +221,6 @@ export default class Suitcase extends Component {
       this.setState({
         shouldRedirect: true
       })
-      console.log(result);
     })
   }
 
@@ -226,8 +229,7 @@ export default class Suitcase extends Component {
       mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
       variables: { id: this.state.suitcase.id, item_ids: this.state.itemsToAdd }
     }).then(result => {
-
-      console.log(result);
+      this.setState({ value: "" })
     })
   }
 
@@ -276,32 +278,39 @@ export default class Suitcase extends Component {
                           <li className="nav-item ">
                             <Link className="nav-link" id="suitcase-locale" to={"/search/" + this.state.suitcase.Locale.locale_city}>{this.renderCityWithoutUnderscores()}</Link>
                           </li>
-                          <li className="nav-item">
-                            <p className="nav-link d-inline-block" id="suitcase-startDate">
-                              <Moment format="MMM DD, YYYY">
-                                {this.state.suitcase.start_date}
-                              </Moment>
-                            </p>
-                            <p className="nav-link d-inline-block" id="suitcase-endDate">
-                              <Moment format="MMM DD, YYYY">
-                                {this.state.suitcase.end_date}
-                              </Moment>
-                            </p>
-                          </li>
+
+                          {this.state.rendered ? (
+                            <li className="nav-item">
+                              <p className="nav-link d-inline-block" id="suitcase-startDate">
+                                <Moment format="MMM DD, YYYY">
+                                  {this.state.suitcase.start_date}
+                                </Moment>
+                              </p>-
+                              <p className="nav-link d-inline-block" id="suitcase-endDate">
+                                <Moment format="MMM DD, YYYY">
+                                  {this.state.suitcase.end_date}
+                                </Moment>
+                              </p>
+                            </li>
+                          ) : (
+                              <li className="nav-item">
+                              Loading . . .
+                              </li>
+                            )}
 
                           <li className="nav-item">
                             <p className="nav-link" id="suitcase-travelCategory">{this.state.suitcase.travel_category}</p>
                           </li>
 
                           <li className="nav-item">
-                            <button data-category="clothing" className="all btn btn-primary btn-sm btn-fab btn-round">
-                              <i className="fa fa-suitcase" title="Profile Page"> </i>
+                            <button data-category="suitcase" className="all btn btn-primary btn-sm btn-fab btn-round">
+                              <i className="fa fa-suitcase" title="View this suitcase"> </i>
                             </button>
                           </li>
 
                           <li className="nav-item">
-                            <button data-category="clothing" className="all btn btn-default btn-sm btn-fab btn-round">
-                              <i className="fa fa-pencil-square-o" title="Profile Page"> </i>
+                            <button data-category="notes" className="all btn btn-default btn-sm btn-fab btn-round">
+                              <i className="fa fa-pencil-square-o" title="View notes"> </i>
                             </button>
                           </li>
 
@@ -368,7 +377,7 @@ export default class Suitcase extends Component {
                       <div className="title row">
                         <div>
                           <button data-category="toiletries" className="all btn btn-default btn-sm btn-fab btn-round">
-                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
+                            <i className="fa fa-check-circle-o" title="Select all toiletries"> </i>
                           </button>
                         </div>
                         <div>
@@ -396,7 +405,7 @@ export default class Suitcase extends Component {
                       <div className="title row">
                         <div>
                           <button data-category="clothing" className="all btn btn-default btn-sm btn-fab btn-round">
-                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
+                            <i className="fa fa-check-circle-o" title="Select all clothing"> </i>
                           </button>
                         </div>
                         <div>
@@ -426,7 +435,7 @@ export default class Suitcase extends Component {
                       <div className="title row">
                         <div>
                           <button data-category="accessories" className="all btn btn-default btn-sm btn-fab btn-round">
-                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
+                            <i className="fa fa-check-circle-o" title="Select all accessories"> </i>
                           </button>
                         </div>
                         <div>
@@ -456,7 +465,7 @@ export default class Suitcase extends Component {
                       <div className="title row">
                         <div>
                           <button data-category="electronics" className="all btn btn-default btn-sm btn-fab btn-round">
-                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
+                            <i className="fa fa-check-circle-o" title="Select all electronics"> </i>
                           </button>
                         </div>
                         <div>

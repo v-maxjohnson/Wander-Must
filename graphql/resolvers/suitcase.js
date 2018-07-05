@@ -67,16 +67,11 @@ export default {
                         user_id: user_id,
                         locale_id: locale_id
                     })
-                        .then( suitcase => {
-                            let newObj = Object.assign(suitcase.get(), {
-                                "hadPreviousSuitcases": (locale.Suitcases.length !== 0)
-                            });
-                            return newObj;
-                        })
+                        .then( suitcase => suitcase )
                         .catch( err => console.log(err.message) )
                 }
             })
-            .catch( err => console.log(err) )
+            .catch( err => console.log(err.message) )
     },
     delete: ( id ) => {
         return db.Suitcase.destroy({
@@ -94,19 +89,21 @@ export default {
         })
             .then( dbSuitcase => {
                 let existingItems = dbSuitcase.Items.map(i => i.id);
-                let newItems = [item_ids];
+                let newItems = item_ids;
                 let allItems = newItems.concat(existingItems).map(i => Number(i));
 
-                return dbSuitcase.setItems(allItems);
+                dbSuitcase.setItems(allItems);
+
+                return dbSuitcase
             })
-                .then( result => result )
-                .catch( err => console.log(err.message) )
+            .catch( err => console.log(err.message) )
     },
     updateItem: ( {suitcase_id, item_id, item_amount} ) => {
         return db.Suitcase.findOne({
             where: {
                 suitcase_id: suitcase_id
-            }
+            },
+            include: [ db.Item ]
         })
             .then( dbSuitcase => {
                 return dbSuitcase.findOne({
@@ -121,7 +118,9 @@ export default {
     },
     updateNote: ( {id, note} ) => {
         return db.Suitcase.findOne({
-            where: id
+            where: {
+                id: id
+            }
         })
             .then( suitcase => suitcase.update( {notes: note} ) )
             .catch( err => console.log(err) )
@@ -130,13 +129,11 @@ export default {
         return db.Suitcase.findOne({
             where: {
                 id: suitcase_id
-            }
+            },
+            include: [ db.Item ]
         })
-            .then( suitcase => {
-                suitcase.removeItem( {item_id: item_id} )
-                return suitcase 
-            })
-            .catch( err => console.log(err) )
+            .then( suitcase => suitcase.removeItem( item_id ) )
+            .catch( err => console.log(err.message) ) // this mutation is working, it just doesn't return anything at the moment
     },
     
 

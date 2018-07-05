@@ -263,7 +263,7 @@ export default class Suitcase extends Component {
                               <Moment format="MMM DD, YYYY">
                                 {this.state.suitcase.start_date}
                               </Moment>
-                            </p>-
+                            </p>
                             <p className="nav-link d-inline-block" id="suitcase-endDate">
                               <Moment format="MMM DD, YYYY">
                                 {this.state.suitcase.end_date}
@@ -274,6 +274,20 @@ export default class Suitcase extends Component {
                           <li className="nav-item">
                             <p className="nav-link" id="suitcase-travelCategory">{this.state.suitcase.travel_category}</p>
                           </li>
+
+                          <li className="nav-item">
+                            <button data-category="clothing" className="all btn btn-primary btn-sm btn-fab btn-round">
+                              <i className="fa fa-suitcase" title="Profile Page"> </i>
+                            </button>
+                          </li>
+
+                          <li className="nav-item">
+                            <button data-category="clothing" className="all btn btn-default btn-sm btn-fab btn-round">
+                              <i className="fa fa-pencil-square-o" title="Profile Page"> </i>
+                            </button>
+                          </li>
+
+                          
 
                         </ul>
                         {this.renderWunderground()}
@@ -336,11 +350,14 @@ export default class Suitcase extends Component {
                     <Category>
                       <div className="title row">
                         <div>
-                          <span className="badge badge-pill badge-info">Toiletries</span>
+                          <button data-category="toiletries" className="all btn btn-default btn-sm btn-fab btn-round">
+                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
+                          </button>
                         </div>
                         <div>
-                          <button data-category="toiletries" className="all btn btn-primary btn-sm ml-3">Select all</button>
+                          <span className="badge badge-pill badge-info">Toiletries</span>
                         </div>
+
                       </div>
                       <div className="row cat-row" id="toiletries">
                         {this.state.suitcase.Items
@@ -359,11 +376,14 @@ export default class Suitcase extends Component {
                     <Category>
                       <div className="title row">
                         <div>
-                          <span className="badge badge-pill badge-info">Clothing</span>
+                          <button data-category="clothing" className="all btn btn-default btn-sm btn-fab btn-round">
+                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
+                          </button>
                         </div>
                         <div>
-                          <button data-category="clothing" className="all btn btn-primary btn-sm ml-3">Select all</button>
+                          <span className="badge badge-pill badge-primary">Clothing</span>
                         </div>
+
                       </div>
                       <div className="row cat-row" id="clothing">
                         {this.state.suitcase.Items
@@ -384,11 +404,14 @@ export default class Suitcase extends Component {
                     <Category>
                       <div className="title row">
                         <div>
-                          <span className="badge badge-pill badge-info">Accessories</span>
+                          <button data-category="accessories" className="all btn btn-default btn-sm btn-fab btn-round">
+                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
+                          </button>
                         </div>
                         <div>
-                          <button data-category="accessories" className="all btn btn-primary btn-sm ml-3">Select all</button>
+                          <span className="badge badge-pill badge-info">Accessories</span>
                         </div>
+
                       </div>
                       <div className="row cat-row" id="accessories">
                         {this.state.suitcase.Items
@@ -409,11 +432,14 @@ export default class Suitcase extends Component {
                     <Category>
                       <div className="title row">
                         <div>
-                          <span className="badge badge-pill badge-info">Electronics</span>
+                          <button data-category="electronics" className="all btn btn-default btn-sm btn-fab btn-round">
+                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
+                          </button>
                         </div>
                         <div>
-                          <button data-category="electronics" className="all btn btn-primary btn-sm ml-3">Select all</button>
+                          <span className="badge badge-pill badge-primary">Electronics</span>
                         </div>
+
                       </div>
                       <div className="row cat-row" id="electronics">
                         {this.state.suitcase.Items

@@ -7,7 +7,7 @@ import {
   Nav,
   NavItem
 } from "reactstrap";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import Login from "./Login";
 import "../styles/Navbar.css";
 
@@ -17,7 +17,8 @@ export default class Navibar extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
     };
   }
 
@@ -26,20 +27,20 @@ export default class Navibar extends Component {
       isOpen: !this.state.isOpen
     });
   }
-  
+
   handleLogout = event => {
     event.preventDefault();
-    fetch("logout", {method: "GET"})
+    fetch("logout", { method: "GET" })
       .then(
         this.setState({
           isAuthenticated: false
         }
+        )
       )
-    )
   }
 
   maybeLogout() {
-    if (this.state.isAuthenticated === false) {return (<Redirect to="/" />)}
+    if (this.state.isAuthenticated === false) { return (<Redirect to="/" />) }
   }
 
   render() {
@@ -60,13 +61,13 @@ export default class Navibar extends Component {
 
                 </NavItem>
                 <NavItem className="nav-item">
-                  <a href="/profile/" id="profile-link-button" className="nav-link">
+                  <Link id="profile-link-button" className="nav-link" to={"/profile/" + this.state.loggedInUserIdNumber}>
                     <i className="fa fa-user-circle" title="Profile Page"> </i>
-                  </a>
+                  </Link>
                 </NavItem>
 
                 <NavItem className="nav-item">
-                  <span className="suitcase-input" onClick={() => this.props.showNewSuitcaseModal() }>
+                  <span className="suitcase-input" onClick={() => this.props.showNewSuitcaseModal()}>
                     <a className="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Add new suitcase">
                       <i className="fa fa-suitcase" data-toggle="tooltip" title="Add new Suitcase"> </i>
                     </a>

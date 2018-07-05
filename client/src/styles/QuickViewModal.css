@@ -90,3 +90,13 @@
     color: black!important;
     margin-left: 5px!important;
 }
+
+.success-text {
+    font-family: "Reem Kufi", sans-serif!important;
+    color: black;
+}
+
+.success-text p {
+    margin: 0!important;
+    font-size: 20px;
+}

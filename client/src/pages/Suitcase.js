@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Redirect, Link } from "react-router-dom";
+import Profile from "./Profile";
 import Moment from 'react-moment';
 import Main from "../components/Main";
 import Header from "../components/Header";
@@ -19,6 +21,7 @@ import Autocomplete from 'react-autocomplete';
 const GET_SUITCASE_QUERY = gql` 
 query getSuitcase( $id: String! ){
   getSuitcase(id: $id) {
+    id
     start_date
     end_date
     travel_category
@@ -41,20 +44,38 @@ query getSuitcase( $id: String! ){
   }
 }`;
 
-const DELETE_SUITCASE_QUERY = gql` 
-mutation deleteSuitcase( $id: String! ){
+const DELETE_SUITCASE_MUTATION = gql` 
+mutation deleteSuitcase( $id: ID ){
     deleteSuitcase(id: $id) {
       id
     }
 }`;
 
+const ADD_ITEM_TO_SUITCASE_MUTATION = gql`
+mutation addItemToSuitcase( $id: ID, $item_ids: [ID] ) {
+  addItemToSuitcase (id: $id, item_ids: $item_ids) {
+      id
+      Items {
+        id
+    }
+  }
+}`;
+
+const DELETE_ITEM_FROM_SUITCASE_MUTATION = gql`
+mutation deleteItemFromSuitcase( $suitcase_id: ID, $item_id: ID ) {
+  deleteItemFromSuitcase (suitcase_id: $suitcase_id, item_id: $item_id) {
+      id
+      Items {
+        id
+    }
+  }
+}`;
+
 const client = new ApolloClient();
 
-let suitcaseId = localStorage.getItem("suitcase_id");
 let cityNoUnderscores = "";
 let autocompleteItems;
 let renderAutoValue;
-let loggedInUserIdNumber = localStorage.getItem("logged_in_user_id");
 
 
 export default class Suitcase extends Component {
@@ -71,31 +92,44 @@ export default class Suitcase extends Component {
     rendered: false,
     openNewSuitcaseModal: false,
     openConfirmationModal: false,
-    suitcaseId: suitcaseId,
+    thisSuitcaseId: this.props.match.params.id,
+    currentSuitcaseId: localStorage.getItem("suitcase_id"),
     value: '',
-    loggedInUserIdNumber: loggedInUserIdNumber
+    itemsToAdd: [],
+    loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
   };
 
   componentDidMount() {
 
-    client.query({
-      query: GET_SUITCASE_QUERY,
-      variables: { id: this.state.suitcaseId }
-    }).then(result => {
-      this.setState({ suitcase: result.data.getSuitcase, rendered: true });
-      console.log(this.state.suitcase, this.state.rendered);
-    })
+    this.lookupInterval = setInterval(() => {
+      this.getSuitcase();
+    }, 500)
 
     client.query({
       query: gql` 
             { 
               allItems {
+                id,
                 item_name,
                 item_category 
               }
             }`
     }).then(result => {
       this.setState({ allItems: result.data.allItems });
+    })
+  }
+
+  componentWillUnMount() {
+    clearInterval(this.lookupInterval)
+  }
+
+  getSuitcase = () => {
+    client.query({
+      query: GET_SUITCASE_QUERY,
+      variables: { id: this.state.thisSuitcaseId },
+      fetchPolicy: "network-only"
+    }).then(result => {
+      this.setState({ suitcase: result.data.getSuitcase, rendered: true });
     })
   }
 
@@ -121,6 +155,7 @@ export default class Suitcase extends Component {
         (item, highlighted) =>
           <div
             key={item.key}
+            id={item.id}
             style={{ backgroundColor: highlighted ? '#eee' : 'transparent' }}
           >
             {item.label} | <span className="auto-category">{item.category}</span>
@@ -146,6 +181,20 @@ export default class Suitcase extends Component {
           admin={this.state.suitcase.Locale.locale_admin}
           country={this.state.suitcase.Locale.locale_country}
         />
+      )
+    }
+  }
+
+  renderYelp = () => {
+    if (this.state.rendered) {
+      return (
+        <div className="yelp-wrapper">
+          <Yelp
+            city={this.state.suitcase.Locale.locale_city}
+            admin={this.state.suitcase.Locale.locale_admin}
+            country={this.state.suitcase.Locale.locale_country}
+          />
+        </div>
       )
     }
   }
@@ -211,17 +260,73 @@ export default class Suitcase extends Component {
 
   deleteSuitcase = () => {
     client.mutate({
-      mutation: DELETE_SUITCASE_QUERY,
-      variables: { id: this.state.suitcaseId }
+      mutation: DELETE_SUITCASE_MUTATION,
+      variables: { id: this.state.suitcase.id }
     }).then(result => {
-      window.location = "/profile/" + this.state.loggedInUserIdNumber;
-      console.log(result);
+      this.setState({
+        shouldRedirectToProfile: true
+      })
     })
+  }
+
+  addItemToSuitcase = () => {
+    client.mutate({
+      mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
+      variables: { id: this.state.suitcase.id, item_ids: this.state.itemsToAdd },
+      fetchPolicy: "no-cache"
+    }).then(result => {
+      this.setState({ value: "", itemsToAdd: [] })
+    }).catch(err => console.log(err))
+  }
+
+  addItemsToCurrentSuitcase = () => {
+    client.mutate({
+      mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
+      variables: { id: this.state.currentSuitcaseId, item_ids: this.state.itemsToAdd }
+    }).then(result => {
+      this.setState({
+        itemsToAdd: [],
+        thisSuitcaseId: this.props.match.params.id
+      })
+    }).catch(err => console.log(err))
+  }
+
+  deleteItemFromSuitcase = (itemId) => {
+    client.mutate({
+      mutation: DELETE_ITEM_FROM_SUITCASE_MUTATION,
+      variables: { suitcase_id: this.state.suitcase.id, item_id: itemId },
+      fetchPolicy: "no-cache"
+    }).then(result => {
+      console.log(itemId)
+    }).catch(err => console.log(err))
+  }
+
+  maybeRedirect() {
+    if (this.state.shouldRedirectToProfile) {
+      return (
+        <Redirect to={"/profile/" + this.state.loggedInUserIdNumber} render={(props) => <Profile {...props} />} />
+      )
+    }
+  }
+
+  setSuitcaseId = () => {
+    localStorage.setItem("suitcase_id", this.state.suitcase.id);
+  }
+
+  onCheckboxBtnClick = (selected) => {
+    const index = this.state.itemsToAdd.indexOf(selected);
+    if (index < 0) {
+      this.state.itemsToAdd.push(selected);
+    } else {
+      this.state.itemsToAdd.splice(index, 1);
+    }
+    this.setState({ itemsToAdd: [...this.state.itemsToAdd] });
   }
 
   render() {
     return (
       <div className="suitcase profile-page sidebar-collapse">
+        {this.maybeRedirect()}
         <Header
           showNewSuitcaseModal={this.showNewSuitcaseModal}
         />
@@ -256,38 +361,43 @@ export default class Suitcase extends Component {
                             <p className="nav-link" id="suitcase-user-gender">{this.state.suitcase.User.gender}</p>
                           </li>
                           <li className="nav-item ">
-                            <a className="nav-link" id="suitcase-locale" href={"/search/" + this.state.suitcase.Locale.locale_city}>{this.renderCityWithoutUnderscores()}</a>
+                            <Link className="nav-link" id="suitcase-locale" to={"/search/" + this.state.suitcase.Locale.locale_city}>{this.renderCityWithoutUnderscores()}</Link>
                           </li>
-                          <li className="nav-item">
-                            <p className="nav-link d-inline-block" id="suitcase-startDate">
-                              <Moment format="MMM DD, YYYY">
-                                {this.state.suitcase.start_date}
-                              </Moment>
-                            </p>
-                            <p className="nav-link d-inline-block" id="suitcase-endDate">
-                              <Moment format="MMM DD, YYYY">
-                                {this.state.suitcase.end_date}
-                              </Moment>
-                            </p>
-                          </li>
+
+                          {this.state.rendered ? (
+                            <li className="nav-item">
+                              <p className="nav-link d-inline-block" id="suitcase-startDate">
+                                <Moment format="MMM DD, YYYY">
+                                  {this.state.suitcase.start_date}
+                                </Moment>
+                              </p>-
+                              <p className="nav-link d-inline-block" id="suitcase-endDate">
+                                <Moment format="MMM DD, YYYY">
+                                  {this.state.suitcase.end_date}
+                                </Moment>
+                              </p>
+                            </li>
+                          ) : (
+                              <li className="nav-item">
+                                Loading . . .
+                              </li>
+                            )}
 
                           <li className="nav-item">
                             <p className="nav-link" id="suitcase-travelCategory">{this.state.suitcase.travel_category}</p>
                           </li>
 
                           <li className="nav-item">
-                            <button data-category="clothing" className="all btn btn-primary btn-sm btn-fab btn-round">
-                              <i className="fa fa-suitcase" title="Profile Page"> </i>
+                            <button data-category="suitcase" className="all btn btn-primary btn-sm btn-fab btn-round">
+                              <i className="fa fa-suitcase" title="View this suitcase"> </i>
                             </button>
                           </li>
 
                           <li className="nav-item">
-                            <button data-category="clothing" className="all btn btn-default btn-sm btn-fab btn-round">
-                              <i className="fa fa-pencil-square-o" title="Profile Page"> </i>
+                            <button data-category="notes" className="all btn btn-default btn-sm btn-fab btn-round">
+                              <i className="fa fa-pencil-square-o" title="View notes"> </i>
                             </button>
                           </li>
-
-                          
 
                         </ul>
                         {this.renderWunderground()}
@@ -307,40 +417,41 @@ export default class Suitcase extends Component {
                 </div>
               </div>
 
+              {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
+                <div className="input-group mb-3 auto-items">
 
-              <div className="input-group mb-3 auto-items">
-                <Autocomplete
+                  <Autocomplete
 
-                  items={this.setAutocompleteItems()}
-                  shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
-                  getItemValue={item => item.label}
-                  renderItem={this.renderAutocomplete()}
-                  wrapperStyle={
-                    {
-                      position: 'relative',
-                      zIndex: 9999
+                    items={this.setAutocompleteItems()}
+                    shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
+                    getItemValue={item => item.label}
+                    renderItem={this.renderAutocomplete()}
+                    wrapperStyle={
+                      {
+                        position: 'relative',
+                        zIndex: 9999
+                      }
                     }
-                  }
-                  menuStyle={
-                    {
-                      position: 'absolute',
-                      cursor: "pointer",
-                      top: "35px",
-                      left: 0,
-                      backgroundColor: "white"
+                    menuStyle={
+                      {
+                        position: 'absolute',
+                        cursor: "pointer",
+                        top: "35px",
+                        left: 0,
+                        backgroundColor: "white"
+                      }
                     }
-                  }
-                  value={this.state.value}
-                  onChange={e => this.setState({ value: e.target.value })}
-                  onSelect={value => this.setState({ value })}
-                />
-                <div className="input-group-append">
-                  <button type="button"><i className="fa fa-search"></i> Find an item</button>
+                    value={this.state.value}
+                    onChange={e => this.setState({ value: e.target.value })}
+                    onSelect={(value, item) => this.setState({ value: value, itemsToAdd: [...this.state.itemsToAdd, item.id] })}
+                  />
+                  <div className="input-group-append">
+                    <button type="button" onClick={() => { this.addItemToSuitcase() }}><i className="fa fa-search"></i> Add an item</button>
+                  </div>
                 </div>
-              </div>
-
-
-
+              ) : (
+                  <div></div>
+                )}
 
 
               <div className="row">
@@ -351,7 +462,7 @@ export default class Suitcase extends Component {
                       <div className="title row">
                         <div>
                           <button data-category="toiletries" className="all btn btn-default btn-sm btn-fab btn-round">
-                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
+                            <i className="fa fa-check-circle-o" title="Select all toiletries"> </i>
                           </button>
                         </div>
                         <div>
@@ -365,8 +476,14 @@ export default class Suitcase extends Component {
                           .map((item, i) => (
                             <Item
                               key={i}
+                              itemId={item.id}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
+                              itemsToAdd={this.state.itemsToAdd}
+                              onCheckboxBtnClick={this.onCheckboxBtnClick}
+                              loggedInUserIdNumber={this.state.loggedInUserIdNumber}
+                              suitcaseUserId={this.state.suitcase.User.id}
+                              deleteItemFromSuitcase={this.deleteItemFromSuitcase}
                             />
                           ))
                         }
@@ -377,7 +494,7 @@ export default class Suitcase extends Component {
                       <div className="title row">
                         <div>
                           <button data-category="clothing" className="all btn btn-default btn-sm btn-fab btn-round">
-                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
+                            <i className="fa fa-check-circle-o" title="Select all clothing"> </i>
                           </button>
                         </div>
                         <div>
@@ -391,8 +508,14 @@ export default class Suitcase extends Component {
                           .map((item, i) => (
                             <Item
                               key={i}
+                              itemId={item.id}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
+                              itemsToAdd={this.state.itemsToAdd}
+                              onCheckboxBtnClick={this.onCheckboxBtnClick}
+                              loggedInUserIdNumber={this.state.loggedInUserIdNumber}
+                              suitcaseUserId={this.state.suitcase.User.id}
+                              deleteItemFromSuitcase={this.deleteItemFromSuitcase}
                             />
                           ))
 
@@ -405,7 +528,7 @@ export default class Suitcase extends Component {
                       <div className="title row">
                         <div>
                           <button data-category="accessories" className="all btn btn-default btn-sm btn-fab btn-round">
-                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
+                            <i className="fa fa-check-circle-o" title="Select all accessories"> </i>
                           </button>
                         </div>
                         <div>
@@ -419,8 +542,14 @@ export default class Suitcase extends Component {
                           .map((item, i) => (
                             <Item
                               key={i}
+                              itemId={item.id}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
+                              itemsToAdd={this.state.itemsToAdd}
+                              onCheckboxBtnClick={this.onCheckboxBtnClick}
+                              loggedInUserIdNumber={this.state.loggedInUserIdNumber}
+                              suitcaseUserId={this.state.suitcase.User.id}
+                              deleteItemFromSuitcase={this.deleteItemFromSuitcase}
                             />
                           ))
 
@@ -433,7 +562,7 @@ export default class Suitcase extends Component {
                       <div className="title row">
                         <div>
                           <button data-category="electronics" className="all btn btn-default btn-sm btn-fab btn-round">
-                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
+                            <i className="fa fa-check-circle-o" title="Select all electronics"> </i>
                           </button>
                         </div>
                         <div>
@@ -447,8 +576,14 @@ export default class Suitcase extends Component {
                           .map((item, i) => (
                             <Item
                               key={i}
+                              itemId={item.id}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
+                              itemsToAdd={this.state.itemsToAdd}
+                              onCheckboxBtnClick={this.onCheckboxBtnClick}
+                              loggedInUserIdNumber={this.state.loggedInUserIdNumber}
+                              suitcaseUserId={this.state.suitcase.User.id}
+                              deleteItemFromSuitcase={this.deleteItemFromSuitcase}
                             />
                           ))
 
@@ -460,19 +595,25 @@ export default class Suitcase extends Component {
                 </div>
               </div>
 
+
               <div className="row">
-                <div className="col-6 mx-auto my-3 text-center">
-                  <button id="add-items" className="btn btn-primary btn-lg">Add Selected Items To My Suitcase</button>
-                </div>
-                <div className="col-12 text-center" id="add-more-items-holder">
-                  <a className="btn btn-lg btn-primary mt-3 mb-3 px-3 pb-2 pt-3" id="add-more-items" href="/items">
-
-                    <p>See Full List of Items To Choose From</p>
-
-                  </a>
-                </div>
+                {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
+                  <div className="col-12 text-center" id="add-more-items-holder">
+                    <Link className="btn btn-lg btn-primary mt-5 mb-3 px-3 pb-2 pt-3" id="add-more-items" to="/items" onClick={() => { this.setSuitcaseId() }}>
+                      <p>See Full List of Items To Choose From</p>
+                    </Link>
+                  </div>
+                ) : (
+                    <div className="col-6 mx-auto mt-5 mb-3 text-center">
+                      <Link id="add-items" className="btn btn-primary btn-lg mt-5 mb-3 px-3 pb-2 pt-3" onClick={() => { this.addItemsToCurrentSuitcase() }} to={"/suitcase/" + this.state.currentSuitcaseId}>Add Selected Items To My Suitcase</Link>
+                    </div>
+                  )}
               </div>
             </div>
+<<<<<<< HEAD
+=======
+            {this.renderYelp()}
+>>>>>>> 7b377d16cba2a5d7bbc0e102ebc1e5d37d060b19
           </div>
 
         </Main>

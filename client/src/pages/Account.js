@@ -21,7 +21,6 @@ query getUser( $id: String! ){
   }`;
 
 const client = new ApolloClient();
-let userIdNumber = localStorage.getItem("user_id");
 
 export default class Account extends Component {
   state = {
@@ -33,14 +32,14 @@ export default class Account extends Component {
     },
     rendered: false,
     openNewSuitcaseModal: false,
-    userIdNumber: userIdNumber
+    loggedInUserId: localStorage.getItem("logged_in_user_id")
   }
 
   componentDidMount() {
 
     client.query({
       query: GET_USER_QUERY,
-      variables: { id: this.state.userIdNumber }
+      variables: { id: this.state.loggedInUserId }
     }).then(result => {
       this.setState({ userData: result.data.getUser, rendered: true });
       console.log(this.state.userData);

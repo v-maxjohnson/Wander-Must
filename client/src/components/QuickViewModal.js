@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Moment from 'react-moment';
 import Category from "../components/Category";
-import Item from "../components/Item";
+import QuickViewItem from "../components/QuickViewItem";
 import "../styles/QuickViewModal.css";
 
 let cityNoUnderscores = "";
@@ -26,6 +26,20 @@ export default class QuickViewModal extends Component {
     )
   }
 
+  showSuccessMessage = () => {
+    this.setState({
+      successMessage: true
+    })
+  }
+
+  renderSuccessMessage = () => {
+    if (this.state.successMessage) {
+      return (
+        <p>We've added these items to your suitcase!</p>
+      )
+    }
+  }
+
   render() {
     return (
       <div>
@@ -42,7 +56,8 @@ export default class QuickViewModal extends Component {
                     <p className="nav-link" id="suitcase-user-gender"> {this.props.quickViewData.User.gender}</p>
                   </li>
                   <li className="nav-item ">
-                    <a className="nav-link" id="suitcase-locale" href={"/search/" + this.props.quickViewData.Locale.locale_city}>{this.renderCityWithoutUnderscores()}</a>
+                    <p className="nav-link" id="suitcase-locale">{this.renderCityWithoutUnderscores()}
+                    </p>
                   </li>
                   <li className="nav-item">
                     <p className="nav-link d-inline-block" id="suitcase-startDate">
@@ -84,12 +99,14 @@ export default class QuickViewModal extends Component {
                     <div className="row cat-row" id="toiletries">
                       {this.props.quickViewData.Items
                         .filter(item => (item.item_category === "TOILETRIES"))
-                        .map(item => (
-                          <Item
-                            key={item.item_name}
-                            id={item.id}
+                        .map((item, i) => (
+                          <QuickViewItem
+                            key={i}
+                            itemId={item.id}
                             itemName={item.item_name}
                             itemCategory={item.item_category}
+                            itemsToAdd={this.props.itemsToAdd}
+                            onCheckboxBtnClick={this.props.onCheckboxBtnClick}
                           />
                         ))
                       }
@@ -108,11 +125,14 @@ export default class QuickViewModal extends Component {
                     <div className="row cat-row" id="clothing">
                       {this.props.quickViewData.Items
                         .filter(item => (item.item_category === "CLOTHING"))
-                        .map(item => (
-                          <Item
-                            key={item.item_name}
+                        .map((item, i) => (
+                          <QuickViewItem
+                            key={i}
+                            itemId={item.id}
                             itemName={item.item_name}
                             itemCategory={item.item_category}
+                            itemsToAdd={this.props.itemsToAdd}
+                            onCheckboxBtnClick={this.props.onCheckboxBtnClick}
                           />
                         ))
 
@@ -133,11 +153,14 @@ export default class QuickViewModal extends Component {
                     <div className="row cat-row" id="accessories">
                       {this.props.quickViewData.Items
                         .filter(item => (item.item_category === "ACCESSORIES"))
-                        .map(item => (
-                          <Item
-                            key={item.item_name}
+                        .map((item, i) => (
+                          <QuickViewItem
+                            key={i}
+                            itemId={item.id}
                             itemName={item.item_name}
                             itemCategory={item.item_category}
+                            itemsToAdd={this.props.itemsToAdd}
+                            onCheckboxBtnClick={this.props.onCheckboxBtnClick}
                           />
                         ))
 
@@ -158,11 +181,14 @@ export default class QuickViewModal extends Component {
                     <div className="row cat-row" id="electronics">
                       {this.props.quickViewData.Items
                         .filter(item => (item.item_category === "ELECTRONICS"))
-                        .map(item => (
-                          <Item
-                            key={item.item_name}
+                        .map((item, i) => (
+                          <QuickViewItem
+                            key={i}
+                            itemId={item.id}
                             itemName={item.item_name}
                             itemCategory={item.item_category}
+                            itemsToAdd={this.props.itemsToAdd}
+                            onCheckboxBtnClick={this.props.onCheckboxBtnClick}
                           />
                         ))
 
@@ -174,8 +200,14 @@ export default class QuickViewModal extends Component {
               </div>
             </div>
           </ModalBody>
-          <ModalFooter>
-            <button className="btn btn-primary btn-sm px-3 py-2" onClick={this.toggle}>Close</button>
+          <ModalFooter className="justify-content-between pt-5">
+            <div className="success-text">
+              {this.renderSuccessMessage()}
+            </div>
+            <div>
+              <button className="btn btn-primary btn-sm px-3 py-2 mr-2" onClick={() => { this.props.addItemsToSuitcase(); this.showSuccessMessage() }}>Add to suitcase</button>
+              <button className="btn btn-info btn-sm px-3 py-2 mx-2" onClick={this.toggle}>Close</button>
+            </div>
           </ModalFooter>
         </Modal >
       </div >

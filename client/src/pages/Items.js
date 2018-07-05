@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import Suitcase from "./Suitcase";
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";

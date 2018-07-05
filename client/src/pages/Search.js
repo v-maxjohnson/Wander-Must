@@ -36,6 +36,16 @@ query getSuitcasesByLocale( $locale_city: String! ){
   }
 }`;
 
+const ADD_ITEM_TO_SUITCASE_MUTATION = gql`
+mutation addItemToSuitcase( $id: ID, $item_ids: [ID] ) {
+  addItemToSuitcase (id: $id, item_ids: $item_ids) {
+      id
+      Items {
+        id
+    }
+  }
+}`;
+
 const client = new ApolloClient();
 
 let cityNoUnderscores = "";
@@ -63,6 +73,8 @@ export default class Search extends Component {
     openNewSuitcaseModal: false,
     rendered: false,
     index: 0,
+    itemsToAdd: [],
+    suitcaseId: localStorage.getItem("suitcase_id"),
     loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
   }
 
@@ -100,6 +112,9 @@ export default class Search extends Component {
       return <QuickViewModal
         quickViewData={this.state.suitcaseData[this.state.index]}
         resetQuickViewModal={this.resetQuickViewModal}
+        itemsToAdd={this.state.itemsToAdd}
+        onCheckboxBtnClick={this.onCheckboxBtnClick}
+        addItemsToSuitcase={this.addItemsToSuitcase}
       />
     }
   }
@@ -122,6 +137,25 @@ export default class Search extends Component {
         resetNewSuitcaseModal={this.resetNewSuitcaseModal}
       />
     }
+  }
+
+  onCheckboxBtnClick = (selected) => {
+    const index = this.state.itemsToAdd.indexOf(selected);
+    if (index < 0) {
+      this.state.itemsToAdd.push(selected);
+    } else {
+      this.state.itemsToAdd.splice(index, 1);
+    }
+    this.setState({ itemsToAdd: [...this.state.itemsToAdd] });
+  }
+
+  addItemsToSuitcase = () => {
+    client.mutate({
+      mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
+      variables: { id: this.state.suitcaseId, item_ids: this.state.itemsToAdd }
+    }).then(result => {
+      console.log(result);
+    }).catch(err => console.log(err))
   }
 
   renderYelp = () => {

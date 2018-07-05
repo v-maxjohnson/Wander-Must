@@ -92,7 +92,7 @@ export default class Suitcase extends Component {
     rendered: false,
     openNewSuitcaseModal: false,
     openConfirmationModal: false,
-    suitcaseId: localStorage.getItem("suitcase_id"),
+    suitcaseId: this.props.match.params.id,
     value: '',
     itemsToAdd: [],
     loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")

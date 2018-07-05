@@ -45,6 +45,7 @@ export default class Profile extends Component {
     },
     openNewSuitcaseModal: false,
     rendered: false,
+    userId: this.props.match.params.id,
     loggedInUserId: localStorage.getItem("logged_in_user_id")
   }
 
@@ -52,7 +53,7 @@ export default class Profile extends Component {
 
     client.query({
       query: GET_USER_QUERY,
-      variables: { id: this.state.loggedInUserId },
+      variables: { id: this.state.userId },
       fetchPolicy: "network-only"
     }).then(result => {
       this.setState({ userData: result.data.getUser, rendered: true });

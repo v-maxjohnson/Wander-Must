@@ -58,7 +58,7 @@ export default class Search extends Component {
         }
       }
     ],
-    city: localStorage.getItem("city_name"),
+    city: this.props.match.params.city,
     openQuickViewModal: false,
     openNewSuitcaseModal: false,
     rendered: false,
@@ -124,6 +124,20 @@ export default class Search extends Component {
     }
   }
 
+  renderYelp = () => {
+    if (this.state.rendered) {
+      return (
+        <div className="yelp-wrapper">
+          <Yelp
+            city={this.state.suitcaseData[0].Locale.locale_city}
+            admin={this.state.suitcaseData[0].Locale.locale_admin}
+            country={this.state.suitcaseData[0].Locale.locale_country}
+          />
+        </div>
+      )
+    }
+  }
+
   render() {
     return (
       <div className="search profile-page sidebar-collapse">
@@ -172,7 +186,7 @@ export default class Search extends Component {
                 </div>
               </div>
             </div>
-            <Yelp />
+            {this.renderYelp()}
           </div>
         </Main>
         {this.renderQuickViewModal()}

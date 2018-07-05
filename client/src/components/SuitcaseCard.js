@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import Moment from 'react-moment';
 import Pixabay from "../utils/Pixabay";
 import "../styles/SuitcaseCard.css";
@@ -33,10 +34,6 @@ export default class SuitcaseCard extends Component {
         }
     }
 
-    setSuitcaseId = () => {
-        localStorage.setItem("suitcase_id", this.props.id)
-    }
-
     render() {
         return (
 
@@ -44,14 +41,14 @@ export default class SuitcaseCard extends Component {
                 <div className="suitcaseCard">
                     <div className="card bg-dark text-white no-shadow">
                         <div className="suitcaseWrapper card-img">
-                            <a className="suitcase-link" href={"/suitcase/" + this.props.id} onClick={this.setSuitcaseId}>
+                            <Link className="suitcase-link" to={"/suitcase/" + this.props.id}>
                                 {this.renderPixabay()}
                                 <img
                                     className="suitcasePhoto img-responsive"
                                     src={this.state.cityImageSrc} alt="City Skyline"
                                 />
                                 <img className="suitcaseFrame img-responsive" src={SuitcaseFrame} alt="Suitcase Frame" />
-                            </a>
+                            </Link>
                         </div>
                         <div className="card-img-overlay">
                             <div className="title-div">

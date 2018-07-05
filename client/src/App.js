@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
+import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Account from "./pages/Account";
@@ -18,11 +19,12 @@ class App extends Component {
     return (
       <ApolloProvider client={client}>
         <Router>
+          <ScrollToTop>
           <div className="App">
             <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/signup" component={Signup} />
-                <Route exact path="/account/:id" component={Account} />
+                <Route exact path="/account" component={Account} />
                 <Route exact path="/items" component={Items} />
                 <Route exact path="/profile/:id" component={Profile} />
                 <Route exact path="/search/:city" component={Search} />
@@ -31,6 +33,7 @@ class App extends Component {
                 {/* <Route component={NoMatch} /> */}
             </Switch>
           </div>
+          </ScrollToTop>
         </Router>
       </ApolloProvider>
     );

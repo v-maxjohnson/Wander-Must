@@ -5,6 +5,15 @@ import YelpCard from './YelpCard.js'
 
 
 export default class YelpCarousel extends Component {
+
+  renderCarouselHeading = () => {
+    if (this.props.yelpResults.length) {
+      return (
+        <h3 className="text-center"> Want more to do in the city?</h3>
+      )
+    }
+  }
+
   render() {
     const settings = {
       dots: true,
@@ -15,10 +24,11 @@ export default class YelpCarousel extends Component {
     };
     return (
       <div>
-        <h3 className="text-center"> Want more to do in the city?</h3>
+
+        {this.renderCarouselHeading()}
 
         <Slider {...settings}>
-          
+
           {this.props.yelpResults.map((yelp, i) => (
             <YelpCard
               key={i}
@@ -29,7 +39,7 @@ export default class YelpCarousel extends Component {
               price={yelp.priceRating}
               website={yelp.href}
             />
-          ))} 
+          ))}
           {/* </div> */}
         </Slider>
       </div>

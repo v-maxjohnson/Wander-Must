@@ -102,13 +102,7 @@ export default class Suitcase extends Component {
   componentDidMount() {
 
     this.lookupInterval = setInterval(() => {
-      client.query({
-        query: GET_SUITCASE_QUERY,
-        variables: { id: this.state.thisSuitcaseId },
-        fetchPolicy: "network-only"
-      }).then(result => {
-        this.setState({ suitcase: result.data.getSuitcase, rendered: true });
-      })
+      this.getSuitcase();
     }, 500)
 
     client.query({
@@ -127,6 +121,16 @@ export default class Suitcase extends Component {
 
   componentWillUnMount() {
     clearInterval(this.lookupInterval)
+  }
+
+  getSuitcase = () => {
+    client.query({
+      query: GET_SUITCASE_QUERY,
+      variables: { id: this.state.thisSuitcaseId },
+      fetchPolicy: "network-only"
+    }).then(result => {
+      this.setState({ suitcase: result.data.getSuitcase, rendered: true });
+    })
   }
 
   setAutocompleteItems = () => {
@@ -264,7 +268,6 @@ export default class Suitcase extends Component {
       variables: { id: this.state.currentSuitcaseId, item_ids: this.state.itemsToAdd }
     }).then(result => {
       this.setState({
-        shouldRedirectToCurrentSuitcase: true,
         itemsToAdd: [],
         thisSuitcaseId: this.props.match.params.id
       })

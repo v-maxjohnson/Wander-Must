@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Suitcase from "./Suitcase";
 import Main from "../components/Main";
 import Header from "../components/Header";
@@ -80,23 +80,13 @@ export default class Items extends Component {
       mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
       variables: { id: this.state.suitcaseId, item_ids: this.state.itemsToAdd }
     }).then(result => {
-      this.setState({
-        shouldRedirect: true
-      })
+      console.log(result);
     }).catch(err => console.log(err))
-  }
-
-  maybeRedirect() {
-    if (this.state.shouldRedirect)
-      return (
-        <Redirect to={"/suitcase/" + this.state.suitcaseId} render={(props) => <Suitcase {...props} />} />
-      )
   }
 
   render() {
     return (
       <div className="items profile-page sidebar-collapse">
-        {this.maybeRedirect()}
         <Header
           showNewSuitcaseModal={this.showNewSuitcaseModal}
         />
@@ -245,7 +235,9 @@ export default class Items extends Component {
             </div>
             <div className="row">
               <div className="col-6 mx-auto my-3 text-center">
+                <Link to={"/suitcase/" + this.state.suitcaseId}>
                 <button id="add-items" className="btn btn-primary btn-lg" onClick={() => { this.addItemsToSuitcase() }}>Add Selected Items To My Suitcase</button>
+                </Link>
               </div>
             </div>
           </div>

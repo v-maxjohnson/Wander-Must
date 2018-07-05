@@ -7,7 +7,7 @@ import YelpCard from './YelpCard.js'
 export default class YelpCarousel extends Component {
 
   renderCarouselHeading = () => {
-    if (this.props.yelpData !== undefined) {
+    if (this.props.yelpResults.length) {
       return (
         <h3 className="text-center"> Want more to do in the city?</h3>
       )

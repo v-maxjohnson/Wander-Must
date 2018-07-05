@@ -5,6 +5,8 @@ import YelpCarousel from '../components/YelpCarousel';
 import axios from "axios";
 import "../styles/Yelp.css";
 
+let location;
+
 export default class Yelp extends Component {
 
   state = {
@@ -28,17 +30,21 @@ export default class Yelp extends Component {
 
     var radiusMeters = this.state.radiusMiles * 1600;
 
+    if (this.props.country === "usa") {
+      location = this.props.city + ", " + this.props.admin;
+    } else {
+      location = this.props.city + ", " + this.props.admin + ", " + this.props.country;
+    }
+
 
     let params = [{
       term: 'restaurants',
       //   location: this.props.city + "+" + this.props.country,
-      location: this.props.city + ", " + this.props.admin,
+      location: location,
       radius: radiusMeters,
       sort_by: 'rating',
       price: '1'
     }];
-
-    console.log(params);
 
     axios({
       method: "post",
@@ -46,7 +52,6 @@ export default class Yelp extends Component {
       data: params
     })
       .then((response) => {
-        console.log(response.data.businesses);
         let output = [];
         if (response.data.businesses) {
           response.data.businesses.forEach(item => {

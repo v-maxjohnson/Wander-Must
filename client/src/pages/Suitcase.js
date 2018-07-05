@@ -92,7 +92,8 @@ export default class Suitcase extends Component {
     rendered: false,
     openNewSuitcaseModal: false,
     openConfirmationModal: false,
-    suitcaseId: this.props.match.params.id,
+    thisSuitcaseId: this.props.match.params.id,
+    currentSuitcaseId: localStorage.getItem("suitcase_id"),
     value: '',
     itemsToAdd: [],
     loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
@@ -103,7 +104,7 @@ export default class Suitcase extends Component {
     this.lookupInterval = setInterval(() => {
       client.query({
         query: GET_SUITCASE_QUERY,
-        variables: { id: this.state.suitcaseId },
+        variables: { id: this.state.thisSuitcaseId },
         fetchPolicy: "network-only"
       }).then(result => {
         this.setState({ suitcase: result.data.getSuitcase, rendered: true });
@@ -239,10 +240,10 @@ export default class Suitcase extends Component {
   deleteSuitcase = () => {
     client.mutate({
       mutation: DELETE_SUITCASE_MUTATION,
-      variables: { id: this.state.suitcaseId }
+      variables: { id: this.state.suitcase.id }
     }).then(result => {
       this.setState({
-        shouldRedirect: true
+        shouldRedirectToProfile: true
       })
     })
   }
@@ -253,7 +254,20 @@ export default class Suitcase extends Component {
       variables: { id: this.state.suitcase.id, item_ids: this.state.itemsToAdd },
       fetchPolicy: "no-cache"
     }).then(result => {
-      this.setState({ value: "" })
+      this.setState({ value: "", itemsToAdd: [] })
+    }).catch(err => console.log(err))
+  }
+
+  addItemsToCurrentSuitcase = () => {
+    client.mutate({
+      mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
+      variables: { id: this.state.currentSuitcaseId, item_ids: this.state.itemsToAdd }
+    }).then(result => {
+      this.setState({
+        shouldRedirectToCurrentSuitcase: true,
+        itemsToAdd: [],
+        thisSuitcaseId: this.props.match.params.id
+      })
     }).catch(err => console.log(err))
   }
 
@@ -268,10 +282,25 @@ export default class Suitcase extends Component {
   }
 
   maybeRedirect() {
-    if (this.state.shouldRedirect)
+    if (this.state.shouldRedirectToProfile) {
       return (
         <Redirect to={"/profile/" + this.state.loggedInUserIdNumber} render={(props) => <Profile {...props} />} />
       )
+    }
+  }
+
+  setSuitcaseId = () => {
+    localStorage.setItem("suitcase_id", this.state.suitcase.id);
+  }
+
+  onCheckboxBtnClick = (selected) => {
+    const index = this.state.itemsToAdd.indexOf(selected);
+    if (index < 0) {
+      this.state.itemsToAdd.push(selected);
+    } else {
+      this.state.itemsToAdd.splice(index, 1);
+    }
+    this.setState({ itemsToAdd: [...this.state.itemsToAdd] });
   }
 
   render() {
@@ -428,6 +457,8 @@ export default class Suitcase extends Component {
                               itemId={item.id}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
+                              itemsToAdd={this.state.itemsToAdd}
+                              onCheckboxBtnClick={this.onCheckboxBtnClick}
                               loggedInUserIdNumber={this.state.loggedInUserIdNumber}
                               suitcaseUserId={this.state.suitcase.User.id}
                               deleteItemFromSuitcase={this.deleteItemFromSuitcase}
@@ -458,6 +489,8 @@ export default class Suitcase extends Component {
                               itemId={item.id}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
+                              itemsToAdd={this.state.itemsToAdd}
+                              onCheckboxBtnClick={this.onCheckboxBtnClick}
                               loggedInUserIdNumber={this.state.loggedInUserIdNumber}
                               suitcaseUserId={this.state.suitcase.User.id}
                               deleteItemFromSuitcase={this.deleteItemFromSuitcase}
@@ -490,6 +523,8 @@ export default class Suitcase extends Component {
                               itemId={item.id}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
+                              itemsToAdd={this.state.itemsToAdd}
+                              onCheckboxBtnClick={this.onCheckboxBtnClick}
                               loggedInUserIdNumber={this.state.loggedInUserIdNumber}
                               suitcaseUserId={this.state.suitcase.User.id}
                               deleteItemFromSuitcase={this.deleteItemFromSuitcase}
@@ -522,6 +557,8 @@ export default class Suitcase extends Component {
                               itemId={item.id}
                               itemName={item.item_name}
                               itemCategory={item.item_category}
+                              itemsToAdd={this.state.itemsToAdd}
+                              onCheckboxBtnClick={this.onCheckboxBtnClick}
                               loggedInUserIdNumber={this.state.loggedInUserIdNumber}
                               suitcaseUserId={this.state.suitcase.User.id}
                               deleteItemFromSuitcase={this.deleteItemFromSuitcase}
@@ -536,15 +573,19 @@ export default class Suitcase extends Component {
                 </div>
               </div>
 
+
               <div className="row">
-                <div className="col-6 mx-auto my-3 text-center">
-                  <button id="add-items" className="btn btn-primary btn-lg">Add Selected Items To My Suitcase</button>
-                </div>
-                <div className="col-12 text-center" id="add-more-items-holder">
-                  <Link className="btn btn-lg btn-primary mt-3 mb-3 px-3 pb-2 pt-3" id="add-more-items" to="/items">
-                    <p>See Full List of Items To Choose From</p>
-                  </Link>
-                </div>
+                {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
+                  <div className="col-12 text-center" id="add-more-items-holder">
+                    <Link className="btn btn-lg btn-primary mt-5 mb-3 px-3 pb-2 pt-3" id="add-more-items" to="/items" onClick={() => { this.setSuitcaseId() }}>
+                      <p>See Full List of Items To Choose From</p>
+                    </Link>
+                  </div>
+                ) : (
+                    <div className="col-6 mx-auto mt-5 mb-3 text-center">
+                      <Link id="add-items" className="btn btn-primary btn-lg mt-5 mb-3 px-3 pb-2 pt-3" onClick={() => { this.addItemsToCurrentSuitcase() }} to={"/suitcase/" + this.state.currentSuitcaseId}>Add Selected Items To My Suitcase</Link>
+                    </div>
+                  )}
               </div>
             </div>
             {this.renderYelp()}

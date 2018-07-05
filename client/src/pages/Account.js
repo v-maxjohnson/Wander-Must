@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, CustomInput, Col, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, CustomInput, Col, Form, FormGroup, Label, Input } from 'reactstrap';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -8,7 +8,6 @@ import "../styles/Account.css";
 import gql from "graphql-tag";
 import axios from 'axios';
 import ApolloClient from 'apollo-boost';
-import { Image } from 'cloudinary-react';
 
 const GET_USER_QUERY = gql`
 query getUser( $id: String! ){

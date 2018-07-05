@@ -9,6 +9,7 @@ import "../styles/Profile.css";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 
+
 const GET_USER_QUERY = gql`
 query getUser( $id: String! ){
   getUser(id: $id) {

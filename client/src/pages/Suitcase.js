@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 import Category from "../components/Category";
 import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import ConfirmationModal from "../components/ConfirmationModal";
-import Yelp from "../utils/Yelp";
+// import Yelp from "../utils/Yelp";
 import Item from "../components/Item";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
 import "../styles/Suitcase.css";
@@ -168,7 +168,7 @@ export default class Suitcase extends Component {
     if(this.state.rendered) {
       axios.post("/api/uploadSuitcaseImage", formData)
         .then(res => {
-          let url = res.data.url;
+          // let url = res.data.url;
 
           //update suitcase in database with image url
         })

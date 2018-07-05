@@ -4,7 +4,6 @@ import Pixabay from "../utils/Pixabay";
 import Cloudinary from '../utils/Cloudinary';
 import "../styles/SuitcaseCard.css";
 import SuitcaseFrame from "../images/suitcaseFrame.png"
-import { Image } from 'cloudinary-react'
 
 let cityNoUnderscores = "";
 

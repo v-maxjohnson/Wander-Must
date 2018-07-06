@@ -97,6 +97,23 @@ export default class Navibar extends Component {
     return renderAutoValue
   }
 
+  renderProfileOrSettingsLink = () => {
+
+    if (window.location.href.indexOf("profile") > -1 && this.props.userDataId === this.state.loggedInUserIdNumber) {
+      return (
+        <Link id="settings-link-button" className="nav-link" to="/account">
+          <i className="fa fa-cog" title="Account Settings"> </i>
+        </Link>
+      )
+    } else {
+      return (
+        <Link id="profile-link-button" className="nav-link" to={"/profile/" + this.state.loggedInUserIdNumber}>
+          <i className="fa fa-user-circle" title="Profile Page"> </i>
+        </Link>
+      )
+    }
+  }
+
   renderNavItems = () => {
     if (this.props.loggedInUserIdNumber !== null) {
       return (
@@ -139,9 +156,7 @@ export default class Navibar extends Component {
 
           </NavItem>
           <NavItem className="nav-item">
-            <Link id="profile-link-button" className="nav-link" to={"/profile/" + this.state.loggedInUserIdNumber}>
-              <i className="fa fa-user-circle" title="Profile Page"> </i>
-            </Link>
+            {this.renderProfileOrSettingsLink()}
           </NavItem>
 
           <NavItem className="nav-item">

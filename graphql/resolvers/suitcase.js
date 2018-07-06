@@ -101,18 +101,20 @@ export default {
     updateItem: ( {suitcase_id, item_id, item_amount} ) => {
         return db.Suitcase.findOne({
             where: {
-                suitcase_id: suitcase_id
+                id: suitcase_id
             },
-            include: [ db.Item ]
+            include: [{ 
+                model: db.Item,
+                    include: [ db.ItemAmount ] 
+                }]
         })
             .then( dbSuitcase => {
-                return dbSuitcase.findOne({
-                    where: {
-                        item_id: item_id
-                    }
-                })
-                    .then( dbItem => dbItem.update( {item_amount: item_amount} ) )
-                    .catch( err => console.log(err.message) )
+                return dbSuitcase.update( {item_amount: item_amount} ,
+                    {
+                        where: {
+                            item_id: item_id
+                        }
+                    })
             })
             .catch( err => console.log(err) )
     },

@@ -81,13 +81,13 @@ export default new GraphQLObjectType ({
             resolve : ( root, args ) => resolvers.suitcase.addItem( args )
         },
         updateItemAmountOnSuitcase: {
-            type: itemType,
+            type: suitcaseType,
             args: {
-                id: {
+                suitcase_id: {
                     type: GraphQLID
                 },
                 item_id: {
-                    type: GraphQLString
+                    type: GraphQLID
                 },
                 item_amount: {
                     type: GraphQLInt
@@ -161,7 +161,7 @@ export default new GraphQLObjectType ({
                 id: {
                     type: GraphQLID
                 },
-                email: {
+                password: {
                     type: GraphQLString
                 }
             },

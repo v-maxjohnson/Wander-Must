@@ -19,3 +19,12 @@
 .suitcase-input {
     cursor: pointer;
 }
+
+.auto-locales {
+    text-transform: capitalize;
+    font-family: "Reem Kufi", sans-serif!important;
+}
+
+.search-for-city {
+    cursor: pointer;
+}

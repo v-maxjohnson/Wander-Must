@@ -327,7 +327,7 @@ export default class Suitcase extends Component {
                 onSelect={(value, item) => this.setState({ value: value, itemsToAdd: [...this.state.itemsToAdd, item.id] })}
               />
               <div className="input-group-append">
-                <button type="button" onClick={() => { this.addItemToSuitcase() }}><i className="fa fa-search"></i> Add an item</button>
+                <button className="add-one-item" type="button" onClick={() => { this.addItemToSuitcase() }}><i className="fa fa-search"></i> Add an item</button>
               </div>
             </div>
           ) : (

@@ -83,6 +83,7 @@ export default class Profile extends Component {
       <div className="profile profile-page sidebar-collapse">
         <Header
           showNewSuitcaseModal={this.showNewSuitcaseModal}
+          loggedInUserIdNumber={this.state.loggedInUserIdNumber}
         />
         <Main>
           <div className="page-header header-filter" id="background-profile" data-parallax="true"></div>

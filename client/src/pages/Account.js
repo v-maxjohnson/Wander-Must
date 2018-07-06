@@ -67,6 +67,7 @@ export default class Account extends Component {
       <div className="account profile-page sidebar-collapse">
         <Header
           showNewSuitcaseModal={this.showNewSuitcaseModal}
+          loggedInUserIdNumber={this.state.loggedInUserIdNumber}
         />
         <Main>
           <div className="page-header header-filter" id="background-account" data-parallax="true"></div>

@@ -5,6 +5,8 @@ import YelpCarousel from '../components/YelpCarousel';
 import axios from "axios";
 import "../styles/Yelp.css";
 
+let location;
+
 export default class Yelp extends Component {
 
   state = {
@@ -28,11 +30,17 @@ export default class Yelp extends Component {
 
     var radiusMeters = this.state.radiusMiles * 1600;
 
+    if (this.props.country === "usa") {
+      location = this.props.city + ", " + this.props.admin;
+    } else {
+      location = this.props.city + ", " + this.props.admin + ", " + this.props.country;
+    }
+
 
     let params = [{
       term: 'restaurants',
       //   location: this.props.city + "+" + this.props.country,
-      location: 'austin, tx',
+      location: location,
       radius: radiusMeters,
       sort_by: 'rating',
       price: '1'
@@ -43,26 +51,26 @@ export default class Yelp extends Component {
       url: "/yelp",
       data: params
     })
-    .then((response) => {
-      console.log(response.data.businesses);
-      let output = [];
-      response.data.businesses.forEach(item => {
-        if (output.length < 10 && !item.is_closed) {
-          output.push({
-            name: item.name,
-            rating: item.rating,
-            thumbnail: item.image_url,
-            href: item.url,
-            categories: item.categories.map(category => category.title),
-            priceRating: item.price ? item.price : "No price available"
-          });
+      .then((response) => {
+        let output = [];
+        if (response.data.businesses) {
+          response.data.businesses.forEach(item => {
+            if (output.length < 10 && !item.is_closed) {
+              output.push({
+                name: item.name,
+                rating: item.rating,
+                thumbnail: item.image_url,
+                href: item.url,
+                categories: item.categories.map(category => category.title),
+                priceRating: item.price ? item.price : "No price available"
+              });
+            }
+          })
+          this.setState({
+            yelpData: output
+          })
         }
-      })
-      console.log(output);
-      this.setState({
-        yelpData: output
-      })
-    });
+      });
   }
 
   render() {

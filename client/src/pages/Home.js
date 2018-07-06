@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -151,12 +152,12 @@ export default class Home extends Component {
                   </div>
                 </div>
                 <div className="col-12">
-                  <a className="btn btn-lg btn-primary mt-3 mx-auto px-3 py-2" href="/signup">
+                  <Link className="btn btn-lg btn-primary mt-3 mx-auto px-3 py-2" to="/signup">
                     <span>
                       <p>SignUp for</p>
                       <h4 className="wandermust-font text-capitalize">Wander-Must</h4>
                     </span>
-                  </a>
+                  </Link>
                 </div>
               </div>
 

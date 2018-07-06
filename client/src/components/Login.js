@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, Input } from 'reactstrap';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import Profile from "../pages/Profile";
 import "../styles/Login.css";
 
@@ -31,7 +31,7 @@ export default class Login extends Component {
   }
 
   handleChange = event => {
-    const { name , value} = event.target;
+    const { name, value } = event.target;
     this.setState({
       [name]: value
     });
@@ -49,26 +49,26 @@ export default class Login extends Component {
     fetch('api/signin', {
       method: 'POST',
       headers: {
-        'Accept' : 'application/json',
-        'Content-Type':'application/json'
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: newData
     })
-    .then(res => res.json())
-    .then(data => {
-      this.setState ({
-        isAuthenticated: true,
-        dropdownOpen: false,
-        email: "",
-        password: "",
-        userData: {
-          id: data.id,
-          username: data.username,
-          gender: data.gender,
-          user_image: data.user_image
-        }
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          isAuthenticated: true,
+          dropdownOpen: false,
+          email: "",
+          password: "",
+          userData: {
+            id: data.id,
+            username: data.username,
+            gender: data.gender,
+            user_image: data.user_image
+          }
+        })
       })
-    })
   }
 
   maybeRedirect() {
@@ -76,7 +76,7 @@ export default class Login extends Component {
       let userId = this.state.userData.id;
       console.log('userId: ' + userId);
       return (
-        <Redirect to={'/profile/' + userId} render={(props) => <Profile {...props} /> } />     
+        <Redirect to={'/profile/' + userId} render={(props) => <Profile {...props} />} />
       )
     }
     console.log('state after redirect: ' + JSON.stringify(this.state));
@@ -92,14 +92,14 @@ export default class Login extends Component {
         <DropdownMenu className="dropdown-menu dropdown-with-icons">
           <form className="p-8 col-12" onSubmit={this.handleSubmitEvent}>
             <label htmlFor="email" className="col-sm-offset-1">Email Address</label>
-            <Input className="text" type="email" name="email" 
-            value={this.state.email}
-            onChange={this.handleChange}
+            <Input className="text" type="email" name="email"
+              value={this.state.email}
+              onChange={this.handleChange}
             />
             <label htmlFor="password">Password</label>
-            <Input name="password" type="password"  
-            value={this.state.password}
-            onChange={this.handleChange} 
+            <Input name="password" type="password"
+              value={this.state.password}
+              onChange={this.handleChange}
             />
             <div className="row">
               <div className="col-5">
@@ -107,7 +107,9 @@ export default class Login extends Component {
               </div>
 
               <div className="col-5">
-                <a className="btn btn-sm mt-3 mx-auto px-3 py-2" href="/signup">SignUp</a>
+                <Link className="btn btn-sm mt-3 mx-auto px-3 py-2" to="/signup">
+                  SignUp
+                </Link>
               </div>
             </div>
           </form>

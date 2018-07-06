@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
+import { Redirect, Link } from "react-router-dom";
+import Profile from "./Profile";
+import NavTabs from "../components/NavTabs";
 import Moment from 'react-moment';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Category from "../components/Category";
+import SuitcaseItems from "../components/SuitcaseItems";
 import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import ConfirmationModal from "../components/ConfirmationModal";
 import Yelp from "../utils/Yelp";
-import Item from "../components/Item";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
 import "../styles/Suitcase.css";
 import Wunderground from "../utils/Wunderground";
@@ -19,6 +21,7 @@ import Autocomplete from 'react-autocomplete';
 const GET_SUITCASE_QUERY = gql` 
 query getSuitcase( $id: String! ){
   getSuitcase(id: $id) {
+    id
     start_date
     end_date
     travel_category
@@ -41,20 +44,38 @@ query getSuitcase( $id: String! ){
   }
 }`;
 
-const DELETE_SUITCASE_QUERY = gql` 
-mutation deleteSuitcase( $id: String! ){
+const DELETE_SUITCASE_MUTATION = gql` 
+mutation deleteSuitcase( $id: ID ){
     deleteSuitcase(id: $id) {
       id
     }
 }`;
 
+const ADD_ITEM_TO_SUITCASE_MUTATION = gql`
+mutation addItemToSuitcase( $id: ID, $item_ids: [ID] ) {
+  addItemToSuitcase (id: $id, item_ids: $item_ids) {
+      id
+      Items {
+        id
+    }
+  }
+}`;
+
+const DELETE_ITEM_FROM_SUITCASE_MUTATION = gql`
+mutation deleteItemFromSuitcase( $suitcase_id: ID, $item_id: ID ) {
+  deleteItemFromSuitcase (suitcase_id: $suitcase_id, item_id: $item_id) {
+      id
+      Items {
+        id
+    }
+  }
+}`;
+
 const client = new ApolloClient();
 
-let suitcaseId = localStorage.getItem("suitcase_id");
 let cityNoUnderscores = "";
 let autocompleteItems;
 let renderAutoValue;
-let loggedInUserIdNumber = localStorage.getItem("logged_in_user_id");
 
 
 export default class Suitcase extends Component {
@@ -71,31 +92,45 @@ export default class Suitcase extends Component {
     rendered: false,
     openNewSuitcaseModal: false,
     openConfirmationModal: false,
-    suitcaseId: suitcaseId,
+    thisSuitcaseId: this.props.match.params.id,
+    currentSuitcaseId: localStorage.getItem("suitcase_id"),
     value: '',
-    loggedInUserIdNumber: loggedInUserIdNumber
+    currentPage: "SuitcaseItems",
+    itemsToAdd: [],
+    loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
   };
 
   componentDidMount() {
 
-    client.query({
-      query: GET_SUITCASE_QUERY,
-      variables: { id: this.state.suitcaseId }
-    }).then(result => {
-      this.setState({ suitcase: result.data.getSuitcase, rendered: true });
-      console.log(this.state.suitcase, this.state.rendered);
-    })
+    this.lookupInterval = setInterval(() => {
+      this.getSuitcase();
+    }, 500)
 
     client.query({
       query: gql` 
             { 
               allItems {
+                id,
                 item_name,
                 item_category 
               }
             }`
     }).then(result => {
       this.setState({ allItems: result.data.allItems });
+    })
+  }
+
+  componentWillUnMount() {
+    clearInterval(this.lookupInterval)
+  }
+
+  getSuitcase = () => {
+    client.query({
+      query: GET_SUITCASE_QUERY,
+      variables: { id: this.state.thisSuitcaseId },
+      fetchPolicy: "network-only"
+    }).then(result => {
+      this.setState({ suitcase: result.data.getSuitcase, rendered: true });
     })
   }
 
@@ -121,6 +156,7 @@ export default class Suitcase extends Component {
         (item, highlighted) =>
           <div
             key={item.key}
+            id={item.id}
             style={{ backgroundColor: highlighted ? '#eee' : 'transparent' }}
           >
             {item.label} | <span className="auto-category">{item.category}</span>
@@ -146,6 +182,20 @@ export default class Suitcase extends Component {
           admin={this.state.suitcase.Locale.locale_admin}
           country={this.state.suitcase.Locale.locale_country}
         />
+      )
+    }
+  }
+
+  renderYelp = () => {
+    if (this.state.rendered) {
+      return (
+        <div className="yelp-wrapper">
+          <Yelp
+            city={this.state.suitcase.Locale.locale_city}
+            admin={this.state.suitcase.Locale.locale_admin}
+            country={this.state.suitcase.Locale.locale_country}
+          />
+        </div>
       )
     }
   }
@@ -194,17 +244,137 @@ export default class Suitcase extends Component {
 
   deleteSuitcase = () => {
     client.mutate({
-      mutation: DELETE_SUITCASE_QUERY,
-      variables: { id: this.state.suitcaseId }
+      mutation: DELETE_SUITCASE_MUTATION,
+      variables: { id: this.state.suitcase.id }
     }).then(result => {
-      window.location = "/profile/" + this.state.loggedInUserIdNumber;
-      console.log(result);
+      this.setState({
+        shouldRedirectToProfile: true
+      })
     })
+  }
+
+  addItemToSuitcase = () => {
+    client.mutate({
+      mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
+      variables: { id: this.state.suitcase.id, item_ids: this.state.itemsToAdd },
+      fetchPolicy: "no-cache"
+    }).then(result => {
+      this.setState({ value: "", itemsToAdd: [] })
+    }).catch(err => console.log(err))
+  }
+
+  addItemsToCurrentSuitcase = () => {
+    client.mutate({
+      mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
+      variables: { id: this.state.currentSuitcaseId, item_ids: this.state.itemsToAdd }
+    }).then(result => {
+      this.setState({
+        itemsToAdd: [],
+        thisSuitcaseId: this.props.match.params.id
+      })
+    }).catch(err => console.log(err))
+  }
+
+  deleteItemFromSuitcase = (itemId) => {
+    client.mutate({
+      mutation: DELETE_ITEM_FROM_SUITCASE_MUTATION,
+      variables: { suitcase_id: this.state.suitcase.id, item_id: itemId },
+      fetchPolicy: "no-cache"
+    }).then(result => {
+      console.log(itemId)
+    }).catch(err => console.log(err))
+  }
+
+  maybeRedirect() {
+    if (this.state.shouldRedirectToProfile) {
+      return (
+        <Redirect to={"/profile/" + this.state.loggedInUserIdNumber} render={(props) => <Profile {...props} />} />
+      )
+    }
+  }
+
+  setSuitcaseId = () => {
+    localStorage.setItem("suitcase_id", this.state.suitcase.id);
+  }
+
+  onCheckboxBtnClick = (selected) => {
+    const index = this.state.itemsToAdd.indexOf(selected);
+    if (index < 0) {
+      this.state.itemsToAdd.push(selected);
+    } else {
+      this.state.itemsToAdd.splice(index, 1);
+    }
+    this.setState({ itemsToAdd: [...this.state.itemsToAdd] });
+  }
+
+  handlePageChange = page => {
+    this.setState({ currentPage: page });
+
+  };
+
+  renderPage = () => {
+    if (this.state.currentPage === "SuitcaseItems") {
+      return (
+        <div>
+          {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
+            <div className="input-group mb-3 auto-items">
+
+              <Autocomplete
+
+                items={this.setAutocompleteItems()}
+                shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
+                getItemValue={item => item.label}
+                renderItem={this.renderAutocomplete()}
+                wrapperStyle={
+                  {
+                    position: 'relative',
+                    zIndex: 9999
+                  }
+                }
+                menuStyle={
+                  {
+                    position: 'absolute',
+                    cursor: "pointer",
+                    top: "35px",
+                    left: 0,
+                    backgroundColor: "white"
+                  }
+                }
+                value={this.state.value}
+                onChange={e => this.setState({ value: e.target.value })}
+                onSelect={(value, item) => this.setState({ value: value, itemsToAdd: [...this.state.itemsToAdd, item.id] })}
+              />
+              <div className="input-group-append">
+                <button type="button" onClick={() => { this.addItemToSuitcase() }}><i className="fa fa-search"></i> Add an item</button>
+              </div>
+            </div>
+          ) : (
+              <div></div>
+            )}
+
+          <SuitcaseItems
+            suitcase={this.state.suitcase}
+            currentSuitcaseId={this.state.currentSuitcaseId}
+            itemsToAdd={this.itemsToAdd}
+            onCheckboxBtnClick={this.onCheckboxBtnClick}
+            loggedInUserIdNumber={this.state.loggedInUserIdNumber}
+            suitcaseUserId={this.state.suitcase.User.id}
+            deleteItemFromSuitcase={this.deleteItemFromSuitcase}
+            setSuitcaseId={this.setSuitcaseId}
+            addItemsToCurrentSuitcase={this.addItemsToCurrentSuitcase}
+            renderYelp={this.renderYelp}
+          />
+        </div>
+      )
+    } else {
+      return <div>La-poop</div>
+    }
   }
 
   render() {
     return (
       <div className="suitcase profile-page sidebar-collapse">
+        {this.maybeRedirect()}
         <Header
           showNewSuitcaseModal={this.showNewSuitcaseModal}
         />
@@ -237,38 +407,38 @@ export default class Suitcase extends Component {
                             <p className="nav-link" id="suitcase-user-gender">{this.state.suitcase.User.gender}</p>
                           </li>
                           <li className="nav-item ">
-                            <a className="nav-link" id="suitcase-locale" href={"/search/" + this.state.suitcase.Locale.locale_city}>{this.renderCityWithoutUnderscores()}</a>
+                            <Link className="nav-link" id="suitcase-locale" to={"/search/" + this.state.suitcase.Locale.locale_city}>{this.renderCityWithoutUnderscores()}</Link>
                           </li>
-                          <li className="nav-item">
-                            <p className="nav-link d-inline-block" id="suitcase-startDate">
-                              <Moment format="MMM DD, YYYY">
-                                {this.state.suitcase.start_date}
-                              </Moment>
-                            </p>
-                            <p className="nav-link d-inline-block" id="suitcase-endDate">
-                              <Moment format="MMM DD, YYYY">
-                                {this.state.suitcase.end_date}
-                              </Moment>
-                            </p>
-                          </li>
+
+                          {this.state.rendered ? (
+                            <li className="nav-item">
+                              <p className="nav-link d-inline-block" id="suitcase-startDate">
+                                <Moment format="MMM DD, YYYY">
+                                  {this.state.suitcase.start_date}
+                                </Moment>
+                              </p>-
+                              <p className="nav-link d-inline-block" id="suitcase-endDate">
+                                <Moment format="MMM DD, YYYY">
+                                  {this.state.suitcase.end_date}
+                                </Moment>
+                              </p>
+                            </li>
+                          ) : (
+                              <li className="nav-item">
+                                Loading . . .
+                              </li>
+                            )}
 
                           <li className="nav-item">
                             <p className="nav-link" id="suitcase-travelCategory">{this.state.suitcase.travel_category}</p>
                           </li>
 
                           <li className="nav-item">
-                            <button data-category="clothing" className="all btn btn-primary btn-sm btn-fab btn-round">
-                              <i className="fa fa-suitcase" title="Profile Page"> </i>
-                            </button>
+                            <NavTabs
+                              currentPage={this.state.currentPage}
+                              handlePageChange={this.handlePageChange}
+                            />
                           </li>
-
-                          <li className="nav-item">
-                            <button data-category="clothing" className="all btn btn-default btn-sm btn-fab btn-round">
-                              <i className="fa fa-pencil-square-o" title="Profile Page"> </i>
-                            </button>
-                          </li>
-
-                          
 
                         </ul>
                         {this.renderWunderground()}
@@ -276,187 +446,21 @@ export default class Suitcase extends Component {
                     </div>
                   </div>
 
-                  <div className="row">
-                    <div className="col-12 text-center">
-                      {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
-                        <button className="btn btn-primary" onClick={() => { this.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
-                      ) : (<div></div>
-                        )}
-                    </div>
-                  </div>
-
                 </div>
               </div>
 
-
-              <div className="input-group mb-3 auto-items">
-                <Autocomplete
-
-                  items={this.setAutocompleteItems()}
-                  shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
-                  getItemValue={item => item.label}
-                  renderItem={this.renderAutocomplete()}
-                  wrapperStyle={
-                    {
-                      position: 'relative',
-                      zIndex: 9999
-                    }
-                  }
-                  menuStyle={
-                    {
-                      position: 'absolute',
-                      cursor: "pointer",
-                      top: "35px",
-                      left: 0,
-                      backgroundColor: "white"
-                    }
-                  }
-                  value={this.state.value}
-                  onChange={e => this.setState({ value: e.target.value })}
-                  onSelect={value => this.setState({ value })}
-                />
-                <div className="input-group-append">
-                  <button type="button"><i className="fa fa-search"></i> Find an item</button>
-                </div>
-              </div>
-
-
-
-
+              {this.renderPage()}
 
               <div className="row">
-                <div className="col-12">
-                  <div id="items">
-
-                    <Category>
-                      <div className="title row">
-                        <div>
-                          <button data-category="toiletries" className="all btn btn-default btn-sm btn-fab btn-round">
-                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
-                          </button>
-                        </div>
-                        <div>
-                          <span className="badge badge-pill badge-info">Toiletries</span>
-                        </div>
-
-                      </div>
-                      <div className="row cat-row" id="toiletries">
-                        {this.state.suitcase.Items
-                          .filter(item => (item.item_category === "TOILETRIES"))
-                          .map((item, i) => (
-                            <Item
-                              key={i}
-                              itemName={item.item_name}
-                              itemCategory={item.item_category}
-                            />
-                          ))
-                        }
-                      </div>
-                    </Category>
-
-                    <Category>
-                      <div className="title row">
-                        <div>
-                          <button data-category="clothing" className="all btn btn-default btn-sm btn-fab btn-round">
-                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
-                          </button>
-                        </div>
-                        <div>
-                          <span className="badge badge-pill badge-primary">Clothing</span>
-                        </div>
-
-                      </div>
-                      <div className="row cat-row" id="clothing">
-                        {this.state.suitcase.Items
-                          .filter(item => (item.item_category === "CLOTHING"))
-                          .map((item, i) => (
-                            <Item
-                              key={i}
-                              itemName={item.item_name}
-                              itemCategory={item.item_category}
-                            />
-                          ))
-
-                        }
-                      </div>
-                    </Category>
-
-
-                    <Category>
-                      <div className="title row">
-                        <div>
-                          <button data-category="accessories" className="all btn btn-default btn-sm btn-fab btn-round">
-                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
-                          </button>
-                        </div>
-                        <div>
-                          <span className="badge badge-pill badge-info">Accessories</span>
-                        </div>
-
-                      </div>
-                      <div className="row cat-row" id="accessories">
-                        {this.state.suitcase.Items
-                          .filter(item => (item.item_category === "ACCESSORIES"))
-                          .map((item, i) => (
-                            <Item
-                              key={i}
-                              itemName={item.item_name}
-                              itemCategory={item.item_category}
-                            />
-                          ))
-
-                        }
-                      </div>
-                    </Category>
-
-
-                    <Category>
-                      <div className="title row">
-                        <div>
-                          <button data-category="electronics" className="all btn btn-default btn-sm btn-fab btn-round">
-                            <i className="fa fa-check-circle-o" title="Profile Page"> </i>
-                          </button>
-                        </div>
-                        <div>
-                          <span className="badge badge-pill badge-primary">Electronics</span>
-                        </div>
-
-                      </div>
-                      <div className="row cat-row" id="electronics">
-                        {this.state.suitcase.Items
-                          .filter(item => (item.item_category === "ELECTRONICS"))
-                          .map((item, i) => (
-                            <Item
-                              key={i}
-                              itemName={item.item_name}
-                              itemCategory={item.item_category}
-                            />
-                          ))
-
-                        }
-                      </div>
-                    </Category>
-
-                  </div>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col-6 mx-auto my-3 text-center">
-                  <button id="add-items" className="btn btn-primary btn-lg">Add Selected Items To My Suitcase</button>
-                </div>
-                <div className="col-12 text-center" id="add-more-items-holder">
-                  <a className="btn btn-lg btn-primary mt-3 mb-3 px-3 pb-2 pt-3" id="add-more-items" href="/items">
-
-                    <p>See Full List of Items To Choose From</p>
-
-                  </a>
+                <div className="col-12 text-center">
+                  {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
+                    <button className="btn btn-primary" onClick={() => { this.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
+                  ) : (<div></div>
+                    )}
                 </div>
               </div>
             </div>
-            <div className="yelp-wrapper">
-              <Yelp />
-            </div>
+
           </div>
 
         </Main>

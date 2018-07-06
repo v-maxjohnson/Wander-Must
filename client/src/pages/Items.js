@@ -5,7 +5,6 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Category from "../components/Category";
 import ListItem from "../components/ListItem";
-import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import "../styles/Items.css";
 import "../styles/Suitcase.css";
 import gql from "graphql-tag";
@@ -28,8 +27,7 @@ export default class Items extends Component {
     items: [],
     itemsToAdd: [],
     suitcaseId: localStorage.getItem("suitcase_id"),
-    loggedInUserIdNumber: localStorage.getItem("logged_in_user_id"),
-    openNewSuitcaseModal: false
+    loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
   };
 
   componentDidMount() {
@@ -46,22 +44,6 @@ export default class Items extends Component {
     }).then(result => {
       this.setState({ items: result.data.allItems });
     })
-  }
-
-  showNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: true });
-  }
-
-  resetNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: false });
-  }
-
-  renderNewSuitcaseModal = () => {
-    if (this.state.openNewSuitcaseModal) {
-      return <NewSuitcaseModal
-        resetNewSuitcaseModal={this.resetNewSuitcaseModal}
-      />
-    }
   }
 
   onCheckboxBtnClick = (selected) => {
@@ -87,7 +69,7 @@ export default class Items extends Component {
     return (
       <div className="items profile-page sidebar-collapse">
         <Header
-          showNewSuitcaseModal={this.showNewSuitcaseModal}
+          showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}
         />
         <Main>
@@ -236,14 +218,14 @@ export default class Items extends Component {
             <div className="row">
               <div className="col-6 mx-auto my-3 text-center">
                 <Link to={"/suitcase/" + this.state.suitcaseId}>
-                <button id="add-items" className="btn btn-primary btn-lg" onClick={() => { this.addItemsToSuitcase() }}>Add Selected Items To My Suitcase</button>
+                  <button id="add-items" className="btn btn-primary btn-lg" onClick={() => { this.addItemsToSuitcase() }}>Add Selected Items To My Suitcase</button>
                 </Link>
               </div>
             </div>
           </div>
 
         </Main>
-        {this.renderNewSuitcaseModal()}
+        {this.props.renderNewSuitcaseModal()}
         <Footer />
       </div >
     )

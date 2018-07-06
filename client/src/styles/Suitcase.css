@@ -23,6 +23,10 @@
     cursor: default;
 }
 
+.add-one-item {
+    cursor: pointer;
+}
+
 .items-section {
     margin-bottom: 10px;
     padding-bottom: 10px;

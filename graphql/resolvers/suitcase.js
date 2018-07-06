@@ -99,24 +99,15 @@ export default {
             .catch( err => console.log(err.message) )
     },
     updateItem: ( {suitcase_id, item_id, item_amount} ) => {
-        return db.Suitcase.findOne({
-            where: {
-                id: suitcase_id
-            },
-            include: [{ 
-                model: db.Item,
-                    include: [ db.ItemAmount ] 
-                }]
-        })
-            .then( dbSuitcase => {
-                return dbSuitcase.update( {item_amount: item_amount} ,
-                    {
-                        where: {
-                            item_id: item_id
-                        }
-                    })
-            })
-            .catch( err => console.log(err) )
+        return db.suitcase_items.update({ item_amount: item_amount },
+            {
+                where: {
+                    suitcase_id: suitcase_id,
+                    item_id: item_id
+                } 
+            }
+        )
+        .catch( err => console.log(err) )
     },
     updateNote: ( {id, note} ) => {
         return db.Suitcase.findOne({

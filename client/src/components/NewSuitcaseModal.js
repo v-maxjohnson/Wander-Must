@@ -6,6 +6,11 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import "../styles/NewSuitcaseModal.css";
 import 'react-datepicker/dist/react-datepicker.css';
 
+let locationArray = [];
+let tempArray = [];
+
+
+
 export default class NewSuitcaseModal extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +19,8 @@ export default class NewSuitcaseModal extends Component {
       startDate: moment(),
       endDate: moment(),
       startSelect: null,
-      endSelect: null
+      endSelect: null,
+      newLocale: null
     };
   }
 
@@ -22,7 +28,6 @@ export default class NewSuitcaseModal extends Component {
     this.setState({
       startDate: startDate
     });
-    console.log(startDate);
   }
 
   handleEndChange = (endDate) => {
@@ -43,6 +48,52 @@ export default class NewSuitcaseModal extends Component {
     });
   }
 
+  handleNewLocale = (place) => {
+    if (place !== "") {
+      place = place.replace(/\s+-\s+/g, ', ');
+      place = place.replace(/\s+/g, '_');
+      place = place.toLowerCase();
+
+      locationArray = place.split(",_");
+
+      // if the location is in australia, there is no delimiter between city and state except a space, so it enters as one value. split that value into 2 and create a location array that matches the other formatting 
+      if (locationArray[locationArray.length - 1] === "australia") {
+        // locationArray[2] = tempArray[2];
+        tempArray = locationArray[0].split("_");
+        locationArray[0] = tempArray[0];
+        locationArray[1] = tempArray[1];
+        locationArray[2] = "australia";
+      }
+
+      let newLocaleObject = {};
+
+      // logic to handle how different countries list their cities on google and make sure data formatting is consistent and create locale object
+      if (locationArray.length === 3) {
+        newLocaleObject = {
+          locale_city: locationArray[0],
+          locale_admin: locationArray[1],
+          locale_country: locationArray[2]
+        };
+      } else if (locationArray.length > 3) {
+        newLocaleObject = {
+          locale_city: locationArray[0],
+          locale_admin: locationArray[locationArray.length - 2],
+          locale_country: locationArray[locationArray.length - 1]
+        };
+      } else {
+        newLocaleObject = {
+          locale_city: locationArray[0],
+          locale_admin: locationArray[1],
+          locale_country: locationArray[1]
+        };
+      }
+
+      this.setState({
+        newLocale: newLocaleObject
+      });
+    }
+  }
+
   toggle = () => {
     this.props.resetNewSuitcaseModal();
   }
@@ -58,10 +109,12 @@ export default class NewSuitcaseModal extends Component {
                 <div className="md-form mb-5">
                   <i className="fa fa-map-marker prefix"></i>
                   <Autocomplete
+                    ref={r => this.autoInput = r}
                     className="form-control"
                     style={{ width: '90%' }}
                     onPlaceSelected={(place) => {
                       console.log(place);
+                      this.handleNewLocale(this.autoInput.refs.input.value)
                     }}
                     types={['(cities)']}
                   />

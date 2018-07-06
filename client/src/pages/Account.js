@@ -3,7 +3,6 @@ import { Button, CustomInput, Col, Form, FormGroup, Label, Input, FormText } fro
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import "../styles/Account.css";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
@@ -30,7 +29,6 @@ export default class Account extends Component {
       user_image: ""
     },
     rendered: false,
-    openNewSuitcaseModal: false,
     loggedInUserId: localStorage.getItem("logged_in_user_id")
   }
 
@@ -46,27 +44,11 @@ export default class Account extends Component {
 
   }
 
-  showNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: true });
-  }
-
-  resetNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: false });
-  }
-
-  renderNewSuitcaseModal = () => {
-    if (this.state.openNewSuitcaseModal) {
-      return <NewSuitcaseModal
-        resetNewSuitcaseModal={this.resetNewSuitcaseModal}
-      />
-    }
-  }
-
   render() {
     return (
       <div className="account profile-page sidebar-collapse">
         <Header
-          showNewSuitcaseModal={this.showNewSuitcaseModal}
+          showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}
         />
         <Main>
@@ -196,7 +178,7 @@ export default class Account extends Component {
 
 
         </Main>
-        {this.renderNewSuitcaseModal()}
+        {this.props.renderNewSuitcaseModal()}
         <Footer />
       </div>
     )

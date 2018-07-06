@@ -84,7 +84,7 @@ export default class Yelp extends Component {
   }
 }
 
-{/* <div className="dd-wrapper">
+/* <div className="dd-wrapper">
   <div className="dd-header">
     <div className="dd-header-title"></div>
   </div>
@@ -93,4 +93,4 @@ export default class Yelp extends Component {
     <li className="dd-list-item">10</li>
     <li className="dd-list-item">15</li>
   </ul>
-</div> */}
+</div> */

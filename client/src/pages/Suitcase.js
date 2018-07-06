@@ -7,7 +7,6 @@ import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import SuitcaseItems from "../components/SuitcaseItems";
-import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import ConfirmationModal from "../components/ConfirmationModal";
 import Yelp from "../utils/Yelp";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
@@ -90,7 +89,6 @@ export default class Suitcase extends Component {
     },
     allItems: [],
     rendered: false,
-    openNewSuitcaseModal: false,
     openConfirmationModal: false,
     thisSuitcaseId: this.props.match.params.id,
     currentSuitcaseId: localStorage.getItem("suitcase_id"),
@@ -206,22 +204,6 @@ export default class Suitcase extends Component {
       return (
         cityNoUnderscores
       )
-    }
-  }
-
-  showNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: true });
-  }
-
-  resetNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: false });
-  }
-
-  renderNewSuitcaseModal = () => {
-    if (this.state.openNewSuitcaseModal) {
-      return <NewSuitcaseModal
-        resetNewSuitcaseModal={this.resetNewSuitcaseModal}
-      />
     }
   }
 
@@ -376,7 +358,7 @@ export default class Suitcase extends Component {
       <div className="suitcase profile-page sidebar-collapse">
         {this.maybeRedirect()}
         <Header
-          showNewSuitcaseModal={this.showNewSuitcaseModal}
+          showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}
         />
         <Main>
@@ -465,7 +447,7 @@ export default class Suitcase extends Component {
           </div>
 
         </Main>
-        {this.renderNewSuitcaseModal()}
+        {this.props.renderNewSuitcaseModal()}
         {this.renderConfirmationModal()}
         <Footer />
       </div>

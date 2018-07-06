@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from "react-router-dom";
 import Profile from "./Profile";
-import NavTabs from "../components/NavTabs";
 import Moment from 'react-moment';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import SuitcaseItems from "../components/SuitcaseItems";
 import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import ConfirmationModal from "../components/ConfirmationModal";
-import Yelp from "../utils/Yelp";
+import Autocomplete from 'react-autocomplete';
+
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
 import "../styles/Suitcase.css";
 import Wunderground from "../utils/Wunderground";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
-import Autocomplete from 'react-autocomplete';
+import SuitcaseItems from '../components/SuitcaseItems';
 
 
 const GET_SUITCASE_QUERY = gql` 
@@ -74,8 +73,7 @@ mutation deleteItemFromSuitcase( $suitcase_id: ID, $item_id: ID ) {
 const client = new ApolloClient();
 
 let cityNoUnderscores = "";
-let autocompleteItems;
-let renderAutoValue;
+
 
 
 export default class Suitcase extends Component {
@@ -95,9 +93,9 @@ export default class Suitcase extends Component {
     thisSuitcaseId: this.props.match.params.id,
     currentSuitcaseId: localStorage.getItem("suitcase_id"),
     value: '',
-    currentPage: "SuitcaseItems",
     itemsToAdd: [],
-    loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
+    loggedInUserIdNumber: localStorage.getItem("logged_in_user_id"),
+    currentPage: "SuitcaseItems"
   };
 
   componentDidMount() {
@@ -122,6 +120,23 @@ export default class Suitcase extends Component {
 
   componentWillUnMount() {
     clearInterval(this.lookupInterval)
+  }
+
+  handlePageChange = page => {
+    this.setState({ currentPage: page });
+
+  };
+
+  renderPage = () => {
+    if (this.state.currentPage === "SuitcaseItems") {
+      return <SuitcaseItems 
+
+      />
+    } else {
+      return <Blog 
+      
+      />
+    }
   }
 
   getSuitcase = () => {
@@ -172,6 +187,8 @@ export default class Suitcase extends Component {
     return renderAutoValue
   }
 
+  
+
   renderWunderground = () => {
     if (this.state.rendered) {
       return (
@@ -186,19 +203,7 @@ export default class Suitcase extends Component {
     }
   }
 
-  renderYelp = () => {
-    if (this.state.rendered) {
-      return (
-        <div className="yelp-wrapper">
-          <Yelp
-            city={this.state.suitcase.Locale.locale_city}
-            admin={this.state.suitcase.Locale.locale_admin}
-            country={this.state.suitcase.Locale.locale_country}
-          />
-        </div>
-      )
-    }
-  }
+
 
   renderCityWithoutUnderscores = () => {
     if (this.state.rendered) {
@@ -307,70 +312,6 @@ export default class Suitcase extends Component {
     this.setState({ itemsToAdd: [...this.state.itemsToAdd] });
   }
 
-  handlePageChange = page => {
-    this.setState({ currentPage: page });
-
-  };
-
-  renderPage = () => {
-    if (this.state.currentPage === "SuitcaseItems") {
-      return (
-        <div>
-          {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
-            <div className="input-group mb-3 auto-items">
-
-              <Autocomplete
-
-                items={this.setAutocompleteItems()}
-                shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
-                getItemValue={item => item.label}
-                renderItem={this.renderAutocomplete()}
-                wrapperStyle={
-                  {
-                    position: 'relative',
-                    zIndex: 9999
-                  }
-                }
-                menuStyle={
-                  {
-                    position: 'absolute',
-                    cursor: "pointer",
-                    top: "35px",
-                    left: 0,
-                    backgroundColor: "white"
-                  }
-                }
-                value={this.state.value}
-                onChange={e => this.setState({ value: e.target.value })}
-                onSelect={(value, item) => this.setState({ value: value, itemsToAdd: [...this.state.itemsToAdd, item.id] })}
-              />
-              <div className="input-group-append">
-                <button type="button" onClick={() => { this.addItemToSuitcase() }}><i className="fa fa-search"></i> Add an item</button>
-              </div>
-            </div>
-          ) : (
-              <div></div>
-            )}
-
-          <SuitcaseItems
-            suitcase={this.state.suitcase}
-            currentSuitcaseId={this.state.currentSuitcaseId}
-            itemsToAdd={this.itemsToAdd}
-            onCheckboxBtnClick={this.onCheckboxBtnClick}
-            loggedInUserIdNumber={this.state.loggedInUserIdNumber}
-            suitcaseUserId={this.state.suitcase.User.id}
-            deleteItemFromSuitcase={this.deleteItemFromSuitcase}
-            setSuitcaseId={this.setSuitcaseId}
-            addItemsToCurrentSuitcase={this.addItemsToCurrentSuitcase}
-            renderYelp={this.renderYelp}
-          />
-        </div>
-      )
-    } else {
-      return <div>La-poop</div>
-    }
-  }
-
   render() {
     return (
       <div className="suitcase profile-page sidebar-collapse">
@@ -434,33 +375,42 @@ export default class Suitcase extends Component {
                           </li>
 
                           <li className="nav-item">
-                            <NavTabs
-                              currentPage={this.state.currentPage}
-                              handlePageChange={this.handlePageChange}
-                            />
+                            <button data-category="suitcase" className="all btn btn-primary btn-sm btn-fab btn-round">
+                              <i className="fa fa-suitcase" title="View this suitcase"> </i>
+                            </button>
+                          </li>
+
+                          <li className="nav-item">
+                            <button data-category="notes" className="all btn btn-default btn-sm btn-fab btn-round">
+                              <i className="fa fa-pencil-square-o" title="View notes"> </i>
+                            </button>
                           </li>
 
                         </ul>
                         {this.renderWunderground()}
                       </div>
+
+                      <NavTabs
+                        currentPage={this.state.currentPage}
+                        handlePageChange={this.handlePageChange}
+                      />
                     </div>
                   </div>
 
+
+
                 </div>
               </div>
 
-              {this.renderPage()}
 
-              <div className="row">
-                <div className="col-12 text-center">
-                  {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
-                    <button className="btn btn-primary" onClick={() => { this.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
-                  ) : (<div></div>
-                    )}
-                </div>
-              </div>
+
+          <div className="row">
+            <div className="col-12 text-center">
+              {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
+                <button className="btn btn-primary" onClick={() => { this.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
+              ) : (<div></div>
+                )}
             </div>
-
           </div>
 
         </Main>

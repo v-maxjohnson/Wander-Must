@@ -88,6 +88,7 @@ export default class Items extends Component {
       <div className="items profile-page sidebar-collapse">
         <Header
           showNewSuitcaseModal={this.showNewSuitcaseModal}
+          loggedInUserIdNumber={this.state.loggedInUserIdNumber}
         />
         <Main>
           <div className="page-header header-filter" data-parallax="true" id="background-items"></div>

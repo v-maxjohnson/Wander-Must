@@ -10,6 +10,7 @@ export default class Home extends Component {
 
   state = {
     openNewSuitcaseModal: false,
+    loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
   }
 
   showNewSuitcaseModal = () => {
@@ -33,6 +34,7 @@ export default class Home extends Component {
       <div className="home profile-page sidebar-collapse">
         <Header
           showNewSuitcaseModal={this.showNewSuitcaseModal}
+          loggedInUserIdNumber={this.state.loggedInUserIdNumber}
         />
         <Main>
           <div id="background-home" className="page-header header-filter" data-parallax="true">

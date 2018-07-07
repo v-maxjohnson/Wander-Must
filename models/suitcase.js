@@ -14,11 +14,19 @@ module.exports = function (sequelize, DataTypes) {
         travel_category: {
             type: DataTypes.ENUM,
             values: ['business', 'leisure', 'adventure', 'vacation'],
-            // restrict travel category from being entered if it no option has been selected
+            // restrict travel category from being entered if no option has been selected
             allowNull: false
         },
+        note_title: {
+            type: DataTypes.STRING,
+            // restrict note title so that it cannot be null
+            allowNull: true,
+            defalutValue: "Suitcase Note Title"
+        },
         notes: {
-            type: DataTypes.TEXT // this field is optional for the suitcase and can be null
+            type: DataTypes.TEXT,
+            allowNull: true,
+            defalutValue: "Suitcase Note"
         }
     }, {
             // disable timestamps

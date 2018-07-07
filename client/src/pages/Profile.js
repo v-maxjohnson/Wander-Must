@@ -66,6 +66,7 @@ export default class Profile extends Component {
         <Header
           showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}
+          userDataId={this.state.userData.id}
         />
         <Main>
           <div className="page-header header-filter" id="background-profile" data-parallax="true"></div>

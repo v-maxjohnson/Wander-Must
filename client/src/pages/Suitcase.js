@@ -27,6 +27,9 @@ query getSuitcase( $id: ID ){
       id
       item_name
       item_category
+      suitcase_items {
+        item_amount
+      }
     }
     Locale {
       id
@@ -99,9 +102,7 @@ export default class Suitcase extends Component {
 
   componentDidMount() {
 
-    this.lookupInterval = setInterval(() => {
-      this.getSuitcase();
-    }, 500)
+    this.getSuitcase();
 
     client.query({
       query: gql` 
@@ -117,10 +118,6 @@ export default class Suitcase extends Component {
     })
   }
 
-  componentWillUnmount() {
-    clearInterval(this.lookupInterval)
-  }
-
   getSuitcase = () => {
     client.query({
       query: GET_SUITCASE_QUERY,
@@ -128,7 +125,6 @@ export default class Suitcase extends Component {
       fetchPolicy: "network-only"
     }).then(result => {
       this.setState({ suitcase: result.data.getSuitcase, rendered: true });
-      console.log(result.data.getSuitcase);
     })
   }
 
@@ -241,6 +237,7 @@ export default class Suitcase extends Component {
       variables: { id: this.state.suitcase.id, item_ids: this.state.itemsToAdd },
       fetchPolicy: "no-cache"
     }).then(result => {
+      this.getSuitcase();
       this.setState({ value: "", itemsToAdd: [] })
     }).catch(err => console.log(err))
   }
@@ -263,6 +260,7 @@ export default class Suitcase extends Component {
       variables: { suitcase_id: this.state.suitcase.id, item_id: itemId },
       fetchPolicy: "no-cache"
     }).then(result => {
+      this.getSuitcase();
       console.log(itemId)
     }).catch(err => console.log(err))
   }
@@ -349,7 +347,7 @@ export default class Suitcase extends Component {
         </div>
       )
     } else {
-      return <div>La-poop</div>
+      return <div>Blog goes here</div>
     }
   }
 

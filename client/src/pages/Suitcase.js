@@ -7,6 +7,7 @@ import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import SuitcaseItems from "../components/SuitcaseItems";
+import Blog from "../components/Blog.js"
 import ConfirmationModal from "../components/ConfirmationModal";
 import Yelp from "../utils/Yelp";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
@@ -23,7 +24,8 @@ query getSuitcase( $id: String! ){
     id
     start_date
     end_date
-    travel_category
+    travel_category 
+    notes
     Items {
       id
       item_name
@@ -118,7 +120,7 @@ export default class Suitcase extends Component {
     })
   }
 
-  componentWillUnMount() {
+  componentWillUnmount() {
     clearInterval(this.lookupInterval)
   }
 
@@ -349,7 +351,11 @@ export default class Suitcase extends Component {
         </div>
       )
     } else {
-      return <div>La-poop</div>
+      return (
+      <Blog
+        notes={this.state.suitcase.notes}
+      />
+      )
     }
   }
 

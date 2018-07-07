@@ -14,7 +14,7 @@ export default class Yelp extends Component {
     // these are user inputs
     sort_by: "",
     price: "",
-    radiusMiles: 5,
+    radiusMiles: 15,
     yelpData: [],
     term: ""
   }

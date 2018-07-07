@@ -26,7 +26,8 @@ export default class Account extends Component {
       id: "",
       username: "",
       gender: "",
-      user_image: ""
+      user_image: "",
+      password: ""
     },
     rendered: false,
     loggedInUserId: localStorage.getItem("logged_in_user_id")
@@ -43,6 +44,36 @@ export default class Account extends Component {
     })
 
   }
+
+    // handle any changes to the input fields
+    handleInputChange = event => {
+      // Pull the name and value properties off of the event.target (the element which triggered the event)
+      const { name, value } = event.target;
+  
+      // Set the state for the appropriate input field
+      this.setState.userData({
+        [name]: value
+      });
+    };
+
+    handlePasswordChange = event => {
+      const { name, value } = event.target;
+  
+      this.setState.userData({
+        [name]: value
+      });
+    };
+  
+    // When the form is submitted, prevent the default event and alert the username and password
+    handleFormSubmit = event => {
+      event.preventDefault();
+      alert(`Email: ${this.state.email}
+          \nUsername: ${this.state.username}
+          \nPassword: "***"
+          \nGender: ${this.state.gender}
+          `);
+      this.setState.userData({ email: "", username: "", password: "", gender: "" });
+    };
 
   render() {
     return (
@@ -96,84 +127,107 @@ export default class Account extends Component {
 
                 </div>
                 <div className="form-container offset-2 col-8">
-                  <Form>
+                  <Form onSubmit={this.handleFormSubmit}>
                     <FormGroup row>
                       <Label for="exampleEmail" sm={3}>Email</Label>
-                      <Col sm={8}>
-                        <Input type="email" name="email" id="exampleEmail" placeholder={this.state.userData.email} />
+                      <Col sm={9}>
+                        <Input 
+                          type="email" 
+                          name="email" 
+                          placeholder={this.state.userData.email} 
+                          value={this.state.email}
+                          onChange={this.handleInputChange}
+                        />
                       </Col>
-                      <Col sm={1}>
+                      {/* <Col sm={1}>
                         <button data-category="email" className="all btn btn-default btn-sm btn-fab btn-round">
                           <a className="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Confirm new email.">
                           <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Confirm new email"> </i>
                           </a> 
                         </button>
-                      </Col>
+                      </Col> */}
                     </FormGroup>
                     <FormGroup row>
                       <Label for="username" sm={3}>User Name</Label>
-                      <Col sm={8}>
-                        <Input type="username" name="username" id="exampleUsername" placeholder={this.state.userData.username} />
+                      <Col sm={9}>
+                        <Input 
+                          type="username" 
+                          name="username" 
+                          placeholder={this.state.userData.username}
+                          value={this.state.username}
+                          onChange={this.handleInputChange} 
+                        />
                       </Col>
-                      <Col sm={1}>
+                      {/* <Col sm={1}>
                         <button data-category="username" className="all btn btn-default btn-sm btn-fab btn-round">
                           <a className="nav-link" data-toggle="tooltip" title="Confirm new username" data-placement="middle" data-original-title="Confirm new username.">
                             <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Confirm new username"> </i>
                           </a> 
                         </button>
-                      </Col>
+                      </Col> */}
                     </FormGroup>
                     <FormGroup row>
                       <Label for="examplePassword" sm={3}>Password</Label>
                       <Col sm={4}>
                         <Input type="password" name="password" id="examplePassword" placeholder="change password" />
                       </Col>
-                      <Col sm={4}>
-                        <Input type="password" name="password" id="examplePassword" placeholder="password confirmation" />
+                      <Col sm={5}>
+                        <Input 
+                          type="password" 
+                          name="password" 
+                          placeholder="password confirmation"
+                          value={this.state.password}
+                          onChange={this.handlePasswordChange}
+                        />
                       </Col>
-                      <Col sm={1}>
+                      {/* <Col sm={1}>
                         <button data-category="password" className="all btn btn-default btn-sm btn-fab btn-round">
                           <a className="nav-link" data-toggle="tooltip" title="Confirm new password" data-placement="middle" data-original-title="Confirm new password.">
                             <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Confirm new password"> </i>
                           </a> 
                         </button>
-                      </Col>
+                      </Col> */}
                     </FormGroup>
                     <FormGroup row>
                       <Label for="exampleCheckbox" sm={3}>Gender</Label>
-                      <Col sm={8}>
+                      <Col sm={9}>
                         <div>
-                          <CustomInput type="radio" name="customRadio" id="exampleCustomInline" label="Female" inline />
-                          <CustomInput type="radio" name="customRadio" id="exampleCustomInline2" label="Male" inline />
-                          <CustomInput type="radio" name="customRadio" id="exampleCustomInline3" label="Beyond Society's Gender Definitions" inline />
+                          <CustomInput type="radio" name="gender" label="Female" inline />
+                          <CustomInput type="radio" name="gender" label="Male" inline />
+                          <CustomInput type="radio" name="gender" label="Beyond Society's Gender Definitions" inline />
                         </div>
                       </Col>
-                      <Col sm={1}>
+                      {/* <Col sm={1}>
                         <button data-category="gender" className="all btn btn-default btn-sm btn-fab btn-round">
                           <a className="nav-link" data-toggle="tooltip" title="Confirm new gender" data-placement="middle" data-original-title="Confirm new gender.">
                           <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Confirm new gender"> </i>
                           </a> 
                         </button>
-                      </Col>
+                      </Col> */}
                     </FormGroup>
                     <FormGroup row>
                       <Label for="exampleCustomFileBrowser" sm={3}>Avatar</Label>
-                      <Col sm={8}>
-                        <CustomInput type="file" id="exampleCustomFileBrowser" name="customFile" label="What's your image?" />
+                      <Col sm={9}>
+                        <CustomInput 
+                          type="file" 
+                          id="exampleCustomFileBrowser" 
+                          name="customFile" 
+                          label="What's your image?" 
+                        />
                       </Col>
-                      <Col sm={1}>
+                      {/* <Col sm={1}>
                         <button data-category="avatar" className="all btn btn-default btn-sm btn-fab btn-round">
                           <a className="nav-link" data-toggle="tooltip" title="Confirm new image" data-placement="middle" data-original-title="Confirm new image">
                           <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Confirm new image"> </i>
                           </a> 
                         </button>
+                      </Col> */}
+                    </FormGroup>
+                    <FormGroup check row>
+                      <Col sm={{ size: 2, offset: 5 }}>
+                        <Button color="primary" onClick={this.handleFormSubmit} >Submit</Button>
                       </Col>
                     </FormGroup>
-                    {/* <FormGroup check row>
-                      <Col sm={{ size: 2, offset: 5 }}>
-                        <Button color="primary">Submit</Button>
-                      </Col>
-                    </FormGroup> */}
                   </Form>
                   <div>
                     <br/>

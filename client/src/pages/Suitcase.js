@@ -16,9 +16,8 @@ import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 import Autocomplete from 'react-autocomplete';
 
-
 const GET_SUITCASE_QUERY = gql` 
-query getSuitcase( $id: String! ){
+query getSuitcase( $id: ID ){
   getSuitcase(id: $id) {
     id
     start_date
@@ -118,7 +117,7 @@ export default class Suitcase extends Component {
     })
   }
 
-  componentWillUnMount() {
+  componentWillUnmount() {
     clearInterval(this.lookupInterval)
   }
 
@@ -129,6 +128,7 @@ export default class Suitcase extends Component {
       fetchPolicy: "network-only"
     }).then(result => {
       this.setState({ suitcase: result.data.getSuitcase, rendered: true });
+      console.log(result.data.getSuitcase);
     })
   }
 

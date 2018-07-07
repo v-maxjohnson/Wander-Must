@@ -99,14 +99,28 @@ export default class Account extends Component {
                   <Form>
                     <FormGroup row>
                       <Label for="exampleEmail" sm={3}>Email</Label>
-                      <Col sm={9}>
+                      <Col sm={8}>
                         <Input type="email" name="email" id="exampleEmail" placeholder={this.state.userData.email} />
+                      </Col>
+                      <Col sm={1}>
+                        <button data-category="toiletries" className="all btn btn-default btn-sm btn-fab btn-round">
+                          <a className="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Confirm new email.">
+                          <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Confirm new email"> </i>
+                          </a> 
+                        </button>
                       </Col>
                     </FormGroup>
                     <FormGroup row>
                       <Label for="username" sm={3}>User Name</Label>
-                      <Col sm={9}>
+                      <Col sm={8}>
                         <Input type="username" name="username" id="exampleUsername" placeholder={this.state.userData.username} />
+                      </Col>
+                      <Col sm={1}>
+                        <button data-category="username" className="all btn btn-default btn-sm btn-fab btn-round">
+                          <a className="nav-link" data-toggle="tooltip" title="Confirm new username" data-placement="middle" data-original-title="Confirm new username.">
+                            <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Confirm new username"> </i>
+                          </a> 
+                        </button>
                       </Col>
                     </FormGroup>
                     <FormGroup row>
@@ -114,31 +128,52 @@ export default class Account extends Component {
                       <Col sm={4}>
                         <Input type="password" name="password" id="examplePassword" placeholder="change password" />
                       </Col>
-                      <Col sm={5}>
+                      <Col sm={4}>
                         <Input type="password" name="password" id="examplePassword" placeholder="password confirmation" />
+                      </Col>
+                      <Col sm={1}>
+                        <button data-category="password" className="all btn btn-default btn-sm btn-fab btn-round">
+                          <a className="nav-link" data-toggle="tooltip" title="Confirm new password" data-placement="middle" data-original-title="Confirm new password.">
+                            <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Confirm new password"> </i>
+                          </a> 
+                        </button>
                       </Col>
                     </FormGroup>
                     <FormGroup row>
                       <Label for="exampleCheckbox" sm={3}>Gender</Label>
-                      <Col sm={9}>
+                      <Col sm={8}>
                         <div>
                           <CustomInput type="radio" name="customRadio" id="exampleCustomInline" label="Female" inline />
                           <CustomInput type="radio" name="customRadio" id="exampleCustomInline2" label="Male" inline />
                           <CustomInput type="radio" name="customRadio" id="exampleCustomInline3" label="Beyond Society's Gender Definitions" inline />
                         </div>
                       </Col>
+                      <Col sm={1}>
+                        <button data-category="gender" className="all btn btn-default btn-sm btn-fab btn-round">
+                          <a className="nav-link" data-toggle="tooltip" title="Confirm new gender" data-placement="middle" data-original-title="Confirm new gender.">
+                          <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Confirm new gender"> </i>
+                          </a> 
+                        </button>
+                      </Col>
                     </FormGroup>
                     <FormGroup row>
                       <Label for="exampleCustomFileBrowser" sm={3}>Avatar</Label>
-                      <Col sm={9}>
-                        <CustomInput type="file" id="exampleCustomFileBrowser" name="customFile" label="Show us who you are w/ an image." />
+                      <Col sm={8}>
+                        <CustomInput type="file" id="exampleCustomFileBrowser" name="customFile" label="What's your image?" />
+                      </Col>
+                      <Col sm={1}>
+                        <button data-category="avatar" className="all btn btn-default btn-sm btn-fab btn-round">
+                          <a className="nav-link" data-toggle="tooltip" title="Confirm new image" data-placement="middle" data-original-title="Confirm new image">
+                          <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Confirm new image"> </i>
+                          </a> 
+                        </button>
                       </Col>
                     </FormGroup>
-                    <FormGroup check row>
+                    {/* <FormGroup check row>
                       <Col sm={{ size: 2, offset: 5 }}>
                         <Button color="primary">Submit</Button>
                       </Col>
-                    </FormGroup>
+                    </FormGroup> */}
                   </Form>
                   <div>
                     <br/>

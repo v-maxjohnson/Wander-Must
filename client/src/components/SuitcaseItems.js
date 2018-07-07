@@ -15,7 +15,9 @@ export default class SuitcaseItems extends Component {
                 <div className="title row">
                   <div>
                     <button data-category="toiletries" className="all btn btn-default btn-sm btn-fab btn-round">
-                      <i className="fa fa-check-circle-o" title="Select all toiletries"> </i>
+                      <a className="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Add new suitcase">
+                        <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Select all toiletries"> </i>
+                      </a> 
                     </button>
                   </div>
                   <div>
@@ -46,8 +48,10 @@ export default class SuitcaseItems extends Component {
               <Category>
                 <div className="title row">
                   <div>
-                    <button data-category="clothing" className="all btn btn-default btn-sm btn-fab btn-round">
-                      <i className="fa fa-check-circle-o" title="Select all clothing"> </i>
+                    <button data-category="toiletries" className="all btn btn-default btn-sm btn-fab btn-round">
+                      <a className="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Add new suitcase">
+                        <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Select all toiletries"> </i>
+                      </a> 
                     </button>
                   </div>
                   <div>
@@ -80,8 +84,10 @@ export default class SuitcaseItems extends Component {
               <Category>
                 <div className="title row">
                   <div>
-                    <button data-category="accessories" className="all btn btn-default btn-sm btn-fab btn-round">
-                      <i className="fa fa-check-circle-o" title="Select all accessories"> </i>
+                    <button data-category="toiletries" className="all btn btn-default btn-sm btn-fab btn-round">
+                      <a className="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Add new suitcase">
+                        <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Select all toiletries"> </i>
+                      </a> 
                     </button>
                   </div>
                   <div>
@@ -114,8 +120,10 @@ export default class SuitcaseItems extends Component {
               <Category>
                 <div className="title row">
                   <div>
-                    <button data-category="electronics" className="all btn btn-default btn-sm btn-fab btn-round">
-                      <i className="fa fa-check-circle-o" title="Select all electronics"> </i>
+                    <button data-category="toiletries" className="all btn btn-default btn-sm btn-fab btn-round">
+                      <a className="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Add new suitcase">
+                        <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Select all toiletries"> </i>
+                      </a> 
                     </button>
                   </div>
                   <div>

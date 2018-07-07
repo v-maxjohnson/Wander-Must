@@ -9,7 +9,7 @@ import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 
 const GET_USER_QUERY = gql`
-query getUser( $id: String! ){
+query getUser( $id: ID ){
   getUser(id: $id) {
     id
     username

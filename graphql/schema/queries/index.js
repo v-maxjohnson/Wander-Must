@@ -2,7 +2,7 @@ import {
     GraphQLObjectType,
     GraphQLList,
     GraphQLID,
-    GraphQLString,
+    GraphQLString
 } from 'graphql';
 
 import userType from '../types/user';
@@ -53,7 +53,7 @@ export default new GraphQLObjectType({
             type: userType,
             args: {
                 id: {
-                    type: GraphQLString
+                    type: GraphQLID
                 }
             },
             resolve : ( root, args ) => resolvers.user.findById( args )

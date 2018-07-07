@@ -75,11 +75,14 @@ export default class Yelp extends Component {
 
   render() {
     return (
-      <YelpCarousel
+      <div className="yelp-wrapper">
+        
+        <YelpCarousel
 
-        yelpResults={this.state.yelpData}
+          yelpResults={this.state.yelpData}
 
-      />
+        />
+      </div>
     )
   }
 }

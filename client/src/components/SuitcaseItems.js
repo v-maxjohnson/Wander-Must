@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Item from "../components/Item";
 import Category from "../components/Category";
 
+
 export default class SuitcaseItems extends Component {
   render() {
     return (
@@ -170,6 +171,8 @@ export default class SuitcaseItems extends Component {
             )}
         </div>
         {this.props.renderYelp()}
+        
+
       </div>
     )
   }

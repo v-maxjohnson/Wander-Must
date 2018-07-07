@@ -2,8 +2,7 @@ import {
     GraphQLObjectType,
     GraphQLString,
     GraphQLID,
-    GraphQLEnumType,
-    GraphQLInt
+    GraphQLEnumType
   } from 'graphql';
 
 export const itemCategory = new GraphQLEnumType({
@@ -35,9 +34,6 @@ export default new GraphQLObjectType({
         },
         item_category: {
             type: itemCategory
-        },
-        item_amount: {
-            type: GraphQLInt
         }
     })
 });

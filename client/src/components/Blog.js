@@ -25,8 +25,23 @@ export default class Blog extends Component {
     render() {
       return (
         <div className="blog-wrapper">
-            <h3> Title </h3>
-            <p> hi   {this.props.notes} </p>
+        <Form onSubmit={this.setTerm}>
+            <FormGroup row>
+                <Col sm={1}></Col>
+                <Label for="notes_title" sm={4}>Title</Label>
+                <Col sm={5}>
+                <Input type="text" name="note_title" placeholder="THE ENDLESS SUMMER" value={this.state.term} onChange={this.handleTermChange}/>
+                </Col>
+                <Col sm={2}>
+                </Col>
+            </FormGroup>
+                <FormGroup row>
+                <Label for="exampleEmail" sm={3}>Body</Label>
+                <Col sm={9}>
+                <Input type="textarea" name="notes" placeholder="Please tell us about your trip!" />
+                </Col>
+            </FormGroup>
+        </Form> 
 
         </div>
       )

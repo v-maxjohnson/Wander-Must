@@ -10,6 +10,15 @@ import {
 import { Redirect, Link } from "react-router-dom";
 import Login from "./Login";
 import "../styles/Navbar.css";
+import gql from "graphql-tag";
+import ApolloClient from 'apollo-boost';
+import Autocomplete from 'react-autocomplete';
+
+const client = new ApolloClient();
+
+let autocompleteLocales;
+let renderAutoValue;
+let localeNoUnderscores = "";
 
 export default class Navibar extends Component {
   constructor(props) {
@@ -18,7 +27,9 @@ export default class Navibar extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
-      loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
+      loggedInUserIdNumber: localStorage.getItem("logged_in_user_id"),
+      allLocales: [],
+      value: ''
     };
   }
 
@@ -163,11 +174,11 @@ export default class Navibar extends Component {
       )
     } else {
       return (
-      <Nav className="navbar-nav ml-auto" navbar>
-      <NavItem className="nav-item">
-                  <Login />
-                </NavItem>
-      </Nav> )
+        <Nav className="navbar-nav ml-auto" navbar>
+          <NavItem className="nav-item">
+            <Login />
+          </NavItem>
+        </Nav>)
     }
   }
 
@@ -201,7 +212,7 @@ export default class Navibar extends Component {
             <NavbarBrand className="navbar-brand wandermust-font">Wander-Must</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
-                {this.renderNavItems()}
+              {this.renderNavItems()}
             </Collapse>
 
           </div>

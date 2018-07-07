@@ -4,6 +4,7 @@ import React, {
 import YelpCarousel from '../components/YelpCarousel';
 import axios from "axios";
 import "../styles/Yelp.css";
+import { Button, Col, Form, FormGroup, Label, Input } from 'reactstrap';
 
 let location;
 
@@ -14,7 +15,8 @@ export default class Yelp extends Component {
     sort_by: "",
     price: "",
     radiusMiles: 5,
-    yelpData: []
+    yelpData: [],
+    term: ""
   }
 
   componentDidMount() {
@@ -38,8 +40,7 @@ export default class Yelp extends Component {
 
 
     let params = [{
-      term: 'restaurants',
-      //   location: this.props.city + "+" + this.props.country,
+      term: this.state.term || 'restaurants',
       location: location,
       radius: radiusMeters,
       sort_by: 'rating',
@@ -55,7 +56,7 @@ export default class Yelp extends Component {
         let output = [];
         if (response.data.businesses) {
           response.data.businesses.forEach(item => {
-            if (output.length < 10 && !item.is_closed) {
+            if (output.length < 15 && !item.is_closed) {
               output.push({
                 name: item.name,
                 rating: item.rating,
@@ -73,27 +74,47 @@ export default class Yelp extends Component {
       });
   }
 
+  handleTermChange = (event) => {
+    this.setState({
+      term: event.target.value
+    });
+  };
+  
+
+  setTerm = (event) =>{
+    event.preventDefault();
+    
+    this.makeYelpCall();
+  }
+
   render() {
     return (
       <div className="yelp-wrapper">
-        
+      
         <YelpCarousel
 
           yelpResults={this.state.yelpData}
 
         />
+        <br/>
+        <Form onSubmit={this.setTerm}>
+          <FormGroup row>
+            <Col sm={1}></Col>
+            <Label for="exampleEmail" sm={4}>What are you looking for?</Label>
+            <Col sm={5}>
+              <Input type="text" name="term" placeholder="ex. Restaurants/Activities/Mexican Food" value={this.state.term} onChange={this.handleTermChange}/>
+            </Col>
+            <Col sm={2}>
+              <button data-category="YelpInput" className="all btn btn-default btn-sm btn-fab btn-round" type="submit">
+                {/* <a className="nav-link" data-toggle="tooltip" title="Yelp Search" data-placement="middle" data-original-title="Confirm new yelp search"> */}
+                  <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Confirm new yelp search"> </i>
+                 
+              </button>
+            </Col>
+          </FormGroup>
+        </Form>
       </div>
     )
   }
 }
 
-/* <div className="dd-wrapper">
-  <div className="dd-header">
-    <div className="dd-header-title"></div>
-  </div>
-  <ul className="dd-list">
-    <li className="dd-list-item">5</li>
-    <li className="dd-list-item">10</li>
-    <li className="dd-list-item">15</li>
-  </ul>
-</div> */

@@ -103,7 +103,7 @@ export default class Account extends Component {
                         <Input type="email" name="email" id="exampleEmail" placeholder={this.state.userData.email} />
                       </Col>
                       <Col sm={1}>
-                        <button data-category="toiletries" className="all btn btn-default btn-sm btn-fab btn-round">
+                        <button data-category="email" className="all btn btn-default btn-sm btn-fab btn-round">
                           <a className="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Confirm new email.">
                           <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Confirm new email"> </i>
                           </a> 

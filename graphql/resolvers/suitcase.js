@@ -56,7 +56,7 @@ export default {
             where: {
                 id: locale_id
             },
-            include: [db.Suitcase]
+            include: [ db.Suitcase ]
         })
             .then( locale => {
                 if ( locale ) {
@@ -85,7 +85,7 @@ export default {
             where: {
                 id: id
             },
-            include: [db.Item]
+            include: [ db.Item ]
         })
             .then( dbSuitcase => {
                 let existingItems = dbSuitcase.Items.map(i => i.id);
@@ -109,13 +109,13 @@ export default {
         )
         .catch( err => console.log(err) )
     },
-    updateNote: ( {id, note} ) => {
+    updateNote: ( {id, note_title, note } ) => {
         return db.Suitcase.findOne({
             where: {
                 id: id
             }
         })
-            .then( suitcase => suitcase.update( {notes: note} ) )
+            .then( suitcase => suitcase.update( {notes: note}, {note_title: note_title} ) )
             .catch( err => console.log(err) )
     },
     deleteItem: ( {suitcase_id, item_id} ) => {
@@ -126,7 +126,7 @@ export default {
             include: [ db.Item ]
         })
             .then( suitcase => suitcase.removeItem( item_id ) )
-            .catch( err => console.log(err.message) ) // this mutation is working, it just doesn't return anything at the moment
+            .catch( err => console.log(err.message) )
     },
     
 

@@ -8,7 +8,7 @@ import {
 
 import suitcaseType from './../types/suitcase';
 import localeType from './../types/locale';
-import itemType from './../types/item';
+// import itemType from './../types/item';
 import userType from './../types/user';
 
 import resolvers from './../../resolvers';
@@ -114,6 +114,9 @@ export default new GraphQLObjectType ({
                 id: {
                     type: GraphQLID
                 },
+                note_title: {
+                    type: GraphQLString
+                },
                 note: {
                     type: GraphQLString
                 }
@@ -203,6 +206,3 @@ export default new GraphQLObjectType ({
         },
     })
 });
-
-
-///////// PUT ALL MUTATIONS IN THIS FILE INSTEAD OF SEPARATING THEM ALL

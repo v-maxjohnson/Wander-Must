@@ -115,7 +115,7 @@ export default {
                 id: id
             }
         })
-            .then( suitcase => suitcase.update( {notes: note}, {note_title: note_title} ) )
+            .then( suitcase => suitcase.update( {notes: note, note_title: note_title} ) )
             .catch( err => console.log(err) )
     },
     deleteItem: ( {suitcase_id, item_id} ) => {

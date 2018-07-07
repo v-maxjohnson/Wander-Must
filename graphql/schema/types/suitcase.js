@@ -43,6 +43,9 @@ export default new GraphQLObjectType({
         travel_category: {
             type: travelCategory
         },
+        note_title: {
+            type: GraphQLString
+        },
         notes: {
             type: GraphQLString
         },

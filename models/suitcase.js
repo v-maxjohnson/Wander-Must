@@ -18,14 +18,14 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false
         },
         note_title: {
-            type: DataTypes.TEXT,
+            type: DataTypes.STRING,
             // restrict note title so that it cannot be null
-            allowNull: false,
+            allowNull: true,
             defalutValue: "Suitcase Note Title"
         },
         notes: {
             type: DataTypes.TEXT,
-            allowNull: false,
+            allowNull: true,
             defalutValue: "Suitcase Note"
         }
     }, {

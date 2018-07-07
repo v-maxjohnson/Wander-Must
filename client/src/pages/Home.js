@@ -3,37 +3,19 @@ import { Link } from "react-router-dom";
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import "../styles/Home.css";
 
 export default class Home extends Component {
 
   state = {
-    openNewSuitcaseModal: false,
     loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
-  }
-
-  showNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: true });
-  }
-
-  resetNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: false });
-  }
-
-  renderNewSuitcaseModal = () => {
-    if (this.state.openNewSuitcaseModal) {
-      return <NewSuitcaseModal
-        resetNewSuitcaseModal={this.resetNewSuitcaseModal}
-      />
-    }
   }
 
   render() {
     return (
       <div className="home profile-page sidebar-collapse">
         <Header
-          showNewSuitcaseModal={this.showNewSuitcaseModal}
+          showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}
         />
         <Main>
@@ -166,7 +148,7 @@ export default class Home extends Component {
             </div>
           </div>
         </Main>
-        {this.renderNewSuitcaseModal()}
+        {this.props.renderNewSuitcaseModal()}
         <Footer />
       </div>
     )

@@ -3,7 +3,6 @@ import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import QuickViewModal from '../components/QuickViewModal';
-import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import Yelp from "../utils/Yelp";
 import SearchSuitcaseCard from "../components/SearchSuitcaseCard";
 import "../styles/Search.css";
@@ -70,7 +69,6 @@ export default class Search extends Component {
     ],
     city: this.props.match.params.city,
     openQuickViewModal: false,
-    openNewSuitcaseModal: false,
     rendered: false,
     index: 0,
     itemsToAdd: [],
@@ -123,22 +121,6 @@ export default class Search extends Component {
     this.setState({ index: idx })
   }
 
-  showNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: true });
-  }
-
-  resetNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: false });
-  }
-
-  renderNewSuitcaseModal = () => {
-    if (this.state.openNewSuitcaseModal) {
-      return <NewSuitcaseModal
-        resetNewSuitcaseModal={this.resetNewSuitcaseModal}
-      />
-    }
-  }
-
   onCheckboxBtnClick = (selected) => {
     const index = this.state.itemsToAdd.indexOf(selected);
     if (index < 0) {
@@ -176,7 +158,7 @@ export default class Search extends Component {
     return (
       <div className="search profile-page sidebar-collapse">
         <Header
-          showNewSuitcaseModal={this.showNewSuitcaseModal}
+          showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}
         />
         <Main>
@@ -225,7 +207,7 @@ export default class Search extends Component {
           </div>
         </Main>
         {this.renderQuickViewModal()}
-        {this.renderNewSuitcaseModal()}
+        {this.props.renderNewSuitcaseModal()}
         <Footer />
 
       </div>

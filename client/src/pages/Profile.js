@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import SuitcaseCard from "../components/SuitcaseCard";
 import SuitcaseFrame from "../images/suitcaseFrame.png";
 import "../styles/Profile.css";
@@ -43,7 +42,6 @@ export default class Profile extends Component {
       user_image: "",
       Suitcases: []
     },
-    openNewSuitcaseModal: false,
     rendered: false,
     userId: this.props.match.params.id,
     loggedInUserId: localStorage.getItem("logged_in_user_id")
@@ -62,27 +60,11 @@ export default class Profile extends Component {
 
   }
 
-  showNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: true });
-  }
-
-  resetNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: false });
-  }
-
-  renderNewSuitcaseModal = () => {
-    if (this.state.openNewSuitcaseModal) {
-      return <NewSuitcaseModal
-        resetNewSuitcaseModal={this.resetNewSuitcaseModal}
-      />
-    }
-  }
-
   render() {
     return (
       <div className="profile profile-page sidebar-collapse">
         <Header
-          showNewSuitcaseModal={this.showNewSuitcaseModal}
+          showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}
         />
         <Main>
@@ -119,7 +101,7 @@ export default class Profile extends Component {
                   ))}
 
                   <div className="container col-sm-12 col-md-6 col-lg-4">
-                    <div className="suitcaseCard suitcase-input" id="blank-suitcase" onClick={() => this.showNewSuitcaseModal()}>
+                    <div className="suitcaseCard suitcase-input" id="blank-suitcase" onClick={() => this.props.showNewSuitcaseModal()}>
                       <div className="card add-card text-white no-shadow">
                         <div className="suitcaseWrapper card-img">
                           <img className="suitcaseFrame img-responsive" src={SuitcaseFrame} alt="Suitcase Frame" />
@@ -138,7 +120,7 @@ export default class Profile extends Component {
           </div>
 
         </Main>
-        {this.renderNewSuitcaseModal()}
+        {this.props.renderNewSuitcaseModal()}
         <Footer />
       </div>
     )

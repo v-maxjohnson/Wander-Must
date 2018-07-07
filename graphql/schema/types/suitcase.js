@@ -9,6 +9,7 @@ import {
 import localeType from './locale';
 import itemType from './item';
 import userType from './user';
+import suitcaseItemsType from './suitcase_items';
 
 export const travelCategory = new GraphQLEnumType({
     name: 'TravelCategoryEnum',
@@ -57,6 +58,9 @@ export default new GraphQLObjectType({
         },
         Items : {
             type: GraphQLList(itemType)
+        },
+        suitcase_items : {
+            type: suitcaseItemsType
         }
     })
 });

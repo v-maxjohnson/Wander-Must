@@ -63,6 +63,14 @@ export default class Account extends Component {
         [name]: value
       });
     };
+
+    handleGenderChange = event => {
+      const { name, newvalue } = event.target;
+  
+      this.setState.userData({
+        [name]: newvalue
+      });
+    };
   
     // When the form is submitted, prevent the default event and alert the username and password
     handleFormSubmit = event => {
@@ -139,13 +147,7 @@ export default class Account extends Component {
                           onChange={this.handleInputChange}
                         />
                       </Col>
-                      {/* <Col sm={1}>
-                        <button data-category="email" className="all btn btn-default btn-sm btn-fab btn-round">
-                          <a className="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Confirm new email.">
-                          <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Confirm new email"> </i>
-                          </a> 
-                        </button>
-                      </Col> */}
+
                     </FormGroup>
                     <FormGroup row>
                       <Label for="username" sm={3}>User Name</Label>
@@ -158,18 +160,17 @@ export default class Account extends Component {
                           onChange={this.handleInputChange} 
                         />
                       </Col>
-                      {/* <Col sm={1}>
-                        <button data-category="username" className="all btn btn-default btn-sm btn-fab btn-round">
-                          <a className="nav-link" data-toggle="tooltip" title="Confirm new username" data-placement="middle" data-original-title="Confirm new username.">
-                            <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Confirm new username"> </i>
-                          </a> 
-                        </button>
-                      </Col> */}
+
                     </FormGroup>
                     <FormGroup row>
                       <Label for="examplePassword" sm={3}>Password</Label>
                       <Col sm={4}>
-                        <Input type="password" name="password" id="examplePassword" placeholder="change password" />
+                        <Input 
+                          type="password" 
+                          name="password" 
+                          id="examplePassword" 
+                          placeholder="change password" 
+                        />
                       </Col>
                       <Col sm={5}>
                         <Input 
@@ -180,30 +181,18 @@ export default class Account extends Component {
                           onChange={this.handlePasswordChange}
                         />
                       </Col>
-                      {/* <Col sm={1}>
-                        <button data-category="password" className="all btn btn-default btn-sm btn-fab btn-round">
-                          <a className="nav-link" data-toggle="tooltip" title="Confirm new password" data-placement="middle" data-original-title="Confirm new password.">
-                            <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Confirm new password"> </i>
-                          </a> 
-                        </button>
-                      </Col> */}
+
                     </FormGroup>
                     <FormGroup row>
                       <Label for="exampleCheckbox" sm={3}>Gender</Label>
                       <Col sm={9}>
                         <div>
-                          <CustomInput type="radio" name="gender" label="Female" inline />
-                          <CustomInput type="radio" name="gender" label="Male" inline />
-                          <CustomInput type="radio" name="gender" label="Beyond Society's Gender Definitions" inline />
+                          <CustomInput type="radio" id="female" name="gender" label="Female" inline />
+                          <CustomInput type="radio" id="male" name="gender" label="Male" inline />
+                          <CustomInput type="radio" id="noGender" name="gender" label="Beyond Society's Gender Definitions" inline />
                         </div>
                       </Col>
-                      {/* <Col sm={1}>
-                        <button data-category="gender" className="all btn btn-default btn-sm btn-fab btn-round">
-                          <a className="nav-link" data-toggle="tooltip" title="Confirm new gender" data-placement="middle" data-original-title="Confirm new gender.">
-                          <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Confirm new gender"> </i>
-                          </a> 
-                        </button>
-                      </Col> */}
+
                     </FormGroup>
                     <FormGroup row>
                       <Label for="exampleCustomFileBrowser" sm={3}>Avatar</Label>
@@ -215,13 +204,7 @@ export default class Account extends Component {
                           label="What's your image?" 
                         />
                       </Col>
-                      {/* <Col sm={1}>
-                        <button data-category="avatar" className="all btn btn-default btn-sm btn-fab btn-round">
-                          <a className="nav-link" data-toggle="tooltip" title="Confirm new image" data-placement="middle" data-original-title="Confirm new image">
-                          <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Confirm new image"> </i>
-                          </a> 
-                        </button>
-                      </Col> */}
+
                     </FormGroup>
                     <FormGroup check row>
                       <Col sm={{ size: 2, offset: 5 }}>
@@ -239,15 +222,15 @@ export default class Account extends Component {
                   <Form>
 
                     <FormGroup row>
-                      <Label for="exampleEmail" sm={3}>Delete Account?</Label>
+                      <Label for="deleteAccount" sm={3}>Delete Account?</Label>
                       <Col sm={9}>
-                        <Input type="textarea" name="text" id="exampleEmail" placeholder="Please tell us why you want to leave us! We love you... we're codependent, and we want to fix it" />
+                        <Input type="textarea" name="text" id="deletionReason" placeholder="Please tell us why you want to leave us! We love you... we're codependent, and we want to fix it" />
                       </Col>
                     </FormGroup>
                     <FormGroup row>
-                      <Label for="exampleEmail" sm={3}>Type "Bye!"</Label>
+                      <Label for="deleteConfirmation" sm={3}>Type "Bye!"</Label>
                       <Col sm={9}>
-                        <Input type="text" name="text" id="exampleEmail" placeholder="Bye!" />
+                        <Input type="text" name="text" id="deleteConfirmation" placeholder="Bye!" />
                       </Col>
                     </FormGroup>
                     <FormGroup check row>

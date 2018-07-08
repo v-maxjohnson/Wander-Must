@@ -6,8 +6,13 @@ export default class NavTabs extends Component {
 
       <ul>
         <li className="nav-item d-inline-block">
+<<<<<<< HEAD
           <a onClick={() => this.props.handlePageChange("SuitcaseItems")} className="nav-link"
           className={this.props.currentPage === "SuitcaseItems" ? "active nav-link" : "nav-link"}>
+=======
+          <a onClick={() => this.props.handlePageChange("SuitcaseItems")}
+            className={this.props.currentPage === "SuitcaseItems" ? "active nav-link" : "nav-link"}>
+>>>>>>> eabc24c6cedbada00d9f95e7064c0f34528c674a
             <button className="all btn btn-primary btn-sm btn-fab btn-round">
               <i className="fa fa-suitcase" title="Contact"> </i>
             </button>
@@ -15,8 +20,13 @@ export default class NavTabs extends Component {
         </li>
 
         <li className="nav-item d-inline-block">
+<<<<<<< HEAD
           <a onClick={() => this.props.handlePageChange("Blog")} className="nav-link"
           className={this.props.currentPage === "Blog" ? "active nav-link" : "nav-link"}>
+=======
+          <a onClick={() => this.props.handlePageChange("Blog")}
+            className={this.props.currentPage === "Blog" ? "active nav-link" : "nav-link"}>
+>>>>>>> eabc24c6cedbada00d9f95e7064c0f34528c674a
             <button className="all btn btn-warning btn-sm btn-fab btn-round">
               <i className="fa fa-pencil-square-o" title="Blog"> </i>
             </button>

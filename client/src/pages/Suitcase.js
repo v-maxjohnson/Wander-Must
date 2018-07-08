@@ -17,9 +17,8 @@ import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 import Autocomplete from 'react-autocomplete';
 
-
 const GET_SUITCASE_QUERY = gql` 
-query getSuitcase( $id: String! ){
+query getSuitcase( $id: ID ){
   getSuitcase(id: $id) {
     id
     start_date
@@ -30,6 +29,9 @@ query getSuitcase( $id: String! ){
       id
       item_name
       item_category
+      suitcase_items {
+        item_amount
+      }
     }
     Locale {
       id
@@ -102,9 +104,7 @@ export default class Suitcase extends Component {
 
   componentDidMount() {
 
-    this.lookupInterval = setInterval(() => {
-      this.getSuitcase();
-    }, 500)
+    this.getSuitcase();
 
     client.query({
       query: gql` 
@@ -120,10 +120,13 @@ export default class Suitcase extends Component {
     })
   }
 
+<<<<<<< HEAD
   componentWillUnmount() {
     clearInterval(this.lookupInterval)
   }
 
+=======
+>>>>>>> eabc24c6cedbada00d9f95e7064c0f34528c674a
   getSuitcase = () => {
     client.query({
       query: GET_SUITCASE_QUERY,
@@ -243,6 +246,7 @@ export default class Suitcase extends Component {
       variables: { id: this.state.suitcase.id, item_ids: this.state.itemsToAdd },
       fetchPolicy: "no-cache"
     }).then(result => {
+      this.getSuitcase();
       this.setState({ value: "", itemsToAdd: [] })
     }).catch(err => console.log(err))
   }
@@ -265,6 +269,7 @@ export default class Suitcase extends Component {
       variables: { suitcase_id: this.state.suitcase.id, item_id: itemId },
       fetchPolicy: "no-cache"
     }).then(result => {
+      this.getSuitcase();
       console.log(itemId)
     }).catch(err => console.log(err))
   }
@@ -351,11 +356,15 @@ export default class Suitcase extends Component {
         </div>
       )
     } else {
+<<<<<<< HEAD
       return (
       <Blog
         notes={this.state.suitcase.notes}
       />
       )
+=======
+      return <div>Blog goes here</div>
+>>>>>>> eabc24c6cedbada00d9f95e7064c0f34528c674a
     }
   }
 

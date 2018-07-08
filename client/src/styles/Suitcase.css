@@ -174,3 +174,12 @@
     left: 0;
     right: 0;
 }
+
+.number-toggle {
+    border: none!important;
+}
+.react-numeric-input input,
+.react-numeric-input input b,
+.react-numeric-input input b i {
+    background: transparent!important;
+}

@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import "../styles/Account.css";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
+import axios from 'axios';
 
 const GET_USER_QUERY = gql`
 query getUser( $id: String! ){
@@ -15,6 +16,14 @@ query getUser( $id: String! ){
     gender
     user_image
     email
+  }
+}`;
+
+const UPDATE_USER_IMAGE_MUTATION = gql`
+mutation updateUserImage( $id: ID, $user_image: String! ){
+  updateUserImage( id: $id, user_image: $secure_url){
+    id
+    user_image
   }
 }`;
 
@@ -43,6 +52,31 @@ export default class Account extends Component {
       console.log(this.state.userData);
     })
 
+  }
+
+  handleImageChange = event => {
+    let file = event.target.files[0];
+    let formData = new FormData();
+    formData.append("file", file);
+
+    if(this.state.rendered) {
+      axios({
+        method: "POST",
+        url: "https://api.cloudinary.com/v1_1/wandermust/upload/user_image",
+        data: formData 
+      })
+      .then( res => {
+        const secure_url = res.data.secure_url;
+        
+        client.mutate({
+          mutation: UPDATE_USER_IMAGE_MUTATION,
+          variables: { id: this.state.userData.id, user_image: secure_url },
+          fetchPolicy: 'no-cache'
+        })
+          .then( this.getUser(this.state.userData.id) )
+          .catch( err => console.log(err) )
+      })
+    }
   }
 
     // handle any changes to the input fields
@@ -202,6 +236,7 @@ export default class Account extends Component {
                           id="exampleCustomFileBrowser" 
                           name="customFile" 
                           label="What's your image?" 
+                          onChange={this.handleImageChange}
                         />
                       </Col>
 

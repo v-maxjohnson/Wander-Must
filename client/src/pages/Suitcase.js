@@ -24,6 +24,7 @@ query getSuitcase( $id: ID ){
     start_date
     end_date
     travel_category 
+    note_title
     notes
     Items {
       id
@@ -120,13 +121,6 @@ export default class Suitcase extends Component {
     })
   }
 
-<<<<<<< HEAD
-  componentWillUnmount() {
-    clearInterval(this.lookupInterval)
-  }
-
-=======
->>>>>>> eabc24c6cedbada00d9f95e7064c0f34528c674a
   getSuitcase = () => {
     client.query({
       query: GET_SUITCASE_QUERY,
@@ -356,15 +350,14 @@ export default class Suitcase extends Component {
         </div>
       )
     } else {
-<<<<<<< HEAD
       return (
-      <Blog
-        notes={this.state.suitcase.notes}
-      />
+        <div className="blog-wrapper">
+          <Blog
+            note_title={this.state.suitcase.note_title}
+            notes={this.state.suitcase.notes}
+          />
+        </div>
       )
-=======
-      return <div>Blog goes here</div>
->>>>>>> eabc24c6cedbada00d9f95e7064c0f34528c674a
     }
   }
 

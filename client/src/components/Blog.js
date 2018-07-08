@@ -3,47 +3,70 @@ import { Button, Col, Form, FormGroup, Label, Input } from 'reactstrap';
 
 export default class Blog extends Component {
 
+    state = {
+        note_title: "",
+        notes: ""
+    };
   
-    // componentDidMount() {
-    //   this.makeYelpCall();
-    // }
   
-  
-    // handleTermChange = (event) => {
-    //   this.setState({
-    //     term: event.target.value
-    //   });
-    // };
+    handleInputChange = (event) => {
+        const { name, newvalue } = event.target;
+
+        // Set the state for the appropriate input field
+        this.setState({
+          [name]: newvalue
+        });
+    };
     
   
-    // setTerm = (event) =>{
-    //   event.preventDefault();
-      
-    //   this.makeYelpCall();
-    // }
+    handleFormSubmit = event => {
+        event.preventDefault();
+        this.setState({ note_title: "", notes: ""});
+    };
   
     render() {
       return (
-        <div className="blog-wrapper">
-        <Form onSubmit={this.setTerm}>
-            <FormGroup row>
-                <Col sm={1}></Col>
-                <Label for="notes_title" sm={4}>Title</Label>
-                <Col sm={5}>
-                <Input type="text" name="note_title" placeholder="THE ENDLESS SUMMER" value={this.state.term} onChange={this.handleTermChange}/>
-                </Col>
-                <Col sm={2}>
-                </Col>
-            </FormGroup>
+        
+            <Form onSubmit={this.setTerm}>
                 <FormGroup row>
-                <Label for="exampleEmail" sm={3}>Body</Label>
-                <Col sm={9}>
-                <Input type="textarea" name="notes" placeholder="Please tell us about your trip!" />
-                </Col>
-            </FormGroup>
-        </Form> 
+                    <Col sm={1}/>
+                    <Col sm={2}>
+                        <Label for="note_title" >Title</Label>
+                    </Col>
+                    <Col sm={7}>
+                        <Input 
+                            type="text" 
+                            name="note_title" 
+                            value={this.props.note_title} 
+                            newvalue={this.state.note_title} 
+                            onChange={this.handleInputChange}
+                        />
+                    </Col>
+                </FormGroup>
+                <FormGroup row>
+                    <Col sm={1}/>
+                    <Col sm={2}>
+                        <Label for="notes">Body</Label>
+                    </Col>
+                    <Col sm={7}>
+                        <Input 
+                            type="textarea" 
+                            name="notes" 
+                            rows={8}
+                            value={this.props.notes} 
+                            newvalue={this.state.notes} 
+                            onChange={this.handleInputChange} 
+                        />
+                    </Col>
+                </FormGroup>
+                <FormGroup check row>
+                    <Col sm={{ size: 2, offset: 5 }}>
+                    <Button color="primary" onClick={this.handleFormSubmit} >Submit</Button>
+                    </Col>
+                </FormGroup>
+            </Form> 
 
-        </div>
+        
       )
     }
   }

@@ -38,6 +38,7 @@ export default class SuitcaseItems extends Component {
                         loggedInUserIdNumber={this.props.loggedInUserIdNumber}
                         suitcaseUserId={this.props.suitcase.User.id}
                         deleteItemFromSuitcase={this.props.deleteItemFromSuitcase}
+                        updateItemAmountOnSuitcase={this.props.updateItemAmountOnSuitcase}
                       />
                     ))
                   }
@@ -71,6 +72,7 @@ export default class SuitcaseItems extends Component {
                         loggedInUserIdNumber={this.props.loggedInUserIdNumber}
                         suitcaseUserId={this.props.suitcase.User.id}
                         deleteItemFromSuitcase={this.props.deleteItemFromSuitcase}
+                        updateItemAmountOnSuitcase={this.props.updateItemAmountOnSuitcase}
                       />
                     ))
 
@@ -106,6 +108,7 @@ export default class SuitcaseItems extends Component {
                         loggedInUserIdNumber={this.props.loggedInUserIdNumber}
                         suitcaseUserId={this.props.suitcase.User.id}
                         deleteItemFromSuitcase={this.props.deleteItemFromSuitcase}
+                        updateItemAmountOnSuitcase={this.props.updateItemAmountOnSuitcase}
                       />
                     ))
 
@@ -141,6 +144,7 @@ export default class SuitcaseItems extends Component {
                         loggedInUserIdNumber={this.props.loggedInUserIdNumber}
                         suitcaseUserId={this.props.suitcase.User.id}
                         deleteItemFromSuitcase={this.props.deleteItemFromSuitcase}
+                        updateItemAmountOnSuitcase={this.props.updateItemAmountOnSuitcase}
                       />
                     ))
 

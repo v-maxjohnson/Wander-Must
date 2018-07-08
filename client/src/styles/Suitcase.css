@@ -178,6 +178,11 @@
 .number-toggle {
     border: none!important;
 }
+
+.number-display {
+    color: black;
+}
+
 .react-numeric-input input,
 .react-numeric-input input b,
 .react-numeric-input input b i {

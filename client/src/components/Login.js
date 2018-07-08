@@ -68,6 +68,7 @@ export default class Login extends Component {
             user_image: data.user_image
           }
         })
+        localStorage.setItem("logged_in_user_id", data.id)
       })
   }
 

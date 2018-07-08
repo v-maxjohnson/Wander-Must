@@ -10,11 +10,11 @@ export default class Blog extends Component {
 
 
     handleInputChange = (event) => {
-        const { name, newvalue } = event.target;
+        const { name, value } = event.target;
 
         // Set the state for the appropriate input field
         this.setState({
-            [name]: newvalue
+            [name]: value
         });
     };
 
@@ -37,8 +37,8 @@ export default class Blog extends Component {
                             <Input
                                 type="text"
                                 name="note_title"
-                                value={this.props.note_title}
-                                newvalue={this.state.note_title}
+                                placeholder={this.props.note_title}
+                                value={this.state.note_title}
                                 onChange={this.handleInputChange}
                             />
                         </Col>
@@ -53,8 +53,8 @@ export default class Blog extends Component {
                                 type="textarea"
                                 name="notes"
                                 rows={8}
-                                value={this.props.notes}
-                                newvalue={this.state.notes}
+                                placeholder={this.props.notes}
+                                value={this.state.notes}
                                 onChange={this.handleInputChange}
                             />
                         </Col>

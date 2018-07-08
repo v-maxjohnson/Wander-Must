@@ -8,7 +8,7 @@ import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 
 const GET_USER_QUERY = gql`
-query getUser( $id: String! ){
+query getUser( $id: ID ){
   getUser(id: $id) {
     id
     username
@@ -24,6 +24,7 @@ export default class Account extends Component {
   state = {
     userData: {
       id: "",
+      email: "",
       username: "",
       gender: "",
       user_image: "",
@@ -51,36 +52,36 @@ export default class Account extends Component {
       const { name, value } = event.target;
   
       // Set the state for the appropriate input field
-      this.setState.userData({
-        [name]: value
+      this.setState ({
+        userData: {[name]: value }
       });
     };
 
     handlePasswordChange = event => {
       const { name, value } = event.target;
   
-      this.setState.userData({
-        [name]: value
+      this.setState ({
+        userData: {[name]: value }
       });
     };
 
     handleGenderChange = event => {
-      const { name, newvalue } = event.target;
+      const { value } = event.target;
   
-      this.setState.userData({
-        [name]: newvalue
+      this.setState ({
+        userData: { gender: value }
       });
     };
   
     // When the form is submitted, prevent the default event and alert the username and password
     handleFormSubmit = event => {
       event.preventDefault();
-      alert(`Email: ${this.state.email}
-          \nUsername: ${this.state.username}
-          \nPassword: "***"
-          \nGender: ${this.state.gender}
+      alert(`Email: ${this.state.userData.email}
+          \nUsername: ${this.state.userData.username}
+          \nPassword: ********
+          \nGender: ${this.state.userData.gender}
           `);
-      this.setState.userData({ email: "", username: "", password: "", gender: "" });
+      this.setState({ userData: {email: "", username: "", password: "", gender: "" }});
     };
 
   render() {
@@ -143,7 +144,7 @@ export default class Account extends Component {
                           type="email" 
                           name="email" 
                           placeholder={this.state.userData.email} 
-                          value={this.state.email}
+                          value={this.state.userData.email}
                           onChange={this.handleInputChange}
                         />
                       </Col>
@@ -156,7 +157,7 @@ export default class Account extends Component {
                           type="username" 
                           name="username" 
                           placeholder={this.state.userData.username}
-                          value={this.state.username}
+                          value={this.state.userData.username}
                           onChange={this.handleInputChange} 
                         />
                       </Col>
@@ -177,7 +178,7 @@ export default class Account extends Component {
                           type="password" 
                           name="password" 
                           placeholder="password confirmation"
-                          value={this.state.password}
+                          value={this.state.userData.password}
                           onChange={this.handlePasswordChange}
                         />
                       </Col>
@@ -187,9 +188,21 @@ export default class Account extends Component {
                       <Label for="exampleCheckbox" sm={3}>Gender</Label>
                       <Col sm={9}>
                         <div>
-                          <CustomInput type="radio" id="female" name="gender" label="Female" inline />
-                          <CustomInput type="radio" id="male" name="gender" label="Male" inline />
-                          <CustomInput type="radio" id="noGender" name="gender" label="Beyond Society's Gender Definitions" inline />
+                          <CustomInput 
+                            inline type="radio" id="female" name="gender" 
+                            label="Female" value="female" 
+                            onClick={this.handleGenderChange}
+                          />
+                          <CustomInput 
+                            inline type="radio" id="male" name="gender" 
+                            label="Male" value="male" 
+                            onClick={this.handleGenderChange}
+                          />
+                          <CustomInput 
+                            inline type="radio" id="noGender" name="gender" 
+                            label="Beyond Society's Gender Definitions" value="noGender"
+                            onClick={this.handleGenderChange}
+                          />
                         </div>
                       </Col>
 

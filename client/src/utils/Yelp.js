@@ -100,7 +100,7 @@ export default class Yelp extends Component {
         <Form onSubmit={this.setTerm}>
           <FormGroup row>
             <Col sm={1}></Col>
-            <Label for="exampleEmail" sm={4}>What are you looking for?</Label>
+            <Label className="dark-text" for="exampleEmail" sm={4}>What are you looking for?</Label>
             <Col sm={5}>
               <Input type="text" name="term" placeholder="ex. Restaurants/Activities/Mexican Food" value={this.state.term} onChange={this.handleTermChange}/>
             </Col>

@@ -75,6 +75,13 @@ mutation deleteItemFromSuitcase( $suitcase_id: ID, $item_id: ID ) {
   }
 }`;
 
+const UPDATE_ITEM_AMOUNT_ON_SUITCASE_MUTATION = gql`
+mutation updateItemAmountOnSuitcase( $suitcase_id: ID, $item_id: ID, $item_amount: Int! ) {
+  updateItemAmountOnSuitcase (suitcase_id: $suitcase_id, item_id: $item_id, item_amount: $item_amount) {
+      id
+  }
+}`;
+
 const client = new ApolloClient();
 
 let cityNoUnderscores = "";
@@ -268,6 +275,17 @@ export default class Suitcase extends Component {
     }).catch(err => console.log(err))
   }
 
+  updateItemAmountOnSuitcase = (itemId, itemAmount) => {
+    client.mutate({
+      mutation: UPDATE_ITEM_AMOUNT_ON_SUITCASE_MUTATION,
+      variables: { suitcase_id: this.state.suitcase.id, item_id: itemId, item_amount: itemAmount },
+      fetchPolicy: "no-cache"
+    }).then(result => {
+      this.getSuitcase();
+      console.log(itemId, itemAmount)
+    }).catch(err => console.log(err))
+  }
+
   maybeRedirect() {
     if (this.state.shouldRedirectToProfile) {
       return (
@@ -345,6 +363,7 @@ export default class Suitcase extends Component {
             deleteItemFromSuitcase={this.deleteItemFromSuitcase}
             setSuitcaseId={this.setSuitcaseId}
             addItemsToCurrentSuitcase={this.addItemsToCurrentSuitcase}
+            updateItemAmountOnSuitcase={this.updateItemAmountOnSuitcase}
             renderYelp={this.renderYelp}
           />
         </div>

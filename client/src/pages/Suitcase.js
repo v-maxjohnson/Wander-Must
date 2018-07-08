@@ -7,6 +7,7 @@ import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import SuitcaseItems from "../components/SuitcaseItems";
+import Blog from "../components/Blog.js"
 import ConfirmationModal from "../components/ConfirmationModal";
 import Yelp from "../utils/Yelp";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
@@ -22,7 +23,9 @@ query getSuitcase( $id: ID ){
     id
     start_date
     end_date
-    travel_category
+    travel_category 
+    note_title
+    notes
     Items {
       id
       item_name
@@ -347,7 +350,14 @@ export default class Suitcase extends Component {
         </div>
       )
     } else {
-      return <div>Blog goes here</div>
+      return (
+        <div className="blog-wrapper">
+          <Blog
+            note_title={this.state.suitcase.note_title}
+            notes={this.state.suitcase.notes}
+          />
+        </div>
+      )
     }
   }
 

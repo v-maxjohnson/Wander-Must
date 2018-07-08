@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 export default class NavTabs extends Component {
   render() {
     return (
-      <ul className="navtabs">
+
+      <ul>
         <li className="nav-item d-inline-block">
           <a onClick={() => this.props.handlePageChange("SuitcaseItems")}
             className={this.props.currentPage === "SuitcaseItems" ? "active nav-link" : "nav-link"}>
@@ -22,6 +23,8 @@ export default class NavTabs extends Component {
           </a>
         </li>
       </ul>
+      
+
     )
   }
 }

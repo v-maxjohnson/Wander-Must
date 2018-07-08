@@ -47,6 +47,7 @@
     "react-popper": "^1.0.0-beta.6",
     "react-router-dom": "^4.3.1",
     "sequelize": "^4.38.0",
+    "sequelize-cli": "^4.0.0",
     "yelp-api": "^1.0.3"
   }
 }

@@ -5,15 +5,20 @@
   "private": true,
   "proxy": "http://localhost:3001/",
   "dependencies": {
+    "ajv": "^6.5.1",
     "mysql2": "^1.5.3",
     "react": "^16.0.0",
+    "react-autocomplete": "^1.8.1",
     "react-datepicker": "^1.5.0",
     "react-dom": "^16.0.0",
     "react-google-autocomplete": "^1.0.16",
+    "react-numeric-input": "^2.2.3",
     "react-scripts": "1.0.14",
     "react-slick": "^0.23.1",
+    "react-validation": "^3.0.7",
     "reactstrap": "^6.1.0",
-    "sequelize": "^4.38.0"
+    "sequelize": "^4.38.0",
+    "yelp-api": "^1.0.3"
   },
   "scripts": {
     "start": "react-scripts start",

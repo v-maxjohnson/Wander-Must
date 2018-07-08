@@ -25,8 +25,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     gender: {
       type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: "no choice"
+      allowNull: false
     },
     user_image: {
       type: DataTypes.STRING,

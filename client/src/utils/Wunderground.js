@@ -38,18 +38,22 @@ export default class Wunderground extends Component {
         }
 
         axios.get(queryURL)
-            .then( (response) => {
+            .then((response) => {
                 console.log(response);
-                if (response) {
+                if (response.data.trip) {
                     this.setState({
-                        highF: response.data.trip.temp_high.avg.F,
-                        highC: response.data.trip.temp_high.avg.C,
-                        lowF: response.data.trip.temp_low.avg.F,
-                        lowC: response.data.trip.temp_low.avg.C
+                        highF: response.data.trip.temp_high.avg.F + "° F",
+                        highC: response.data.trip.temp_high.avg.C + "° C",
+                        lowF: response.data.trip.temp_low.avg.F + "° F",
+                        lowC: response.data.trip.temp_low.avg.C + "° C"
                     });
-                    //     //   } else {
-                    //     //       <p>Data is not available for this city</p>
-                    //     //   }
+                } else {
+                    this.setState({
+                        highF: "N/A",
+                        highC: "N/A",
+                        lowF: "N/A",
+                        lowC: "N/A"
+                    });
                 }
             })
         // .catch(err => res.status(422).json(err));
@@ -60,16 +64,16 @@ export default class Wunderground extends Component {
             <div className="wunderground">
                 <ul className="nav suitcase-nav">
                     <li className="nav-item ">
-                        <p className="nav-link" id="highF">{"High Avg: " + this.state.highF + "° F"}</p>
+                        <p className="nav-link" id="highF">{"High Avg: " + this.state.highF}</p>
                     </li>
                     <li className="nav-item ">
-                        <p className="nav-link" id="highC">{"High Avg: " + this.state.highC + "° C"}</p>
+                        <p className="nav-link" id="highC">{"High Avg: " + this.state.highC}</p>
                     </li>
                     <li className="nav-item ">
-                        <p className="nav-link" id="lowF">{"Low Avg: " + this.state.lowF + "° F"}</p>
+                        <p className="nav-link" id="lowF">{"Low Avg: " + this.state.lowF}</p>
                     </li>
                     <li className="nav-item ">
-                        <p className="nav-link" id="lowC">{"Low Avg: " + this.state.lowC + "° C"}</p>
+                        <p className="nav-link" id="lowC">{"Low Avg: " + this.state.lowC}</p>
                     </li>
                 </ul>
             </div>

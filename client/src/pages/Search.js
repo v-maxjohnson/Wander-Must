@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import { Redirect } from "react-router-dom";
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Items from "../pages/Items";
 import QuickViewModal from '../components/QuickViewModal';
-import NewSuitcaseModal from "../components/NewSuitcaseModal";
-import Yelp from "../components/Yelp";
 import SearchSuitcaseCard from "../components/SearchSuitcaseCard";
 import "../styles/Search.css";
 import gql from "graphql-tag";
@@ -36,9 +36,18 @@ query getSuitcasesByLocale( $locale_city: String! ){
   }
 }`;
 
+const ADD_ITEM_TO_SUITCASE_MUTATION = gql`
+mutation addItemToSuitcase( $id: ID, $item_ids: [ID] ) {
+  addItemToSuitcase (id: $id, item_ids: $item_ids) {
+      id
+      Items {
+        id
+    }
+  }
+}`;
+
 const client = new ApolloClient();
 
-let cityName = localStorage.getItem("city_name");
 let cityNoUnderscores = "";
 
 export default class Search extends Component {
@@ -59,11 +68,13 @@ export default class Search extends Component {
         }
       }
     ],
-    city: cityName,
+    city: this.props.match.params.city,
     openQuickViewModal: false,
-    openNewSuitcaseModal: false,
     rendered: false,
-    index: 0
+    index: 0,
+    itemsToAdd: [],
+    suitcaseId: localStorage.getItem("suitcase_id"),
+    loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
   }
 
   componentDidMount() {
@@ -100,6 +111,9 @@ export default class Search extends Component {
       return <QuickViewModal
         quickViewData={this.state.suitcaseData[this.state.index]}
         resetQuickViewModal={this.resetQuickViewModal}
+        itemsToAdd={this.state.itemsToAdd}
+        onCheckboxBtnClick={this.onCheckboxBtnClick}
+        addItemsToSuitcase={this.addItemsToSuitcase}
       />
     }
   }
@@ -108,27 +122,75 @@ export default class Search extends Component {
     this.setState({ index: idx })
   }
 
-  showNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: true });
+  onCheckboxBtnClick = (selected) => {
+    const index = this.state.itemsToAdd.indexOf(selected);
+    if (index < 0) {
+      this.state.itemsToAdd.push(selected);
+    } else {
+      this.state.itemsToAdd.splice(index, 1);
+    }
+    this.setState({ itemsToAdd: [...this.state.itemsToAdd] });
   }
 
-  resetNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: false });
+  addItemsToSuitcase = () => {
+    client.mutate({
+      mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
+      variables: { id: this.state.suitcaseId, item_ids: this.state.itemsToAdd }
+    }).then(result => {
+      console.log(result);
+    }).catch(err => console.log(err))
   }
 
-  renderNewSuitcaseModal = () => {
-    if (this.state.openNewSuitcaseModal) {
-      return <NewSuitcaseModal
-        resetNewSuitcaseModal={this.resetNewSuitcaseModal}
-      />
+  mapOrRedirect = () => {
+    let filteredArray = this.state.suitcaseData
+      .filter(suitcase =>
+        (suitcase.User.id !== this.state.loggedInUserIdNumber));
+
+    if (filteredArray.length) {
+      return (
+        filteredArray.map((suitcase, i) => (
+          <SearchSuitcaseCard
+            key={i}
+            idx={i}
+            id={suitcase.id}
+            city={suitcase.Locale.locale_city}
+            localeAdmin={suitcase.Locale.locale_admin}
+            country={suitcase.Locale.locale_country}
+            src={suitcase.Locale.locale_image}
+            startDate={suitcase.start_date}
+            endDate={suitcase.end_date}
+            category={suitcase.travel_category}
+            userName={suitcase.User.username}
+            gender={suitcase.User.gender}
+            rendered={this.state.rendered}
+            showQuickViewModal={this.showQuickViewModal}
+            setQuickViewModalIndex={this.setQuickViewModalIndex}
+          />
+        )
+        )
+      )
+    } else {
+      this.setState({
+        shouldRedirectToItems: true
+      })
+    }
+  }
+
+  maybeRedirect() {
+    if (this.state.shouldRedirectToItems) {
+      return (
+        <Redirect to={"/items"} render={(props) => <Items {...props} />} />
+      )
     }
   }
 
   render() {
     return (
       <div className="search profile-page sidebar-collapse">
+        {this.maybeRedirect()}
         <Header
-          showNewSuitcaseModal={this.showNewSuitcaseModal}
+          showNewSuitcaseModal={this.props.showNewSuitcaseModal}
+          loggedInUserIdNumber={this.state.loggedInUserIdNumber}
         />
         <Main>
           <div className="page-header header-filter" data-parallax="true" id="background-search"></div>
@@ -148,33 +210,14 @@ export default class Search extends Component {
                   </div>
                 </div>
                 <div className="row">
-                  {this.state.suitcaseData.map((suitcase, i) => (
-                    <SearchSuitcaseCard
-                      key={i}
-                      idx={i}
-                      id={suitcase.id}
-                      city={suitcase.Locale.locale_city}
-                      localeAdmin={suitcase.Locale.locale_admin}
-                      country={suitcase.Locale.locale_country}
-                      src={suitcase.Locale.locale_image}
-                      startDate={suitcase.start_date}
-                      endDate={suitcase.end_date}
-                      category={suitcase.travel_category}
-                      userName={suitcase.User.username}
-                      gender={suitcase.User.gender}
-                      rendered={this.state.rendered}
-                      showQuickViewModal={this.showQuickViewModal}
-                      setQuickViewModalIndex={this.setQuickViewModalIndex}
-                    />
-                  ))}
+                  {this.mapOrRedirect()}
                 </div>
               </div>
             </div>
-            <Yelp />
           </div>
         </Main>
         {this.renderQuickViewModal()}
-        {this.renderNewSuitcaseModal()}
+        {this.props.renderNewSuitcaseModal()}
         <Footer />
 
       </div>

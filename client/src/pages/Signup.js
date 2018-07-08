@@ -3,6 +3,19 @@ import React, { Component } from 'react';
 import Navibar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "../styles/Signup.css";
+import validator from 'validator';
+ 
+const required = (value) => {
+  if (!value.toString().trim().length) {
+    return 'require';
+  }
+};
+ 
+const email = (value) => {
+  if (!validator.isEmail(value)) {
+    return `${value} is not a valid email.`
+  }
+};
 
 export default class Signup extends Component {
   render() {
@@ -47,7 +60,7 @@ export default class Signup extends Component {
                                   <i className="material-icons">face</i>
                                 </span>
                               </div>
-                              <input type="text" className="form-control" id="user-name" placeholder="Username..." required />
+                              <input type="text" className="form-control" id="user-name" placeholder="Username..." required validations={[required]}/>
                             </div>
                             <div className="input-group">
                               <div className="input-group-prepend">
@@ -55,7 +68,7 @@ export default class Signup extends Component {
                                   <i className="material-icons">email</i>
                                 </span>
                               </div>
-                              <input type="email" className="form-control" id="user-email" placeholder="Email..." required />
+                              <input type="email" className="form-control" id="user-email" placeholder="Email..." required validations={[required, email]}/>
                             </div>
                             <div className="input-group">
                               <div className="input-group-prepend">
@@ -63,7 +76,7 @@ export default class Signup extends Component {
                                   <i className="material-icons">lock_outline</i>
                                 </span>
                               </div>
-                              <input type="password" className="form-control" id="user-password" placeholder="Password..." required />
+                              <input type="password" className="form-control" id="user-password" placeholder="Password..." required validations={[required]}/>
                             </div>
 
                             <div className="input-group">
@@ -72,7 +85,7 @@ export default class Signup extends Component {
                                   <i className="material-icons">supervised_user_circle</i>
                                 </span>
                               </div>
-                              <select className="custom-select" id="user-gender" name="gender" required>
+                              <select className="custom-select" id="user-gender" name="gender" required validations={[required]}>
                                 <option selected>Gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>

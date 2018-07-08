@@ -1,16 +1,17 @@
 import {
     GraphQLObjectType,
     GraphQLString,
+    GraphQLID,
     GraphQLList,
-    GraphQLEnumType, 
-    GraphQLInt
+    GraphQLEnumType
   } from 'graphql';
 
 import localeType from './locale';
 import itemType from './item';
 import userType from './user';
+import suitcaseItemsType from './suitcase_items';
 
-const travelCategory = new GraphQLEnumType({
+export const travelCategory = new GraphQLEnumType({
     name: 'TravelCategoryEnum',
     values: {
         BUSINESS: {
@@ -32,7 +33,7 @@ export default new GraphQLObjectType({
     name: 'SuitcaseType',
     fields: () => ({
         id: {
-            type: GraphQLString
+            type: GraphQLID
         },
         start_date: {
             type: GraphQLString
@@ -42,6 +43,9 @@ export default new GraphQLObjectType({
         },
         travel_category: {
             type: travelCategory
+        },
+        note_title: {
+            type: GraphQLString
         },
         notes: {
             type: GraphQLString
@@ -55,8 +59,8 @@ export default new GraphQLObjectType({
         Items : {
             type: GraphQLList(itemType)
         },
-        User: {
-            type: userType
+        suitcase_items : {
+            type: suitcaseItemsType
         }
     })
 });

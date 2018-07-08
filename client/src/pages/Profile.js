@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import SuitcaseCard from "../components/SuitcaseCard";
 import SuitcaseFrame from "../images/suitcaseFrame.png";
 import "../styles/Profile.css";
@@ -10,7 +9,7 @@ import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 
 const GET_USER_QUERY = gql`
-query getUser( $id: String! ){
+query getUser( $id: ID ){
   getUser(id: $id) {
     id
     username
@@ -33,7 +32,6 @@ query getUser( $id: String! ){
 }`;
 
 const client = new ApolloClient();
-let idNumber = localStorage.getItem("user_id");
 
 export default class Profile extends Component {
   state = {
@@ -44,16 +42,17 @@ export default class Profile extends Component {
       user_image: "",
       Suitcases: []
     },
-    openNewSuitcaseModal: false,
     rendered: false,
-    number: idNumber
+    userId: this.props.match.params.id,
+    loggedInUserId: localStorage.getItem("logged_in_user_id")
   }
 
   componentDidMount() {
 
     client.query({
       query: GET_USER_QUERY,
-      variables: { id: this.state.number }
+      variables: { id: this.state.userId },
+      fetchPolicy: "network-only"
     }).then(result => {
       this.setState({ userData: result.data.getUser, rendered: true });
       console.log(this.state.userData);
@@ -61,27 +60,13 @@ export default class Profile extends Component {
 
   }
 
-  showNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: true });
-  }
-
-  resetNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: false });
-  }
-
-  renderNewSuitcaseModal = () => {
-    if (this.state.openNewSuitcaseModal) {
-      return <NewSuitcaseModal
-        resetNewSuitcaseModal={this.resetNewSuitcaseModal}
-      />
-    }
-  }
-
   render() {
     return (
       <div className="profile profile-page sidebar-collapse">
         <Header
-          showNewSuitcaseModal={this.showNewSuitcaseModal}
+          showNewSuitcaseModal={this.props.showNewSuitcaseModal}
+          loggedInUserIdNumber={this.state.loggedInUserIdNumber}
+          userDataId={this.state.userData.id}
         />
         <Main>
           <div className="page-header header-filter" id="background-profile" data-parallax="true"></div>
@@ -92,7 +77,7 @@ export default class Profile extends Component {
                   <div className="col-md-6 ml-auto mr-auto">
                     <div className="profile">
                       <div className="avatar">
-                        <img src={this.state.userData.user_image} alt="Avatar" className="img-fluid" />
+                        <img src={this.state.userData.user_image} alt="Avatar" className="img-raised rounded-circle img-fluid" />
                       </div>
                       <div className="name">
                         <h3 id="profile-user-name" className="title">{this.state.userData.username}</h3>
@@ -117,7 +102,7 @@ export default class Profile extends Component {
                   ))}
 
                   <div className="container col-sm-12 col-md-6 col-lg-4">
-                    <div className="suitcaseCard suitcase-input" id="blank-suitcase" onClick={() => this.showNewSuitcaseModal() }>
+                    <div className="suitcaseCard suitcase-input" id="blank-suitcase" onClick={() => this.props.showNewSuitcaseModal()}>
                       <div className="card add-card text-white no-shadow">
                         <div className="suitcaseWrapper card-img">
                           <img className="suitcaseFrame img-responsive" src={SuitcaseFrame} alt="Suitcase Frame" />
@@ -132,11 +117,11 @@ export default class Profile extends Component {
                 </div>
               </div>
             </div>
-            
+
           </div>
 
         </Main>
-        {this.renderNewSuitcaseModal()}
+        {this.props.renderNewSuitcaseModal()}
         <Footer />
       </div>
     )

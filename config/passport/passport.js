@@ -58,8 +58,7 @@ module.exports = function (passport, user) {
                         username: req.body.username,
                         email: email,
                         password: userPassword,
-                        gender: req.body.gender,
-                        user_image: req.body.user_image
+                        gender: req.body.gender
                     };
                     // a method that actually creates a new record in the DB for a new user
                     User.create(data).then(function (newUser, created) {

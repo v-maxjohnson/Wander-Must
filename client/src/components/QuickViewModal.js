@@ -105,6 +105,7 @@ export default class QuickViewModal extends Component {
                             itemId={item.id}
                             itemName={item.item_name}
                             itemCategory={item.item_category}
+                            itemAmount={item.suitcase_items.item_amount}
                             itemsToAdd={this.props.itemsToAdd}
                             onCheckboxBtnClick={this.props.onCheckboxBtnClick}
                           />
@@ -131,6 +132,7 @@ export default class QuickViewModal extends Component {
                             itemId={item.id}
                             itemName={item.item_name}
                             itemCategory={item.item_category}
+                            itemAmount={item.suitcase_items.item_amount}
                             itemsToAdd={this.props.itemsToAdd}
                             onCheckboxBtnClick={this.props.onCheckboxBtnClick}
                           />
@@ -159,6 +161,7 @@ export default class QuickViewModal extends Component {
                             itemId={item.id}
                             itemName={item.item_name}
                             itemCategory={item.item_category}
+                            itemAmount={item.suitcase_items.item_amount}
                             itemsToAdd={this.props.itemsToAdd}
                             onCheckboxBtnClick={this.props.onCheckboxBtnClick}
                           />
@@ -187,6 +190,7 @@ export default class QuickViewModal extends Component {
                             itemId={item.id}
                             itemName={item.item_name}
                             itemCategory={item.item_category}
+                            itemAmount={item.suitcase_items.item_amount}
                             itemsToAdd={this.props.itemsToAdd}
                             onCheckboxBtnClick={this.props.onCheckboxBtnClick}
                           />

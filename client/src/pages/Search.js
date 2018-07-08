@@ -32,6 +32,9 @@ query getSuitcasesByLocale( $locale_city: String! ){
       id
       item_name
       item_category
+      suitcase_items {
+        item_amount
+      }
     }
   }
 }`;

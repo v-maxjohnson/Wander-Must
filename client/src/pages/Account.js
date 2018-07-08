@@ -8,7 +8,7 @@ import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 
 const GET_USER_QUERY = gql`
-query getUser( $id: String! ){
+query getUser( $id: ID ){
   getUser(id: $id) {
     id
     username
@@ -51,7 +51,7 @@ export default class Account extends Component {
       const { name, value } = event.target;
   
       // Set the state for the appropriate input field
-      this.setState.userData({
+      this.setState({
         [name]: value
       });
     };
@@ -147,7 +147,6 @@ export default class Account extends Component {
                           onChange={this.handleInputChange}
                         />
                       </Col>
-
                     </FormGroup>
                     <FormGroup row>
                       <Label for="username" sm={3}>User Name</Label>
@@ -181,7 +180,6 @@ export default class Account extends Component {
                           onChange={this.handlePasswordChange}
                         />
                       </Col>
-
                     </FormGroup>
                     <FormGroup row>
                       <Label for="exampleCheckbox" sm={3}>Gender</Label>
@@ -204,7 +202,6 @@ export default class Account extends Component {
                           label="What's your image?" 
                         />
                       </Col>
-
                     </FormGroup>
                     <FormGroup check row>
                       <Col sm={{ size: 2, offset: 5 }}>

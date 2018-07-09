@@ -74,7 +74,7 @@ export default class Search extends Component {
     city: this.props.match.params.city,
     openQuickViewModal: false,
     rendered: false,
-    index: 0,
+    index: null,
     itemsToAdd: [],
     suitcaseId: localStorage.getItem("suitcase_id"),
     loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
@@ -112,7 +112,7 @@ export default class Search extends Component {
   renderQuickViewModal = () => {
     if (this.state.openQuickViewModal) {
       return <QuickViewModal
-        quickViewData={this.state.suitcaseData[this.state.index]}
+        id={this.state.index}
         resetQuickViewModal={this.resetQuickViewModal}
         itemsToAdd={this.state.itemsToAdd}
         onCheckboxBtnClick={this.onCheckboxBtnClick}
@@ -121,8 +121,9 @@ export default class Search extends Component {
     }
   }
 
-  setQuickViewModalIndex = (idx) => {
-    this.setState({ index: idx })
+  setQuickViewModalIndex = (contentId) => {
+    this.setState({ index: contentId })
+    console.log(this.state.index, contentId)
   }
 
   onCheckboxBtnClick = (selected) => {

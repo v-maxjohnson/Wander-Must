@@ -58,7 +58,7 @@ export default class Navibar extends Component {
 
     client.query({
       query: GET_USER_QUERY,
-      variables: { id: this.state.loggedInUserId }
+      variables: { id: this.state.loggedInUserIdNumber }
     }).then(result => {
       this.setState({ userName: result.data.getUser.username});
     })

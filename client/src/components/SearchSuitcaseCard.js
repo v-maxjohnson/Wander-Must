@@ -50,6 +50,7 @@ export default class SearchSuitcaseCard extends Component {
                 setCityImageSrc={this.setCityImageSrc}
             />
         }
+        console.log(this.props.country)
     }
 
     render() {
@@ -58,7 +59,7 @@ export default class SearchSuitcaseCard extends Component {
             <div className="suitcase-partial container col-sm-12 col-md-6 col-lg-4">
                 <div className="suitcaseCard">
                     <div className="card bg-dark text-white no-shadow">
-                        <div className="suitcaseWrapper card-img" onClick={() => { this.props.showQuickViewModal(); this.props.setQuickViewModalIndex(this.props.idx) }}>
+                        <div className="suitcaseWrapper card-img" onClick={() => { this.props.showQuickViewModal(); this.props.setQuickViewModalIndex(this.props.id) }}>
 
                             {this.renderPixabay()}
                             <img

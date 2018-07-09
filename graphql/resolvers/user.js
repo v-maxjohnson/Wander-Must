@@ -77,9 +77,7 @@ export default {
     // },
     delete: ( id ) => {
         return db.User.destroy({
-            where: {
-                id: id
-            }
+            where: id
         })
             .then( console.log("user was deleted") )
             .catch( err => console.log(err.message) )

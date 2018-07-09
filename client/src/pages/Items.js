@@ -84,10 +84,12 @@ export default class Items extends Component {
                     </div>
                   </div>
                 </div>
-                <div className="row text-center justify-content-center">
-                  <h2 className="wanderlust text-center">You are a true EXPLORER!</h2>
-                  <h3 className="text-center">Scroll down and add more items to your packing list.</h3>
-                  <img className="img-fluid animals" src="/assets/img/faces/animals.png" alt="animals" />
+                <div className="row text-center">
+                  <div className="col-12">
+                    <h2 className="wanderlust text-center">You are a true EXPLORER!</h2>
+                    <h3 className="text-center">Scroll down and add more items to your packing list.</h3>
+                    <img className="img-fluid animals" src="/assets/img/faces/animals.png" alt="animals" />
+                  </div>
                 </div>
               </div>
             </div>

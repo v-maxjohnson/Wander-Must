@@ -24,7 +24,7 @@ query getUser( $id: ID ){
 
 const UPDATE_USER_IMAGE_MUTATION = gql`
   mutation updateUserImage( $id: ID, $user_image: String! ){
-    updateUserImage( id: $id, user_image: $secure_url){
+    updateUserImage( id: $id, user_image: $user_image){
       id
       user_image
     }
@@ -55,13 +55,7 @@ export default class Account extends Component {
 
   componentDidMount() {
 
-    client.query({
-      query: GET_USER_QUERY,
-      variables: { id: this.state.loggedInUserId }
-    }).then(result => {
-      this.setState({ userData: result.data.getUser, rendered: true });
-      console.log(this.state.userData);
-    })
+    this.getUser();
 
   }
 
@@ -69,25 +63,38 @@ export default class Account extends Component {
     let file = event.target.files[0];
     let formData = new FormData();
     formData.append("file", file);
+    formData.append("upload_preset", "qocvkmel");
 
     if(this.state.rendered) {
       axios({
         method: "POST",
-        url: "https://api.cloudinary.com/v1_1/wandermust/upload/user_image",
+        url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
         data: formData 
       })
-      .then( res => {
+        .then( res => {
         const secure_url = res.data.secure_url;
-        
+        console.log(secure_url);
+
         client.mutate({
           mutation: UPDATE_USER_IMAGE_MUTATION,
-          variables: { id: this.state.userData.id, user_image: secure_url },
+          variables: { id: this.state.loggedInUserId, user_image: secure_url },
           fetchPolicy: 'no-cache'
         })
-          .then( this.getUser(this.state.userData.id) )
+          .then( this.getUser() )
           .catch( err => console.log(err) )
       })
     }
+  }
+
+  getUser = () => {
+    client.query({
+      query: GET_USER_QUERY,
+      variables: { id: this.state.loggedInUserId },
+      fetchPolicy: "network-only"
+    }).then(result => {
+      this.setState({ userData: result.data.getUser, rendered: true });
+      console.log(this.state.userData);
+    })
   }
   
   deleteUser = () => {
@@ -288,7 +295,7 @@ export default class Account extends Component {
                         <CustomInput 
                           type="file" 
                           id="exampleCustomFileBrowser" 
-                          name="customFile" 
+                          name="file"
                           label="What's your image?" 
                           onChange={this.handleImageChange}
                         />

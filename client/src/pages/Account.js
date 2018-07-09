@@ -27,6 +27,7 @@ const UPDATE_USER_IMAGE_MUTATION = gql`
     updateUserImage( id: $id, user_image: $secure_url){
       id
       user_image
+    }
   }`;
 
 const DELETE_USER_MUTATION = gql` 

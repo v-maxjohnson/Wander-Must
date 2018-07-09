@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from "react-router-dom";
-import { Button, CustomInput, Col, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, CustomInput, Col, Form, FormGroup, Label, Input } from 'reactstrap';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";

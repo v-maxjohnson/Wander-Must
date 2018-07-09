@@ -196,19 +196,11 @@ export default class Account extends Component {
                     <FormGroup row>
                       <Label for="exampleEmail" sm={3}>Email</Label>
                       <Col sm={9}>
-<<<<<<< HEAD
-                        <Input 
-                          type="email" 
-                          name="email" 
-                          placeholder={this.state.userData.email} 
-                          value={this.state.userData.email}
-=======
                         <Input
                           type="email"
                           name="email"
                           placeholder={this.state.userData.email}
                           value={this.state.email}
->>>>>>> 7dec272754937a1ab20094bb340825e0ce16a21f
                           onChange={this.handleInputChange}
                         />
                       </Col>
@@ -220,13 +212,8 @@ export default class Account extends Component {
                           type="username"
                           name="username"
                           placeholder={this.state.userData.username}
-<<<<<<< HEAD
-                          value={this.state.userData.username}
-                          onChange={this.handleInputChange} 
-=======
                           value={this.state.username}
                           onChange={this.handleInputChange}
->>>>>>> 7dec272754937a1ab20094bb340825e0ce16a21f
                         />
                       </Col>
 
@@ -277,19 +264,11 @@ export default class Account extends Component {
                     <FormGroup row>
                       <Label for="exampleCustomFileBrowser" sm={3}>Avatar</Label>
                       <Col sm={9}>
-<<<<<<< HEAD
-                        <CustomInput 
-                          type="file" 
-                          id="exampleCustomFileBrowser" 
-                          name="file" 
-                          label="What's your image?" 
-=======
                         <CustomInput
                           type="file"
                           id="exampleCustomFileBrowser"
                           name="customFile"
                           label="What's your image?"
->>>>>>> 7dec272754937a1ab20094bb340825e0ce16a21f
                         />
                       </Col>
                     </FormGroup>

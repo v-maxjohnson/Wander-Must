@@ -374,6 +374,9 @@ export default class Suitcase extends Component {
           <Blog
             note_title={this.state.suitcase.note_title}
             notes={this.state.suitcase.notes}
+            loggedInUserIdNumber={this.state.loggedInUserIdNumber}
+            suitcaseUserId={this.state.suitcase.User.id}
+            showConfirmationModal={this.showConfirmationModal}
           />
         </div>
       )
@@ -461,14 +464,6 @@ export default class Suitcase extends Component {
 
               {this.renderPage()}
 
-              <div className="row">
-                <div className="col-12 text-center">
-                  {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
-                    <button className="btn btn-primary" onClick={() => { this.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
-                  ) : (<div></div>
-                    )}
-                </div>
-              </div>
             </div>
 
           </div>

@@ -17,16 +17,17 @@ module.exports = function (app, passport) {
         res.render("profile");
     });
 
-    app.get("/authSuccess", function (req, res) {
-        res.redirect("/profile/" + req.user.id);
-    });
-
-    app.post(
-        "/api/users/",
-        passport.authenticate("local-signup", { failureRedirect: "/", successRedirect: "/authSuccess" }),
-        function (req, res) {
-        }
-    );
+    app.post('/api/users', function(req, res, next){
+        passport.authenticate('local-signup', function(err, user, info){
+          if(err){return next(err);}
+          if(!user){return res.send({redirect: '/signup'});}
+          req.logIn(user, function(err) {
+            if (err) { return next(err); }
+            console.log('new user!: ' + user);
+            return res.json(user);
+          });
+        }) (req, res, next);
+      });
 
     app.post("/api/signin", function (req, res, next) {
         var parsedReq = JSON.stringify(req.body);

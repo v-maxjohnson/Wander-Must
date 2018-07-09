@@ -3,7 +3,6 @@ import {
   Collapse,
   Navbar,
   NavbarToggler,
-  NavbarBrand,
   Nav,
   NavItem
 } from "reactstrap";
@@ -13,6 +12,13 @@ import "../styles/Navbar.css";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 import Autocomplete from 'react-autocomplete';
+
+const GET_USER_QUERY = gql`
+query getUser( $id: ID ){
+  getUser(id: $id) {
+    username
+  }
+}`;
 
 const client = new ApolloClient();
 
@@ -28,6 +34,7 @@ export default class Navibar extends Component {
     this.state = {
       isOpen: false,
       loggedInUserIdNumber: localStorage.getItem("logged_in_user_id"),
+      userName: "",
       allLocales: [],
       value: ''
     };
@@ -47,6 +54,13 @@ export default class Navibar extends Component {
     }).then(result => {
       this.setState({ allLocales: result.data.allLocales });
       console.log(autocompleteLocales);
+    })
+
+    client.query({
+      query: GET_USER_QUERY,
+      variables: { id: this.state.loggedInUserIdNumber }
+    }).then(result => {
+      this.setState({ userName: result.data.getUser.username});
     })
   }
 
@@ -152,7 +166,7 @@ export default class Navibar extends Component {
             </div>
           </NavItem>
           <NavItem id="user-name-link" className="nav-item">
-            <p className="nav-link" id="user-name-text">&nbsp;</p>
+            <p className="nav-link" id="user-name-text">Hello, <Link className="text-white" to="/account">{this.state.userName}</Link> !</p>
 
           </NavItem>
           <NavItem className="nav-item">
@@ -209,7 +223,7 @@ export default class Navibar extends Component {
         {this.maybeLogout()}
         <Navbar className="navbar navbar-transparent fixed-top navbar-expand-lg">
           <div className="container">
-            <NavbarBrand className="navbar-brand wandermust-font">Wander-Must</NavbarBrand>
+            <div className="navbar-brand wandermust-font"><Link to="/" className="text-white">Wander-Must</Link></div>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               {this.renderNavItems()}

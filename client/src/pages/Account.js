@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { Redirect } from "react-router-dom";
 import { Button, CustomInput, Col, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Home from "./Home";
+import DeleteAccountConfirmationModal from "../components/DeleteAccountConfirmationModal";
 import "../styles/Account.css";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
@@ -18,6 +21,13 @@ query getUser( $id: ID ){
   }
 }`;
 
+const DELETE_USER_MUTATION = gql` 
+mutation deleteUser( $id: ID ){
+    deleteUser(id: $id) {
+      id
+    }
+}`;
+
 const client = new ApolloClient();
 
 export default class Account extends Component {
@@ -30,6 +40,7 @@ export default class Account extends Component {
       user_image: "",
       password: ""
     },
+    openDeleteAccountConfirmationModal: false,
     rendered: false,
     loggedInUserId: localStorage.getItem("logged_in_user_id")
   }
@@ -46,47 +57,92 @@ export default class Account extends Component {
 
   }
 
-    // handle any changes to the input fields
-    handleInputChange = event => {
-      // Pull the name and value properties off of the event.target (the element which triggered the event)
-      const { name, value } = event.target;
-  
-      // Set the state for the appropriate input field
-      this.setState ({
-        userData: {[name]: value }
-      });
-    };
+  deleteUser = () => {
+    client.mutate({
+      mutation: DELETE_USER_MUTATION,
+      variables: { id: this.state.loggedInUserId }
+    }).then(result => {
+      this.handleLogout();
+    })
+  }
 
-    handlePasswordChange = event => {
-      const { name, value } = event.target;
-  
-      this.setState ({
-        userData: {[name]: value }
-      });
-    };
+  // handle any changes to the input fields
+  handleInputChange = event => {
+    // Pull the name and value properties off of the event.target (the element which triggered the event)
+    const { name, value } = event.target;
 
-    handleGenderChange = event => {
-      const { value } = event.target;
-  
-      this.setState ({
-        userData: { gender: value }
-      });
-    };
-  
-    // When the form is submitted, prevent the default event and alert the username and password
-    handleFormSubmit = event => {
-      event.preventDefault();
-      alert(`Email: ${this.state.userData.email}
-          \nUsername: ${this.state.userData.username}
-          \nPassword: ********
-          \nGender: ${this.state.userData.gender}
+    // Set the state for the appropriate input field
+    this.setState({
+      [name]: value
+    });
+  };
+
+  handlePasswordChange = event => {
+    const { name, value } = event.target;
+
+    this.setState.userData({
+      [name]: value
+    });
+  };
+
+  handleGenderChange = event => {
+    const { name, newvalue } = event.target;
+
+    this.setState.userData({
+      [name]: newvalue
+    });
+  };
+
+  // When the form is submitted, prevent the default event and alert the username and password
+  handleFormSubmit = event => {
+    event.preventDefault();
+    alert(`Email: ${this.state.email}
+          \nUsername: ${this.state.username}
+          \nPassword: "***"
+          \nGender: ${this.state.gender}
           `);
-      this.setState({ userData: {email: "", username: "", password: "", gender: "" }});
-    };
+    this.setState.userData({ email: "", username: "", password: "", gender: "" });
+  };
+
+  showDeleteAccountConfirmationModal = () => {
+    this.setState({ openDeleteAccountConfirmationModal: true });
+  }
+
+  resetDeleteAccountConfirmationModal = () => {
+    this.setState({ openDeleteAccountConfirmationModal: false });
+  }
+
+  renderDeleteAccountConfirmationModal = () => {
+    if (this.state.openDeleteAccountConfirmationModal) {
+      return <DeleteAccountConfirmationModal
+        resetDeleteAccountConfirmationModal={this.resetDeleteAccountConfirmationModal}
+        deleteUser={this.deleteUser}
+      />
+    }
+  }
+
+  handleLogout = () => {
+    fetch("logout", { method: "GET" })
+      .then(
+        this.setState({
+          isAuthenticated: false
+        }
+        )
+      )
+  }
+
+  maybeLogout() {
+    if (this.state.isAuthenticated === false) {
+      return (
+      <Redirect to="/" render={(props) => <Home {...props} />} />
+    )
+  }
+  }
 
   render() {
     return (
       <div className="account profile-page sidebar-collapse">
+      {this.maybeLogout()}
         <Header
           showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}
@@ -140,25 +196,37 @@ export default class Account extends Component {
                     <FormGroup row>
                       <Label for="exampleEmail" sm={3}>Email</Label>
                       <Col sm={9}>
+<<<<<<< HEAD
                         <Input 
                           type="email" 
                           name="email" 
                           placeholder={this.state.userData.email} 
                           value={this.state.userData.email}
+=======
+                        <Input
+                          type="email"
+                          name="email"
+                          placeholder={this.state.userData.email}
+                          value={this.state.email}
+>>>>>>> 7dec272754937a1ab20094bb340825e0ce16a21f
                           onChange={this.handleInputChange}
                         />
                       </Col>
-
                     </FormGroup>
                     <FormGroup row>
                       <Label for="username" sm={3}>User Name</Label>
                       <Col sm={9}>
-                        <Input 
-                          type="username" 
-                          name="username" 
+                        <Input
+                          type="username"
+                          name="username"
                           placeholder={this.state.userData.username}
+<<<<<<< HEAD
                           value={this.state.userData.username}
                           onChange={this.handleInputChange} 
+=======
+                          value={this.state.username}
+                          onChange={this.handleInputChange}
+>>>>>>> 7dec272754937a1ab20094bb340825e0ce16a21f
                         />
                       </Col>
 
@@ -166,23 +234,22 @@ export default class Account extends Component {
                     <FormGroup row>
                       <Label for="examplePassword" sm={3}>Password</Label>
                       <Col sm={4}>
-                        <Input 
-                          type="password" 
-                          name="password" 
-                          id="examplePassword" 
-                          placeholder="change password" 
+                        <Input
+                          type="password"
+                          name="password"
+                          id="examplePassword"
+                          placeholder="change password"
                         />
                       </Col>
                       <Col sm={5}>
-                        <Input 
-                          type="password" 
-                          name="password" 
+                        <Input
+                          type="password"
+                          name="password"
                           placeholder="password confirmation"
                           value={this.state.userData.password}
                           onChange={this.handlePasswordChange}
                         />
                       </Col>
-
                     </FormGroup>
                     <FormGroup row>
                       <Label for="exampleCheckbox" sm={3}>Gender</Label>
@@ -210,14 +277,21 @@ export default class Account extends Component {
                     <FormGroup row>
                       <Label for="exampleCustomFileBrowser" sm={3}>Avatar</Label>
                       <Col sm={9}>
+<<<<<<< HEAD
                         <CustomInput 
                           type="file" 
                           id="exampleCustomFileBrowser" 
                           name="file" 
                           label="What's your image?" 
+=======
+                        <CustomInput
+                          type="file"
+                          id="exampleCustomFileBrowser"
+                          name="customFile"
+                          label="What's your image?"
+>>>>>>> 7dec272754937a1ab20094bb340825e0ce16a21f
                         />
                       </Col>
-
                     </FormGroup>
                     <FormGroup check row>
                       <Col sm={{ size: 2, offset: 5 }}>
@@ -226,10 +300,10 @@ export default class Account extends Component {
                     </FormGroup>
                   </Form>
                   <div>
-                    <br/>
-                    <hr/>
-                    <br/>
-                    <br/>
+                    <br />
+                    <hr />
+                    <br />
+                    <br />
                   </div>
 
                   <Form>
@@ -248,10 +322,10 @@ export default class Account extends Component {
                     </FormGroup>
                     <FormGroup check row>
                       <Col sm={{ size: 12, offset: 4 }}>
-                        <Button color="warning">-----Goodbye FOREVER-------</Button>
+                        <Button onClick={() => this.showDeleteAccountConfirmationModal()} color="warning">-----Goodbye FOREVER-------</Button>
                       </Col>
                     </FormGroup>
-                    <br/>
+                    <br />
                   </Form>
                 </div>
 
@@ -264,6 +338,7 @@ export default class Account extends Component {
 
         </Main>
         {this.props.renderNewSuitcaseModal()}
+        {this.renderDeleteAccountConfirmationModal()}
         <Footer />
       </div>
     )

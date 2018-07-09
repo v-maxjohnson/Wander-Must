@@ -3,7 +3,42 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Moment from 'react-moment';
 import Category from "../components/Category";
 import QuickViewItem from "../components/QuickViewItem";
+import gql from "graphql-tag";
+import ApolloClient from 'apollo-boost';
 import "../styles/QuickViewModal.css";
+
+const GET_SUITCASE_QUERY = gql` 
+query getSuitcase( $id: ID ){
+  getSuitcase(id: $id) {
+    id
+    start_date
+    end_date
+    travel_category 
+    note_title
+    notes
+    Items {
+      id
+      item_name
+      item_category
+      suitcase_items {
+        item_amount
+      }
+    }
+    Locale {
+      id
+      locale_city
+      locale_admin
+      locale_country
+    }
+    User {
+      id
+      username
+      gender
+    }
+  }
+}`;
+
+const client = new ApolloClient();
 
 let cityNoUnderscores = "";
 
@@ -11,8 +46,31 @@ export default class QuickViewModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: true
+      modal: true,
+      rendered: false,
+      modalSuitcase: {
+        start_date: "",
+        end_date: "",
+        travel_category: "",
+        Items: [],
+        Locale: [],
+        User: []
+      }
     };
+  }
+
+  componentDidMount() {
+    this.getSuitcase();
+  }
+
+  getSuitcase = () => {
+    client.query({
+      query: GET_SUITCASE_QUERY,
+      variables: { id: this.props.id },
+      fetchPolicy: "network-only"
+    }).then(result => {
+      this.setState({ modalSuitcase: result.data.getSuitcase, rendered: true });
+    })
   }
 
   toggle = () => {
@@ -20,10 +78,12 @@ export default class QuickViewModal extends Component {
   }
 
   renderCityWithoutUnderscores = () => {
-    cityNoUnderscores = this.props.quickViewData.Locale.locale_city.replace(/_/g, ' ');
-    return (
-      cityNoUnderscores
-    )
+    if (this.state.rendered) {
+      cityNoUnderscores = this.state.modalSuitcase.Locale.locale_city.replace(/_/g, ' ');
+      return (
+        cityNoUnderscores
+      )
+    }
   }
 
   showSuccessMessage = () => {
@@ -50,10 +110,10 @@ export default class QuickViewModal extends Component {
               <div className="nav-tabs-wrapper">
                 <ul className="nav suitcase-nav">
                   <li className="nav-item ">
-                    <p className="nav-link" id="suitcase-user">{this.props.quickViewData.User.username}</p>
+                    <p className="nav-link" id="suitcase-user">{this.state.modalSuitcase.User.username}</p>
                   </li>
                   <li className="nav-item ">
-                    <p className="nav-link" id="suitcase-user-gender"> {this.props.quickViewData.User.gender}</p>
+                    <p className="nav-link" id="suitcase-user-gender"> {this.state.modalSuitcase.User.gender}</p>
                   </li>
                   <li className="nav-item ">
                     <p className="nav-link" id="suitcase-locale">{this.renderCityWithoutUnderscores()}
@@ -62,18 +122,18 @@ export default class QuickViewModal extends Component {
                   <li className="nav-item">
                     <p className="nav-link d-inline-block" id="suitcase-startDate">
                       <Moment format="MMM DD, YYYY">
-                        {this.props.quickViewData.start_date}
+                        {this.state.modalSuitcase.start_date}
                       </Moment>
                     </p>-
                   <p className="nav-link d-inline-block" id="suitcase-endDate">
                       <Moment format="MMM DD, YYYY">
-                        {this.props.quickViewData.end_date}
+                        {this.state.modalSuitcase.end_date}
                       </Moment>
                     </p>
                   </li>
 
                   <li className="nav-item">
-                    <p className="nav-link" id="suitcase-travelCategory">{this.props.quickViewData.travel_category}</p>
+                    <p className="nav-link" id="suitcase-travelCategory">{this.state.modalSuitcase.travel_category}</p>
                   </li>
 
                 </ul>
@@ -97,7 +157,7 @@ export default class QuickViewModal extends Component {
                       </div>
                     </div>
                     <div className="row cat-row" id="toiletries">
-                      {this.props.quickViewData.Items
+                      {this.state.modalSuitcase.Items
                         .filter(item => (item.item_category === "TOILETRIES"))
                         .map((item, i) => (
                           <QuickViewItem
@@ -124,7 +184,7 @@ export default class QuickViewModal extends Component {
                       </div>
                     </div>
                     <div className="row cat-row" id="clothing">
-                      {this.props.quickViewData.Items
+                      {this.state.modalSuitcase.Items
                         .filter(item => (item.item_category === "CLOTHING"))
                         .map((item, i) => (
                           <QuickViewItem
@@ -153,7 +213,7 @@ export default class QuickViewModal extends Component {
                       </div>
                     </div>
                     <div className="row cat-row" id="accessories">
-                      {this.props.quickViewData.Items
+                      {this.state.modalSuitcase.Items
                         .filter(item => (item.item_category === "ACCESSORIES"))
                         .map((item, i) => (
                           <QuickViewItem
@@ -182,7 +242,7 @@ export default class QuickViewModal extends Component {
                       </div>
                     </div>
                     <div className="row cat-row" id="electronics">
-                      {this.props.quickViewData.Items
+                      {this.state.modalSuitcase.Items
                         .filter(item => (item.item_category === "ELECTRONICS"))
                         .map((item, i) => (
                           <QuickViewItem

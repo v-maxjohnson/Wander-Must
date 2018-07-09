@@ -36,7 +36,8 @@ export default class Navibar extends Component {
       loggedInUserIdNumber: localStorage.getItem("logged_in_user_id"),
       userName: "",
       allLocales: [],
-      value: ''
+      value: '',
+      activeClass: "navbar-transparent"
     };
   }
 
@@ -60,8 +61,20 @@ export default class Navibar extends Component {
       query: GET_USER_QUERY,
       variables: { id: this.state.loggedInUserIdNumber }
     }).then(result => {
-      this.setState({ userName: result.data.getUser.username});
+      this.setState({ userName: result.data.getUser.username });
     })
+
+    window.addEventListener('scroll', this.listenScrollEvent)
+
+
+  }
+
+  listenScrollEvent = e => {
+    if (window.scrollY > 100) {
+      this.setState({ activeClass: "bg-white" })
+    } else {
+      this.setState({ activeClass: "navbar-transparent" })
+    }
   }
 
   renderCityWithoutUnderscores = () => {
@@ -166,7 +179,7 @@ export default class Navibar extends Component {
             </div>
           </NavItem>
           <NavItem id="user-name-link" className="nav-item">
-            <p className="nav-link" id="user-name-text">Hello, <Link className="text-white" to="/account">{this.state.userName}</Link> !</p>
+            <p className="nav-link" id="user-name-text">Hello, <Link className="nav-link-link" to="/account">{this.state.userName}</Link> !</p>
 
           </NavItem>
           <NavItem className="nav-item">
@@ -221,9 +234,9 @@ export default class Navibar extends Component {
     return (
       <div>
         {this.maybeLogout()}
-        <Navbar className="navbar navbar-transparent fixed-top navbar-expand-lg">
+        <Navbar className={`navbar ${this.state.activeClass} fixed-top navbar-expand-lg`}>
           <div className="container">
-            <div className="navbar-brand wandermust-font"><Link to="/" className="text-white">Wander-Must</Link></div>
+            <Link to="/" className="navbar-brand wandermust-font nav-link">Wander-Must</Link>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               {this.renderNavItems()}

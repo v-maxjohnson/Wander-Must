@@ -40,6 +40,14 @@ export default class Account extends Component {
       user_image: "",
       password: ""
     },
+    newData: {
+      id: "",
+      email: "",
+      username: "",
+      gender: "",
+      user_image: "",
+      password: ""
+    },
     openDeleteAccountConfirmationModal: false,
     rendered: false,
     loggedInUserId: localStorage.getItem("logged_in_user_id")
@@ -73,35 +81,36 @@ export default class Account extends Component {
 
     // Set the state for the appropriate input field
     this.setState({
-      [name]: value
+      newData: {[name]: value}
     });
   };
 
   handlePasswordChange = event => {
     const { name, value } = event.target;
 
-    this.setState.userData({
-      [name]: value
+    this.setState({
+      newData: {[name]: value}
     });
   };
 
   handleGenderChange = event => {
-    const { name, newvalue } = event.target;
+    const { name, value } = event.target;
 
-    this.setState.userData({
-      [name]: newvalue
+    this.setState({
+      newData: {[name]: value}
     });
   };
 
   // When the form is submitted, prevent the default event and alert the username and password
   handleFormSubmit = event => {
     event.preventDefault();
-    alert(`Email: ${this.state.email}
-          \nUsername: ${this.state.username}
+    alert(`Email: ${this.state.newData.email}
+          \nUsername: ${this.state.newData.username}
           \nPassword: "***"
-          \nGender: ${this.state.gender}
+          \nGender: ${this.state.newData.gender}
           `);
-    this.setState.userData({ email: "", username: "", password: "", gender: "" });
+    console.log(this.state.userData);
+    console.log(this.state.newData);
   };
 
   showDeleteAccountConfirmationModal = () => {

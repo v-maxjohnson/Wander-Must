@@ -90,6 +90,8 @@ export default class Account extends Component {
 
   showNewSuitcaseModal = () => {
     this.setState({ openNewSuitcaseModal: true });
+  }
+
   deleteUser = () => {
     client.mutate({
       mutation: DELETE_USER_MUTATION,
@@ -139,7 +141,6 @@ export default class Account extends Component {
 
   showDeleteAccountConfirmationModal = () => {
     this.setState({ openDeleteAccountConfirmationModal: true });
->>>>>>> 7dec272754937a1ab20094bb340825e0ce16a21f
   }
 
   resetDeleteAccountConfirmationModal = () => {
@@ -165,12 +166,12 @@ export default class Account extends Component {
       )
   }
 
-  maybeLogout() {
+  maybeLogout = () => {
     if (this.state.isAuthenticated === false) {
       return (
-      <Redirect to="/" render={(props) => <Home {...props} />} />
-    )
-  }
+        <Redirect to="/" render={(props) => <Home {...props} />} />
+      )
+    }
   }
 
   render() {

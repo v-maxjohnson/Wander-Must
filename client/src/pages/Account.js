@@ -213,7 +213,7 @@ export default class Account extends Component {
                         <CustomInput 
                           type="file" 
                           id="exampleCustomFileBrowser" 
-                          name="customFile" 
+                          name="file" 
                           label="What's your image?" 
                         />
                       </Col>

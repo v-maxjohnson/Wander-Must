@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
+import { CloudinaryContext } from 'cloudinary-react';
 import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";

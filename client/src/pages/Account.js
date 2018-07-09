@@ -8,6 +8,7 @@ import Home from "./Home";
 import DeleteAccountConfirmationModal from "../components/DeleteAccountConfirmationModal";
 import "../styles/Account.css";
 import gql from "graphql-tag";
+import axios from 'axios';
 import ApolloClient from 'apollo-boost';
 
 const GET_USER_QUERY = gql`
@@ -19,7 +20,7 @@ query getUser( $id: ID ){
     user_image
     email
   }
-}`;
+  }`;
 
 const DELETE_USER_MUTATION = gql` 
 mutation deleteUser( $id: ID ){
@@ -54,6 +55,41 @@ export default class Account extends Component {
       console.log(this.state.userData);
     })
 
+  }
+
+  handleImageChange = (e) => {
+    let file = e.target.files[0];
+    let formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "poabwcdf")
+    console.log(formData.get("file"));
+
+    if(this.state.rendered) {
+      axios({
+        method: "POST",
+        url: "https://api.cloudinary.com/v1_1/dorxotpsj/upload",
+        data: formData 
+      })
+      .then(res => {
+        let url = res.data.url;
+
+        //update user_image in database with url
+
+        this.setState({
+          userData: {
+            id: this.state.userData.id,
+            username: this.state.userData.username,
+            gender: this.state.userData.gender,
+            user_image: url
+          }
+        });
+      })
+    }
+  }
+
+
+  showNewSuitcaseModal = () => {
+    this.setState({ openNewSuitcaseModal: true });
   }
 
   deleteUser = () => {
@@ -130,12 +166,12 @@ export default class Account extends Component {
       )
   }
 
-  maybeLogout() {
+  maybeLogout = () => {
     if (this.state.isAuthenticated === false) {
       return (
-      <Redirect to="/" render={(props) => <Home {...props} />} />
-    )
-  }
+        <Redirect to="/" render={(props) => <Home {...props} />} />
+      )
+    }
   }
 
   render() {
@@ -256,6 +292,7 @@ export default class Account extends Component {
                           id="exampleCustomFileBrowser"
                           name="customFile"
                           label="What's your image?"
+                          onChange={ this.handleImageChange }
                         />
                       </Col>
                     </FormGroup>

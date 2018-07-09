@@ -33,7 +33,6 @@ export default class Navibar extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
-      loggedInUserIdNumber: localStorage.getItem("logged_in_user_id"),
       userName: "",
       allLocales: [],
       value: ''
@@ -58,7 +57,7 @@ export default class Navibar extends Component {
 
     client.query({
       query: GET_USER_QUERY,
-      variables: { id: this.state.loggedInUserId },
+      variables: { id: localStorage.getItem("logged_in_user_id") },
       fetchPolicy: "network-only"
     }).then(result => {
       this.setState({ userName: result.data.getUser.username});

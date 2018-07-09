@@ -28,10 +28,8 @@ export default class Wunderground extends Component {
 
         axios.get(queryURL)
             .then((response) => {
-                console.log(response.data);
                 if (this.state.rendered && response.data.hits.length) {
                     url = response.data.hits[0].webformatURL;
-                    console.log(url);
                     this.props.setCityImageSrc(url);
                 } else {
                     url = "";

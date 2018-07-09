@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import Search from "../pages/Search";
 import Autocomplete from 'react-google-autocomplete';
 import DatePicker from 'react-datepicker';
+import Pixabay from '../utils/Pixabay';
 import moment from 'moment';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import "../styles/NewSuitcaseModal.css";
@@ -40,6 +41,7 @@ export default class NewSuitcaseModal extends Component {
       endSelect: null,
       newLocale: null,
       selectValue: "",
+      cityImageSrc: "",
       loggedInUserId: localStorage.getItem("logged_in_user_id")
     };
   }
@@ -115,7 +117,8 @@ export default class NewSuitcaseModal extends Component {
       }
 
       this.setState({
-        newLocale: newLocaleObject
+        newLocale: newLocaleObject,
+        locationChosen: true
       });
     }
   }
@@ -127,7 +130,7 @@ export default class NewSuitcaseModal extends Component {
     }).then(result => {
       this.createNewSuitcase(result.data.createNewLocale.id);
     }).catch(err => console.log(err))
-    
+
   }
 
   createNewSuitcase = (localeId) => {
@@ -142,13 +145,27 @@ export default class NewSuitcaseModal extends Component {
       })
     }).catch(err => console.log(err))
   }
-  
+
   maybeRedirect = () => {
     if (this.state.shouldRedirectToSuitcase) {
       return (
         <Redirect to={"/search/" + this.state.newLocale.locale_city} render={(props) => <Search {...props} />} />
       )
     }
+  }
+
+  renderPixabay = () => {
+    if (this.state.locationChosen) {
+      return <Pixabay
+        city={this.state.newLocale.locale_city}
+        country={this.state.newLocale.locale_country}
+        setCityImageSrc={this.setCityImageSrc}
+      />
+    }
+  }
+
+  setCityImageSrc = (url) => {
+    this.setState({ cityImageSrc: url })
   }
 
   toggle = () => {
@@ -159,6 +176,7 @@ export default class NewSuitcaseModal extends Component {
     return (
       <div>
         {this.maybeRedirect()}
+        {this.renderPixabay()}
         <Modal centered={true} isOpen={this.state.modal} toggle={this.toggle} className="new-suitcase-modal modal-lg">
           <ModalHeader toggle={this.toggle}><strong>Add a new suitcase</strong></ModalHeader>
           <ModalBody>
@@ -187,7 +205,7 @@ export default class NewSuitcaseModal extends Component {
                     onChange={this.handleSelectChange}
                     ref={ref => {
                       this.select = ref
-                  }}
+                    }}
                     defaultValue={this.state.selectValue}
                   >
                     <option value="" disabled="disabled"></option>
@@ -238,7 +256,7 @@ export default class NewSuitcaseModal extends Component {
 
           </ModalBody>
           <ModalFooter>
-            <button className="btn btn-primary btn-sm px-3 py-2" onClick={() => this.createNewLocale() }>Start Packing!</button>
+            <button className="btn btn-primary btn-sm px-3 py-2" onClick={() => this.createNewLocale()}>Start Packing!</button>
           </ModalFooter>
         </Modal >
       </div >

@@ -8,7 +8,7 @@ import Footer from "../components/Footer";
 import Category from "../components/Category";
 import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import ConfirmationModal from "../components/ConfirmationModal";
-// import Yelp from "../utils/Yelp";
+import Yelp from "../utils/Yelp";
 import Item from "../components/Item";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
 import "../styles/Suitcase.css";
@@ -610,10 +610,7 @@ export default class Suitcase extends Component {
                   )}
               </div>
             </div>
-<<<<<<< HEAD
-=======
             {this.renderYelp()}
->>>>>>> 7b377d16cba2a5d7bbc0e102ebc1e5d37d060b19
           </div>
 
         </Main>

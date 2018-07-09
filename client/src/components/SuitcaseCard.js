@@ -46,7 +46,7 @@ export default class SuitcaseCard extends Component {
                     <div className="card bg-dark text-white no-shadow">
                         <div className="suitcaseWrapper card-img">
                             <Link className="suitcase-link" to={"/suitcase/" + this.props.id}>
-                                {this.renderPixabay()}
+                                {this.renderPicture()}
                                 <img
                                     className="suitcasePhoto img-responsive"
                                     src={this.state.cityImageSrc} alt="City Skyline"

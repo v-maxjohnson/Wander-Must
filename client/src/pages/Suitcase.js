@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from "react-router-dom";
-import Profile from "./Profile";
-import NavTabs from "../components/NavTabs";
 import Moment from 'react-moment';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import SuitcaseItems from "../components/SuitcaseItems";
-import Blog from "../components/Blog.js"
+import NewSuitcaseModal from "../components/NewSuitcaseModal";
 import ConfirmationModal from "../components/ConfirmationModal";
-import Yelp from "../utils/Yelp";
+import SuitcaseItems from "../components/SuitcaseItems";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
 import "../styles/Suitcase.css";
 import Wunderground from "../utils/Wunderground";
@@ -17,22 +13,17 @@ import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 import Autocomplete from 'react-autocomplete';
 
+
 const GET_SUITCASE_QUERY = gql` 
-query getSuitcase( $id: ID ){
+query getSuitcase( $id: String! ){
   getSuitcase(id: $id) {
-    id
     start_date
     end_date
-    travel_category 
-    note_title
-    notes
+    travel_category
     Items {
       id
       item_name
       item_category
-      suitcase_items {
-        item_amount
-      }
     }
     Locale {
       id
@@ -48,45 +39,20 @@ query getSuitcase( $id: ID ){
   }
 }`;
 
-const DELETE_SUITCASE_MUTATION = gql` 
-mutation deleteSuitcase( $id: ID ){
+const DELETE_SUITCASE_QUERY = gql` 
+mutation deleteSuitcase( $id: String! ){
     deleteSuitcase(id: $id) {
       id
     }
 }`;
 
-const ADD_ITEM_TO_SUITCASE_MUTATION = gql`
-mutation addItemToSuitcase( $id: ID, $item_ids: [ID] ) {
-  addItemToSuitcase (id: $id, item_ids: $item_ids) {
-      id
-      Items {
-        id
-    }
-  }
-}`;
-
-const DELETE_ITEM_FROM_SUITCASE_MUTATION = gql`
-mutation deleteItemFromSuitcase( $suitcase_id: ID, $item_id: ID ) {
-  deleteItemFromSuitcase (suitcase_id: $suitcase_id, item_id: $item_id) {
-      id
-      Items {
-        id
-    }
-  }
-}`;
-
-const UPDATE_ITEM_AMOUNT_ON_SUITCASE_MUTATION = gql`
-mutation updateItemAmountOnSuitcase( $suitcase_id: ID, $item_id: ID, $item_amount: Int! ) {
-  updateItemAmountOnSuitcase (suitcase_id: $suitcase_id, item_id: $item_id, item_amount: $item_amount) {
-      id
-  }
-}`;
-
 const client = new ApolloClient();
 
+let suitcaseId = localStorage.getItem("suitcase_id");
 let cityNoUnderscores = "";
 let autocompleteItems;
 let renderAutoValue;
+let loggedInUserIdNumber = localStorage.getItem("logged_in_user_id");
 
 
 export default class Suitcase extends Component {
@@ -101,40 +67,33 @@ export default class Suitcase extends Component {
     },
     allItems: [],
     rendered: false,
+    openNewSuitcaseModal: false,
     openConfirmationModal: false,
-    thisSuitcaseId: this.props.match.params.id,
-    currentSuitcaseId: localStorage.getItem("suitcase_id"),
+    suitcaseId: suitcaseId,
     value: '',
-    currentPage: "SuitcaseItems",
-    itemsToAdd: [],
-    loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
+    loggedInUserIdNumber: loggedInUserIdNumber
   };
 
   componentDidMount() {
 
-    this.getSuitcase();
+    client.query({
+      query: GET_SUITCASE_QUERY,
+      variables: { id: this.state.suitcaseId }
+    }).then(result => {
+      this.setState({ suitcase: result.data.getSuitcase, rendered: true });
+      console.log(this.state.suitcase, this.state.rendered);
+    })
 
     client.query({
       query: gql` 
             { 
               allItems {
-                id,
                 item_name,
                 item_category 
               }
             }`
     }).then(result => {
       this.setState({ allItems: result.data.allItems });
-    })
-  }
-
-  getSuitcase = () => {
-    client.query({
-      query: GET_SUITCASE_QUERY,
-      variables: { id: this.state.thisSuitcaseId },
-      fetchPolicy: "network-only"
-    }).then(result => {
-      this.setState({ suitcase: result.data.getSuitcase, rendered: true });
     })
   }
 
@@ -160,7 +119,6 @@ export default class Suitcase extends Component {
         (item, highlighted) =>
           <div
             key={item.key}
-            id={item.id}
             style={{ backgroundColor: highlighted ? '#eee' : 'transparent' }}
           >
             {item.label} | <span className="auto-category">{item.category}</span>
@@ -190,26 +148,28 @@ export default class Suitcase extends Component {
     }
   }
 
-  renderYelp = () => {
-    if (this.state.rendered) {
-      return (
-        <div className="yelp-wrapper">
-          <Yelp
-            city={this.state.suitcase.Locale.locale_city}
-            admin={this.state.suitcase.Locale.locale_admin}
-            country={this.state.suitcase.Locale.locale_country}
-          />
-        </div>
-      )
-    }
-  }
-
   renderCityWithoutUnderscores = () => {
     if (this.state.rendered) {
       cityNoUnderscores = this.state.suitcase.Locale.locale_city.replace(/_/g, ' ');
       return (
         cityNoUnderscores
       )
+    }
+  }
+
+  showNewSuitcaseModal = () => {
+    this.setState({ openNewSuitcaseModal: true });
+  }
+
+  resetNewSuitcaseModal = () => {
+    this.setState({ openNewSuitcaseModal: false });
+  }
+
+  renderNewSuitcaseModal = () => {
+    if (this.state.openNewSuitcaseModal) {
+      return <NewSuitcaseModal
+        resetNewSuitcaseModal={this.resetNewSuitcaseModal}
+      />
     }
   }
 
@@ -232,164 +192,19 @@ export default class Suitcase extends Component {
 
   deleteSuitcase = () => {
     client.mutate({
-      mutation: DELETE_SUITCASE_MUTATION,
-      variables: { id: this.state.suitcase.id }
+      mutation: DELETE_SUITCASE_QUERY,
+      variables: { id: this.state.suitcaseId }
     }).then(result => {
-      this.setState({
-        shouldRedirectToProfile: true
-      })
+      window.location = "/profile/" + this.state.loggedInUserIdNumber;
+      console.log(result);
     })
-  }
-
-  addItemToSuitcase = () => {
-    client.mutate({
-      mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
-      variables: { id: this.state.suitcase.id, item_ids: this.state.itemsToAdd },
-      fetchPolicy: "no-cache"
-    }).then(result => {
-      this.getSuitcase();
-      this.setState({ value: "", itemsToAdd: [] })
-    }).catch(err => console.log(err))
-  }
-
-  addItemsToCurrentSuitcase = () => {
-    client.mutate({
-      mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
-      variables: { id: this.state.currentSuitcaseId, item_ids: this.state.itemsToAdd }
-    }).then(result => {
-      this.setState({
-        itemsToAdd: [],
-        thisSuitcaseId: this.props.match.params.id
-      })
-    }).catch(err => console.log(err))
-  }
-
-  deleteItemFromSuitcase = (itemId) => {
-    client.mutate({
-      mutation: DELETE_ITEM_FROM_SUITCASE_MUTATION,
-      variables: { suitcase_id: this.state.suitcase.id, item_id: itemId },
-      fetchPolicy: "no-cache"
-    }).then(result => {
-      this.getSuitcase();
-      console.log(itemId)
-    }).catch(err => console.log(err))
-  }
-
-  updateItemAmountOnSuitcase = (itemId, itemAmount) => {
-    client.mutate({
-      mutation: UPDATE_ITEM_AMOUNT_ON_SUITCASE_MUTATION,
-      variables: { suitcase_id: this.state.suitcase.id, item_id: itemId, item_amount: itemAmount },
-      fetchPolicy: "no-cache"
-    }).then(result => {
-      this.getSuitcase();
-      console.log(itemId, itemAmount)
-    }).catch(err => console.log(err))
-  }
-
-  maybeRedirect() {
-    if (this.state.shouldRedirectToProfile) {
-      return (
-        <Redirect to={"/profile/" + this.state.loggedInUserIdNumber} render={(props) => <Profile {...props} />} />
-      )
-    }
-  }
-
-  setSuitcaseId = () => {
-    localStorage.setItem("suitcase_id", this.state.suitcase.id);
-  }
-
-  onCheckboxBtnClick = (selected) => {
-    const index = this.state.itemsToAdd.indexOf(selected);
-    if (index < 0) {
-      this.state.itemsToAdd.push(selected);
-    } else {
-      this.state.itemsToAdd.splice(index, 1);
-    }
-    this.setState({ itemsToAdd: [...this.state.itemsToAdd] });
-  }
-
-  handlePageChange = page => {
-    this.setState({ currentPage: page });
-
-  };
-
-  renderPage = () => {
-    if (this.state.currentPage === "SuitcaseItems") {
-      return (
-        <div>
-          {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
-            <div className="input-group mb-3 auto-items">
-
-              <Autocomplete
-
-                items={this.setAutocompleteItems()}
-                shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
-                getItemValue={item => item.label}
-                renderItem={this.renderAutocomplete()}
-                wrapperStyle={
-                  {
-                    position: 'relative',
-                    zIndex: 9999
-                  }
-                }
-                menuStyle={
-                  {
-                    position: 'absolute',
-                    cursor: "pointer",
-                    top: "35px",
-                    left: 0,
-                    backgroundColor: "white"
-                  }
-                }
-                value={this.state.value}
-                onChange={e => this.setState({ value: e.target.value })}
-                onSelect={(value, item) => this.setState({ value: value, itemsToAdd: [...this.state.itemsToAdd, item.id] })}
-              />
-              <div className="input-group-append">
-                <button className="add-one-item" type="button" onClick={() => { this.addItemToSuitcase() }}><i className="fa fa-search"></i> Add an item</button>
-              </div>
-            </div>
-          ) : (
-              <div></div>
-            )}
-
-          <SuitcaseItems
-            suitcase={this.state.suitcase}
-            currentSuitcaseId={this.state.currentSuitcaseId}
-            itemsToAdd={this.itemsToAdd}
-            onCheckboxBtnClick={this.onCheckboxBtnClick}
-            loggedInUserIdNumber={this.state.loggedInUserIdNumber}
-            suitcaseUserId={this.state.suitcase.User.id}
-            deleteItemFromSuitcase={this.deleteItemFromSuitcase}
-            setSuitcaseId={this.setSuitcaseId}
-            addItemsToCurrentSuitcase={this.addItemsToCurrentSuitcase}
-            updateItemAmountOnSuitcase={this.updateItemAmountOnSuitcase}
-            renderYelp={this.renderYelp}
-          />
-        </div>
-      )
-    } else {
-      return (
-        <div className="blog-wrapper">
-          <Blog
-            note_title={this.state.suitcase.note_title}
-            notes={this.state.suitcase.notes}
-            loggedInUserIdNumber={this.state.loggedInUserIdNumber}
-            suitcaseUserId={this.state.suitcase.User.id}
-            showConfirmationModal={this.showConfirmationModal}
-          />
-        </div>
-      )
-    }
   }
 
   render() {
     return (
       <div className="suitcase profile-page sidebar-collapse">
-        {this.maybeRedirect()}
         <Header
-          showNewSuitcaseModal={this.props.showNewSuitcaseModal}
-          loggedInUserIdNumber={this.state.loggedInUserIdNumber}
+          showNewSuitcaseModal={this.showNewSuitcaseModal}
         />
         <Main>
           <div className="page-header header-filter" data-parallax="true" id="background-suitcase"></div>
@@ -420,38 +235,38 @@ export default class Suitcase extends Component {
                             <p className="nav-link" id="suitcase-user-gender">{this.state.suitcase.User.gender}</p>
                           </li>
                           <li className="nav-item ">
-                            <Link className="nav-link" id="suitcase-locale" to={"/search/" + this.state.suitcase.Locale.locale_city}>{this.renderCityWithoutUnderscores()}</Link>
+                            <a className="nav-link" id="suitcase-locale" href={"/search/" + this.state.suitcase.Locale.locale_city}>{this.renderCityWithoutUnderscores()}</a>
                           </li>
-
-                          {this.state.rendered ? (
-                            <li className="nav-item">
-                              <p className="nav-link d-inline-block" id="suitcase-startDate">
-                                <Moment format="MMM DD, YYYY">
-                                  {this.state.suitcase.start_date}
-                                </Moment>
-                              </p>-
-                              <p className="nav-link d-inline-block" id="suitcase-endDate">
-                                <Moment format="MMM DD, YYYY">
-                                  {this.state.suitcase.end_date}
-                                </Moment>
-                              </p>
-                            </li>
-                          ) : (
-                              <li className="nav-item">
-                                Loading . . .
-                              </li>
-                            )}
+                          <li className="nav-item">
+                            <p className="nav-link d-inline-block" id="suitcase-startDate">
+                              <Moment format="MMM DD, YYYY">
+                                {this.state.suitcase.start_date}
+                              </Moment>
+                            </p>
+                            <p className="nav-link d-inline-block" id="suitcase-endDate">
+                              <Moment format="MMM DD, YYYY">
+                                {this.state.suitcase.end_date}
+                              </Moment>
+                            </p>
+                          </li>
 
                           <li className="nav-item">
                             <p className="nav-link" id="suitcase-travelCategory">{this.state.suitcase.travel_category}</p>
                           </li>
 
                           <li className="nav-item">
-                            <NavTabs
-                              currentPage={this.state.currentPage}
-                              handlePageChange={this.handlePageChange}
-                            />
+                            <button data-category="clothing" className="all btn btn-primary btn-sm btn-fab btn-round">
+                              <i className="fa fa-suitcase" title="Profile Page"> </i>
+                            </button>
                           </li>
+
+                          <li className="nav-item">
+                            <button data-category="clothing" className="all btn btn-default btn-sm btn-fab btn-round">
+                              <i className="fa fa-pencil-square-o" title="Profile Page"> </i>
+                            </button>
+                          </li>
+
+                          
 
                         </ul>
                         {this.renderWunderground()}
@@ -459,17 +274,64 @@ export default class Suitcase extends Component {
                     </div>
                   </div>
 
+                  <div className="row">
+                    <div className="col-12 text-center">
+                      {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
+                        <button className="btn btn-primary" onClick={() => { this.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
+                      ) : (<div></div>
+                        )}
+                    </div>
+                  </div>
+
                 </div>
               </div>
 
-              {this.renderPage()}
 
-            </div>
+              <div className="input-group mb-3 auto-items">
+                <Autocomplete
+
+                  items={this.setAutocompleteItems()}
+                  shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
+                  getItemValue={item => item.label}
+                  renderItem={this.renderAutocomplete()}
+                  wrapperStyle={
+                    {
+                      position: 'relative',
+                      zIndex: 9999
+                    }
+                  }
+                  menuStyle={
+                    {
+                      position: 'absolute',
+                      cursor: "pointer",
+                      top: "35px",
+                      left: 0,
+                      backgroundColor: "white"
+                    }
+                  }
+                  value={this.state.value}
+                  onChange={e => this.setState({ value: e.target.value })}
+                  onSelect={value => this.setState({ value })}
+                />
+                <div className="input-group-append">
+                  <button type="button"><i className="fa fa-search"></i> Find an item</button>
+                </div>
+              </div>
+
+              <SuitcaseItems
+              
+              />
+
+            </div> //profile content 
+
+            
+
+
 
           </div>
 
         </Main>
-        {this.props.renderNewSuitcaseModal()}
+        {this.renderNewSuitcaseModal()}
         {this.renderConfirmationModal()}
         <Footer />
       </div>

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import { Redirect } from "react-router-dom";
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Items from "../pages/Items";
 import QuickViewModal from '../components/QuickViewModal';
-import NewSuitcaseModal from "../components/NewSuitcaseModal";
-import Yelp from "../utils/Yelp";
 import SearchSuitcaseCard from "../components/SearchSuitcaseCard";
 import "../styles/Search.css";
 import gql from "graphql-tag";
@@ -32,6 +32,9 @@ query getSuitcasesByLocale( $locale_city: String! ){
       id
       item_name
       item_category
+      suitcase_items {
+        item_amount
+      }
     }
   }
 }`;
@@ -70,9 +73,8 @@ export default class Search extends Component {
     ],
     city: this.props.match.params.city,
     openQuickViewModal: false,
-    openNewSuitcaseModal: false,
     rendered: false,
-    index: 0,
+    index: null,
     itemsToAdd: [],
     suitcaseId: localStorage.getItem("suitcase_id"),
     loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
@@ -110,7 +112,7 @@ export default class Search extends Component {
   renderQuickViewModal = () => {
     if (this.state.openQuickViewModal) {
       return <QuickViewModal
-        quickViewData={this.state.suitcaseData[this.state.index]}
+        id={this.state.index}
         resetQuickViewModal={this.resetQuickViewModal}
         itemsToAdd={this.state.itemsToAdd}
         onCheckboxBtnClick={this.onCheckboxBtnClick}
@@ -119,24 +121,9 @@ export default class Search extends Component {
     }
   }
 
-  setQuickViewModalIndex = (idx) => {
-    this.setState({ index: idx })
-  }
-
-  showNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: true });
-  }
-
-  resetNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: false });
-  }
-
-  renderNewSuitcaseModal = () => {
-    if (this.state.openNewSuitcaseModal) {
-      return <NewSuitcaseModal
-        resetNewSuitcaseModal={this.resetNewSuitcaseModal}
-      />
-    }
+  setQuickViewModalIndex = (contentId) => {
+    this.setState({ index: contentId })
+    console.log(this.state.index, contentId)
   }
 
   onCheckboxBtnClick = (selected) => {
@@ -158,16 +145,45 @@ export default class Search extends Component {
     }).catch(err => console.log(err))
   }
 
-  renderYelp = () => {
-    if (this.state.rendered) {
+  mapOrRedirect = () => {
+    let filteredArray = this.state.suitcaseData
+      .filter(suitcase =>
+        (suitcase.User.id !== this.state.loggedInUserIdNumber));
+
+    if (filteredArray.length) {
       return (
-        <div className="yelp-wrapper">
-          <Yelp
-            city={this.state.suitcaseData[0].Locale.locale_city}
-            admin={this.state.suitcaseData[0].Locale.locale_admin}
-            country={this.state.suitcaseData[0].Locale.locale_country}
+        filteredArray.map((suitcase, i) => (
+          <SearchSuitcaseCard
+            key={i}
+            idx={i}
+            id={suitcase.id}
+            city={suitcase.Locale.locale_city}
+            localeAdmin={suitcase.Locale.locale_admin}
+            country={suitcase.Locale.locale_country}
+            src={suitcase.Locale.locale_image}
+            startDate={suitcase.start_date}
+            endDate={suitcase.end_date}
+            category={suitcase.travel_category}
+            userName={suitcase.User.username}
+            gender={suitcase.User.gender}
+            rendered={this.state.rendered}
+            showQuickViewModal={this.showQuickViewModal}
+            setQuickViewModalIndex={this.setQuickViewModalIndex}
           />
-        </div>
+        )
+        )
+      )
+    } else {
+      this.setState({
+        shouldRedirectToItems: true
+      })
+    }
+  }
+
+  maybeRedirect() {
+    if (this.state.shouldRedirectToItems) {
+      return (
+        <Redirect to={"/items"} render={(props) => <Items {...props} />} />
       )
     }
   }
@@ -175,8 +191,10 @@ export default class Search extends Component {
   render() {
     return (
       <div className="search profile-page sidebar-collapse">
+        {this.maybeRedirect()}
         <Header
-          showNewSuitcaseModal={this.showNewSuitcaseModal}
+          showNewSuitcaseModal={this.props.showNewSuitcaseModal}
+          loggedInUserIdNumber={this.state.loggedInUserIdNumber}
         />
         <Main>
           <div className="page-header header-filter" data-parallax="true" id="background-search"></div>
@@ -196,35 +214,14 @@ export default class Search extends Component {
                   </div>
                 </div>
                 <div className="row">
-                  {this.state.suitcaseData
-                    .filter(suitcase => (suitcase.User.id !== this.state.loggedInUserIdNumber))
-                    .map((suitcase, i) => (
-                      <SearchSuitcaseCard
-                        key={i}
-                        idx={i}
-                        id={suitcase.id}
-                        city={suitcase.Locale.locale_city}
-                        localeAdmin={suitcase.Locale.locale_admin}
-                        country={suitcase.Locale.locale_country}
-                        src={suitcase.Locale.locale_image}
-                        startDate={suitcase.start_date}
-                        endDate={suitcase.end_date}
-                        category={suitcase.travel_category}
-                        userName={suitcase.User.username}
-                        gender={suitcase.User.gender}
-                        rendered={this.state.rendered}
-                        showQuickViewModal={this.showQuickViewModal}
-                        setQuickViewModalIndex={this.setQuickViewModalIndex}
-                      />
-                    ))}
+                  {this.mapOrRedirect()}
                 </div>
               </div>
             </div>
-            {this.renderYelp()}
           </div>
         </Main>
         {this.renderQuickViewModal()}
-        {this.renderNewSuitcaseModal()}
+        {this.props.renderNewSuitcaseModal()}
         <Footer />
 
       </div>

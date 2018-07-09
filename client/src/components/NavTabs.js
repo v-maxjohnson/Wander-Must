@@ -1,27 +1,30 @@
-import React from "react";
+import React, { Component } from 'react';
 
-const NavTabs = props => (
-  <ul className="nav nav-tabs">
+export default class NavTabs extends Component {
+  render() {
+    return (
 
-    <li className="nav-item">
-      <a onClick={() => props.handlePageChange("SuitcaseItems")} className="nav-link"
-      className={props.currentPage === "SuitcaseItems" ? "active nav-link" : "nav-link"}>
-        <button className="all btn btn-primary btn-sm btn-fab btn-round">
-          <i className="fa fa-suitcase" title="Contact"> </i>
-        </button>
-      </a>
-    </li>
+      <ul>
+        <li className="nav-item d-inline-block">
+          <a onClick={() => this.props.handlePageChange("SuitcaseItems")}
+            className={this.props.currentPage === "SuitcaseItems" ? "active nav-link" : "nav-link"}>
+            <button className="all btn btn-primary btn-sm btn-fab btn-round">
+              <i className="fa fa-suitcase" title="Contact"> </i>
+            </button>
+          </a>
+        </li>
 
-    <li className="nav-item">
-      <a onClick={() => props.handlePageChange("Blog")} className="nav-link"
-      className={props.currentPage === "Blog" ? "active nav-link" : "nav-link"}>
-        <button className="all btn btn-warning btn-sm btn-fab btn-round">
-          <i className="fa fa-pencil-square-o" title="Blog"> </i>
-        </button>
-      </a>
-    </li>
+        <li className="nav-item d-inline-block">
+          <a onClick={() => this.props.handlePageChange("Blog")}
+            className={this.props.currentPage === "Blog" ? "active nav-link" : "nav-link"}>
+            <button className="all btn btn-warning btn-sm btn-fab btn-round">
+              <i className="fa fa-pencil-square-o" title="Blog"> </i>
+            </button>
+          </a>
+        </li>
+      </ul>
+      
 
-  </ul>
-);
-
-export default NavTabs;
+    )
+  }
+}

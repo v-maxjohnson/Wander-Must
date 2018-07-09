@@ -11,34 +11,96 @@ import Items from "./pages/Items";
 import Profile from "./pages/Profile";
 import Search from "./pages/Search";
 import Suitcase from "./pages/Suitcase";
+import NewSuitcaseModal from "./components/NewSuitcaseModal";
 import "./App.css";
 
 const client = new ApolloClient();
 
 class App extends Component {
+
+  state = {
+    openNewSuitcaseModal: false
+  }
+
+  showNewSuitcaseModal = () => {
+    this.setState({ openNewSuitcaseModal: true });
+  }
+
+  resetNewSuitcaseModal = () => {
+    this.setState({ openNewSuitcaseModal: false });
+  }
+
+  renderNewSuitcaseModal = () => {
+    if (this.state.openNewSuitcaseModal) {
+      return <NewSuitcaseModal
+        resetNewSuitcaseModal={this.resetNewSuitcaseModal}
+      />
+    }
+  }
+
   render() {
     return (
-      <CloudinaryContext cloudName="dorxotpsj">
-	      <ApolloProvider client={client}>
-	        <Router>
-	          <ScrollToTop>
-	          <div className="App">
-	            <Switch>
-                <Route exact path="/" component={Home} />
+      <ApolloProvider client={client}>
+        <Router>
+          <ScrollToTop>
+            <div className="App">
+              <Switch>
+                <Route exact path="/" render={(props) =>
+                  <Home {...props}
+                    showNewSuitcaseModal={this.showNewSuitcaseModal}
+                    resetNewSuitcaseModal={this.resetNewSuitcaseModal}
+                    renderNewSuitcaseModal={this.renderNewSuitcaseModal}
+                  />}
+                />
                 <Route exact path="/signup" component={Signup} />
-                <Route exact path="/account" component={Account} />
-                <Route exact path="/items" component={Items} />
-                <Route exact path="/profile/:id" component={Profile} />
-                <Route exact path="/search/:city" component={Search} />
-                <Route exact path="/search/:user" component={Search} />
-                <Route exact path="/suitcase/:id" component={Suitcase} />
+                <Route exact path="/account" render={(props) =>
+                  <Account {...props}
+                    showNewSuitcaseModal={this.showNewSuitcaseModal}
+                    resetNewSuitcaseModal={this.resetNewSuitcaseModal}
+                    renderNewSuitcaseModal={this.renderNewSuitcaseModal}
+                  />}
+                />
+                <Route exact path="/items" render={(props) =>
+                  <Items {...props}
+                    showNewSuitcaseModal={this.showNewSuitcaseModal}
+                    resetNewSuitcaseModal={this.resetNewSuitcaseModal}
+                    renderNewSuitcaseModal={this.renderNewSuitcaseModal}
+                  />}
+                />
+                <Route exact path="/profile/:id" render={(props) =>
+                  <Profile {...props}
+                    showNewSuitcaseModal={this.showNewSuitcaseModal}
+                    resetNewSuitcaseModal={this.resetNewSuitcaseModal}
+                    renderNewSuitcaseModal={this.renderNewSuitcaseModal}
+                  />}
+                />
+                <Route exact path="/search/:city" render={(props) =>
+                  <Search {...props}
+                    showNewSuitcaseModal={this.showNewSuitcaseModal}
+                    resetNewSuitcaseModal={this.resetNewSuitcaseModal}
+                    renderNewSuitcaseModal={this.renderNewSuitcaseModal}
+                  />}
+                />
+                <Route exact path="/search/:user" render={(props) =>
+                  <Search {...props}
+                    showNewSuitcaseModal={this.showNewSuitcaseModal}
+                    resetNewSuitcaseModal={this.resetNewSuitcaseModal}
+                    renderNewSuitcaseModal={this.renderNewSuitcaseModal}
+                  />}
+                />
+                <Route exact path="/suitcase/:id" render={(props) =>
+                  <Suitcase {...props}
+                    showNewSuitcaseModal={this.showNewSuitcaseModal}
+                    resetNewSuitcaseModal={this.resetNewSuitcaseModal}
+                    renderNewSuitcaseModal={this.renderNewSuitcaseModal}
+                  />}
+                />
                 {/* <Route component={NoMatch} /> */}
-		          </Switch>
-			        </div>
-	          </ScrollToTop>
-	        </Router>
-	      </ApolloProvider>
-      </CloudinaryContext>
+              </Switch>
+            </div>
+          </ScrollToTop>
+        </Router>
+      </ApolloProvider>
     );
   }
 }

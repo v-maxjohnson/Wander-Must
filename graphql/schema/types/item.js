@@ -2,9 +2,10 @@ import {
     GraphQLObjectType,
     GraphQLString,
     GraphQLID,
-    GraphQLEnumType,
-    GraphQLInt
+    GraphQLEnumType
   } from 'graphql';
+
+import suitcase_items from './suitcase_items';
 
 export const itemCategory = new GraphQLEnumType({
     name: 'ItemCategoryEnum',
@@ -36,8 +37,8 @@ export default new GraphQLObjectType({
         item_category: {
             type: itemCategory
         },
-        item_amount: {
-            type: GraphQLInt
+        suitcase_items: {
+            type: suitcase_items
         }
     })
 });

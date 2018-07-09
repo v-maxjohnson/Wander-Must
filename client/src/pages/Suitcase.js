@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from "react-router-dom";
 import Profile from "./Profile";
+import NavTabs from "../components/NavTabs";
 import Moment from 'react-moment';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Category from "../components/Category";
-import NewSuitcaseModal from "../components/NewSuitcaseModal";
+import SuitcaseItems from "../components/SuitcaseItems";
+import Blog from "../components/Blog.js"
 import ConfirmationModal from "../components/ConfirmationModal";
 import Yelp from "../utils/Yelp";
-import Item from "../components/Item";
 import suitcaseHandleWhite from "../images/suitcase-handle-white.png";
 import "../styles/Suitcase.css";
 import Wunderground from "../utils/Wunderground";
@@ -19,16 +19,21 @@ import axios from 'axios';
 import Autocomplete from 'react-autocomplete';
 
 const GET_SUITCASE_QUERY = gql` 
-query getSuitcase( $id: String! ){
+query getSuitcase( $id: ID ){
   getSuitcase(id: $id) {
     id
     start_date
     end_date
-    travel_category
+    travel_category 
+    note_title
+    notes
     Items {
       id
       item_name
       item_category
+      suitcase_items {
+        item_amount
+      }
     }
     Locale {
       id
@@ -71,6 +76,13 @@ mutation deleteItemFromSuitcase( $suitcase_id: ID, $item_id: ID ) {
   }
 }`;
 
+const UPDATE_ITEM_AMOUNT_ON_SUITCASE_MUTATION = gql`
+mutation updateItemAmountOnSuitcase( $suitcase_id: ID, $item_id: ID, $item_amount: Int! ) {
+  updateItemAmountOnSuitcase (suitcase_id: $suitcase_id, item_id: $item_id, item_amount: $item_amount) {
+      id
+  }
+}`;
+
 const client = new ApolloClient();
 
 let cityNoUnderscores = "";
@@ -90,20 +102,18 @@ export default class Suitcase extends Component {
     },
     allItems: [],
     rendered: false,
-    openNewSuitcaseModal: false,
     openConfirmationModal: false,
     thisSuitcaseId: this.props.match.params.id,
     currentSuitcaseId: localStorage.getItem("suitcase_id"),
     value: '',
+    currentPage: "SuitcaseItems",
     itemsToAdd: [],
     loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
   };
 
   componentDidMount() {
 
-    this.lookupInterval = setInterval(() => {
-      this.getSuitcase();
-    }, 500)
+    this.getSuitcase();
 
     client.query({
       query: gql` 
@@ -117,10 +127,6 @@ export default class Suitcase extends Component {
     }).then(result => {
       this.setState({ allItems: result.data.allItems });
     })
-  }
-
-  componentWillUnMount() {
-    clearInterval(this.lookupInterval)
   }
 
   getSuitcase = () => {
@@ -225,22 +231,6 @@ export default class Suitcase extends Component {
     }
   }
 
-  showNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: true });
-  }
-
-  resetNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: false });
-  }
-
-  renderNewSuitcaseModal = () => {
-    if (this.state.openNewSuitcaseModal) {
-      return <NewSuitcaseModal
-        resetNewSuitcaseModal={this.resetNewSuitcaseModal}
-      />
-    }
-  }
-
   showConfirmationModal = () => {
     this.setState({ openConfirmationModal: true });
   }
@@ -275,6 +265,7 @@ export default class Suitcase extends Component {
       variables: { id: this.state.suitcase.id, item_ids: this.state.itemsToAdd },
       fetchPolicy: "no-cache"
     }).then(result => {
+      this.getSuitcase();
       this.setState({ value: "", itemsToAdd: [] })
     }).catch(err => console.log(err))
   }
@@ -297,7 +288,19 @@ export default class Suitcase extends Component {
       variables: { suitcase_id: this.state.suitcase.id, item_id: itemId },
       fetchPolicy: "no-cache"
     }).then(result => {
+      this.getSuitcase();
       console.log(itemId)
+    }).catch(err => console.log(err))
+  }
+
+  updateItemAmountOnSuitcase = (itemId, itemAmount) => {
+    client.mutate({
+      mutation: UPDATE_ITEM_AMOUNT_ON_SUITCASE_MUTATION,
+      variables: { suitcase_id: this.state.suitcase.id, item_id: itemId, item_amount: itemAmount },
+      fetchPolicy: "no-cache"
+    }).then(result => {
+      this.getSuitcase();
+      console.log(itemId, itemAmount)
     }).catch(err => console.log(err))
   }
 
@@ -323,12 +326,88 @@ export default class Suitcase extends Component {
     this.setState({ itemsToAdd: [...this.state.itemsToAdd] });
   }
 
+  handlePageChange = page => {
+    this.setState({ currentPage: page });
+
+  };
+
+  renderPage = () => {
+    if (this.state.currentPage === "SuitcaseItems") {
+      return (
+        <div>
+          {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
+            <div className="input-group mb-3 auto-items">
+
+              <Autocomplete
+
+                items={this.setAutocompleteItems()}
+                shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
+                getItemValue={item => item.label}
+                renderItem={this.renderAutocomplete()}
+                wrapperStyle={
+                  {
+                    position: 'relative',
+                    zIndex: 9999
+                  }
+                }
+                menuStyle={
+                  {
+                    position: 'absolute',
+                    cursor: "pointer",
+                    top: "35px",
+                    left: 0,
+                    backgroundColor: "white"
+                  }
+                }
+                value={this.state.value}
+                onChange={e => this.setState({ value: e.target.value })}
+                onSelect={(value, item) => this.setState({ value: value, itemsToAdd: [...this.state.itemsToAdd, item.id] })}
+              />
+              <div className="input-group-append">
+                <button className="add-one-item" type="button" onClick={() => { this.addItemToSuitcase() }}><i className="fa fa-search"></i> Add an item</button>
+              </div>
+            </div>
+          ) : (
+              <div></div>
+            )}
+
+          <SuitcaseItems
+            suitcase={this.state.suitcase}
+            currentSuitcaseId={this.state.currentSuitcaseId}
+            itemsToAdd={this.itemsToAdd}
+            onCheckboxBtnClick={this.onCheckboxBtnClick}
+            loggedInUserIdNumber={this.state.loggedInUserIdNumber}
+            suitcaseUserId={this.state.suitcase.User.id}
+            deleteItemFromSuitcase={this.deleteItemFromSuitcase}
+            setSuitcaseId={this.setSuitcaseId}
+            addItemsToCurrentSuitcase={this.addItemsToCurrentSuitcase}
+            updateItemAmountOnSuitcase={this.updateItemAmountOnSuitcase}
+            renderYelp={this.renderYelp}
+          />
+        </div>
+      )
+    } else {
+      return (
+        <div className="blog-wrapper">
+          <Blog
+            note_title={this.state.suitcase.note_title}
+            notes={this.state.suitcase.notes}
+            loggedInUserIdNumber={this.state.loggedInUserIdNumber}
+            suitcaseUserId={this.state.suitcase.User.id}
+            showConfirmationModal={this.showConfirmationModal}
+          />
+        </div>
+      )
+    }
+  }
+
   render() {
     return (
       <div className="suitcase profile-page sidebar-collapse">
         {this.maybeRedirect()}
         <Header
-          showNewSuitcaseModal={this.showNewSuitcaseModal}
+          showNewSuitcaseModal={this.props.showNewSuitcaseModal}
+          loggedInUserIdNumber={this.state.loggedInUserIdNumber}
         />
         <Main>
           <div className="page-header header-filter" data-parallax="true" id="background-suitcase"></div>
@@ -388,15 +467,10 @@ export default class Suitcase extends Component {
                           </li>
 
                           <li className="nav-item">
-                            <button data-category="suitcase" className="all btn btn-primary btn-sm btn-fab btn-round">
-                              <i className="fa fa-suitcase" title="View this suitcase"> </i>
-                            </button>
-                          </li>
-
-                          <li className="nav-item">
-                            <button data-category="notes" className="all btn btn-default btn-sm btn-fab btn-round">
-                              <i className="fa fa-pencil-square-o" title="View notes"> </i>
-                            </button>
+                            <NavTabs
+                              currentPage={this.state.currentPage}
+                              handlePageChange={this.handlePageChange}
+                            />
                           </li>
 
                         </ul>
@@ -405,216 +479,17 @@ export default class Suitcase extends Component {
                     </div>
                   </div>
 
-                  <div className="row">
-                    <div className="col-12 text-center">
-                      {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
-                        <button className="btn btn-primary" onClick={() => { this.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
-                      ) : (<div></div>
-                        )}
-                    </div>
-                  </div>
-
                 </div>
               </div>
 
-              {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
-                <div className="input-group mb-3 auto-items">
+              {this.renderPage()}
 
-                  <Autocomplete
-
-                    items={this.setAutocompleteItems()}
-                    shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
-                    getItemValue={item => item.label}
-                    renderItem={this.renderAutocomplete()}
-                    wrapperStyle={
-                      {
-                        position: 'relative',
-                        zIndex: 9999
-                      }
-                    }
-                    menuStyle={
-                      {
-                        position: 'absolute',
-                        cursor: "pointer",
-                        top: "35px",
-                        left: 0,
-                        backgroundColor: "white"
-                      }
-                    }
-                    value={this.state.value}
-                    onChange={e => this.setState({ value: e.target.value })}
-                    onSelect={(value, item) => this.setState({ value: value, itemsToAdd: [...this.state.itemsToAdd, item.id] })}
-                  />
-                  <div className="input-group-append">
-                    <button type="button" onClick={() => { this.addItemToSuitcase() }}><i className="fa fa-search"></i> Add an item</button>
-                  </div>
-                </div>
-              ) : (
-                  <div></div>
-                )}
-
-
-              <div className="row">
-                <div className="col-12">
-                  <div id="items">
-
-                    <Category>
-                      <div className="title row">
-                        <div>
-                          <button data-category="toiletries" className="all btn btn-default btn-sm btn-fab btn-round">
-                            <i className="fa fa-check-circle-o" title="Select all toiletries"> </i>
-                          </button>
-                        </div>
-                        <div>
-                          <span className="badge badge-pill badge-info">Toiletries</span>
-                        </div>
-
-                      </div>
-                      <div className="row cat-row" id="toiletries">
-                        {this.state.suitcase.Items
-                          .filter(item => (item.item_category === "TOILETRIES"))
-                          .map((item, i) => (
-                            <Item
-                              key={i}
-                              itemId={item.id}
-                              itemName={item.item_name}
-                              itemCategory={item.item_category}
-                              itemsToAdd={this.state.itemsToAdd}
-                              onCheckboxBtnClick={this.onCheckboxBtnClick}
-                              loggedInUserIdNumber={this.state.loggedInUserIdNumber}
-                              suitcaseUserId={this.state.suitcase.User.id}
-                              deleteItemFromSuitcase={this.deleteItemFromSuitcase}
-                            />
-                          ))
-                        }
-                      </div>
-                    </Category>
-
-                    <Category>
-                      <div className="title row">
-                        <div>
-                          <button data-category="clothing" className="all btn btn-default btn-sm btn-fab btn-round">
-                            <i className="fa fa-check-circle-o" title="Select all clothing"> </i>
-                          </button>
-                        </div>
-                        <div>
-                          <span className="badge badge-pill badge-primary">Clothing</span>
-                        </div>
-
-                      </div>
-                      <div className="row cat-row" id="clothing">
-                        {this.state.suitcase.Items
-                          .filter(item => (item.item_category === "CLOTHING"))
-                          .map((item, i) => (
-                            <Item
-                              key={i}
-                              itemId={item.id}
-                              itemName={item.item_name}
-                              itemCategory={item.item_category}
-                              itemsToAdd={this.state.itemsToAdd}
-                              onCheckboxBtnClick={this.onCheckboxBtnClick}
-                              loggedInUserIdNumber={this.state.loggedInUserIdNumber}
-                              suitcaseUserId={this.state.suitcase.User.id}
-                              deleteItemFromSuitcase={this.deleteItemFromSuitcase}
-                            />
-                          ))
-
-                        }
-                      </div>
-                    </Category>
-
-
-                    <Category>
-                      <div className="title row">
-                        <div>
-                          <button data-category="accessories" className="all btn btn-default btn-sm btn-fab btn-round">
-                            <i className="fa fa-check-circle-o" title="Select all accessories"> </i>
-                          </button>
-                        </div>
-                        <div>
-                          <span className="badge badge-pill badge-info">Accessories</span>
-                        </div>
-
-                      </div>
-                      <div className="row cat-row" id="accessories">
-                        {this.state.suitcase.Items
-                          .filter(item => (item.item_category === "ACCESSORIES"))
-                          .map((item, i) => (
-                            <Item
-                              key={i}
-                              itemId={item.id}
-                              itemName={item.item_name}
-                              itemCategory={item.item_category}
-                              itemsToAdd={this.state.itemsToAdd}
-                              onCheckboxBtnClick={this.onCheckboxBtnClick}
-                              loggedInUserIdNumber={this.state.loggedInUserIdNumber}
-                              suitcaseUserId={this.state.suitcase.User.id}
-                              deleteItemFromSuitcase={this.deleteItemFromSuitcase}
-                            />
-                          ))
-
-                        }
-                      </div>
-                    </Category>
-
-
-                    <Category>
-                      <div className="title row">
-                        <div>
-                          <button data-category="electronics" className="all btn btn-default btn-sm btn-fab btn-round">
-                            <i className="fa fa-check-circle-o" title="Select all electronics"> </i>
-                          </button>
-                        </div>
-                        <div>
-                          <span className="badge badge-pill badge-primary">Electronics</span>
-                        </div>
-
-                      </div>
-                      <div className="row cat-row" id="electronics">
-                        {this.state.suitcase.Items
-                          .filter(item => (item.item_category === "ELECTRONICS"))
-                          .map((item, i) => (
-                            <Item
-                              key={i}
-                              itemId={item.id}
-                              itemName={item.item_name}
-                              itemCategory={item.item_category}
-                              itemsToAdd={this.state.itemsToAdd}
-                              onCheckboxBtnClick={this.onCheckboxBtnClick}
-                              loggedInUserIdNumber={this.state.loggedInUserIdNumber}
-                              suitcaseUserId={this.state.suitcase.User.id}
-                              deleteItemFromSuitcase={this.deleteItemFromSuitcase}
-                            />
-                          ))
-
-                        }
-                      </div>
-                    </Category>
-
-                  </div>
-                </div>
-              </div>
-
-
-              <div className="row">
-                {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
-                  <div className="col-12 text-center" id="add-more-items-holder">
-                    <Link className="btn btn-lg btn-primary mt-5 mb-3 px-3 pb-2 pt-3" id="add-more-items" to="/items" onClick={() => { this.setSuitcaseId() }}>
-                      <p>See Full List of Items To Choose From</p>
-                    </Link>
-                  </div>
-                ) : (
-                    <div className="col-6 mx-auto mt-5 mb-3 text-center">
-                      <Link id="add-items" className="btn btn-primary btn-lg mt-5 mb-3 px-3 pb-2 pt-3" onClick={() => { this.addItemsToCurrentSuitcase() }} to={"/suitcase/" + this.state.currentSuitcaseId}>Add Selected Items To My Suitcase</Link>
-                    </div>
-                  )}
-              </div>
             </div>
-            {this.renderYelp()}
+
           </div>
 
         </Main>
-        {this.renderNewSuitcaseModal()}
+        {this.props.renderNewSuitcaseModal()}
         {this.renderConfirmationModal()}
         <Footer />
       </div>

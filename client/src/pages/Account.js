@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import { Button, CustomInput, Col, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Redirect } from "react-router-dom";
+import { Button, CustomInput, Col, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import NewSuitcaseModal from "../components/NewSuitcaseModal";
+import Home from "./Home";
+import DeleteAccountConfirmationModal from "../components/DeleteAccountConfirmationModal";
 import "../styles/Account.css";
 import gql from "graphql-tag";
 import axios from 'axios';
 import ApolloClient from 'apollo-boost';
 
 const GET_USER_QUERY = gql`
-query getUser( $id: String! ){
+query getUser( $id: ID ){
   getUser(id: $id) {
     id
     username
@@ -20,6 +22,13 @@ query getUser( $id: String! ){
   }
   }`;
 
+const DELETE_USER_MUTATION = gql` 
+mutation deleteUser( $id: ID ){
+    deleteUser(id: $id) {
+      id
+    }
+}`;
+
 const client = new ApolloClient();
 
 export default class Account extends Component {
@@ -28,10 +37,11 @@ export default class Account extends Component {
       id: "",
       username: "",
       gender: "",
-      user_image: ""
+      user_image: "",
+      password: ""
     },
+    openDeleteAccountConfirmationModal: false,
     rendered: false,
-    openNewSuitcaseModal: false,
     loggedInUserId: localStorage.getItem("logged_in_user_id")
   }
 
@@ -80,25 +90,96 @@ export default class Account extends Component {
 
   showNewSuitcaseModal = () => {
     this.setState({ openNewSuitcaseModal: true });
+  deleteUser = () => {
+    client.mutate({
+      mutation: DELETE_USER_MUTATION,
+      variables: { id: this.state.loggedInUserId }
+    }).then(result => {
+      this.handleLogout();
+    })
   }
 
-  resetNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: false });
+  // handle any changes to the input fields
+  handleInputChange = event => {
+    // Pull the name and value properties off of the event.target (the element which triggered the event)
+    const { name, value } = event.target;
+
+    // Set the state for the appropriate input field
+    this.setState({
+      [name]: value
+    });
+  };
+
+  handlePasswordChange = event => {
+    const { name, value } = event.target;
+
+    this.setState.userData({
+      [name]: value
+    });
+  };
+
+  handleGenderChange = event => {
+    const { name, newvalue } = event.target;
+
+    this.setState.userData({
+      [name]: newvalue
+    });
+  };
+
+  // When the form is submitted, prevent the default event and alert the username and password
+  handleFormSubmit = event => {
+    event.preventDefault();
+    alert(`Email: ${this.state.email}
+          \nUsername: ${this.state.username}
+          \nPassword: "***"
+          \nGender: ${this.state.gender}
+          `);
+    this.setState.userData({ email: "", username: "", password: "", gender: "" });
+  };
+
+  showDeleteAccountConfirmationModal = () => {
+    this.setState({ openDeleteAccountConfirmationModal: true });
+>>>>>>> 7dec272754937a1ab20094bb340825e0ce16a21f
   }
 
-  renderNewSuitcaseModal = () => {
-    if (this.state.openNewSuitcaseModal) {
-      return <NewSuitcaseModal
-        resetNewSuitcaseModal={this.resetNewSuitcaseModal}
+  resetDeleteAccountConfirmationModal = () => {
+    this.setState({ openDeleteAccountConfirmationModal: false });
+  }
+
+  renderDeleteAccountConfirmationModal = () => {
+    if (this.state.openDeleteAccountConfirmationModal) {
+      return <DeleteAccountConfirmationModal
+        resetDeleteAccountConfirmationModal={this.resetDeleteAccountConfirmationModal}
+        deleteUser={this.deleteUser}
       />
     }
+  }
+
+  handleLogout = () => {
+    fetch("logout", { method: "GET" })
+      .then(
+        this.setState({
+          isAuthenticated: false
+        }
+        )
+      )
+  }
+
+  maybeLogout() {
+    if (this.state.isAuthenticated === false) {
+      return (
+      <Redirect to="/" render={(props) => <Home {...props} />} />
+    )
+  }
   }
 
   render() {
     return (
       <div className="account profile-page sidebar-collapse">
+      {this.maybeLogout()}
         <Header
-          showNewSuitcaseModal={this.showNewSuitcaseModal}
+          showNewSuitcaseModal={this.props.showNewSuitcaseModal}
+          loggedInUserIdNumber={this.state.loggedInUserIdNumber}
         />
         <Main>
           <div className="page-header header-filter" id="background-account" data-parallax="true"></div>
@@ -145,77 +226,108 @@ export default class Account extends Component {
 
                 </div>
                 <div className="form-container offset-2 col-8">
-                  <Form>
+                  <Form onSubmit={this.handleFormSubmit}>
                     <FormGroup row>
                       <Label for="exampleEmail" sm={3}>Email</Label>
                       <Col sm={9}>
-                        <Input type="email" name="email" id="exampleEmail" placeholder={this.state.userData.email} />
+                        <Input
+                          type="email"
+                          name="email"
+                          placeholder={this.state.userData.email}
+                          value={this.state.email}
+                          onChange={this.handleInputChange}
+                        />
                       </Col>
                     </FormGroup>
                     <FormGroup row>
                       <Label for="username" sm={3}>User Name</Label>
                       <Col sm={9}>
-                        <Input type="username" name="username" id="exampleUsername" placeholder={this.state.userData.username} />
+                        <Input
+                          type="username"
+                          name="username"
+                          placeholder={this.state.userData.username}
+                          value={this.state.username}
+                          onChange={this.handleInputChange}
+                        />
                       </Col>
+
                     </FormGroup>
                     <FormGroup row>
                       <Label for="examplePassword" sm={3}>Password</Label>
                       <Col sm={4}>
-                        <Input type="password" name="password" id="examplePassword" placeholder="change password" />
+                        <Input
+                          type="password"
+                          name="password"
+                          id="examplePassword"
+                          placeholder="change password"
+                        />
                       </Col>
                       <Col sm={5}>
-                        <Input type="password" name="password" id="examplePassword" placeholder="password confirmation" />
+                        <Input
+                          type="password"
+                          name="password"
+                          placeholder="password confirmation"
+                          value={this.state.password}
+                          onChange={this.handlePasswordChange}
+                        />
                       </Col>
                     </FormGroup>
                     <FormGroup row>
                       <Label for="exampleCheckbox" sm={3}>Gender</Label>
                       <Col sm={9}>
                         <div>
-                          <CustomInput type="radio" name="customRadio" id="exampleCustomInline" label="Female" inline />
-                          <CustomInput type="radio" name="customRadio" id="exampleCustomInline2" label="Male" inline />
-                          <CustomInput type="radio" name="customRadio" id="exampleCustomInline3" label="Beyond Society's Gender Definitions" inline />
+                          <CustomInput type="radio" id="female" name="gender" label="Female" inline />
+                          <CustomInput type="radio" id="male" name="gender" label="Male" inline />
+                          <CustomInput type="radio" id="noGender" name="gender" label="Beyond Society's Gender Definitions" inline />
                         </div>
                       </Col>
+
                     </FormGroup>
                     <FormGroup row>
                       <Label for="exampleCustomFileBrowser" sm={3}>Avatar</Label>
                       <Col sm={9}>
-                        <CustomInput type="file" id="exampleCustomFileBrowser" name="customFile" label="Show us who you are w/ an image." onChange={this.handleImageChange}/>
+                        <CustomInput
+                          type="file"
+                          id="exampleCustomFileBrowser"
+                          name="customFile"
+                          label="What's your image?"
+                          onChange={ this.handleImageChange }
+                        />
                       </Col>
                     </FormGroup>
                     <FormGroup check row>
                       <Col sm={{ size: 2, offset: 5 }}>
-                        <Button color="primary">Submit</Button>
+                        <Button color="primary" onClick={this.handleFormSubmit} >Submit</Button>
                       </Col>
                     </FormGroup>
                   </Form>
                   <div>
-                    <br/>
-                    <hr/>
-                    <br/>
-                    <br/>
+                    <br />
+                    <hr />
+                    <br />
+                    <br />
                   </div>
 
                   <Form>
 
                     <FormGroup row>
-                      <Label for="exampleEmail" sm={3}>Delete Account?</Label>
+                      <Label for="deleteAccount" sm={3}>Delete Account?</Label>
                       <Col sm={9}>
-                        <Input type="textarea" name="text" id="exampleEmail" placeholder="Please tell us why you want to leave us! We love you... we're codependent, and we want to fix it" />
+                        <Input type="textarea" name="text" id="deletionReason" placeholder="Please tell us why you want to leave us! We love you... we're codependent, and we want to fix it" />
                       </Col>
                     </FormGroup>
                     <FormGroup row>
-                      <Label for="exampleEmail" sm={3}>Type "Bye!"</Label>
+                      <Label for="deleteConfirmation" sm={3}>Type "Bye!"</Label>
                       <Col sm={9}>
-                        <Input type="text" name="text" id="exampleEmail" placeholder="Bye!" />
+                        <Input type="text" name="text" id="deleteConfirmation" placeholder="Bye!" />
                       </Col>
                     </FormGroup>
                     <FormGroup check row>
                       <Col sm={{ size: 12, offset: 4 }}>
-                        <Button color="warning">-----Goodbye FOREVER-------</Button>
+                        <Button onClick={() => this.showDeleteAccountConfirmationModal()} color="warning">-----Goodbye FOREVER-------</Button>
                       </Col>
                     </FormGroup>
-                    <br/>
+                    <br />
                   </Form>
                 </div>
 
@@ -227,7 +339,8 @@ export default class Account extends Component {
 
 
         </Main>
-        {this.renderNewSuitcaseModal()}
+        {this.props.renderNewSuitcaseModal()}
+        {this.renderDeleteAccountConfirmationModal()}
         <Footer />
       </div>
     )

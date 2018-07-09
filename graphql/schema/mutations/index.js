@@ -8,7 +8,7 @@ import {
 
 import suitcaseType from './../types/suitcase';
 import localeType from './../types/locale';
-import itemType from './../types/item';
+// import itemType from './../types/item';
 import userType from './../types/user';
 
 import resolvers from './../../resolvers';
@@ -81,13 +81,13 @@ export default new GraphQLObjectType ({
             resolve : ( root, args ) => resolvers.suitcase.addItem( args )
         },
         updateItemAmountOnSuitcase: {
-            type: itemType,
+            type: suitcaseType,
             args: {
-                id: {
+                suitcase_id: {
                     type: GraphQLID
                 },
                 item_id: {
-                    type: GraphQLString
+                    type: GraphQLID
                 },
                 item_amount: {
                     type: GraphQLInt
@@ -113,6 +113,9 @@ export default new GraphQLObjectType ({
             args: {
                 id: {
                     type: GraphQLID
+                },
+                note_title: {
+                    type: GraphQLString
                 },
                 note: {
                     type: GraphQLString
@@ -161,7 +164,7 @@ export default new GraphQLObjectType ({
                 id: {
                     type: GraphQLID
                 },
-                email: {
+                password: {
                     type: GraphQLString
                 }
             },
@@ -203,6 +206,3 @@ export default new GraphQLObjectType ({
         },
     })
 });
-
-
-///////// PUT ALL MUTATIONS IN THIS FILE INSTEAD OF SEPARATING THEM ALL

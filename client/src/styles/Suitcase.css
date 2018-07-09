@@ -23,6 +23,10 @@
     cursor: default;
 }
 
+.add-one-item {
+    cursor: pointer;
+}
+
 .items-section {
     margin-bottom: 10px;
     padding-bottom: 10px;
@@ -169,4 +173,18 @@
     bottom: 25%;
     left: 0;
     right: 0;
+}
+
+.number-toggle {
+    border: none!important;
+}
+
+.number-display {
+    color: black;
+}
+
+.react-numeric-input input,
+.react-numeric-input input b,
+.react-numeric-input input b i {
+    background: transparent!important;
 }

@@ -30,7 +30,8 @@ module.exports = function (sequelize, DataTypes) {
     user_image: {
       type: DataTypes.STRING,
       // restrict email from being entered if it doesn't have a text value
-      allowNull: false
+      allowNull: false,
+      defaultValue: 'http://res.cloudinary.com/wandermust/image/upload/c_scale,h_150,w_150/v1531072132/user_image/suitcaseBlack.png'
     }
   }, {
       // disable timestamps

@@ -59,7 +59,7 @@ module.exports = function (passport, user) {
                         email: email,
                         password: userPassword,
                         gender: req.body.gender,
-                        user_image: req.body.user_image
+                        user_image: 'http://res.cloudinary.com/wandermust/image/upload/c_scale,h_150,w_150/v1531072132/user_image/suitcaseBlack.png'
                     };
                     // a method that actually creates a new record in the DB for a new user
                     User.create(data).then(function (newUser, created) {

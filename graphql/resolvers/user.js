@@ -51,14 +51,14 @@ export default {
         })
             .then( dbUser => dbUser.update( {email: email} ) )
     },
-    // changePassword: ( {id, password} ) => {
-    //     return db.User.findOne({
-    //         where: { 
-                //   id: id 
-                // }
-    //     })
-    //         .then( dbUser => dbUser.update( {password: password} ) )
-    // },
+    changePassword: ( {id, password} ) => {
+        return db.User.findOne({
+            where: { 
+                  id: id 
+                }
+        })
+            .then( dbUser => dbUser.update( {password: password} ) )
+    },
     changeGender: ( {id, gender} ) => {
         return db.User.findOne({
             where: {
@@ -77,9 +77,7 @@ export default {
     // },
     delete: ( id ) => {
         return db.User.destroy({
-            where: {
-                id: id
-            }
+            where: id
         })
             .then( console.log("user was deleted") )
             .catch( err => console.log(err.message) )

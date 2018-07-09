@@ -8,6 +8,8 @@ export default class Header extends Component {
       <header>
         <Navibar
           showNewSuitcaseModal={this.props.showNewSuitcaseModal}
+          loggedInUserIdNumber={this.props.loggedInUserIdNumber}
+          userDataId={this.props.userDataId}
         />
       </header>
     )

@@ -96,6 +96,8 @@ export default class Suitcase extends Component {
       start_date: "",
       end_date: "",
       travel_category: "",
+      note_title: "",
+      notes: "",
       suitcase_image: "",
       Items: [],
       Locale: [],
@@ -380,6 +382,7 @@ export default class Suitcase extends Component {
             loggedInUserIdNumber={this.state.loggedInUserIdNumber}
             suitcaseUserId={this.state.suitcase.User.id}
             showConfirmationModal={this.showConfirmationModal}
+            suitcase_image={this.state.suitcase.suitcase_image}
           />
         </div>
       )

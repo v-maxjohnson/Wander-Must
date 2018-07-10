@@ -4,7 +4,7 @@ import React, {
 import YelpCarousel from '../components/YelpCarousel';
 import axios from "axios";
 import "../styles/Yelp.css";
-import { Button, Col, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Col, Form, FormGroup, Label, Input } from 'reactstrap';
 
 let location;
 
@@ -117,4 +117,3 @@ export default class Yelp extends Component {
     )
   }
 }
-

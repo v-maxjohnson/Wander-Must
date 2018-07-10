@@ -2,12 +2,19 @@ import React, { Component } from 'react';
 import { Button, Col, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 export default class Blog extends Component {
-
     state = {
         note_title: "",
         notes: "",
         suitcase_image: ""
-    };
+    }
+
+    componentDidMount(){
+        this.setState({
+            note_title: this.props.note_title,
+            notes: this.props.notes,
+            suitcase_image: this.props.suitcase_image
+        })        
+    }
 
 
     handleInputChange = (event) => {
@@ -65,7 +72,6 @@ export default class Blog extends Component {
                                 type="textarea"
                                 name="notes"
                                 rows={8}
-                                placeholder={this.props.notes}
                                 value={this.state.notes}
                                 onChange={this.handleInputChange}
                             />
@@ -82,7 +88,7 @@ export default class Blog extends Component {
                         </Col>
                          <Col sm={5}>
                             <div className="currentSuitcaseImage border">
-                                <img width="100%" src={this.props.suitcase_image} alt="suitcase background"/>
+                                <img width="100%" src={this.state.suitcase_image} alt="suitcase background"/>
                             </div>
                         </Col>
                     </FormGroup>

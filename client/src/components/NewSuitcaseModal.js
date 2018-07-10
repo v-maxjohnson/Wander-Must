@@ -8,7 +8,6 @@ import moment from 'moment';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import "../styles/NewSuitcaseModal.css";
 import 'react-datepicker/dist/react-datepicker.css';
-import Pixabay from '../utils/Pixabay';
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 

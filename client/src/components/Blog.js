@@ -1,11 +1,27 @@
 import React, { Component } from 'react';
-import { Button, Col, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, Col, Form, FormGroup, Label, Input, CustomInput } from 'reactstrap';
+import "../styles/Blog.css";
+import ApolloClient from 'apollo-boost';
+import axios from 'axios';
+import gql from "graphql-tag";
+
+const client = new ApolloClient();
+
+const UPDATE_SUITCASE_IMAGE_MUTATION = gql`
+  mutation updateImageOnSuitcase( $id: ID, $suitcase_image: String! ){
+    updateImage( id: $id, suitcase_image: $suitcase_image){
+      id
+      suitcase_image
+    }
+  }`;
 
 export default class Blog extends Component {
     state = {
         note_title: "",
         notes: "",
-        suitcase_image: ""
+        suitcase_image: "",
+        fileName: "Upload your image here!",
+        imageData: ""
     }
 
     componentDidMount(){
@@ -16,7 +32,6 @@ export default class Blog extends Component {
         })        
     }
 
-
     handleInputChange = (event) => {
         const { name, value } = event.target;
 
@@ -26,6 +41,17 @@ export default class Blog extends Component {
         });
     };
 
+    handleImageChange = event => {
+        let file = event.target.files[0];
+        let imageData = new FormData();
+        imageData.append("file", file);
+        imageData.append("upload_preset", "qocvkmel");
+        
+        this.setState({ 
+            imageData : imageData,
+            fileName: file.name 
+        });
+    }
 
     handleFormSubmit = event => {
         event.preventDefault();
@@ -41,6 +67,27 @@ export default class Blog extends Component {
 
         updated = {...existingData, ...updated};
         console.log(updated);
+
+        axios({
+            method: "POST",
+            url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
+            data: this.state.imageData 
+          })
+            .then( res => {
+              const secure_url = res.data.secure_url;
+      
+              this.setState({ 
+                suitcase_image: secure_url,
+                fileName: "Upload your image!" 
+              });
+              
+              client.mutate({
+                mutation: UPDATE_SUITCASE_IMAGE_MUTATION,
+                variables: { id: this.state.id, suitcase_image: secure_url },
+                fetchPolicy: 'no-cache'
+              })
+                .catch( err => console.log(err) )
+            })
     };
 
     render() {
@@ -50,7 +97,7 @@ export default class Blog extends Component {
                     <FormGroup row>
                         <Col sm={1} />
                         <Col sm={2}>
-                            <Label for="note_title" >Title</Label>
+                            <Label for="note_title" sm={3}>Title</Label>
                         </Col>
                         <Col sm={7}>
                             <Input
@@ -65,7 +112,7 @@ export default class Blog extends Component {
                     <FormGroup row>
                         <Col sm={1} />
                         <Col sm={2}>
-                            <Label for="notes">Body</Label>
+                            <Label for="notes" sm={3}>Body</Label>
                         </Col>
                         <Col sm={7}>
                             <Input
@@ -79,34 +126,46 @@ export default class Blog extends Component {
                     </FormGroup>
                     <FormGroup row>
                         <Col sm={1} />
-                        <Col sm={5}>
-                            <Label for="exampleFile">Your city-scape</Label>
-                            <Input type="file" name="file" id="exampleFile" />
-                            <FormText color="muted">
-                            Choose a photo for your suitcase! If you don't care, we can provide you with a skyline.
-                            </FormText>
+                        <Col sm={2}>
+                            <Label for="exampleFile" sm={9}>Your Suitcase Image</Label>
                         </Col>
-                         <Col sm={5}>
-                            <div className="currentSuitcaseImage border">
-                                <img width="100%" src={this.state.suitcase_image} alt="suitcase background"/>
+                        <Col sm={3}>
+                            <CustomInput 
+                                type="file" 
+                                name="file" 
+                                id="exampleFile" 
+                                label={this.state.fileName} 
+                                onChange={this.handleImageChange}
+                            />
+                            {/* <FormText color="muted">
+                            Upload a photo for your suitcase! If you don't, we can provide a picture for you.
+                            </FormText> */}
+                        </Col>
+                        <Col sm={{size:3, offset: 7}}>
+                            <div className="currentSuitcaseImage">
+                                <img 
+                                width="100%" 
+                                src={this.state.suitcase_image} 
+                                alt="suitcase background"
+                                />
                             </div>
                         </Col>
                     </FormGroup>
-                    <FormGroup check row>
+                    <FormGroup row>
                         <Col sm={{ size: 2, offset: 5 }}>
                             <Button color="primary" onClick={this.handleFormSubmit} >Submit</Button>
                         </Col>
                     </FormGroup>
                 </Form>
 
-                <div className="row">
+                {/* <div className="row">
                     <div className="col-12 text-center">
                         {this.props.loggedInUserIdNumber === this.props.suitcaseUserId ? (
                             <button className="btn btn-primary" onClick={() => { this.props.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
                         ) : (<div></div>
                             )}
                     </div>
-                </div>
+                </div> */}
 
             </div>
         )

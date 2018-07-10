@@ -27,6 +27,8 @@ export default class SuitcaseItems extends Component {
       case "electronics":
         this.selectAllElectronics();
         break;
+      default:
+        break;
     }
   }
 

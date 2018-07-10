@@ -24,19 +24,43 @@ query getUser( $id: ID ){
   }`;
 
 const UPDATE_USER_IMAGE_MUTATION = gql`
-  mutation updateUserImage( $id: ID, $user_image: String! ){
-    updateUserImage( id: $id, user_image: $user_image){
-      id
-      user_image
-    }
-  }`;
+mutation updateUserImage( $id: ID, $user_image: String! ){
+  updateUserImage( id: $id, user_image: $user_image){
+    id
+    user_image
+  }
+}`;
+
+const UPDATE_USER_NAME_MUTATION = gql`
+mutation updateUserName( $id: ID, $username: String! ){
+  updateUserName( id: $id, username: $username){
+    id
+    username
+  }
+}`;
+
+const UPDATE_USER_EMAIL_MUTATION = gql`
+mutation updateUserEmail( $id: ID, $email: String! ){
+  updateUserEmail( id: $id, email: $email){
+    id
+    email
+  }
+}`;
+
+const UPDATE_USER_GENDER_MUTATION = gql`
+mutation updateUserGender( $id: ID, $gender: String! ){
+  updateUserGender( id: $id, gender: $gender){
+    id
+    gender
+  }
+}`;
 
 const DELETE_USER_MUTATION = gql` 
-  mutation deleteUser( $id: ID ){
-      deleteUser(id: $id) {
-        id
-      }
-  }`;
+mutation deleteUser( $id: ID ){
+    deleteUser(id: $id) {
+      id
+    }
+}`;
 
 const client = new ApolloClient();
 
@@ -57,6 +81,8 @@ export default class Account extends Component {
     gender: "",
     user_image: "",
     password: "",
+    imageData: "",
+    fileName: "Upload your image!",
     openDeleteAccountConfirmationModal: false,
     rendered: false,
     loggedInUserId: localStorage.getItem("logged_in_user_id")
@@ -70,29 +96,15 @@ export default class Account extends Component {
 
   handleImageChange = event => {
     let file = event.target.files[0];
-    let formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "qocvkmel");
-
-    if(this.state.rendered) {
-      axios({
-        method: "POST",
-        url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
-        data: formData 
-      })
-        .then( res => {
-        const secure_url = res.data.secure_url;
-        console.log(secure_url);
-
-        client.mutate({
-          mutation: UPDATE_USER_IMAGE_MUTATION,
-          variables: { id: this.state.loggedInUserId, user_image: secure_url },
-          fetchPolicy: 'no-cache'
-        })
-          .then( this.getUser() )
-          .catch( err => console.log(err) )
-      })
-    }
+    let imageData = new FormData();
+    imageData.append("file", file);
+    imageData.append("upload_preset", "qocvkmel");
+    
+    this.setState({ 
+      imageData : imageData,
+      fileName: file.name 
+    });
+    
   }
 
   getUser = () => {
@@ -100,55 +112,22 @@ export default class Account extends Component {
       query: GET_USER_QUERY,
       variables: { id: this.state.loggedInUserId },
       fetchPolicy: "network-only"
-    }).then(result => {
-      this.setState({ userData: result.data.getUser, rendered: true });
     })
-  }
-<<<<<<< HEAD
-
-  handleImageChange = (e) => {
-    let file = e.target.files[0];
-    let formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "poabwcdf")
-    console.log(formData.get("file"));
-
-    if(this.state.rendered) {
-      axios({
-        method: "POST",
-        url: "https://api.cloudinary.com/v1_1/dorxotpsj/upload",
-        data: formData 
-      })
-      .then(res => {
-        let url = res.data.url;
-
-        //update user_image in database with url
-
-        this.setState({
-          userData: {
-            id: this.state.userData.id,
-            username: this.state.userData.username,
-            gender: this.state.userData.gender,
-            user_image: url
-          }
-        });
-      })
-    }
+      .then( result => this.setState({ 
+        userData: {
+          username: result.data.getUser.username,
+          email: result.data.getUser.email,
+          gender: result.data.getUser.gender
+        },
+        rendered: true 
+      }) )
   }
 
-
-  showNewSuitcaseModal = () => {
-    this.setState({ openNewSuitcaseModal: true });
-  }
-
-=======
-  
->>>>>>> 9c36724cf5f4b054432782bd11ad5498b19c1adf
   deleteUser = () => {
     client.mutate({
       mutation: DELETE_USER_MUTATION,
       variables: { id: this.state.loggedInUserId }
-    }).then(result => {
+    }).then( () => {
       this.handleLogout();
     })
   }
@@ -172,8 +151,6 @@ export default class Account extends Component {
     });
   };
 
-
-
   // When the form is submitted, prevent the default event and alert the username and password
   handleFormSubmit = event => {
     event.preventDefault();
@@ -183,13 +160,55 @@ export default class Account extends Component {
       email: this.state.email, 
       username: this.state.username, 
       password: this.state.password, 
-      gender: this.state.gender 
+      gender: this.state.gender
     }
 
     Object.keys(updated).forEach( key => updated[key] ? null : delete updated[key] );
-  
     updated = { ...existingData, ...updated };
     console.log(updated);
+
+    axios({
+      method: "POST",
+      url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
+      data: this.state.imageData 
+    })
+      .then( res => {
+        const secure_url = res.data.secure_url;
+
+        this.setState({ 
+          userData: {user_image: secure_url},
+          fileName: "Upload your image!" 
+        });
+        
+      client.mutate({
+        mutation: UPDATE_USER_IMAGE_MUTATION,
+        variables: { id: this.state.loggedInUserId, user_image: secure_url },
+        fetchPolicy: 'no-cache'
+      })
+        .catch( err => console.log(err) )
+      })
+
+    client.mutate({
+      mutation: UPDATE_USER_NAME_MUTATION,
+      variables: { id: this.state.loggedInUserId, username: this.state.userData.username },
+      fetchPolicy: 'no-cache'
+    })
+      .catch( err => console.log(err.message) );
+
+    client.mutate({
+      mutation: UPDATE_USER_EMAIL_MUTATION,
+      variables: { id: this.state.loggedInUserId, email: this.state.userData.email },
+      fetchPolicy: 'no-cache'
+    })
+      .catch( err => console.log(err.message) );
+
+    client.mutate({
+      mutation: UPDATE_USER_GENDER_MUTATION,
+      variables: { id: this.state.loggedInUserId, gender: this.state.userData.gender },
+      fetchPolicy: 'no-cache'
+    })
+      .catch( err => console.log(err.message) );
+    
   };
 
   showDeleteAccountConfirmationModal = () => {
@@ -214,15 +233,14 @@ export default class Account extends Component {
       .then(
         this.setState({
           isAuthenticated: false
-        }
-        )
+        })
       )
   }
 
   maybeLogout = () => {
     if (this.state.isAuthenticated === false) {
       return (
-        <Redirect to="/" render={(props) => <Home {...props} />} />
+      <Redirect to="/" render={(props) => <Home {...props} />} />
       )
     }
   }
@@ -352,16 +370,15 @@ export default class Account extends Component {
                     <FormGroup row>
                       <Label for="exampleCustomFileBrowser" sm={3}>Avatar</Label>
                       <Col sm={9}>
-                        <CustomInput
-                          type="file"
-                          id="exampleCustomFileBrowser"
-                          name="customFile"
-                          label="What's your image?"
-                          onChange={ this.handleImageChange }
+                        <CustomInput 
+                          type="file" 
+                          id="exampleCustomFileBrowser" 
+                          name="file"
+                          label={this.state.fileName}
+                          onChange={this.handleImageChange}
                         />
                       </Col>
                     </FormGroup>
-                    
 
                     <FormGroup check row>
                       <Col sm={{ size: 2, offset: 5 }}>

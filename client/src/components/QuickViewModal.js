@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Moment from 'react-moment';
 import Category from "../components/Category";
@@ -106,6 +107,7 @@ export default class QuickViewModal extends Component {
         <Modal centered={true} isOpen={this.state.modal} toggle={this.toggle} className="quick-view-modal modal-lg">
           <ModalHeader toggle={this.toggle}>Wander-Must</ModalHeader>
           <div className="suitcase-header">
+          <Link className="header-link" to={"/suitcase/" + this.props.id }>Go to this suitcase <i className="fa fa-arrow-right"></i></Link>
             <div id="suitcase-nav" className="nav-tabs-navigation">
               <div className="nav-tabs-wrapper">
                 <ul className="nav suitcase-nav">

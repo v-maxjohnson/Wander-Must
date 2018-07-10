@@ -3,11 +3,11 @@ import { Redirect } from "react-router-dom";
 import Search from "../pages/Search";
 import Autocomplete from 'react-google-autocomplete';
 import DatePicker from 'react-datepicker';
+import Pixabay from '../utils/Pixabay';
 import moment from 'moment';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import "../styles/NewSuitcaseModal.css";
 import 'react-datepicker/dist/react-datepicker.css';
-import Pixabay from '../utils/Pixabay';
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 
@@ -130,7 +130,7 @@ export default class NewSuitcaseModal extends Component {
     }).then(result => {
       this.createNewSuitcase(result.data.createNewLocale.id);
     }).catch(err => console.log(err))
-    
+
   }
 
   createNewSuitcase = (localeId) => {
@@ -140,14 +140,14 @@ export default class NewSuitcaseModal extends Component {
     }).then(result => {
       localStorage.setItem("suitcase_id", result.data.createNewSuitcase.id);
       this.props.resetNewSuitcaseModal();
-      this.setState({
-        shouldRedirectToSuitcase: true
-      })
-    }).catch(err => console.log(err))
+    }).then(this.setState({
+      shouldRedirectToCity: true
+    }))
+    .catch(err => console.log(err))
   }
-  
+
   maybeRedirect = () => {
-    if (this.state.shouldRedirectToSuitcase) {
+    if (this.state.shouldRedirectToCity) {
       return (
         <Redirect to={"/search/" + this.state.newLocale.locale_city} render={(props) => <Search {...props} />} />
       )
@@ -206,7 +206,7 @@ export default class NewSuitcaseModal extends Component {
                     onChange={this.handleSelectChange}
                     ref={ref => {
                       this.select = ref
-                  }}
+                    }}
                     defaultValue={this.state.selectValue}
                   >
                     <option value="" disabled="disabled"></option>
@@ -257,7 +257,7 @@ export default class NewSuitcaseModal extends Component {
 
           </ModalBody>
           <ModalFooter>
-            <button className="btn btn-primary btn-sm px-3 py-2" onClick={() => this.createNewLocale() }>Start Packing!</button>
+            <button className="btn btn-primary btn-sm px-3 py-2" onClick={() => this.createNewLocale()}>Start Packing!</button>
           </ModalFooter>
         </Modal >
       </div >

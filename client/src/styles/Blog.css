@@ -1,0 +1,18 @@
+.custom-file-label:after {
+    background-color: #e9ecef!important;
+    padding-bottom: 2px!important;
+    line-height: 1.7!important;
+}
+
+input:-webkit-autofill {
+    background-color: grey!important;
+}
+
+.blog-title {
+    font-family: "Reem Kufi", sans-serif;
+    color: black;
+}
+
+.blog-title-city {
+    text-transform: capitalize;
+}

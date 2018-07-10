@@ -96,11 +96,8 @@ export default class Suitcase extends Component {
       start_date: "",
       end_date: "",
       travel_category: "",
-<<<<<<< HEAD
       note_title: "",
       notes: "",
-=======
->>>>>>> 89e37b6cf002963ba975c188a5718aa9e0b56cfe
       suitcase_image: "",
       Items: [],
       Locale: [],

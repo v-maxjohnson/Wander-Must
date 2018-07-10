@@ -67,14 +67,14 @@ class App extends Component {
                   />}
                 />
                 <Route exact path="/profile/:id" render={(props) =>
-                  <Profile {...props}
+                  <Profile key={props.match.params.id} {...props}
                     showNewSuitcaseModal={this.showNewSuitcaseModal}
                     resetNewSuitcaseModal={this.resetNewSuitcaseModal}
                     renderNewSuitcaseModal={this.renderNewSuitcaseModal}
                   />}
                 />
                 <Route exact path="/search/:city" render={(props) =>
-                  <Search {...props}
+                  <Search key={props.match.params.city} {...props}
                     showNewSuitcaseModal={this.showNewSuitcaseModal}
                     resetNewSuitcaseModal={this.resetNewSuitcaseModal}
                     renderNewSuitcaseModal={this.renderNewSuitcaseModal}
@@ -88,7 +88,7 @@ class App extends Component {
                   />}
                 />
                 <Route exact path="/suitcase/:id" render={(props) =>
-                  <Suitcase {...props}
+                  <Suitcase key={props.match.params.id} {...props}
                     showNewSuitcaseModal={this.showNewSuitcaseModal}
                     resetNewSuitcaseModal={this.resetNewSuitcaseModal}
                     renderNewSuitcaseModal={this.renderNewSuitcaseModal}

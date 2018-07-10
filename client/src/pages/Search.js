@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -209,7 +209,7 @@ export default class Search extends Component {
 
                       <div className="city-name">
                         <p>Here are some suitcases for
-                <span className="locale-city"> {this.renderCityWithoutUnderscores()}</span>. Click on a suitcase and start adding items to yours!</p>
+                <span className="locale-city"> {this.renderCityWithoutUnderscores()}</span>. Click on a suitcase and start adding items to yours!</p><p>Ready to head on down the road? Go straight to <Link to={"/suitcase/" + this.state.suitcaseId}>your suitcase!</Link></p>
 
                       </div>
                     </div>

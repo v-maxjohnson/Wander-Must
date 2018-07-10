@@ -7,6 +7,15 @@ import gql from "graphql-tag";
 
 const client = new ApolloClient();
 
+const GET_SUITCASE_QUERY = gql`
+query getSuitcase( $id: ID ){
+  getSuitcase(id: $id) {
+    note_title
+    notes
+    suitcase_image
+  }
+}`;
+
 const UPDATE_SUITCASE_IMAGE_MUTATION = gql`
   mutation updateImageOnSuitcase( $id: ID, $suitcase_image: String! ){
     updateImageOnSuitcase( id: $id, suitcase_image: $suitcase_image){
@@ -14,6 +23,15 @@ const UPDATE_SUITCASE_IMAGE_MUTATION = gql`
       suitcase_image
     }
   }`;
+
+const UPDATE_SUITCASE_NOTE_MUTATION = gql`
+  mutation updateNoteOnSuitcase( $id: ID, $note_title: String!, $notes: String! ){
+    updateNoteOnSuitcase( id: $id, note_title: $note_title, note: $notes){
+      id
+      note_title
+      notes
+    }
+}`;
 
 export default class Blog extends Component {
     state = {
@@ -26,11 +44,22 @@ export default class Blog extends Component {
     }
 
     componentDidMount(){
-        this.setState({
-            note_title: this.props.note_title,
-            notes: this.props.notes,
-            suitcase_image: this.props.suitcase_image
-        })        
+      
+        this.getSuitcase();
+
+    }
+
+    getSuitcase = () => {
+        client.query({
+          query: GET_SUITCASE_QUERY,
+          variables: { id: this.state.id },
+          fetchPolicy: "network-only"
+        })
+            .then( result => this.setState({ 
+                note_title: result.data.getSuitcase.note_title,
+                notes: result.data.getSuitcase.notes,
+                suitcase_image: result.data.getSuitcase.suitcase_image,
+            }) )
     }
 
     handleInputChange = event => {
@@ -89,6 +118,13 @@ export default class Blog extends Component {
               })
                 .catch( err => console.log(err.message) )
             })
+
+        client.mutate({
+            mutation: UPDATE_SUITCASE_NOTE_MUTATION,
+            variables: { id: this.state.id, note_title: this.state.note_title, notes: this.state.notes },
+            fetchPolicy: 'no-cache'
+        })
+            .catch( err => console.log(err.message) );
     };
 
     render() {

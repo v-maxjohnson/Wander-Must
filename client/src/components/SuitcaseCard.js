@@ -1,41 +1,18 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import Moment from 'react-moment';
-import Pixabay from "../utils/Pixabay";
-import Cloudinary from '../utils/Cloudinary';
 import "../styles/SuitcaseCard.css";
-import SuitcaseFrame from "../images/suitcaseFrame.png"
+import SuitcaseFrame from "../images/suitcaseFrame.png";
 
 let cityNoUnderscores = "";
 
 export default class SuitcaseCard extends Component {
-
-    state = {
-        cityImageSrc: ""
-    }
 
     renderCityWithoutUnderscores = () => {
         cityNoUnderscores = this.props.city.replace(/_/g, ' ');
         return (
             cityNoUnderscores
         )
-    }
-
-    setCityImageSrc = (url) => {
-        this.setState({ cityImageSrc: url })
-    }
-
-    renderPicture = () => {
-        if (this.props.rendered) {
-            return <Pixabay
-                city={this.props.city}
-                country={this.props.country}
-                setCityImageSrc={this.setCityImageSrc}
-            />
-        }
-        return <Cloudinary
-            setCityImageSrc={this.setCityImageSrc}
-        />
     }
 
     render() {
@@ -46,10 +23,9 @@ export default class SuitcaseCard extends Component {
                     <div className="card bg-dark text-white no-shadow">
                         <div className="suitcaseWrapper card-img">
                             <Link className="suitcase-link" to={"/suitcase/" + this.props.id}>
-                                {this.renderPicture()}
                                 <img
                                     className="suitcasePhoto img-responsive"
-                                    src={this.state.cityImageSrc} alt="City Skyline"
+                                    src={this.props.suitcaseImage} alt="City Skyline"
                                 />
                                 <img className="suitcaseFrame img-responsive" src={SuitcaseFrame} alt="Suitcase Frame" />
                             </Link>

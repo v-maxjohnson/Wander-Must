@@ -21,7 +21,7 @@ query getUser( $id: ID ){
       start_date
       end_date
       travel_category
-      notes
+      suitcase_image
       Locale {
         id
         locale_city
@@ -94,7 +94,7 @@ export default class Profile extends Component {
                       city={suitcase.Locale.locale_city}
                       localeAdmin={suitcase.Locale.locale_admin}
                       country={suitcase.Locale.locale_country}
-                      src={suitcase.Locale.locale_image}
+                      suitcaseImage={suitcase.suitcase_image}
                       startDate={suitcase.start_date}
                       endDate={suitcase.end_date}
                       category={suitcase.travel_category}

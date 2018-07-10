@@ -34,7 +34,7 @@ export default class Wunderground extends Component {
                     console.log(url);
                     this.props.setCityImageSrc(url);
                 } else {
-                    url = "";
+                    url = "https://res.cloudinary.com/wandermust/image/upload/v1531079286/user_image/suitcaseBlack.png";
                     this.props.setCityImageSrc(url);
                 }
             })

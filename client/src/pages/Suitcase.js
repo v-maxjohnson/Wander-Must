@@ -27,6 +27,7 @@ query getSuitcase( $id: ID ){
     travel_category 
     note_title
     notes
+    suitcase_image
     Items {
       id
       item_name
@@ -96,6 +97,9 @@ export default class Suitcase extends Component {
       start_date: "",
       end_date: "",
       travel_category: "",
+      note_title: "",
+      notes: "",
+      suitcase_image: "",
       Items: [],
       Locale: [],
       User: []
@@ -392,9 +396,11 @@ export default class Suitcase extends Component {
           <Blog
             note_title={this.state.suitcase.note_title}
             notes={this.state.suitcase.notes}
+            suitcaseImage={this.state.suitcase_image}
             loggedInUserIdNumber={this.state.loggedInUserIdNumber}
             suitcaseUserId={this.state.suitcase.User.id}
             showConfirmationModal={this.showConfirmationModal}
+            suitcase_image={this.state.suitcase.suitcase_image}
           />
         </div>
       )

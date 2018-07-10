@@ -58,6 +58,9 @@ export default new GraphQLObjectType ({
                 travel_category: {
                     type: GraphQLString
                 },
+                suitcase_image: {
+                    type: GraphQLString
+                },
                 user_id: {
                     type: GraphQLID
                 },
@@ -122,6 +125,19 @@ export default new GraphQLObjectType ({
                 }
             },
             resolve : ( root, args ) => resolvers.suitcase.updateNote( args )
+        },
+        // MODIFY IMAGE ON SUITCASE
+        updateImageOnSuitcase: {
+            type: suitcaseType,
+            args: {
+                id: {
+                    type: GraphQLID
+                },
+                suitcase_image: {
+                    type: GraphQLString
+                }
+            },
+            resolve : ( root, args ) => resolvers.suitcase.updateImage( args )
         },
         // DELETE SUITCASE
         deleteSuitcase: {

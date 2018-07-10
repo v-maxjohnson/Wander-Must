@@ -23,19 +23,43 @@ query getUser( $id: ID ){
 }`;
 
 const UPDATE_USER_IMAGE_MUTATION = gql`
-  mutation updateUserImage( $id: ID, $user_image: String! ){
-    updateUserImage( id: $id, user_image: $user_image){
-      id
-      user_image
-    }
-  }`;
+mutation updateUserImage( $id: ID, $user_image: String! ){
+  updateUserImage( id: $id, user_image: $user_image){
+    id
+    user_image
+  }
+}`;
+
+const UPDATE_USER_NAME_MUTATION = gql`
+mutation updateUserName( $id: ID, $username: String! ){
+  updateUserName( id: $id, username: $username){
+    id
+    username
+  }
+}`;
+
+const UPDATE_USER_EMAIL_MUTATION = gql`
+mutation updateUserEmail( $id: ID, $email: String! ){
+  updateUserEmail( id: $id, email: $email){
+    id
+    email
+  }
+}`;
+
+const UPDATE_USER_GENDER_MUTATION = gql`
+mutation updateUserGender( $id: ID, $gender: String! ){
+  updateUserGender( id: $id, gender: $gender){
+    id
+    gender
+  }
+}`;
 
 const DELETE_USER_MUTATION = gql` 
-  mutation deleteUser( $id: ID ){
-      deleteUser(id: $id) {
-        id
-      }
-  }`;
+mutation deleteUser( $id: ID ){
+    deleteUser(id: $id) {
+      id
+    }
+}`;
 
 const client = new ApolloClient();
 
@@ -87,9 +111,15 @@ export default class Account extends Component {
       query: GET_USER_QUERY,
       variables: { id: this.state.loggedInUserId },
       fetchPolicy: "network-only"
-    }).then(result => {
-      this.setState({ userData: result.data.getUser, rendered: true });
     })
+      .then( result => this.setState({ 
+        userData: {
+          username: result.data.getUser.username,
+          email: result.data.getUser.email,
+          gender: result.data.getUser.gender
+        },
+        rendered: true 
+      }) )
   }
   
   deleteUser = () => {
@@ -120,8 +150,6 @@ export default class Account extends Component {
     });
   };
 
-
-
   // When the form is submitted, prevent the default event and alert the username and password
   handleFormSubmit = event => {
     event.preventDefault();
@@ -151,13 +179,34 @@ export default class Account extends Component {
           fileName: "Upload your image!" 
         });
         
-        client.mutate({
-          mutation: UPDATE_USER_IMAGE_MUTATION,
-          variables: { id: this.state.loggedInUserId, user_image: secure_url },
-          fetchPolicy: 'no-cache'
-        })
-          .catch( err => console.log(err) )
+      client.mutate({
+        mutation: UPDATE_USER_IMAGE_MUTATION,
+        variables: { id: this.state.loggedInUserId, user_image: secure_url },
+        fetchPolicy: 'no-cache'
       })
+        .catch( err => console.log(err) )
+      })
+
+    client.mutate({
+      mutation: UPDATE_USER_NAME_MUTATION,
+      variables: { id: this.state.loggedInUserId, username: this.state.userData.username },
+      fetchPolicy: 'no-cache'
+    })
+      .catch( err => console.log(err.message) );
+
+    client.mutate({
+      mutation: UPDATE_USER_EMAIL_MUTATION,
+      variables: { id: this.state.loggedInUserId, email: this.state.userData.email },
+      fetchPolicy: 'no-cache'
+    })
+      .catch( err => console.log(err.message) );
+
+    client.mutate({
+      mutation: UPDATE_USER_GENDER_MUTATION,
+      variables: { id: this.state.loggedInUserId, gender: this.state.userData.gender },
+      fetchPolicy: 'no-cache'
+    })
+      .catch( err => console.log(err.message) );
     
   };
 

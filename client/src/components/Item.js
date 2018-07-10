@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import NumericInput from 'react-numeric-input';
 
 export default class Item extends Component {
-
-  state = {
-    singleClicked: false
-  }
-
   constructor(props){
     super(props);
-    this.state.singleClicked = props.selectAll;
+    this.state = {
+      singleClicked: false
+    }
+  }
+
+  componentDidMount(){
+    this.setState({
+      singleClicked: this.props.selectAll
+    })    
   }
 
   componentDidUpdate(prev){

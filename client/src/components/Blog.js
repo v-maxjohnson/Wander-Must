@@ -22,7 +22,18 @@ export default class Blog extends Component {
 
     handleFormSubmit = event => {
         event.preventDefault();
-        this.setState({ note_title: "", notes: "" });
+        
+        let existingData = {...this.state};
+        let updated = {
+            note_title: this.state.note_title,
+            notes: this.state.notes,
+            suitcase_image: this.state.suitcase_image
+        };
+
+        Object.keys(updated).forEach( item => updated[item] ? null: delete updated[item] );
+
+        updated = {...existingData, ...updated};
+        console.log(updated);
     };
 
     render() {
@@ -71,7 +82,7 @@ export default class Blog extends Component {
                         </Col>
                          <Col sm={5}>
                             <div className="currentSuitcaseImage border">
-                            <img width="100%" src={this.props.suitcase_image}/>
+                                <img width="100%" src={this.props.suitcase_image} alt="suitcase background"/>
                             </div>
                         </Col>
                     </FormGroup>

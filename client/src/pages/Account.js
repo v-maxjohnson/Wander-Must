@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from "react-router-dom";
-import { Button, CustomInput, Col, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, CustomInput, Col, Form, FormGroup, Label, Input } from 'reactstrap';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -91,19 +91,13 @@ export default class Account extends Component {
     });
   };
 
-  handleGenderChange = event => {
-    const { name, value } = event.target;
 
-    this.setState({
-      [name]: value
-    });
-  };
 
   // When the form is submitted, prevent the default event and alert the username and password
   handleFormSubmit = event => {
     event.preventDefault();
 
-    let existingData = { ... this.state.userData };
+    let existingData = { ...this.state.userData };
     let updated = { 
       email: this.state.email, 
       username: this.state.username, 
@@ -258,17 +252,17 @@ export default class Account extends Component {
                           <CustomInput 
                             inline type="radio" id="female" name="gender" 
                             label="Female" value="female" 
-                            onClick={this.handleGenderChange}
+                            onClick={this.handleInputChange}
                           />
                           <CustomInput 
                             inline type="radio" id="male" name="gender" 
                             label="Male" value="male" 
-                            onClick={this.handleGenderChange}
+                            onClick={this.handleInputChange}
                           />
                           <CustomInput 
                             inline type="radio" id="noGender" name="gender" 
                             label="Beyond Society's Gender Definitions" value="noGender"
-                            onClick={this.handleGenderChange}
+                            onClick={this.handleInputChange}
                           />
                         </div>
                       </Col>

@@ -9,7 +9,7 @@ const client = new ApolloClient();
 
 const UPDATE_SUITCASE_IMAGE_MUTATION = gql`
   mutation updateImageOnSuitcase( $id: ID, $suitcase_image: String! ){
-    updateImage( id: $id, suitcase_image: $suitcase_image){
+    updateImageOnSuitcase( id: $id, suitcase_image: $suitcase_image){
       id
       suitcase_image
     }
@@ -17,6 +17,7 @@ const UPDATE_SUITCASE_IMAGE_MUTATION = gql`
 
 export default class Blog extends Component {
     state = {
+        id: this.props.suitcase_id,
         note_title: "",
         notes: "",
         suitcase_image: "",
@@ -32,7 +33,7 @@ export default class Blog extends Component {
         })        
     }
 
-    handleInputChange = (event) => {
+    handleInputChange = event => {
         const { name, value } = event.target;
 
         // Set the state for the appropriate input field
@@ -46,7 +47,7 @@ export default class Blog extends Component {
         let imageData = new FormData();
         imageData.append("file", file);
         imageData.append("upload_preset", "qocvkmel");
-        
+
         this.setState({ 
             imageData : imageData,
             fileName: file.name 
@@ -78,7 +79,7 @@ export default class Blog extends Component {
       
               this.setState({ 
                 suitcase_image: secure_url,
-                fileName: "Upload your image!" 
+                fileName: "Upload your image here!" 
               });
               
               client.mutate({
@@ -86,7 +87,7 @@ export default class Blog extends Component {
                 variables: { id: this.state.id, suitcase_image: secure_url },
                 fetchPolicy: 'no-cache'
               })
-                .catch( err => console.log(err) )
+                .catch( err => console.log(err.message) )
             })
     };
 
@@ -151,7 +152,7 @@ export default class Blog extends Component {
                             </div>
                         </Col>
                     </FormGroup>
-                    <FormGroup row>
+                    <FormGroup check row>
                         <Col sm={{ size: 2, offset: 5 }}>
                             <Button color="primary" onClick={this.handleFormSubmit} >Submit</Button>
                         </Col>

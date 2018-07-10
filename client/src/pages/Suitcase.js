@@ -376,6 +376,7 @@ export default class Suitcase extends Component {
       return (
         <div className="blog-wrapper">
           <Blog
+            suitcase_id={this.state.suitcase.id}
             note_title={this.state.suitcase.note_title}
             notes={this.state.suitcase.notes}
             suitcaseImage={this.state.suitcase_image}

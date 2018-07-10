@@ -6,19 +6,8 @@ import Footer from "../components/Footer";
 import { Redirect } from 'react-router-dom';
 import Profile from "../pages/Profile";
 import "../styles/Signup.css";
-import validator from 'validator';
+import validate from 'validate.js';
  
-const required = (value) => {
-  if (!value.toString().trim().length) {
-    return 'require';
-  }
-};
- 
-const email = (value) => {
-  if (!validator.isEmail(value)) {
-    return `${value} is not a valid email.`
-  }
-};
 
 export default class Signup extends Component {
   constructor(props) {
@@ -31,8 +20,55 @@ export default class Signup extends Component {
         username: "",
         email: "",
         password: "",
-        gender: ""
+        gender: "",
+        emailError: "",
+        usernameError: "",
+        passwordError: ""
     }
+
+
+    this.constraints = {
+        username: {
+          presence: true,
+          length: {
+            minimum: 3,
+            maximum: 15
+            }
+        },
+        email: { 
+          presence: true,
+          email: true}, 
+        password: {
+          presence: true,
+          length: {
+            minimum: 6,
+            maximum: 20
+          },
+        },
+      }
+    }
+  
+  submitForm = event => {
+    event.preventDefault();
+
+    let data = {
+      username: this.state.username,
+      email: this.state.email,
+      password: this.state.password,
+      gender: this.state.gender
+    }
+
+    let result = validate(data, this.constraints)
+    if (result.username) {
+      this.setState({usernameError: result.username[0]})
+    }
+    if (result.email) {
+      this.setState({emailError: result.email[0]})
+    }
+    if (result.password) {
+      this.setState({passwordError: result.password[0]})
+    }
+
   }
 
   handleChange = event => {
@@ -53,6 +89,7 @@ export default class Signup extends Component {
     }
 
     console.log('this.state: ' + JSON.stringify(this.state));
+
 
     let newData = JSON.stringify(data);
     console.log('signup: ' + newData);
@@ -77,6 +114,7 @@ export default class Signup extends Component {
       localStorage.setItem("logged_in_user_id", data.id)
     })
   }
+
 
   maybeRedirect() {
     if (this.state.isAuthenticated === true) {
@@ -130,24 +168,31 @@ render() {
                                 <i className="material-icons">face</i>
                               </span>
                             </div>
-                            <Input type="text" className="form-control" name="username" id="user-name" placeholder="Username..." value={this.state.username} onChange={this.handleChange} validations={[required]} />
+                            <Input type="text" className="form-control" name="username" id="user-name" placeholder="Username..." value={this.state.username} onChange={this.handleChange}/>
+                            
                           </div>
+                          <p className="error-text">{this.state.usernameError}</p>
+
                           <div className="input-group">
                             <div className="input-group-prepend">
                               <span className="input-group-text">
                                 <i className="material-icons">email</i>
                               </span>
                             </div>
-                            <Input type="email" className="form-control" name="email" id="user-email" placeholder="Email..." value={this.state.email} onChange={this.handleChange} validations={[required, email]} />
+                            <Input type="email" className="form-control" name="email" id="user-email" placeholder="Email..." value={this.state.email} onChange={this.handleChange}/>
                           </div>
+                          <p className="error-text">{this.state.emailError}</p>
+
                           <div className="input-group">
                             <div className="input-group-prepend">
                               <span className="input-group-text">
                                 <i className="material-icons">lock_outline</i>
                               </span>
                             </div>
-                            <Input type="password" className="form-control" name="password" id="user-password" placeholder="Password..."  value={this.state.password} onChange={this.handleChange} validations={[required]} />
+                            <Input type="password" className="form-control" name="password" id="user-password" placeholder="Password..."  value={this.state.password} onChange={this.handleChange}/>
                           </div>
+                          <p className="error-text">{this.state.passwordError}</p>
+
 
                           <div className="input-group">
                             <div className="input-group-prepend">
@@ -155,15 +200,15 @@ render() {
                                 <i className="material-icons">supervised_user_circle</i>
                               </span>
                             </div>
-                            <Input type="select" className="custom-select" id="user-gender" name="gender" placeholder="Gender" value={this.state.gender} onChange={this.handleChange} validations={[required]}>
+                            <Input type="select" className="custom-select" id="user-gender" name="gender" placeholder="Gender" value={this.state.gender} onChange={this.handleChange}>
+                              <option value="noGender">I prefer not to answer</option>                            
                               <option value="male">Male</option>
                               <option value="female">Female</option>
-                              <option value="noGender">I prefer not to answer</option>
                             </Input>
                           </div>
                         </div>
                         <div className="card-footer justify-content-center">
-                          <button id="signup-btn" className="btn btn-primary btn-lg">Get Started</button>
+                          <button type="submit" id="signup-btn" onClick={this.submitForm} className="btn btn-primary btn-lg">Get Started</button>
                         </div>
                       </form>
                     </div> {/* ends card-signup */}

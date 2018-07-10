@@ -15,9 +15,10 @@
     "react-numeric-input": "^2.2.3",
     "react-scripts": "1.0.14",
     "react-slick": "^0.23.1",
-    "react-validation": "^3.0.7",
+    "react-validate": "^0.2.1",
     "reactstrap": "^6.1.0",
     "sequelize": "^4.38.0",
+    "validate.js": "^0.12.0",
     "yelp-api": "^1.0.3"
   },
   "scripts": {

@@ -39,9 +39,6 @@ require("./routes/auth.js")(app, passport);
 // loads passport strategies for authentication
 require("./config/passport/passport.js")(passport, db.User);
 
-// cloudinary upload route
-require("./routes/cloudinary.js")(app);
-
 // Send every other request to the React app
 // Define any API routes before this runs
 app.get("*", (req, res) => {

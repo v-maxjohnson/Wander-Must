@@ -380,6 +380,8 @@ export default class Suitcase extends Component {
             note_title={this.state.suitcase.note_title}
             notes={this.state.suitcase.notes}
             suitcaseImage={this.state.suitcase_image}
+            renderCityWithoutUnderscores={this.renderCityWithoutUnderscores}
+            suitcaseUsername={this.state.suitcase.User.username}
             loggedInUserIdNumber={this.state.loggedInUserIdNumber}
             suitcaseUserId={this.state.suitcase.User.id}
             showConfirmationModal={this.showConfirmationModal}

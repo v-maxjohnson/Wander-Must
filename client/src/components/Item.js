@@ -26,16 +26,12 @@ export default class Item extends Component {
     }
   }
 
-  checkChecks = () => {
-    if (this.state.singleClicked) {
-    this.props.onCheckboxBtnClick(this.props.itemId)
-    }
-  }
-
   toggleChecked = () => {
     this.setState({
       singleClicked: !this.state.singleClicked
     })
+
+    this.props.onCheckboxBtnClick(this.props.itemId)
   }
 
   renderCheckedStatus = () => this.state.singleClicked
@@ -92,7 +88,7 @@ export default class Item extends Component {
             <div className="row justify-content-start">
               <div className="col">
                 <label className="form-check-label">
-                <input className="form-check-input" type="checkbox" onClick={() => this.toggleChecked() } onChange={() => this.checkChecks()} checked={this.renderCheckedStatus()} /> {this.props.itemName}
+                <input className="form-check-input" type="checkbox" onClick={() => this.toggleChecked() } checked={this.renderCheckedStatus()} /> {this.props.itemName}
                   <span className="form-check-sign">
                     <span className="check" ></span>
                   </span>

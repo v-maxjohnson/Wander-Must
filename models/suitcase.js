@@ -27,6 +27,10 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.TEXT,
             allowNull: true,
             defalutValue: "Suitcase Note"
+        },
+        suitcase_image: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     }, {
             // disable timestamps

@@ -40,14 +40,13 @@ export default class Account extends Component {
       user_image: "",
       password: ""
     },
-    newData: {
-      id: "",
-      email: "",
-      username: "",
-      gender: "",
-      user_image: "",
-      password: ""
-    },
+   
+    id: "",
+    email: "",
+    username: "",
+    gender: "",
+    user_image: "",
+    password: "",
     openDeleteAccountConfirmationModal: false,
     rendered: false,
     loggedInUserId: localStorage.getItem("logged_in_user_id")
@@ -60,7 +59,6 @@ export default class Account extends Component {
       variables: { id: this.state.loggedInUserId }
     }).then(result => {
       this.setState({ userData: result.data.getUser, rendered: true });
-      console.log(this.state.userData);
     })
 
   }
@@ -81,7 +79,7 @@ export default class Account extends Component {
 
     // Set the state for the appropriate input field
     this.setState({
-      newData: {[name]: value}
+      [name]: value
     });
   };
 
@@ -89,7 +87,7 @@ export default class Account extends Component {
     const { name, value } = event.target;
 
     this.setState({
-      newData: {[name]: value}
+      [name]: value
     });
   };
 
@@ -97,20 +95,26 @@ export default class Account extends Component {
     const { name, value } = event.target;
 
     this.setState({
-      newData: {[name]: value}
+      [name]: value
     });
   };
 
   // When the form is submitted, prevent the default event and alert the username and password
   handleFormSubmit = event => {
     event.preventDefault();
-    alert(`Email: ${this.state.newData.email}
-          \nUsername: ${this.state.newData.username}
-          \nPassword: "***"
-          \nGender: ${this.state.newData.gender}
-          `);
-    console.log(this.state.userData);
-    console.log(this.state.newData);
+
+    let existingData = { ... this.state.userData };
+    let updated = { 
+      email: this.state.email, 
+      username: this.state.username, 
+      password: this.state.password, 
+      gender: this.state.gender 
+    }
+
+    Object.keys(updated).forEach( key => updated[key] ? null : delete updated[key] );
+  
+    updated = { ...existingData, ...updated };
+    console.log(updated);
   };
 
   showDeleteAccountConfirmationModal = () => {
@@ -242,7 +246,7 @@ export default class Account extends Component {
                           type="password"
                           name="password"
                           placeholder="password confirmation"
-                          value={this.state.userData.password}
+                          value={this.state.password}
                           onChange={this.handlePasswordChange}
                         />
                       </Col>
@@ -281,6 +285,8 @@ export default class Account extends Component {
                         />
                       </Col>
                     </FormGroup>
+                    
+
                     <FormGroup check row>
                       <Col sm={{ size: 2, offset: 5 }}>
                         <Button color="primary" onClick={this.handleFormSubmit} >Submit</Button>

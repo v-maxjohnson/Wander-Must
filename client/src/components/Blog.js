@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Button, Col, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Col, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 export default class Blog extends Component {
 
     state = {
         note_title: "",
-        notes: ""
+        notes: "",
+        suitcase_image: ""
     };
 
 
@@ -21,7 +22,18 @@ export default class Blog extends Component {
 
     handleFormSubmit = event => {
         event.preventDefault();
-        this.setState({ note_title: "", notes: "" });
+        
+        let existingData = {...this.state};
+        let updated = {
+            note_title: this.state.note_title,
+            notes: this.state.notes,
+            suitcase_image: this.state.suitcase_image
+        };
+
+        Object.keys(updated).forEach( item => updated[item] ? null: delete updated[item] );
+
+        updated = {...existingData, ...updated};
+        console.log(updated);
     };
 
     render() {
@@ -57,6 +69,21 @@ export default class Blog extends Component {
                                 value={this.state.notes}
                                 onChange={this.handleInputChange}
                             />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                        <Col sm={1} />
+                        <Col sm={5}>
+                            <Label for="exampleFile">Your city-scape</Label>
+                            <Input type="file" name="file" id="exampleFile" />
+                            <FormText color="muted">
+                            Choose a photo for your suitcase! If you don't care, we can provide you with a skyline.
+                            </FormText>
+                        </Col>
+                         <Col sm={5}>
+                            <div className="currentSuitcaseImage border">
+                                <img width="100%" src={this.props.suitcase_image} alt="suitcase background"/>
+                            </div>
                         </Col>
                     </FormGroup>
                     <FormGroup check row>

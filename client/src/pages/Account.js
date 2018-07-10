@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from "react-router-dom";
-import { Button, CustomInput, Col, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, CustomInput, Col, Form, FormGroup, Label, Input } from 'reactstrap';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -9,6 +9,7 @@ import DeleteAccountConfirmationModal from "../components/DeleteAccountConfirmat
 import "../styles/Account.css";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
+import axios from 'axios';
 
 const GET_USER_QUERY = gql`
 query getUser( $id: ID ){
@@ -21,12 +22,20 @@ query getUser( $id: ID ){
   }
 }`;
 
-const DELETE_USER_MUTATION = gql` 
-mutation deleteUser( $id: ID ){
-    deleteUser(id: $id) {
+const UPDATE_USER_IMAGE_MUTATION = gql`
+  mutation updateUserImage( $id: ID, $user_image: String! ){
+    updateUserImage( id: $id, user_image: $user_image){
       id
+      user_image
     }
-}`;
+  }`;
+
+const DELETE_USER_MUTATION = gql` 
+  mutation deleteUser( $id: ID ){
+      deleteUser(id: $id) {
+        id
+      }
+  }`;
 
 const client = new ApolloClient();
 
@@ -34,11 +43,19 @@ export default class Account extends Component {
   state = {
     userData: {
       id: "",
+      email: "",
       username: "",
       gender: "",
       user_image: "",
       password: ""
     },
+   
+    id: "",
+    email: "",
+    username: "",
+    gender: "",
+    user_image: "",
+    password: "",
     openDeleteAccountConfirmationModal: false,
     rendered: false,
     loggedInUserId: localStorage.getItem("logged_in_user_id")
@@ -46,16 +63,47 @@ export default class Account extends Component {
 
   componentDidMount() {
 
-    client.query({
-      query: GET_USER_QUERY,
-      variables: { id: this.state.loggedInUserId }
-    }).then(result => {
-      this.setState({ userData: result.data.getUser, rendered: true });
-      console.log(this.state.userData);
-    })
+    this.getUser();
 
   }
 
+  handleImageChange = event => {
+    let file = event.target.files[0];
+    let formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "qocvkmel");
+
+    if(this.state.rendered) {
+      axios({
+        method: "POST",
+        url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
+        data: formData 
+      })
+        .then( res => {
+        const secure_url = res.data.secure_url;
+        console.log(secure_url);
+
+        client.mutate({
+          mutation: UPDATE_USER_IMAGE_MUTATION,
+          variables: { id: this.state.loggedInUserId, user_image: secure_url },
+          fetchPolicy: 'no-cache'
+        })
+          .then( this.getUser() )
+          .catch( err => console.log(err) )
+      })
+    }
+  }
+
+  getUser = () => {
+    client.query({
+      query: GET_USER_QUERY,
+      variables: { id: this.state.loggedInUserId },
+      fetchPolicy: "network-only"
+    }).then(result => {
+      this.setState({ userData: result.data.getUser, rendered: true });
+    })
+  }
+  
   deleteUser = () => {
     client.mutate({
       mutation: DELETE_USER_MUTATION,
@@ -79,28 +127,29 @@ export default class Account extends Component {
   handlePasswordChange = event => {
     const { name, value } = event.target;
 
-    this.setState.userData({
+    this.setState({
       [name]: value
     });
   };
 
-  handleGenderChange = event => {
-    const { name, newvalue } = event.target;
 
-    this.setState.userData({
-      [name]: newvalue
-    });
-  };
 
   // When the form is submitted, prevent the default event and alert the username and password
   handleFormSubmit = event => {
     event.preventDefault();
-    alert(`Email: ${this.state.email}
-          \nUsername: ${this.state.username}
-          \nPassword: "***"
-          \nGender: ${this.state.gender}
-          `);
-    this.setState.userData({ email: "", username: "", password: "", gender: "" });
+
+    let existingData = { ...this.state.userData };
+    let updated = { 
+      email: this.state.email, 
+      username: this.state.username, 
+      password: this.state.password, 
+      gender: this.state.gender 
+    }
+
+    Object.keys(updated).forEach( key => updated[key] ? null : delete updated[key] );
+  
+    updated = { ...existingData, ...updated };
+    console.log(updated);
   };
 
   showDeleteAccountConfirmationModal = () => {
@@ -241,9 +290,21 @@ export default class Account extends Component {
                       <Label for="exampleCheckbox" sm={3}>Gender</Label>
                       <Col sm={9}>
                         <div>
-                          <CustomInput type="radio" id="female" name="gender" label="Female" inline />
-                          <CustomInput type="radio" id="male" name="gender" label="Male" inline />
-                          <CustomInput type="radio" id="noGender" name="gender" label="Beyond Society's Gender Definitions" inline />
+                          <CustomInput 
+                            inline type="radio" id="female" name="gender" 
+                            label="Female" value="female" 
+                            onClick={this.handleInputChange}
+                          />
+                          <CustomInput 
+                            inline type="radio" id="male" name="gender" 
+                            label="Male" value="male" 
+                            onClick={this.handleInputChange}
+                          />
+                          <CustomInput 
+                            inline type="radio" id="noGender" name="gender" 
+                            label="Beyond Society's Gender Definitions" value="noGender"
+                            onClick={this.handleInputChange}
+                          />
                         </div>
                       </Col>
 
@@ -251,14 +312,17 @@ export default class Account extends Component {
                     <FormGroup row>
                       <Label for="exampleCustomFileBrowser" sm={3}>Avatar</Label>
                       <Col sm={9}>
-                        <CustomInput
-                          type="file"
-                          id="exampleCustomFileBrowser"
-                          name="customFile"
-                          label="What's your image?"
+                        <CustomInput 
+                          type="file" 
+                          id="exampleCustomFileBrowser" 
+                          name="file"
+                          label="What's your image?" 
+                          onChange={this.handleImageChange}
                         />
                       </Col>
                     </FormGroup>
+                    
+
                     <FormGroup check row>
                       <Col sm={{ size: 2, offset: 5 }}>
                         <Button color="primary" onClick={this.handleFormSubmit} >Submit</Button>
@@ -298,8 +362,6 @@ export default class Account extends Component {
               </div>
             </div>
           </div>
-
-
 
 
         </Main>

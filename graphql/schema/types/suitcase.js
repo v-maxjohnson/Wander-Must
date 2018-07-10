@@ -50,6 +50,9 @@ export default new GraphQLObjectType({
         notes: {
             type: GraphQLString
         },
+        suitcase_image: {
+            type: GraphQLString
+        },
         Locale: {
             type: localeType
         },

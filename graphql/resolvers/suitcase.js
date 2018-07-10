@@ -51,7 +51,7 @@ export default {
             })
             .catch( err => console.log(err) )
     },
-    create: ( {start_date, end_date, travel_category, user_id, locale_id} ) => {
+    create: ( {start_date, end_date, travel_category, user_id, locale_id, suitcase_image} ) => {
         return db.Locale.findOne({
             where: {
                 id: locale_id
@@ -64,6 +64,7 @@ export default {
                         start_date: start_date,
                         end_date: end_date,
                         travel_category: travel_category,
+                        suitcase_image: suitcase_image,
                         user_id: user_id,
                         locale_id: locale_id
                     })
@@ -116,6 +117,15 @@ export default {
             }
         })
             .then( suitcase => suitcase.update( {notes: note, note_title: note_title} ) )
+            .catch( err => console.log(err) )
+    },
+    updateImage: ( {id, suitcase_image } ) => {
+        return db.Suitcase.findOne({
+            where: {
+                id: id
+            }
+        })
+            .then( suitcase => suitcase.update( {suitcase_image: suitcase_image} ) )
             .catch( err => console.log(err) )
     },
     deleteItem: ( {suitcase_id, item_id} ) => {

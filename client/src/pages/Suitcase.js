@@ -310,11 +310,11 @@ export default class Suitcase extends Component {
       this.state.itemsToAdd.splice(index, 1);
     }
     this.setState({ itemsToAdd: [...this.state.itemsToAdd] });
+    console.log(this.state.itemsToAdd)
   }
 
   handlePageChange = page => {
     this.setState({ currentPage: page });
-
   };
 
   renderPage = () => {

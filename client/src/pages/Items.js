@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Category from "../components/Category";
 import ListItem from "../components/ListItem";
+import Suitcase from "../pages/Suitcase";
 import "../styles/Items.css";
 import "../styles/Suitcase.css";
 import gql from "graphql-tag";
@@ -54,6 +55,7 @@ export default class Items extends Component {
       this.state.itemsToAdd.splice(index, 1);
     }
     this.setState({ itemsToAdd: [...this.state.itemsToAdd] });
+    console.log(this.state.itemsToAdd)
   }
 
   addItemsToSuitcase = () => {
@@ -61,13 +63,24 @@ export default class Items extends Component {
       mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
       variables: { id: this.state.suitcaseId, item_ids: this.state.itemsToAdd }
     }).then(result => {
-      console.log(result);
+      this.setState({
+        shouldRedirectToSuitcase: true
+      })
     }).catch(err => console.log(err))
+  }
+  
+  maybeRedirect() {
+    if (this.state.shouldRedirectToSuitcase) {
+      return (
+        <Redirect to={"/suitcase/" + this.state.suitcaseId} render={(props) => <Suitcase {...props} />} />
+      )
+    }
   }
 
   render() {
     return (
       <div className="items profile-page sidebar-collapse">
+      {this.maybeRedirect()}
         <Header
           showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}
@@ -219,9 +232,7 @@ export default class Items extends Component {
             </div>
             <div className="row">
               <div className="col-6 mx-auto my-3 text-center">
-                <Link to={"/suitcase/" + this.state.suitcaseId}>
                   <button id="add-items" className="btn btn-primary btn-lg" onClick={() => { this.addItemsToSuitcase() }}>Add Selected Items To My Suitcase</button>
-                </Link>
               </div>
             </div>
           </div>

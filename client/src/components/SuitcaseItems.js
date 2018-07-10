@@ -5,6 +5,55 @@ import Category from "../components/Category";
 
 
 export default class SuitcaseItems extends Component {
+
+  state = {
+    selectAllToiletries: false,
+    selectAllClothing: false,
+    selectAllAccessories: false,
+    selectAllElectronics: false
+  }
+
+  handleSelectAll = (category) => {
+    switch (category) {
+      case "toiletries":
+        this.selectAllToiletries();
+        break;
+      case "clothing":
+        this.selectAllClothing();
+        break;
+      case "accessories":
+        this.selectAllAccessories();
+        break;
+      case "electronics":
+        this.selectAllElectronics();
+        break;
+    }
+  }
+
+  selectAllToiletries = () => {
+    this.setState({
+      selectAllToiletries: !this.state.selectAllToiletries
+    })
+  }
+
+  selectAllClothing = () => {
+    this.setState({
+      selectAllClothing: !this.state.selectAllClothing
+    })
+  }
+
+  selectAllAccessories = () => {
+    this.setState({
+      selectAllAccessories: !this.state.selectAllAccessories
+    })
+  }
+
+  selectAllElectronics = () => {
+    this.setState({
+      selectAllElectronics: !this.state.selectAllElectronics
+    })
+  }
+
   render() {
     return (
       <div className="suitcaseitems">
@@ -15,10 +64,10 @@ export default class SuitcaseItems extends Component {
               <Category>
                 <div className="title row">
                   <div>
-                    <button data-category="toiletries" className="all btn btn-default btn-sm btn-fab btn-round">
+                    <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={() => this.handleSelectAll("toiletries")}>
                       <a className="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Add new suitcase">
                         <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Select all toiletries"> </i>
-                      </a> 
+                      </a>
                     </button>
                   </div>
                   <div>
@@ -42,6 +91,7 @@ export default class SuitcaseItems extends Component {
                         suitcaseUserId={this.props.suitcase.User.id}
                         deleteItemFromSuitcase={this.props.deleteItemFromSuitcase}
                         updateItemAmountOnSuitcase={this.props.updateItemAmountOnSuitcase}
+                        selectAll={this.state.selectAllToiletries}
                       />
                     ))
                   }
@@ -51,10 +101,10 @@ export default class SuitcaseItems extends Component {
               <Category>
                 <div className="title row">
                   <div>
-                    <button data-category="toiletries" className="all btn btn-default btn-sm btn-fab btn-round">
+                    <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={() => this.handleSelectAll("clothing")}>
                       <a className="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Add new suitcase">
                         <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Select all toiletries"> </i>
-                      </a> 
+                      </a>
                     </button>
                   </div>
                   <div>
@@ -78,6 +128,7 @@ export default class SuitcaseItems extends Component {
                         suitcaseUserId={this.props.suitcase.User.id}
                         deleteItemFromSuitcase={this.props.deleteItemFromSuitcase}
                         updateItemAmountOnSuitcase={this.props.updateItemAmountOnSuitcase}
+                        selectAll={this.state.selectAllClothing}
                       />
                     ))
 
@@ -89,10 +140,10 @@ export default class SuitcaseItems extends Component {
               <Category>
                 <div className="title row">
                   <div>
-                    <button data-category="toiletries" className="all btn btn-default btn-sm btn-fab btn-round">
+                    <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={() => this.handleSelectAll("accessories")}>
                       <a className="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Add new suitcase">
                         <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Select all toiletries"> </i>
-                      </a> 
+                      </a>
                     </button>
                   </div>
                   <div>
@@ -116,6 +167,7 @@ export default class SuitcaseItems extends Component {
                         suitcaseUserId={this.props.suitcase.User.id}
                         deleteItemFromSuitcase={this.props.deleteItemFromSuitcase}
                         updateItemAmountOnSuitcase={this.props.updateItemAmountOnSuitcase}
+                        selectAll={this.state.selectAllAccessories}
                       />
                     ))
 
@@ -127,10 +179,10 @@ export default class SuitcaseItems extends Component {
               <Category>
                 <div className="title row">
                   <div>
-                    <button data-category="toiletries" className="all btn btn-default btn-sm btn-fab btn-round">
+                    <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={() => this.handleSelectAll("electronics")}>
                       <a className="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Add new suitcase">
                         <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Select all toiletries"> </i>
-                      </a> 
+                      </a>
                     </button>
                   </div>
                   <div>
@@ -154,6 +206,7 @@ export default class SuitcaseItems extends Component {
                         suitcaseUserId={this.props.suitcase.User.id}
                         deleteItemFromSuitcase={this.props.deleteItemFromSuitcase}
                         updateItemAmountOnSuitcase={this.props.updateItemAmountOnSuitcase}
+                        selectAll={this.state.selectAllElectronics}
                       />
                     ))
 
@@ -174,12 +227,13 @@ export default class SuitcaseItems extends Component {
             </div>
           ) : (
               <div className="col-6 mx-auto mt-5 mb-3 text-center">
-                <Link id="add-items" className="btn btn-primary btn-lg mt-5 mb-3 px-3 pb-2 pt-3" onClick={() => { this.props.addItemsToCurrentSuitcase() }} to={"/suitcase/" + this.props.currentSuitcaseId}>Add Selected Items To My Suitcase</Link>
+                <button id="add-items" className="btn btn-primary btn-lg mt-5 mb-3 px-3 pb-2 pt-3" onClick={() => { this.props.addItemsToCurrentSuitcase() }} >Add Selected Items To My Suitcase</button>
+                <Link id="add-items" className="btn btn-info btn-lg mt-5 mb-3 px-3 pb-2 pt-3" to={"/suitcase/" + this.props.currentSuitcaseId}>Add Selected Items To My Suitcase</Link>
               </div>
             )}
         </div>
         {this.props.renderYelp()}
-        
+
 
       </div>
     )

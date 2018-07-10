@@ -1,16 +1,68 @@
 import React, { Component } from 'react';
-import { Button, Col, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, Col, Form, FormGroup, Label, Input, CustomInput } from 'reactstrap';
+import "../styles/Blog.css";
+import ApolloClient from 'apollo-boost';
+import axios from 'axios';
+import gql from "graphql-tag";
+
+const client = new ApolloClient();
+
+const GET_SUITCASE_QUERY = gql`
+query getSuitcase( $id: ID ){
+  getSuitcase(id: $id) {
+    note_title
+    notes
+    suitcase_image
+  }
+}`;
+
+const UPDATE_SUITCASE_IMAGE_MUTATION = gql`
+  mutation updateImageOnSuitcase( $id: ID, $suitcase_image: String! ){
+    updateImageOnSuitcase( id: $id, suitcase_image: $suitcase_image){
+      id
+      suitcase_image
+    }
+  }`;
+
+const UPDATE_SUITCASE_NOTE_MUTATION = gql`
+  mutation updateNoteOnSuitcase( $id: ID, $note_title: String!, $notes: String! ){
+    updateNoteOnSuitcase( id: $id, note_title: $note_title, note: $notes){
+      id
+      note_title
+      notes
+    }
+}`;
 
 export default class Blog extends Component {
-
     state = {
+        id: this.props.suitcase_id,
         note_title: "",
         notes: "",
-        suitcase_image: ""
-    };
+        suitcase_image: "",
+        fileName: "Upload your image here!",
+        imageData: ""
+    }
 
+    componentDidMount(){
+      
+        this.getSuitcase();
 
-    handleInputChange = (event) => {
+    }
+
+    getSuitcase = () => {
+        client.query({
+          query: GET_SUITCASE_QUERY,
+          variables: { id: this.state.id },
+          fetchPolicy: "network-only"
+        })
+            .then( result => this.setState({ 
+                note_title: result.data.getSuitcase.note_title,
+                notes: result.data.getSuitcase.notes,
+                suitcase_image: result.data.getSuitcase.suitcase_image,
+            }) )
+    }
+
+    handleInputChange = event => {
         const { name, value } = event.target;
 
         // Set the state for the appropriate input field
@@ -19,6 +71,17 @@ export default class Blog extends Component {
         });
     };
 
+    handleImageChange = event => {
+        let file = event.target.files[0];
+        let imageData = new FormData();
+        imageData.append("file", file);
+        imageData.append("upload_preset", "qocvkmel");
+
+        this.setState({ 
+            imageData : imageData,
+            fileName: file.name 
+        });
+    }
 
     handleFormSubmit = event => {
         event.preventDefault();
@@ -34,6 +97,34 @@ export default class Blog extends Component {
 
         updated = {...existingData, ...updated};
         console.log(updated);
+
+        axios({
+            method: "POST",
+            url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
+            data: this.state.imageData 
+          })
+            .then( res => {
+              const secure_url = res.data.secure_url;
+      
+              this.setState({ 
+                suitcase_image: secure_url,
+                fileName: "Upload your image here!" 
+              });
+              
+              client.mutate({
+                mutation: UPDATE_SUITCASE_IMAGE_MUTATION,
+                variables: { id: this.state.id, suitcase_image: secure_url },
+                fetchPolicy: 'no-cache'
+              })
+                .catch( err => console.log(err.message) )
+            })
+
+        client.mutate({
+            mutation: UPDATE_SUITCASE_NOTE_MUTATION,
+            variables: { id: this.state.id, note_title: this.state.note_title, notes: this.state.notes },
+            fetchPolicy: 'no-cache'
+        })
+            .catch( err => console.log(err.message) );
     };
 
     render() {
@@ -43,7 +134,7 @@ export default class Blog extends Component {
                     <FormGroup row>
                         <Col sm={1} />
                         <Col sm={2}>
-                            <Label for="note_title" >Title</Label>
+                            <Label for="note_title" sm={3}>Title</Label>
                         </Col>
                         <Col sm={7}>
                             <Input
@@ -58,14 +149,13 @@ export default class Blog extends Component {
                     <FormGroup row>
                         <Col sm={1} />
                         <Col sm={2}>
-                            <Label for="notes">Body</Label>
+                            <Label for="notes" sm={3}>Body</Label>
                         </Col>
                         <Col sm={7}>
                             <Input
                                 type="textarea"
                                 name="notes"
                                 rows={8}
-                                placeholder={this.props.notes}
                                 value={this.state.notes}
                                 onChange={this.handleInputChange}
                             />
@@ -73,16 +163,28 @@ export default class Blog extends Component {
                     </FormGroup>
                     <FormGroup row>
                         <Col sm={1} />
-                        <Col sm={5}>
-                            <Label for="exampleFile">Your city-scape</Label>
-                            <Input type="file" name="file" id="exampleFile" />
-                            <FormText color="muted">
-                            Choose a photo for your suitcase! If you don't care, we can provide you with a skyline.
-                            </FormText>
+                        <Col sm={2}>
+                            <Label for="exampleFile" sm={9}>Your Suitcase Image</Label>
                         </Col>
-                         <Col sm={5}>
-                            <div className="currentSuitcaseImage border">
-                                <img width="100%" src={this.props.suitcase_image} alt="suitcase background"/>
+                        <Col sm={3}>
+                            <CustomInput 
+                                type="file" 
+                                name="file" 
+                                id="exampleFile" 
+                                label={this.state.fileName} 
+                                onChange={this.handleImageChange}
+                            />
+                            {/* <FormText color="muted">
+                            Upload a photo for your suitcase! If you don't, we can provide a picture for you.
+                            </FormText> */}
+                        </Col>
+                        <Col sm={{size:3, offset: 7}}>
+                            <div className="currentSuitcaseImage">
+                                <img 
+                                width="100%" 
+                                src={this.state.suitcase_image} 
+                                alt="suitcase background"
+                                />
                             </div>
                         </Col>
                     </FormGroup>
@@ -93,14 +195,14 @@ export default class Blog extends Component {
                     </FormGroup>
                 </Form>
 
-                <div className="row">
+                {/* <div className="row">
                     <div className="col-12 text-center">
                         {this.props.loggedInUserIdNumber === this.props.suitcaseUserId ? (
                             <button className="btn btn-primary" onClick={() => { this.props.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
                         ) : (<div></div>
                             )}
                     </div>
-                </div>
+                </div> */}
 
             </div>
         )

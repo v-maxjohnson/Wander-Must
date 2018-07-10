@@ -17,6 +17,7 @@ query getSuitcasesByLocale( $locale_city: String! ){
     start_date
     end_date
     travel_category
+    suitcase_image
     Locale {
       id
       locale_city
@@ -58,6 +59,7 @@ export default class Search extends Component {
     suitcaseData: [
       {
         travel_category: "",
+        suitcase_image: "",
         Locale: {
           id: "",
           locale_city: "",
@@ -160,7 +162,7 @@ export default class Search extends Component {
             city={suitcase.Locale.locale_city}
             localeAdmin={suitcase.Locale.locale_admin}
             country={suitcase.Locale.locale_country}
-            src={suitcase.Locale.locale_image}
+            suitcaseImage={suitcase.suitcase_image}
             startDate={suitcase.start_date}
             endDate={suitcase.end_date}
             category={suitcase.travel_category}

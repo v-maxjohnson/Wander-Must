@@ -21,12 +21,17 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             // restrict note title so that it cannot be null
             allowNull: true,
-            defalutValue: "Suitcase Note Title"
+            defaultValue: "Suitcase Note Title"
         },
         notes: {
             type: DataTypes.TEXT,
             allowNull: true,
-            defalutValue: "Suitcase Note"
+            defaulttValue: "Suitcase Note"
+        },
+        suitcase_image: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: "https://res.cloudinary.com/wandermust/image/upload/v1531079286/user_image/suitcaseBlack.png"
         }
     }, {
             // disable timestamps

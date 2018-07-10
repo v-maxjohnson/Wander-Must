@@ -8,6 +8,7 @@ import moment from 'moment';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import "../styles/NewSuitcaseModal.css";
 import 'react-datepicker/dist/react-datepicker.css';
+import Pixabay from '../utils/Pixabay';
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 
@@ -19,8 +20,8 @@ mutation createNewLocale( $locale_city: String!, $locale_admin: String!, $locale
 }`;
 
 const CREATE_NEW_SUITCASE_MUTATION = gql` 
-mutation createNewSuitcase( $start_date: String!, $end_date: String!, $travel_category: String!, $user_id: ID, $locale_id: ID ){
-    createNewSuitcase(start_date: $start_date, end_date: $end_date, travel_category: $travel_category, user_id: $user_id, locale_id: $locale_id) {
+mutation createNewSuitcase( $start_date: String!, $end_date: String!, $travel_category: String!, $user_id: ID, $locale_id: ID, $suitcase_image: String! ){
+    createNewSuitcase(start_date: $start_date, end_date: $end_date, travel_category: $travel_category, user_id: $user_id, locale_id: $locale_id, suitcase_image: $suitcase_image ) {
       id
     }
 }`;
@@ -136,7 +137,7 @@ export default class NewSuitcaseModal extends Component {
   createNewSuitcase = (localeId) => {
     client.mutate({
       mutation: CREATE_NEW_SUITCASE_MUTATION,
-      variables: { start_date: this.state.startSelect.format('YYYY-MM-DD'), end_date: this.state.endSelect.format('YYYY-MM-DD'), travel_category: this.state.selectValue, user_id: this.state.loggedInUserId, locale_id: localeId }
+      variables: { start_date: this.state.startSelect.format('YYYY-MM-DD'), end_date: this.state.endSelect.format('YYYY-MM-DD'), travel_category: this.state.selectValue, user_id: this.state.loggedInUserId, locale_id: localeId, suitcase_image: this.state.cityImageSrc }
     }).then(result => {
       localStorage.setItem("suitcase_id", result.data.createNewSuitcase.id);
       this.props.resetNewSuitcaseModal();

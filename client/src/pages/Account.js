@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from "react-router-dom";
-import { Button, CustomInput, Col, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, CustomInput, Col, Form, FormGroup, Label, Input } from 'reactstrap';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -9,6 +9,7 @@ import DeleteAccountConfirmationModal from "../components/DeleteAccountConfirmat
 import "../styles/Account.css";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
+import axios from 'axios';
 
 const GET_USER_QUERY = gql`
 query getUser( $id: ID ){
@@ -21,12 +22,20 @@ query getUser( $id: ID ){
   }
 }`;
 
-const DELETE_USER_MUTATION = gql` 
-mutation deleteUser( $id: ID ){
-    deleteUser(id: $id) {
+const UPDATE_USER_IMAGE_MUTATION = gql`
+  mutation updateUserImage( $id: ID, $user_image: String! ){
+    updateUserImage( id: $id, user_image: $user_image){
       id
+      user_image
     }
-}`;
+  }`;
+
+const DELETE_USER_MUTATION = gql` 
+  mutation deleteUser( $id: ID ){
+      deleteUser(id: $id) {
+        id
+      }
+  }`;
 
 const client = new ApolloClient();
 
@@ -46,16 +55,48 @@ export default class Account extends Component {
 
   componentDidMount() {
 
+    this.getUser();
+
+  }
+
+  handleImageChange = event => {
+    let file = event.target.files[0];
+    let formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "qocvkmel");
+
+    if(this.state.rendered) {
+      axios({
+        method: "POST",
+        url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
+        data: formData 
+      })
+        .then( res => {
+        const secure_url = res.data.secure_url;
+        console.log(secure_url);
+
+        client.mutate({
+          mutation: UPDATE_USER_IMAGE_MUTATION,
+          variables: { id: this.state.loggedInUserId, user_image: secure_url },
+          fetchPolicy: 'no-cache'
+        })
+          .then( this.getUser() )
+          .catch( err => console.log(err) )
+      })
+    }
+  }
+
+  getUser = () => {
     client.query({
       query: GET_USER_QUERY,
-      variables: { id: this.state.loggedInUserId }
+      variables: { id: this.state.loggedInUserId },
+      fetchPolicy: "network-only"
     }).then(result => {
       this.setState({ userData: result.data.getUser, rendered: true });
       console.log(this.state.userData);
     })
-
   }
-
+  
   deleteUser = () => {
     client.mutate({
       mutation: DELETE_USER_MUTATION,
@@ -251,11 +292,12 @@ export default class Account extends Component {
                     <FormGroup row>
                       <Label for="exampleCustomFileBrowser" sm={3}>Avatar</Label>
                       <Col sm={9}>
-                        <CustomInput
-                          type="file"
-                          id="exampleCustomFileBrowser"
-                          name="customFile"
-                          label="What's your image?"
+                        <CustomInput 
+                          type="file" 
+                          id="exampleCustomFileBrowser" 
+                          name="file"
+                          label="What's your image?" 
+                          onChange={this.handleImageChange}
                         />
                       </Col>
                     </FormGroup>
@@ -298,8 +340,6 @@ export default class Account extends Component {
               </div>
             </div>
           </div>
-
-
 
 
         </Main>

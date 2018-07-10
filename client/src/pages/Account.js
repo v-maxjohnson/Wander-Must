@@ -47,7 +47,7 @@ export default class Account extends Component {
       username: "",
       gender: "",
       user_image: "",
-      password: "",
+      password: ""
     },
    
     id: "",
@@ -57,6 +57,7 @@ export default class Account extends Component {
     user_image: "",
     password: "",
     imageData: "",
+    fileName: "Upload your image!",
     openDeleteAccountConfirmationModal: false,
     rendered: false,
     loggedInUserId: localStorage.getItem("logged_in_user_id")
@@ -74,8 +75,11 @@ export default class Account extends Component {
     imageData.append("file", file);
     imageData.append("upload_preset", "qocvkmel");
     
-    this.setState({ imageData : imageData });
-
+    this.setState({ 
+      imageData : imageData,
+      fileName: file.name 
+    });
+    
   }
 
   getUser = () => {
@@ -84,7 +88,7 @@ export default class Account extends Component {
       variables: { id: this.state.loggedInUserId },
       fetchPolicy: "network-only"
     }).then(result => {
-      this.setState({ userData: result.data.getUser, rendered: true })
+      this.setState({ userData: result.data.getUser, rendered: true });
     })
   }
   
@@ -122,17 +126,17 @@ export default class Account extends Component {
   handleFormSubmit = event => {
     event.preventDefault();
 
-    // let existingData = { ...this.state.userData };
-    // let updated = { 
-    //   email: this.state.email, 
-    //   username: this.state.username, 
-    //   password: this.state.password, 
-    //   gender: this.state.gender
-    // }
+    let existingData = { ...this.state.userData };
+    let updated = { 
+      email: this.state.email, 
+      username: this.state.username, 
+      password: this.state.password, 
+      gender: this.state.gender
+    }
 
-    // Object.keys(updated).forEach( key => updated[key] ? null : delete updated[key] );
-    // updated = { ...existingData, ...updated };
-    // console.log(updated);
+    Object.keys(updated).forEach( key => updated[key] ? null : delete updated[key] );
+    updated = { ...existingData, ...updated };
+    console.log(updated);
 
     axios({
       method: "POST",
@@ -142,7 +146,10 @@ export default class Account extends Component {
       .then( res => {
         const secure_url = res.data.secure_url;
 
-        this.setState({ userData: {user_image: secure_url }});
+        this.setState({ 
+          userData: {user_image: secure_url},
+          fileName: "Upload your image!" 
+        });
         
         client.mutate({
           mutation: UPDATE_USER_IMAGE_MUTATION,
@@ -176,17 +183,16 @@ export default class Account extends Component {
       .then(
         this.setState({
           isAuthenticated: false
-        }
-        )
+        })
       )
   }
 
-  maybeLogout() {
+  maybeLogout = () => {
     if (this.state.isAuthenticated === false) {
       return (
       <Redirect to="/" render={(props) => <Home {...props} />} />
-    )
-  }
+      )
+    }
   }
 
   render() {
@@ -318,7 +324,7 @@ export default class Account extends Component {
                           type="file" 
                           id="exampleCustomFileBrowser" 
                           name="file"
-                          label="What's your image?"
+                          label={this.state.fileName}
                           onChange={this.handleImageChange}
                         />
                       </Col>

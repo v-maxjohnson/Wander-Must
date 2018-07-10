@@ -140,14 +140,14 @@ export default class NewSuitcaseModal extends Component {
     }).then(result => {
       localStorage.setItem("suitcase_id", result.data.createNewSuitcase.id);
       this.props.resetNewSuitcaseModal();
-      this.setState({
-        shouldRedirectToSuitcase: true
-      })
-    }).catch(err => console.log(err))
+    }).then(this.setState({
+      shouldRedirectToCity: true
+    }))
+    .catch(err => console.log(err))
   }
 
   maybeRedirect = () => {
-    if (this.state.shouldRedirectToSuitcase) {
+    if (this.state.shouldRedirectToCity) {
       return (
         <Redirect to={"/search/" + this.state.newLocale.locale_city} render={(props) => <Search {...props} />} />
       )
@@ -166,6 +166,7 @@ export default class NewSuitcaseModal extends Component {
 
   setCityImageSrc = (url) => {
     this.setState({ cityImageSrc: url })
+    console.log(this.state.cityImageSrc)
   }
 
   toggle = () => {

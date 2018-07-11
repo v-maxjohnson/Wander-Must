@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Col, Form, FormGroup, Label, Input, CustomInput } from 'reactstrap';
 import "../styles/Blog.css";
+import Pixabay from '../utils/Pixabay';
 import ApolloClient from 'apollo-boost';
 import axios from 'axios';
 import gql from "graphql-tag";
@@ -13,6 +14,12 @@ query getSuitcase( $id: ID ){
     note_title
     notes
     suitcase_image
+    Locale {
+        id
+        locale_city
+        locale_admin
+        locale_country
+    }
   }
 }`;
 
@@ -40,7 +47,9 @@ export default class Blog extends Component {
         notes: "",
         suitcase_image: "",
         fileName: "Upload your image here!",
-        imageData: ""
+        imageData: "",
+        defaultImage: false,
+
     }
 
     componentDidMount() {
@@ -55,11 +64,19 @@ export default class Blog extends Component {
             variables: { id: this.state.id },
             fetchPolicy: "network-only"
         })
-            .then(result => this.setState({
-                note_title: result.data.getSuitcase.note_title,
-                notes: result.data.getSuitcase.notes,
-                suitcase_image: result.data.getSuitcase.suitcase_image,
-            }))
+            .then(result => {
+                let newState = {
+                    note_title: result.data.getSuitcase.note_title,
+                    notes: result.data.getSuitcase.notes,
+                    suitcase_image: result.data.getSuitcase.suitcase_image,
+                    city: result.data.getSuitcase.Locale.locale_city,
+                    country: result.data.getSuitcase.Locale.locale_country,
+                    admin: result.data.getSuitcase.Locale.locale_admin,
+                    defaultImage: (result.data.getSuitcase.suitcase_image === null)
+                }
+
+                this.setState(newState)
+            })
     }
 
     handleInputChange = event => {
@@ -71,6 +88,31 @@ export default class Blog extends Component {
         });
     };
 
+    renderPixabay = event => {
+        event.preventDefault();
+
+        if (!this.state.defaultImage) {
+            this.setState({ defaultImage: true })
+        }
+
+        this.maybeMakePixabayCall();
+    }
+
+    maybeMakePixabayCall = () => {
+        if (this.state.defaultImage === true) {
+            return <Pixabay
+                city={this.state.city}
+                country={this.state.country}
+                setCityImageSrc={this.setCityImageSrc}
+            />
+        }
+    }
+
+    setCityImageSrc = (url) => {
+        this.setState({ suitcase_image: url })
+        console.log(url)
+    }
+
     handleImageChange = event => {
         let file = event.target.files[0];
         let imageData = new FormData();
@@ -79,7 +121,8 @@ export default class Blog extends Component {
 
         this.setState({
             imageData: imageData,
-            fileName: file.name
+            fileName: file.name,
+            defaultImage: false
         });
     }
 
@@ -93,7 +136,7 @@ export default class Blog extends Component {
             suitcase_image: this.state.suitcase_image
         };
 
-        Object.keys(updated).forEach(item => updated[item] ? "" : delete updated[item]);
+        Object.keys(updated).forEach(item => updated[item] ? null : delete updated[item]);
 
         updated = { ...existingData, ...updated };
         console.log(updated);
@@ -102,21 +145,21 @@ export default class Blog extends Component {
             method: "POST",
             url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
             data: this.state.imageData
-          })
-            .then( res => {
-              const secure_url = res.data.secure_url;
-      
-              this.setState({ 
-                suitcase_image: secure_url,
-                fileName: "Upload your image here!" 
-              });
-              
-              client.mutate({
-                mutation: UPDATE_SUITCASE_IMAGE_MUTATION,
-                variables: { id: this.state.id, suitcase_image: secure_url },
-                fetchPolicy: 'no-cache'
-              })
-                .catch( err => console.log(err.message) )
+        })
+            .then(res => {
+                const secure_url = res.data.secure_url;
+
+                this.setState({
+                    suitcase_image: secure_url,
+                    fileName: "Upload your image here!"
+                });
+
+                client.mutate({
+                    mutation: UPDATE_SUITCASE_IMAGE_MUTATION,
+                    variables: { id: this.state.id, suitcase_image: secure_url },
+                    fetchPolicy: 'no-cache'
+                })
+                    .catch(err => console.log(err.message))
             })
 
         client.mutate({
@@ -126,6 +169,8 @@ export default class Blog extends Component {
         })
             .catch(err => console.log(err.message));
     };
+
+
 
     render() {
         return (
@@ -179,8 +224,16 @@ export default class Blog extends Component {
                                     {/* <FormText color="muted">
                             Upload a photo for your suitcase! If you don't, we can provide a picture for you.
                             </FormText> */}
+                                    <Button
+                                        inline type="radio" name="file" color="default"
+                                        className="float-right"
+                                        onClick={this.renderPixabay}
+                                        value={this.cityImageSrc}
+                                    > ...or use default image </Button>
+                                    {this.maybeMakePixabayCall()}
                                 </Col>
-                                <Col sm={{ size: 3, offset: 7 }}>
+
+                                <Col sm={3}>
                                     <div className="currentSuitcaseImage">
                                         <img
                                             width="100%"
@@ -196,14 +249,6 @@ export default class Blog extends Component {
                                 </Col>
                             </FormGroup>
                         </Form>
-
-                        <div className="row">
-                            <div className="col-12 text-center">
-
-                                <button className="btn btn-primary" onClick={() => { this.props.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
-
-                            </div>
-                        </div>
                     </div>
                 ) : (
                         <div>
@@ -242,13 +287,18 @@ export default class Blog extends Component {
                                 </Col>
                             </div>
 
+                            <div className="row">
+                                <div className="col-12 text-center">
+                                    {this.props.loggedInUserIdNumber === this.props.suitcaseUserId ? (
+                                        <button className="btn btn-primary" onClick={() => { this.props.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
+                                    ) : (<div></div>
+                                        )}
+                                </div>
+                            </div>
 
-
-                        </div>
-
+                        </div >
                     )
                 }
             </div>
         )
     }
-}

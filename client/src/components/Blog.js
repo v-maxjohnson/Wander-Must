@@ -100,23 +100,23 @@ export default class Blog extends Component {
 
         axios({
             method: "POST",
-            url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
+            url: "https://api.cloudinary.com/v1_1/wandermust/upload/c_fill,h_350,w_350",
             data: this.state.imageData
-        })
-            .then(res => {
-                const secure_url = res.data.secure_url;
-
-                this.setState({
-                    suitcase_image: secure_url,
-                    fileName: "Upload your image here!"
-                });
-
-                client.mutate({
-                    mutation: UPDATE_SUITCASE_IMAGE_MUTATION,
-                    variables: { id: this.state.id, suitcase_image: secure_url },
-                    fetchPolicy: 'no-cache'
-                })
-                    .catch(err => console.log(err.message))
+          })
+            .then( res => {
+              const secure_url = res.data.secure_url;
+      
+              this.setState({ 
+                suitcase_image: secure_url,
+                fileName: "Upload your image here!" 
+              });
+              
+              client.mutate({
+                mutation: UPDATE_SUITCASE_IMAGE_MUTATION,
+                variables: { id: this.state.id, suitcase_image: secure_url },
+                fetchPolicy: 'no-cache'
+              })
+                .catch( err => console.log(err.message) )
             })
 
         client.mutate({

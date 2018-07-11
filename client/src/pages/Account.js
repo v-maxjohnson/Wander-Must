@@ -73,7 +73,7 @@ export default class Account extends Component {
       user_image: "",
       password: ""
     },
-   
+
     id: "",
     email: "",
     username: "",
@@ -83,7 +83,6 @@ export default class Account extends Component {
     imageData: "",
     fileName: "Upload your image!",
     openDeleteAccountConfirmationModal: false,
-    rendered: false,
     loggedInUserId: localStorage.getItem("logged_in_user_id")
   }
 
@@ -114,11 +113,12 @@ export default class Account extends Component {
     })
       .then( result => this.setState({ 
         userData: {
+          id: result.data.getUser.id,
           username: result.data.getUser.username,
           email: result.data.getUser.email,
-          gender: result.data.getUser.gender
-        },
-        rendered: true 
+          gender: result.data.getUser.gender,
+          user_image: result.data.getUser.user_image
+        } 
       }) )
   }
   
@@ -139,7 +139,7 @@ export default class Account extends Component {
     // Set the state for the appropriate input field
     this.setState({
       [name]: value
-    });
+    })
   };
 
   handlePasswordChange = event => {
@@ -168,7 +168,7 @@ export default class Account extends Component {
 
     axios({
       method: "POST",
-      url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
+      url: "https://api.cloudinary.com/v1_1/wandermust/upload/c_fill,h_150,w_150",
       data: this.state.imageData 
     })
       .then( res => {

@@ -121,8 +121,13 @@ export default class Blog extends Component {
 
         axios({
             method: "POST",
+<<<<<<< HEAD
             url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
             data: this.state.imageData 
+=======
+            url: "https://api.cloudinary.com/v1_1/wandermust/upload/c_fill,h_350,w_350",
+            data: this.state.imageData
+>>>>>>> 2081e5b1c3f93243d78b074c35263c17a5933d56
           })
             .then( res => {
               const secure_url = res.data.secure_url;

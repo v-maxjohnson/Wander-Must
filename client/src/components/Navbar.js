@@ -57,12 +57,14 @@ export default class Navibar extends Component {
       console.log(autocompleteLocales);
     })
 
+    if (this.state.userName !== "") {
     client.query({
       query: GET_USER_QUERY,
       variables: { id: this.state.loggedInUserIdNumber }
     }).then(result => {
       this.setState({ userName: result.data.getUser.username });
     })
+  }
 
     window.addEventListener('scroll', this.listenScrollEvent)
 
@@ -142,7 +144,7 @@ export default class Navibar extends Component {
   }
 
   renderNavItems = () => {
-    if (this.props.loggedInUserIdNumber !== null) {
+    if (this.props.loggedInUserIdNumber !== "") {
       return (
         <Nav className="navbar-nav ml-auto" navbar>
           <NavItem>

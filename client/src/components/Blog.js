@@ -136,7 +136,7 @@ export default class Blog extends Component {
                             <FormGroup row>
                                 <Col sm={1} />
                                 <Col sm={2}>
-                                    <Label for="note_title" sm={3}>Title</Label>
+                                    <Label className="blog-title" for="note_title" sm={3}>Title</Label>
                                 </Col>
                                 <Col sm={7}>
                                     <Input
@@ -151,7 +151,7 @@ export default class Blog extends Component {
                             <FormGroup row>
                                 <Col sm={1} />
                                 <Col sm={2}>
-                                    <Label for="notes" sm={3}>Body</Label>
+                                    <Label className="blog-title" for="notes" sm={3}>Body</Label>
                                 </Col>
                                 <Col sm={7}>
                                     <Input
@@ -166,7 +166,7 @@ export default class Blog extends Component {
                             <FormGroup row>
                                 <Col sm={1} />
                                 <Col sm={2}>
-                                    <Label for="exampleFile" sm={9}>Your Suitcase Image</Label>
+                                    <Label className="blog-title" for="exampleFile" sm={9}>Your Suitcase Image</Label>
                                 </Col>
                                 <Col sm={3}>
                                     <CustomInput
@@ -207,11 +207,10 @@ export default class Blog extends Component {
                     </div>
                 ) : (
                         <div>
-                            <h3 className="text-center blog-title">{this.props.suitcaseUsername}'s notes and images for <span className="blog-title-city">{this.props.renderCityWithoutUnderscores()}</span></h3>
                             <div className="row">
                                 <Col sm={1} />
                                 <Col sm={2}>
-                                    <Label for="note_title" sm={3}>Title</Label>
+                                    <Label className="blog-title" sm={3}>Title</Label>
                                 </Col>
                                 <Col sm={7}>
                                     {this.props.note_title}
@@ -220,7 +219,7 @@ export default class Blog extends Component {
                             <div className="row">
                                 <Col sm={1} />
                                 <Col sm={2}>
-                                    <Label for="notes" sm={3}>Body</Label>
+                                    <Label className="blog-title" sm={3}>Body</Label>
                                 </Col>
                                 <Col sm={7}>
                                     {this.state.notes}
@@ -229,7 +228,7 @@ export default class Blog extends Component {
                             <div className="row pb-5">
                                 <Col sm={1} />
                                 <Col sm={2}>
-                                    <Label for="exampleFile" sm={9}>Your Suitcase Image</Label>
+                                    <Label className="blog-title" sm={9}>Suitcase Image</Label>
                                 </Col>
 
                                 <Col sm={3}>

@@ -14,6 +14,12 @@ query getSuitcase( $id: ID ){
     note_title
     notes
     suitcase_image
+    Locale {
+        id
+        locale_city
+        locale_admin
+        locale_country
+    }
   }
 }`;
 
@@ -42,10 +48,8 @@ export default class Blog extends Component {
         suitcase_image: "",
         fileName: "Upload your image here!",
         imageData: "",
-        city: this.props.city,
-        admin: this.props.admin,
-        country: this.props.country,
-        cityImageSrc: ""
+        defaultImage: false,
+        
     }
 
     componentDidMount(){
@@ -60,11 +64,19 @@ export default class Blog extends Component {
           variables: { id: this.state.id },
           fetchPolicy: "network-only"
         })
-            .then( result => this.setState({ 
-                note_title: result.data.getSuitcase.note_title,
-                notes: result.data.getSuitcase.notes,
-                suitcase_image: result.data.getSuitcase.suitcase_image,
-            }) )
+            .then( result => {
+                let newState = { 
+                    note_title: result.data.getSuitcase.note_title,
+                    notes: result.data.getSuitcase.notes,
+                    suitcase_image: result.data.getSuitcase.suitcase_image,
+                    city: result.data.getSuitcase.Locale.locale_city,
+                    country: result.data.getSuitcase.Locale.locale_country,
+                    admin: result.data.getSuitcase.Locale.locale_admin,
+                    defaultImage: (result.data.getSuitcase.suitcase_image === null)
+                }
+
+                this.setState(newState) 
+            })
     }
 
     handleInputChange = event => {
@@ -78,18 +90,27 @@ export default class Blog extends Component {
 
     renderPixabay = event => {
         event.preventDefault();
-
-        return <Pixabay
-        city={this.state.city}
-        country={this.state.country}
-        setCityImageSrc={this.setCityImageSrc}
-        />
         
+        if( ! this.state.defaultImage ){
+            this.setState({defaultImage: true})
+        }
+
+        this.maybeMakePixabayCall();
+    }
+
+    maybeMakePixabayCall = () => {
+        if( this.state.defaultImage === true ){
+            return <Pixabay
+                    city={this.state.city}
+                    country={this.state.country}
+                    setCityImageSrc={this.setCityImageSrc}
+                />            
+        }        
     }
 
     setCityImageSrc = (url) => {
-        this.setState({ cityImageSrc: url })
-        console.log(this.state.cityImageSrc)
+        this.setState({ suitcase_image: url })
+        console.log(url)
     }
 
     handleImageChange = event => {
@@ -100,7 +121,8 @@ export default class Blog extends Component {
 
         this.setState({ 
             imageData : imageData,
-            fileName: file.name 
+            fileName: file.name,
+            defaultImage: false
         });
     }
 
@@ -121,13 +143,8 @@ export default class Blog extends Component {
 
         axios({
             method: "POST",
-<<<<<<< HEAD
-            url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
-            data: this.state.imageData 
-=======
             url: "https://api.cloudinary.com/v1_1/wandermust/upload/c_fill,h_350,w_350",
             data: this.state.imageData
->>>>>>> 2081e5b1c3f93243d78b074c35263c17a5933d56
           })
             .then( res => {
               const secure_url = res.data.secure_url;
@@ -152,6 +169,8 @@ export default class Blog extends Component {
         })
             .catch( err => console.log(err.message) );
     };
+
+
 
     render() {
         return (
@@ -209,6 +228,7 @@ export default class Blog extends Component {
                                 onClick={this.renderPixabay}
                                 value={this.cityImageSrc}
                             > ...or use default image </Button>
+                            { this.maybeMakePixabayCall() }
                         </Col>
 
                         <Col sm={3}>

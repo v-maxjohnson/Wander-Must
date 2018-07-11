@@ -15,6 +15,7 @@ import "../styles/Suitcase.css";
 import Wunderground from "../utils/Wunderground";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
+import axios from 'axios';
 import Autocomplete from 'react-autocomplete';
 
 const GET_SUITCASE_QUERY = gql` 
@@ -220,6 +221,23 @@ export default class Suitcase extends Component {
     }
   }
 
+  handleImageChange = (e) => {
+    let file = e.target.files[0];
+    let formData = new FormData();
+    formData.append("fileToUpload", file);
+    console.log(formData.get("fileToUpload"));
+
+    if(this.state.rendered) {
+      axios.post("/api/uploadSuitcaseImage", formData)
+        .then(res => {
+          // let url = res.data.url;
+
+          //update suitcase in database with image url
+        })
+        .catch(err => console.warn(err))
+    }
+  }
+
   showConfirmationModal = () => {
     this.setState({ openConfirmationModal: true });
   }
@@ -421,6 +439,8 @@ export default class Suitcase extends Component {
 
                 <div className="card card-nav-tabs card-plain">
                   <div className="suitcase-header card-header card-header-default">
+                      <input type="file" onChange={this.handleImageChange} />
+
 
                     <div id="suitcase-nav" className="nav-tabs-navigation">
                       <div className="nav-tabs-wrapper">

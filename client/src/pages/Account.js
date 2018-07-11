@@ -117,6 +117,7 @@ export default class Account extends Component {
         equality: "password"
       }
     }
+  }
 
   componentDidMount() {
 

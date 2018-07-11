@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Col, Form, FormGroup, Label, Input, CustomInput } from 'reactstrap';
 import "../styles/Blog.css";
+import Pixabay from '../utils/Pixabay';
 import ApolloClient from 'apollo-boost';
 import axios from 'axios';
 import gql from "graphql-tag";
@@ -13,6 +14,12 @@ query getSuitcase( $id: ID ){
     note_title
     notes
     suitcase_image
+    Locale {
+        id
+        locale_city
+        locale_admin
+        locale_country
+    }
   }
 }`;
 
@@ -40,26 +47,36 @@ export default class Blog extends Component {
         notes: "",
         suitcase_image: "",
         fileName: "Upload your image here!",
-        imageData: ""
+        imageData: "",
+        defaultImage: false,
+        
     }
 
-    componentDidMount() {
-
+    componentDidMount(){
+      
         this.getSuitcase();
 
     }
 
     getSuitcase = () => {
         client.query({
-            query: GET_SUITCASE_QUERY,
-            variables: { id: this.state.id },
-            fetchPolicy: "network-only"
+          query: GET_SUITCASE_QUERY,
+          variables: { id: this.state.id },
+          fetchPolicy: "network-only"
         })
-            .then(result => this.setState({
-                note_title: result.data.getSuitcase.note_title,
-                notes: result.data.getSuitcase.notes,
-                suitcase_image: result.data.getSuitcase.suitcase_image,
-            }))
+            .then( result => {
+                let newState = { 
+                    note_title: result.data.getSuitcase.note_title,
+                    notes: result.data.getSuitcase.notes,
+                    suitcase_image: result.data.getSuitcase.suitcase_image,
+                    city: result.data.getSuitcase.Locale.locale_city,
+                    country: result.data.getSuitcase.Locale.locale_country,
+                    admin: result.data.getSuitcase.Locale.locale_admin,
+                    defaultImage: (result.data.getSuitcase.suitcase_image === null)
+                }
+
+                this.setState(newState) 
+            })
     }
 
     handleInputChange = event => {
@@ -71,31 +88,57 @@ export default class Blog extends Component {
         });
     };
 
+    renderPixabay = event => {
+        event.preventDefault();
+        
+        if( ! this.state.defaultImage ){
+            this.setState({defaultImage: true})
+        }
+
+        this.maybeMakePixabayCall();
+    }
+
+    maybeMakePixabayCall = () => {
+        if( this.state.defaultImage === true ){
+            return <Pixabay
+                    city={this.state.city}
+                    country={this.state.country}
+                    setCityImageSrc={this.setCityImageSrc}
+                />            
+        }        
+    }
+
+    setCityImageSrc = (url) => {
+        this.setState({ suitcase_image: url })
+        console.log(url)
+    }
+
     handleImageChange = event => {
         let file = event.target.files[0];
         let imageData = new FormData();
         imageData.append("file", file);
         imageData.append("upload_preset", "wdfwv3ua");
 
-        this.setState({
-            imageData: imageData,
-            fileName: file.name
+        this.setState({ 
+            imageData : imageData,
+            fileName: file.name,
+            defaultImage: false
         });
     }
 
     handleFormSubmit = event => {
         event.preventDefault();
-
-        let existingData = { ...this.state };
+        
+        let existingData = {...this.state};
         let updated = {
             note_title: this.state.note_title,
             notes: this.state.notes,
             suitcase_image: this.state.suitcase_image
         };
 
-        Object.keys(updated).forEach(item => updated[item] ? "" : delete updated[item]);
+        Object.keys(updated).forEach( item => updated[item] ? null: delete updated[item] );
 
-        updated = { ...existingData, ...updated };
+        updated = {...existingData, ...updated};
         console.log(updated);
 
         axios({
@@ -124,131 +167,99 @@ export default class Blog extends Component {
             variables: { id: this.state.id, note_title: this.state.note_title, notes: this.state.notes },
             fetchPolicy: 'no-cache'
         })
-            .catch(err => console.log(err.message));
+            .catch( err => console.log(err.message) );
     };
+
+
 
     render() {
         return (
             <div className="blog">
-                {this.props.loggedInUserIdNumber === this.props.suitcaseUserId ? (
-                    <div>
-                        <Form onSubmit={this.setTerm}>
-                            <FormGroup row>
-                                <Col sm={1} />
-                                <Col sm={2}>
-                                    <Label for="note_title" sm={3}>Title</Label>
-                                </Col>
-                                <Col sm={7}>
-                                    <Input
-                                        type="text"
-                                        name="note_title"
-                                        placeholder={this.props.note_title}
-                                        value={this.state.note_title}
-                                        onChange={this.handleInputChange}
-                                    />
-                                </Col>
-                            </FormGroup>
-                            <FormGroup row>
-                                <Col sm={1} />
-                                <Col sm={2}>
-                                    <Label for="notes" sm={3}>Body</Label>
-                                </Col>
-                                <Col sm={7}>
-                                    <Input
-                                        type="textarea"
-                                        name="notes"
-                                        rows={8}
-                                        value={this.state.notes}
-                                        onChange={this.handleInputChange}
-                                    />
-                                </Col>
-                            </FormGroup>
-                            <FormGroup row>
-                                <Col sm={1} />
-                                <Col sm={2}>
-                                    <Label for="exampleFile" sm={9}>Your Suitcase Image</Label>
-                                </Col>
-                                <Col sm={3}>
-                                    <CustomInput
-                                        type="file"
-                                        name="file"
-                                        id="exampleFile"
-                                        label={this.state.fileName}
-                                        onChange={this.handleImageChange}
-                                    />
-                                    {/* <FormText color="muted">
+                <Form onSubmit={this.setTerm}>
+                    <FormGroup row>
+                        <Col sm={1} />
+                        <Col sm={2}>
+                            <Label for="note_title" sm={3}>Title</Label>
+                        </Col>
+                        <Col sm={7}>
+                            <Input
+                                type="text"
+                                name="note_title"
+                                placeholder={this.props.note_title}
+                                value={this.state.note_title}
+                                onChange={this.handleInputChange}
+                            />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                        <Col sm={1} />
+                        <Col sm={2}>
+                            <Label for="notes" sm={3}>Body</Label>
+                        </Col>
+                        <Col sm={7}>
+                            <Input
+                                type="textarea"
+                                name="notes"
+                                rows={8}
+                                value={this.state.notes}
+                                onChange={this.handleInputChange}
+                            />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                        <Col sm={1} />
+                        <Col sm={2}>
+                            <Label for="exampleFile" >Your Suitcase Image</Label>
+                        </Col>
+                        <Col sm={4}>
+                            <CustomInput 
+                                type="file" 
+                                name="file" 
+                                id="exampleFile" 
+                                label={this.state.fileName} 
+                                onChange={this.handleImageChange}
+                            />
+                            {/* <FormText color="muted">
                             Upload a photo for your suitcase! If you don't, we can provide a picture for you.
                             </FormText> */}
-                                </Col>
-                                <Col sm={{ size: 3, offset: 7 }}>
-                                    <div className="currentSuitcaseImage">
-                                        <img
-                                            width="100%"
-                                            src={this.state.suitcase_image}
-                                            alt="suitcase background"
-                                        />
-                                    </div>
-                                </Col>
-                            </FormGroup>
-                            <FormGroup check row>
-                                <Col sm={{ size: 2, offset: 5 }}>
-                                    <Button color="primary" onClick={this.handleFormSubmit} >Submit</Button>
-                                </Col>
-                            </FormGroup>
-                        </Form>
+                            <Button
+                                inline type="radio" name="file" color="default"
+                                className="float-right"
+                                onClick={this.renderPixabay}
+                                value={this.cityImageSrc}
+                            > ...or use default image </Button>
+                            { this.maybeMakePixabayCall() }
+                        </Col>
 
-                        <div className="row">
-                            <div className="col-12 text-center">
-
-                                <button className="btn btn-primary" onClick={() => { this.props.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
-
+                        <Col sm={3}>
+                            <div className="currentSuitcaseImage">
+                                <img 
+                                width="100%" 
+                                src={this.state.suitcase_image} 
+                                alt="suitcase background"
+                                />
                             </div>
-                        </div>
+                        </Col>
+                       
+
+
+                    </FormGroup>
+                    <FormGroup check row>
+                        <Col sm={{ size: 2, offset: 5 }}>
+                            <Button color="primary" onClick={this.handleFormSubmit} >Submit</Button>
+                        </Col>
+                    </FormGroup>
+                </Form>
+
+                {/* <div className="row">
+                    <div className="col-12 text-center">
+                        {this.props.loggedInUserIdNumber === this.props.suitcaseUserId ? (
+                            <button className="btn btn-primary" onClick={() => { this.props.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
+                        ) : (<div></div>
+                            )}
                     </div>
-                ) : (
-                        <div>
-                            <h3 className="text-center blog-title">{this.props.suitcaseUsername}'s notes and images for <span className="blog-title-city">{this.props.renderCityWithoutUnderscores()}</span></h3>
-                            <div className="row">
-                                <Col sm={1} />
-                                <Col sm={2}>
-                                    <Label for="note_title" sm={3}>Title</Label>
-                                </Col>
-                                <Col sm={7}>
-                                    {this.props.note_title}
-                                </Col>
-                            </div>
-                            <div className="row">
-                                <Col sm={1} />
-                                <Col sm={2}>
-                                    <Label for="notes" sm={3}>Body</Label>
-                                </Col>
-                                <Col sm={7}>
-                                    {this.state.notes}
-                                </Col>
-                            </div>
-                            <div className="row pb-5">
-                                <Col sm={1} />
-                                <Col sm={2}>
-                                    <Label for="exampleFile" sm={9}>Your Suitcase Image</Label>
-                                </Col>
+                </div> */}
 
-                                <Col sm={3}>
-                                    <div className="currentSuitcaseImage">
-                                        <img
-                                            width="100%"
-                                            src={this.state.suitcase_image}
-                                            alt="suitcase background"
-                                        />
-                                    </div>
-                                </Col>
-                            </div>
-
-
-
-                        </div>
-
-                    )
-                }
             </div>
         )
     }

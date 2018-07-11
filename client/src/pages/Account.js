@@ -168,7 +168,7 @@ export default class Account extends Component {
 
     axios({
       method: "POST",
-      url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
+      url: "https://api.cloudinary.com/v1_1/wandermust/upload/c_fill,h_150,w_150",
       data: this.state.imageData 
     })
       .then( res => {

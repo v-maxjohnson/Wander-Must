@@ -147,6 +147,8 @@ export default class Blog extends Component {
             data: this.state.imageData
           })
             .then( res => {
+
+                
               const secure_url = res.data.secure_url;
       
               this.setState({ 

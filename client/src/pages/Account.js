@@ -113,6 +113,9 @@ export default class Account extends Component {
           maximum: 20
         }
       },
+      confirmPassword: {
+        equality: "password"
+      }
     }
   }
 
@@ -200,6 +203,23 @@ export default class Account extends Component {
     }
     else if(data.email) {
       this.setState({emailError: data.email[0]});
+    }
+  }
+
+  handleConfirmPasswordChange = event => {
+    const { value } = event.target;
+
+    this.setState({
+      confirmPassword: value
+    })
+
+    let data = validate({password: this.state.password, confirmPassword: value}, this.constraints);
+    if(data && data.confirmPassword) {
+      this.setState({
+        confirmPasswordError: data.confirmPassword[0]
+      })
+    } else {
+      this.setState({confirmPasswordError: ""})
     }
   }
 
@@ -402,7 +422,7 @@ export default class Account extends Component {
                           type="password"
                           name="confirmPassword"
                           placeholder="password confirmation"
-                          onChange={this.handlePasswordChange }
+                          onChange={this.handleConfirmPasswordChange }
                         />
                         <p className="error-text">{ this.state.confirmPasswordError }</p>
                       </Col>

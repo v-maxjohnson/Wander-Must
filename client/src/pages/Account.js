@@ -10,7 +10,7 @@ import "../styles/Account.css";
 import gql from "graphql-tag";
 import axios from 'axios';
 import ApolloClient from 'apollo-boost';
-import axios from 'axios';
+import validate from 'validate.js';
 
 const GET_USER_QUERY = gql`
 query getUser( $id: ID ){
@@ -65,27 +65,55 @@ mutation deleteUser( $id: ID ){
 const client = new ApolloClient();
 
 export default class Account extends Component {
-  state = {
-    userData: {
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      userData: {
+        id: "",
+        email: "",
+        username: "",
+        gender: "",
+        user_image: "",
+        password: ""
+      },
+     
       id: "",
       email: "",
       username: "",
       gender: "",
       user_image: "",
-      password: ""
-    },
-   
-    id: "",
-    email: "",
-    username: "",
-    gender: "",
-    user_image: "",
-    password: "",
-    imageData: "",
-    fileName: "Upload your image!",
-    openDeleteAccountConfirmationModal: false,
-    rendered: false,
-    loggedInUserId: localStorage.getItem("logged_in_user_id")
+      password: "",
+      confirmPassword: "",
+      imageData: "",
+      fileName: "Upload your image!",
+      openDeleteAccountConfirmationModal: false,
+      rendered: false,
+      loggedInUserId: localStorage.getItem("logged_in_user_id"),
+      emailError: "",
+      usernameError: "",
+      passwordError: "",
+      confirmPasswordError: "",
+    }
+
+    this.constraints = {
+      username: {
+        length: {
+          minimum: 3,
+          maximum: 15
+        }
+      },
+      email: {
+        email: true
+      },
+      password: {
+        length: {
+          minimum: 6,
+          maximum: 20
+        }
+      },
+    }
   }
 
   componentDidMount() {
@@ -149,7 +177,31 @@ export default class Account extends Component {
     this.setState({
       [name]: value
     });
+
+    let data = validate({password: this.state.password}, this.constraints);
+    if(!data) {
+      this.setState({passwordError: ""});
+    }
+    else if(data.password) {
+      this.setState({passwordError: data.password[0]})
+    }
   };
+
+  handleEmailChange = event => {
+    const { value } = event.target;
+
+    this.setState({
+      email: value
+    })
+
+    let data = validate({email: this.state.email}, this.constraints);
+    if(!data) {
+      this.setState({emailError: ""});
+    }
+    else if(data.email) {
+      this.setState({emailError: data.email[0]});
+    }
+  }
 
   // When the form is submitted, prevent the default event and alert the username and password
   handleFormSubmit = event => {
@@ -166,6 +218,14 @@ export default class Account extends Component {
     Object.keys(updated).forEach( key => updated[key] ? null : delete updated[key] );
     updated = { ...existingData, ...updated };
     console.log(updated);
+
+    let data = validate(updated, this.constraints);
+    if(data.email) {
+      this.setState({emailError: data.email[0]})
+    }
+    if(data.username) {
+      this.setState({usernameError: data.username[0]})
+    }
 
     axios({
       method: "POST",
@@ -307,8 +367,9 @@ export default class Account extends Component {
                           name="email"
                           placeholder={this.state.userData.email}
                           value={this.state.email}
-                          onChange={this.handleInputChange}
+                          onChange={this.handleEmailChange}
                         />
+                        <p className="error-text">{this.state.emailError}</p>
                       </Col>
                     </FormGroup>
                     <FormGroup row>
@@ -332,16 +393,18 @@ export default class Account extends Component {
                           name="password"
                           id="examplePassword"
                           placeholder="change password"
+                          onChange={this.handlePasswordChange}
                         />
+                        <p className="error-text">{ this.state.passwordError }</p>
                       </Col>
                       <Col sm={5}>
                         <Input
                           type="password"
-                          name="password"
+                          name="confirmPassword"
                           placeholder="password confirmation"
-                          value={this.state.password}
-                          onChange={this.handlePasswordChange}
+                          onChange={this.handlePasswordChange }
                         />
+                        <p className="error-text">{ this.state.confirmPasswordError }</p>
                       </Col>
                     </FormGroup>
                     <FormGroup row>

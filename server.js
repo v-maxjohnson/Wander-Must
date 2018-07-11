@@ -36,9 +36,6 @@ require("./routes/yelpRoute.js")(app);
 //routes for authorization
 require("./routes/auth.js")(app, passport);
 
-//routes for cloudinary upload
-require("./routes/cloudinary.js")(app);
-
 // loads passport strategies for authentication
 require("./config/passport/passport.js")(passport, db.User);
 

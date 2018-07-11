@@ -91,27 +91,30 @@ let renderAutoValue;
 
 
 export default class Suitcase extends Component {
-  state = {
-    suitcase: {
-      start_date: "",
-      end_date: "",
-      travel_category: "",
-      note_title: "",
-      notes: "",
-      suitcase_image: "",
-      Items: [],
-      Locale: [],
-      User: []
-    },
-    allItems: [],
-    rendered: false,
-    openConfirmationModal: false,
-    thisSuitcaseId: this.props.match.params.id,
-    currentSuitcaseId: localStorage.getItem("suitcase_id"),
-    value: '',
-    currentPage: "SuitcaseItems",
-    itemsToAdd: [],
-    loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
+  constructor(props) {
+    super(props);
+    this.state = {
+      suitcase: {
+        start_date: "",
+        end_date: "",
+        travel_category: "",
+        note_title: "",
+        notes: "",
+        suitcase_image: "",
+        Items: [],
+        Locale: [],
+        User: []
+      },
+      allItems: [],
+      rendered: false,
+      openConfirmationModal: false,
+      thisSuitcaseId: this.props.match.params.id,
+      currentSuitcaseId: localStorage.getItem("suitcase_id"),
+      value: '',
+      currentPage: "SuitcaseItems",
+      itemsToAdd: [],
+      loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
+    }
   };
 
   componentDidMount() {
@@ -380,6 +383,8 @@ export default class Suitcase extends Component {
             note_title={this.state.suitcase.note_title}
             notes={this.state.suitcase.notes}
             suitcaseImage={this.state.suitcase_image}
+            renderCityWithoutUnderscores={this.renderCityWithoutUnderscores}
+            suitcaseUsername={this.state.suitcase.User.username}
             loggedInUserIdNumber={this.state.loggedInUserIdNumber}
             suitcaseUserId={this.state.suitcase.User.id}
             showConfirmationModal={this.showConfirmationModal}

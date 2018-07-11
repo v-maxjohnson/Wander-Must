@@ -7,3 +7,12 @@
 input:-webkit-autofill {
     background-color: grey!important;
 }
+
+.blog-title {
+    font-family: "Reem Kufi", sans-serif;
+    color: black;
+}
+
+.blog-title-city {
+    text-transform: capitalize;
+}

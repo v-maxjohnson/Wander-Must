@@ -27,6 +27,8 @@ export default class SuitcaseItems extends Component {
       case "electronics":
         this.selectAllElectronics();
         break;
+      default:
+        break;
     }
   }
 
@@ -65,9 +67,7 @@ export default class SuitcaseItems extends Component {
                 <div className="title row">
                   <div>
                     <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={() => this.handleSelectAll("toiletries")}>
-                      <a className="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Add new suitcase">
-                        <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Select all toiletries"> </i>
-                      </a>
+                      <i className={"fa " + (this.state.selectAllToiletries ? "fa-close" : "fa-check-circle-o")} data-toggle="tooltip" title="Select all toiletries"> </i>
                     </button>
                   </div>
                   <div>
@@ -102,9 +102,7 @@ export default class SuitcaseItems extends Component {
                 <div className="title row">
                   <div>
                     <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={() => this.handleSelectAll("clothing")}>
-                      <a className="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Add new suitcase">
-                        <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Select all toiletries"> </i>
-                      </a>
+                      <i className={"fa " + (this.state.selectAllClothing ? "fa-close" : "fa-check-circle-o")} data-toggle="tooltip" title="Select all toiletries"> </i>
                     </button>
                   </div>
                   <div>
@@ -141,9 +139,7 @@ export default class SuitcaseItems extends Component {
                 <div className="title row">
                   <div>
                     <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={() => this.handleSelectAll("accessories")}>
-                      <a className="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Add new suitcase">
-                        <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Select all toiletries"> </i>
-                      </a>
+                      <i className={"fa " + (this.state.selectAllAccessories ? "fa-close" : "fa-check-circle-o")} data-toggle="tooltip" title="Select all toiletries"> </i>
                     </button>
                   </div>
                   <div>
@@ -180,9 +176,7 @@ export default class SuitcaseItems extends Component {
                 <div className="title row">
                   <div>
                     <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={() => this.handleSelectAll("electronics")}>
-                      <a className="nav-link" data-toggle="tooltip" title="Add new Suitcase" data-placement="middle" data-original-title="Add new suitcase">
-                        <i className="fa fa-check-circle-o" data-toggle="tooltip" title="Select all toiletries"> </i>
-                      </a>
+                      <i className={"fa " + (this.state.selectAllElectronics ? "fa-close" : "fa-check-circle-o")} data-toggle="tooltip" title="Select all toiletries"> </i>
                     </button>
                   </div>
                   <div>
@@ -227,8 +221,8 @@ export default class SuitcaseItems extends Component {
             </div>
           ) : (
               <div className="col-6 mx-auto mt-5 mb-3 text-center">
-                <button id="add-items" className="btn btn-primary btn-lg mt-5 mb-3 px-3 pb-2 pt-3" onClick={() => { this.props.addItemsToCurrentSuitcase() }} >Add Selected Items To My Suitcase</button>
-                <Link id="add-items" className="btn btn-info btn-lg mt-5 mb-3 px-3 pb-2 pt-3" to={"/suitcase/" + this.props.currentSuitcaseId}>Add Selected Items To My Suitcase</Link>
+                <button id="add-items" className="btn btn-primary btn-lg mt-3 mb-3 mx-3 px-4 pb-3 pt-3" data-toggle="tooltip" title="Add to suitcase" data-placement="middle" onClick={() => { this.props.addItemsToCurrentSuitcase() }} ><i className="fa fa-plus"></i></button>
+                <Link id="add-items" data-toggle="tooltip" title="Go to suitcase" data-placement="middle" className="btn btn-info btn-lg mt-3 mb-3 mx-3 px-4 pb-3 pt-3" to={"/suitcase/" + this.props.currentSuitcaseId}><i className="fa fa-arrow-right"></i></Link>
               </div>
             )}
         </div>

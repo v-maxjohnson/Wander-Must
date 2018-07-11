@@ -207,6 +207,25 @@ export default class Account extends Component {
     }
   }
 
+  handleUsernameChange = event => {
+    const { value } = event.target;
+
+    this.setState({
+      username: value
+    })
+
+    let data = validate({username: value}, this.constraints);
+    if(data && data.username) {
+      this.setState({
+        usernameError: data.username[0]
+      })
+    } else {
+      this.setState({
+        usernameError: ""
+      })
+    }
+  }
+
   handleConfirmPasswordChange = event => {
     const { value } = event.target;
 
@@ -401,8 +420,9 @@ export default class Account extends Component {
                           name="username"
                           placeholder={this.state.userData.username}
                           value={this.state.username}
-                          onChange={this.handleInputChange}
+                          onChange={this.handleUsernameChange}
                         />
+                        <p className="error-text">{ this.state.usernameError }</p>
                       </Col>
 
                     </FormGroup>

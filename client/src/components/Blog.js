@@ -117,7 +117,7 @@ export default class Blog extends Component {
         let file = event.target.files[0];
         let imageData = new FormData();
         imageData.append("file", file);
-        imageData.append("upload_preset", "qocvkmel");
+        imageData.append("upload_preset", "wdfwv3ua");
 
         this.setState({ 
             imageData : imageData,
@@ -143,7 +143,7 @@ export default class Blog extends Component {
 
         axios({
             method: "POST",
-            url: "https://api.cloudinary.com/v1_1/wandermust/upload/c_fill,h_350,w_350",
+            url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
             data: this.state.imageData
           })
             .then( res => {

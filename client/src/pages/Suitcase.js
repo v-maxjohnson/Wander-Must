@@ -307,13 +307,14 @@ export default class Suitcase extends Component {
 
   onCheckboxBtnClick = (selected) => {
     const index = this.state.itemsToAdd.indexOf(selected);
+    let stateItems = [...this.state.itemsToAdd];
     if (index < 0) {
-      this.state.itemsToAdd.push(selected);
+      stateItems.push(selected);
     } else {
-      this.state.itemsToAdd.splice(index, 1);
+      stateItems.splice(index, 1);
     }
-    this.setState({ itemsToAdd: [...this.state.itemsToAdd] });
-    console.log(this.state.itemsToAdd)
+    this.setState({ itemsToAdd: [...stateItems] });
+    console.log(...stateItems);
   }
 
   handlePageChange = page => {

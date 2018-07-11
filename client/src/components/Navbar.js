@@ -57,14 +57,12 @@ export default class Navibar extends Component {
       console.log(autocompleteLocales);
     })
 
-    if (this.state.userName !== "") {
     client.query({
       query: GET_USER_QUERY,
       variables: { id: this.state.loggedInUserIdNumber }
     }).then(result => {
       this.setState({ userName: result.data.getUser.username });
     })
-  }
 
     window.addEventListener('scroll', this.listenScrollEvent)
 
@@ -144,7 +142,7 @@ export default class Navibar extends Component {
   }
 
   renderNavItems = () => {
-    if (this.props.loggedInUserIdNumber !== "") {
+    if (this.props.loggedInUserIdNumber !== null) {
       return (
         <Nav className="navbar-nav ml-auto" navbar>
           <NavItem>
@@ -239,7 +237,11 @@ export default class Navibar extends Component {
         <Navbar className={`navbar ${this.state.activeClass} fixed-top navbar-expand-lg`}>
           <div className="container">
             <Link to="/" className="navbar-brand wandermust-font nav-link">Wander-Must</Link>
-            <NavbarToggler onClick={this.toggle} />
+            <NavbarToggler onClick={this.toggle}>
+              <span className="navbar-toggler-icon"></span>
+              <span className="navbar-toggler-icon"></span>
+              <span className="navbar-toggler-icon"></span>
+            </NavbarToggler>
             <Collapse isOpen={this.state.isOpen} navbar>
               {this.renderNavItems()}
             </Collapse>

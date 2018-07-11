@@ -75,7 +75,7 @@ export default class Blog extends Component {
         let file = event.target.files[0];
         let imageData = new FormData();
         imageData.append("file", file);
-        imageData.append("upload_preset", "qocvkmel");
+        imageData.append("upload_preset", "wdfwv3ua");
 
         this.setState({
             imageData: imageData,
@@ -102,21 +102,21 @@ export default class Blog extends Component {
             method: "POST",
             url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
             data: this.state.imageData
-        })
-            .then(res => {
-                const secure_url = res.data.secure_url;
-
-                this.setState({
-                    suitcase_image: secure_url,
-                    fileName: "Upload your image here!"
-                });
-
-                client.mutate({
-                    mutation: UPDATE_SUITCASE_IMAGE_MUTATION,
-                    variables: { id: this.state.id, suitcase_image: secure_url },
-                    fetchPolicy: 'no-cache'
-                })
-                    .catch(err => console.log(err.message))
+          })
+            .then( res => {
+              const secure_url = res.data.secure_url;
+      
+              this.setState({ 
+                suitcase_image: secure_url,
+                fileName: "Upload your image here!" 
+              });
+              
+              client.mutate({
+                mutation: UPDATE_SUITCASE_IMAGE_MUTATION,
+                variables: { id: this.state.id, suitcase_image: secure_url },
+                fetchPolicy: 'no-cache'
+              })
+                .catch( err => console.log(err.message) )
             })
 
         client.mutate({

@@ -117,7 +117,6 @@ export default class Account extends Component {
         equality: "password"
       }
     }
-  }
 
   componentDidMount() {
 
@@ -146,11 +145,12 @@ export default class Account extends Component {
     })
       .then( result => this.setState({ 
         userData: {
+          id: result.data.getUser.id,
           username: result.data.getUser.username,
           email: result.data.getUser.email,
-          gender: result.data.getUser.gender
-        },
-        rendered: true 
+          gender: result.data.getUser.gender,
+          user_image: result.data.getUser.user_image
+        } 
       }) )
   }
 
@@ -171,7 +171,7 @@ export default class Account extends Component {
     // Set the state for the appropriate input field
     this.setState({
       [name]: value
-    });
+    })
   };
 
   handlePasswordChange = event => {

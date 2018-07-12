@@ -82,19 +82,22 @@ export default class NewSuitcaseModal extends Component {
     }
 
     let result = validate(data, this.constraints)
-    if (result.newLocale) {
-      this.setState({newLocaleError: result.newLocale[0]});
-    }
-    if (result.selectValue) {
-      this.setState({selectValueError: result.selectValue[0]});
-    }
-    if (result.minDate) {
-      this.setState({minDateError: result.minDate[0]})
-    }
-    if (result.endDate) {
-      this.setState({endDateError: result.endDate[0]})
+    if (result) {
+      if (result.newLocale) {
+        this.setState({newLocaleError: result.newLocale[0]});
+      }
+      if (result.selectValue) {
+        this.setState({selectValueError: result.selectValue[0]});
+      }
+      if (result.minDate) {
+        this.setState({minDateError: result.minDate[0]})
+      }
+      if (result.endDate) {
+        this.setState({endDateError: result.endDate[0]})
+      }
     }
   }
+
 
   handleStartChange = (startDate) => {
     this.setState({

@@ -65,10 +65,12 @@ export default class Blog extends Component {
     handleInputChange = event => {
         const { name, value } = event.target;
 
-        // Set the state for the appropriate input field
         this.setState({
             [name]: value
         });
+
+        var hiddenDiv = document.getElementById("settings-updated");
+        hiddenDiv.style.display = "none";
     };
 
     handleImageChange = event => {
@@ -81,6 +83,9 @@ export default class Blog extends Component {
             imageData: imageData,
             fileName: file.name
         });
+
+        var hiddenDiv = document.getElementById("settings-updated");
+        hiddenDiv.style.display = "none";
     }
 
     handleFormSubmit = event => {
@@ -125,6 +130,10 @@ export default class Blog extends Component {
             fetchPolicy: 'no-cache'
         })
             .catch(err => console.log(err.message));
+
+        var hiddenDiv = document.getElementById("settings-updated");
+        hiddenDiv.style.display = "block";
+
     };
 
     render() {
@@ -193,6 +202,11 @@ export default class Blog extends Component {
                             <FormGroup check row>
                                 <Col sm={{ size: 2, offset: 5 }}>
                                     <Button color="primary" onClick={this.handleFormSubmit} >Submit</Button>
+                                </Col>
+                            </FormGroup>
+                            <FormGroup row>
+                                <Col sm={{offset: 5}}>
+                                    <p id="settings-updated">Your account settings have been updated and saved!</p>
                                 </Col>
                             </FormGroup>
                         </Form>

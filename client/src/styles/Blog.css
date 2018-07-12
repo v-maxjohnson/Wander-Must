@@ -16,3 +16,7 @@ input:-webkit-autofill {
 .blog-title-city {
     text-transform: capitalize;
 }
+
+#settings-updated {
+    display: none 
+}

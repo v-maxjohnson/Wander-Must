@@ -294,7 +294,7 @@ export default class Suitcase extends Component {
       fetchPolicy: "no-cache"
     }).then(result => {
       this.getSuitcase();
-      console.log(itemId, itemAmount)
+      
     }).catch(err => console.log(err))
   }
 
@@ -324,7 +324,6 @@ export default class Suitcase extends Component {
       suitcaseItems: [...tempSuitcase],
       itemsToAdd: this.state.suitcaseItems.filter(item => item.selected).map(item => item.id)
     });
-
 
   }
 
@@ -364,33 +363,7 @@ export default class Suitcase extends Component {
         itemsToAdd: this.state.suitcaseItems.filter(item => item.selected).map(item => item.id)
       })
     }
-    // let tempSuitcase = [...this.state.suitcaseItems];
-
-    // tempSuitcase.map(item => {
-    // if (item.item_category === category) {
-    // item.selected = !item.selected
-    // }
-    // return item;
-    // })
-
-    // this.setState({
-    // suitcaseItems: [...tempSuitcase],
-    // itemsToAdd: this.state.suitcaseItems.filter(item => item.selected).map(item => item.id)
-    // })
-
   }
-
-  // onCheckboxBtnClick = (selected) => {
-  //   const index = this.state.itemsToAdd.indexOf(selected);
-  //   let stateItems = [...this.state.itemsToAdd];
-  //   if (index < 0) {
-  //     stateItems.push(selected);
-  //   } else {
-  //     stateItems.splice(index, 1);
-  //   }
-  //   this.setState({ itemsToAdd: [...stateItems] });
-  //   console.log(...stateItems);
-  // }
 
   handlePageChange = page => {
     this.setState({ currentPage: page });

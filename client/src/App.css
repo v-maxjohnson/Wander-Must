@@ -3867,7 +3867,7 @@ tbody.collapse.show {
       flex-direction: row
   }
   .navbar-expand-md .navbar-nav .dropdown-menu {
-      
+      position: absolute
   }
   .navbar-expand-md .navbar-nav .dropdown-menu-right {
       right: 0;

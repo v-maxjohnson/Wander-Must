@@ -48,23 +48,24 @@ export default class Blog extends Component {
         suitcase_image: "",
         fileName: "Upload your image here!",
         imageData: "",
-        defaultImage: false
+        defaultImage: false,
+        
     }
 
-    componentDidMount() {
-
+    componentDidMount(){
+      
         this.getSuitcase();
 
     }
 
     getSuitcase = () => {
         client.query({
-            query: GET_SUITCASE_QUERY,
-            variables: { id: this.props.suitcase_id },
-            fetchPolicy: "network-only"
+          query: GET_SUITCASE_QUERY,
+          variables: { id: this.state.id },
+          fetchPolicy: "network-only"
         })
-            .then(result => {
-                let newState = {
+            .then( result => {
+                let newState = { 
                     note_title: result.data.getSuitcase.note_title,
                     notes: result.data.getSuitcase.notes,
                     suitcase_image: result.data.getSuitcase.suitcase_image,
@@ -74,7 +75,7 @@ export default class Blog extends Component {
                     defaultImage: (result.data.getSuitcase.suitcase_image === null)
                 }
 
-                this.setState(newState)
+                this.setState(newState) 
             })
     }
 
@@ -89,16 +90,16 @@ export default class Blog extends Component {
 
     renderPixabay = event => {
         event.preventDefault();
-
-        if (!this.state.defaultImage) {
-            this.setState({ defaultImage: true })
+        
+        if( ! this.state.defaultImage ){
+            this.setState({defaultImage: true})
         }
 
         this.maybeMakePixabayCall();
     }
 
     maybeMakePixabayCall = () => {
-        if (this.state.defaultImage === true) {
+        if( this.state.defaultImage === true ){
             return <Pixabay
                     city={this.state.city}
                     country={this.state.country}
@@ -109,7 +110,6 @@ export default class Blog extends Component {
 
     setCityImageSrc = (url) => {
         this.setState({ suitcase_image: url })
-        console.log(url)
     }
 
     handleImageChange = event => {
@@ -118,8 +118,8 @@ export default class Blog extends Component {
         imageData.append("file", file);
         imageData.append("upload_preset", "wdfwv3ua");
 
-        this.setState({
-            imageData: imageData,
+        this.setState({ 
+            imageData : imageData,
             fileName: file.name,
             defaultImage: false
         });
@@ -127,18 +127,17 @@ export default class Blog extends Component {
 
     handleFormSubmit = event => {
         event.preventDefault();
-
-        let existingData = { ...this.state };
+        
+        let existingData = {...this.state};
         let updated = {
             note_title: this.state.note_title,
             notes: this.state.notes,
             suitcase_image: this.state.suitcase_image
         };
 
-        Object.keys(updated).forEach(item => updated[item] ? null : delete updated[item]);
+        Object.keys(updated).forEach( item => updated[item] ? null: delete updated[item] );
 
-        updated = { ...existingData, ...updated };
-        console.log(updated);
+        updated = {...existingData, ...updated};
 
         if(! this.state.defaultImage ) {
             axios({
@@ -181,9 +180,7 @@ export default class Blog extends Component {
             variables: { id: this.state.id, note_title: this.state.note_title, notes: this.state.notes },
             fetchPolicy: 'no-cache'
         })
-            .catch(err => console.log(err.message));
-    };
-
+            .catch( err => console.log(err.message) ); };
 
 
     render() {
@@ -302,7 +299,7 @@ export default class Blog extends Component {
                                         />
                                     </div>
                                 </Col>
-                            </div>
+                            </div>                     
 
                         </div>
                     )

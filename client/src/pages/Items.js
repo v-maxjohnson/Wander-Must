@@ -55,7 +55,7 @@ export default class Items extends Component {
       this.state.itemsToAdd.splice(index, 1);
     }
     this.setState({ itemsToAdd: [...this.state.itemsToAdd] });
-    console.log(this.state.itemsToAdd)
+    
   }
 
   addItemsToSuitcase = () => {

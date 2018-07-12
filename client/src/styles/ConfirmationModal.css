@@ -5,7 +5,7 @@
 } */
 
 .confirmation-modal .modal-content {
-    padding: 15px;
+    padding: 10px;
 }
 
 /* .confirmation-modal  .modal-header {
@@ -22,8 +22,8 @@
 
 .confirmation-modal .modal-body p {
     font-family: "Reem Kufi", sans-serif!important;
-    font-size: 30px!important;
-    line-height: 36px;
+    font-size: 20px!important;
+    line-height: 30px;
 }
 
 .confirmation-modal .modal-footer .btn {

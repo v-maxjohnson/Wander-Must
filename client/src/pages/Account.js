@@ -26,7 +26,10 @@ const UPDATE_USER_IMAGE_MUTATION = gql`
 mutation updateUserImage( $id: ID, $user_image: String! ){
   updateUserImage( id: $id, user_image: $user_image){
     id
+    username
+    gender
     user_image
+    email
   }
 }`;
 
@@ -35,6 +38,9 @@ mutation updateUserName( $id: ID, $username: String! ){
   updateUserName( id: $id, username: $username){
     id
     username
+    gender
+    user_image
+    email
   }
 }`;
 
@@ -42,6 +48,9 @@ const UPDATE_USER_EMAIL_MUTATION = gql`
 mutation updateUserEmail( $id: ID, $email: String! ){
   updateUserEmail( id: $id, email: $email){
     id
+    username
+    gender
+    user_image
     email
   }
 }`;
@@ -50,7 +59,10 @@ const UPDATE_USER_GENDER_MUTATION = gql`
 mutation updateUserGender( $id: ID, $gender: String! ){
   updateUserGender( id: $id, gender: $gender){
     id
+    username
     gender
+    user_image
+    email
   }
 }`;
 
@@ -66,20 +78,14 @@ const client = new ApolloClient();
 export default class Account extends Component {
   state = {
     userData: {
-      id: "",
-      email: "",
-      username: "",
-      gender: "",
       user_image: "",
-      password: ""
+      username: ""
     },
 
-    id: "",
     email: "",
     username: "",
     gender: "",
     user_image: "",
-    password: "",
     imageData: "",
     fileName: "Upload your image!",
     openDeleteAccountConfirmationModal: false,
@@ -111,15 +117,21 @@ export default class Account extends Component {
       variables: { id: this.state.loggedInUserId },
       fetchPolicy: "network-only"
     })
-      .then( result => this.setState({ 
-        userData: {
-          id: result.data.getUser.id,
-          username: result.data.getUser.username,
-          email: result.data.getUser.email,
-          gender: result.data.getUser.gender,
-          user_image: result.data.getUser.user_image
-        } 
-      }) )
+      .then( result => {
+        console.log(JSON.stringify(result.data.getUser) + " THIS IS WHAT WILL BE SET TO THIS.STATE BEFORE USER CHANGES ANYTHING");
+        console.log(result.data.getUser.username+ " THIS IS WHAT WILL BE SET TO THIS.STATE BEFORE USER CHANGES ANYTHING");
+        console.log(result.data.getUser.email+ " THIS IS WHAT WILL BE SET TO THIS.STATE BEFORE USER CHANGES ANYTHING");
+        console.log(result.data.getUser.gender+ " THIS IS WHAT WILL BE SET TO THIS.STATE BEFORE USER CHANGES ANYTHING");
+        console.log(result.data.getUser.user_image+ " THIS IS WHAT WILL BE SET TO THIS.STATE BEFORE USER CHANGES ANYTHING");
+
+        this.setState({ 
+            username: result.data.getUser.username,
+            email: result.data.getUser.email,
+            gender: result.data.getUser.gender,
+            user_image: result.data.getUser.user_image
+        }) 
+    })
+    
   }
   
   deleteUser = () => {
@@ -131,40 +143,28 @@ export default class Account extends Component {
     })
   }
 
-  // handle any changes to the input fields
   handleInputChange = event => {
-    // Pull the name and value properties off of the event.target (the element which triggered the event)
     const { name, value } = event.target;
+    console.log(JSON.stringify({name, value}) + " THIS IS WHAT WE ARE SETTING TO UPDATED BEFORE MAPPING")
+    let existingData = { ...this.state };
+    let updated = {
+        [name] : value
+    };
 
-    // Set the state for the appropriate input field
+    Object.keys(updated).forEach(item => updated[item] ? "" : delete updated[item]);
+
+    updated = { ...existingData, ...updated };
+    console.log(JSON.stringify(updated, null, 2) + " THIS IS WHAT I AM SETTING TO STATE ON INPUT CHANGE");
+
     this.setState({
-      [name]: value
-    })
-  };
-
-  handlePasswordChange = event => {
-    const { name, value } = event.target;
-
-    this.setState({
-      [name]: value
+        username: updated.username,
+        email: updated.email,
+        gender: updated.gender 
     });
-  };
+};
 
-  // When the form is submitted, prevent the default event and alert the username and password
   handleFormSubmit = event => {
     event.preventDefault();
-
-    let existingData = { ...this.state.userData };
-    let updated = { 
-      email: this.state.email, 
-      username: this.state.username, 
-      password: this.state.password, 
-      gender: this.state.gender
-    }
-
-    Object.keys(updated).forEach( key => updated[key] ? null : delete updated[key] );
-    updated = { ...existingData, ...updated };
-    console.log(updated);
 
     axios({
       method: "POST",
@@ -175,39 +175,46 @@ export default class Account extends Component {
         const secure_url = res.data.secure_url;
 
         this.setState({ 
-          userData: {user_image: secure_url},
+          userData: {
+            user_image: secure_url
+          },
           fileName: "Upload your image!" 
         });
         
-      client.mutate({
-        mutation: UPDATE_USER_IMAGE_MUTATION,
-        variables: { id: this.state.loggedInUserId, user_image: secure_url },
-        fetchPolicy: 'no-cache'
-      })
-        .catch( err => console.log(err) )
+        client.mutate({
+          mutation: UPDATE_USER_IMAGE_MUTATION,
+          variables: { id: this.state.loggedInUserId, user_image: secure_url },
+          fetchPolicy: 'no-cache'
+        })
+          .catch( err => console.log(err) )
       })
 
     client.mutate({
       mutation: UPDATE_USER_NAME_MUTATION,
-      variables: { id: this.state.loggedInUserId, username: this.state.userData.username },
+      variables: { id: this.state.loggedInUserId, username: this.state.username },
       fetchPolicy: 'no-cache'
     })
       .catch( err => console.log(err.message) );
 
     client.mutate({
       mutation: UPDATE_USER_EMAIL_MUTATION,
-      variables: { id: this.state.loggedInUserId, email: this.state.userData.email },
+      variables: { id: this.state.loggedInUserId, email: this.state.email },
+      fetchPolicy: 'no-cache'
+    })
+      .catch( err => console.log(err.message) );
+        
+    client.mutate({
+      mutation: UPDATE_USER_GENDER_MUTATION,
+      variables: { id: this.state.loggedInUserId, gender: this.state.gender },
       fetchPolicy: 'no-cache'
     })
       .catch( err => console.log(err.message) );
 
-    client.mutate({
-      mutation: UPDATE_USER_GENDER_MUTATION,
-      variables: { id: this.state.loggedInUserId, gender: this.state.userData.gender },
-      fetchPolicy: 'no-cache'
-    })
-      .catch( err => console.log(err.message) );
-    
+      this.setState({
+        userData: {
+          username: this.state.username
+        }
+      })
   };
 
   showDeleteAccountConfirmationModal = () => {
@@ -251,6 +258,7 @@ export default class Account extends Component {
         <Header
           showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}
+          key={this.state.userData.username}
         />
         <Main>
           <div className="page-header header-filter" id="background-account" data-parallax="true"></div>
@@ -261,10 +269,10 @@ export default class Account extends Component {
                   <div className="col-md-6 ml-auto mr-auto">
                     <div className="profile">
                       <div className="avatar">
-                        <img src={this.state.userData.user_image} alt="Avatar" className="img-raised rounded-circle img-fluid" />
+                        <img src={this.state.user_image} alt="Avatar" className="img-raised rounded-circle img-fluid" />
                       </div>
                       <div className="name">
-                        <h3 id="profile-user-name" className="title">{this.state.userData.username} </h3>
+                        <h3 id="profile-user-name" className="title">{this.state.username} </h3>
                       </div>
                     </div>
                   </div>
@@ -278,13 +286,13 @@ export default class Account extends Component {
                         <div className="nav-tabs-wrapper">
                           <ul className="nav suitcase-nav">
                             <li className="nav-item ">
-                              <p className="nav-link" id="suitcase-user">{this.state.userData.username}</p>
+                              <p className="nav-link" id="suitcase-user">{this.state.username}</p>
                             </li>
                             <li className="nav-item ">
-                              <p className="nav-link" id="suitcase-user-gender">{this.state.userData.gender}</p>
+                              <p className="nav-link" id="suitcase-user-gender">{this.state.gender}</p>
                             </li>
                             <li className="nav-item ">
-                              <p className="nav-link" id="suitcase-user-email">{this.state.userData.email}</p>
+                              <p className="nav-link" id="suitcase-user-email">{this.state.email}</p>
                             </li>
 
                           </ul>
@@ -304,8 +312,8 @@ export default class Account extends Component {
                         <Input
                           type="email"
                           name="email"
-                          placeholder={this.state.userData.email}
-                          value={this.state.email}
+                          placeholder={this.state.email}
+                          // value={this.state.email}
                           onChange={this.handleInputChange}
                         />
                       </Col>
@@ -316,14 +324,14 @@ export default class Account extends Component {
                         <Input
                           type="username"
                           name="username"
-                          placeholder={this.state.userData.username}
-                          value={this.state.username}
+                          placeholder={this.state.username}
+                          // value={this.state.username}
                           onChange={this.handleInputChange}
                         />
                       </Col>
 
                     </FormGroup>
-                    <FormGroup row>
+                    {/* <FormGroup row>
                       <Label for="examplePassword" sm={3}>Password</Label>
                       <Col sm={4}>
                         <Input
@@ -332,8 +340,8 @@ export default class Account extends Component {
                           id="examplePassword"
                           placeholder="change password"
                         />
-                      </Col>
-                      <Col sm={5}>
+                      </Col> */}
+                      {/* <Col sm={5}>
                         <Input
                           type="password"
                           name="password"
@@ -341,8 +349,8 @@ export default class Account extends Component {
                           value={this.state.password}
                           onChange={this.handlePasswordChange}
                         />
-                      </Col>
-                    </FormGroup>
+                      </Col> 
+                    </FormGroup> */}
                     <FormGroup row>
                       <Label for="exampleCheckbox" sm={3}>Gender</Label>
                       <Col sm={9}>

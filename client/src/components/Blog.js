@@ -238,7 +238,7 @@ export default class Blog extends Component {
                             Upload a photo for your suitcase! If you don't, we can provide a picture for you.
                             </FormText> */}
                             <Button
-                                inline type="radio" name="file" color="default"
+                                name="file" color="default"
                                 className="float-right"
                                 onClick={this.renderPixabay}
                                 value={this.cityImageSrc}
@@ -259,21 +259,30 @@ export default class Blog extends Component {
 
 
                     </FormGroup>
+                    
                     <FormGroup check row>
                         <Col sm={{ size: 2, offset: 5 }}>
                             <Button color="primary" onClick={this.handleFormSubmit} >Submit</Button>
                         </Col>
                     </FormGroup>
+
                 </Form>
 
-                {/* <div className="row">
+                <div className="form-container offset-1 col-10">
+                    <br />
+                    <hr />
+                    <br />
+                    <br />
+                </div>
+
+                <div className="row">
                     <div className="col-12 text-center">
                         {this.props.loggedInUserIdNumber === this.props.suitcaseUserId ? (
-                            <button className="btn btn-primary" onClick={() => { this.props.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
+                            <button className="btn btn-warning" onClick={() => { this.props.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
                         ) : (<div></div>
                             )}
                     </div>
-                </div> */}
+                </div> 
 
             </div>
         )

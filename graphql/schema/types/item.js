@@ -2,7 +2,8 @@ import {
     GraphQLObjectType,
     GraphQLString,
     GraphQLID,
-    GraphQLEnumType
+    GraphQLEnumType,
+    GraphQLBoolean
   } from 'graphql';
 
 import suitcase_items from './suitcase_items';
@@ -37,6 +38,9 @@ export default new GraphQLObjectType({
         item_category: {
             type: itemCategory
         },
+        // selected: {
+        //     type: GraphQLBoolean
+        // },
         suitcase_items: {
             type: suitcase_items
         }

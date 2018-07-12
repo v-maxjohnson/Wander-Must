@@ -36,6 +36,7 @@
     "google-places-autocomplete-service": "0.0.3",
     "graphql": "^0.13.2",
     "if-env": "^1.0.4",
+    "immutable": "^3.8.2",
     "moment": "^2.22.2",
     "mysql2": "^1.5.3",
     "passport": "^0.4.0",

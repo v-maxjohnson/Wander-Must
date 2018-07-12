@@ -31,6 +31,7 @@ query getSuitcase( $id: ID ){
       id
       item_name
       item_category
+
       suitcase_items {
         item_amount
       }
@@ -105,6 +106,7 @@ export default class Suitcase extends Component {
         Locale: [],
         User: []
       },
+      suitcaseItems: [],
       allItems: [],
       rendered: false,
       openConfirmationModal: false,
@@ -141,7 +143,7 @@ export default class Suitcase extends Component {
       variables: { id: this.state.thisSuitcaseId },
       fetchPolicy: "network-only"
     }).then(result => {
-      this.setState({ suitcase: result.data.getSuitcase, rendered: true });
+      this.setState({ suitcase: result.data.getSuitcase, suitcaseItems: result.data.getSuitcase.Items, rendered: true });
     })
   }
 
@@ -306,16 +308,62 @@ export default class Suitcase extends Component {
     localStorage.setItem("suitcase_id", this.state.suitcase.id);
   }
 
-  onCheckboxBtnClick = (selected) => {
-    const index = this.state.itemsToAdd.indexOf(selected);
-    if (index < 0) {
-      this.state.itemsToAdd.push(selected);
-    } else {
-      this.state.itemsToAdd.splice(index, 1);
-    }
-    this.setState({ itemsToAdd: [...this.state.itemsToAdd] });
-    console.log(this.state.itemsToAdd)
-  }
+  // handleSelected = (selectedId) => {
+  //   let tempSuitcase = [...this.state.suitcaseItems];
+
+  //   tempSuitcase.map(item => {
+  //     if (item.id === selectedId) {
+  //       item.selected = !item.selected
+  //     }
+  //     return item;
+  //   })
+
+  //   this.setState({
+  //     suitcaseItems: [...tempSuitcase],
+  //     itemsToAdd: this.state.suitcaseItems.filter(item => item.selected)
+  //   })
+
+
+  // }
+
+  // handleSelectAll = (category) => {
+  //   let tempSuitcase = [...this.state.suitcaseItems];
+
+  //   tempSuitcase.map(item => {
+  //     if (item.item_category === category) {
+  //       console.log(item.selected)
+  //     }
+  //     return item;
+  //   })
+
+  //   this.setState({
+  //     suitcaseItems: [...tempSuitcase]
+  //   })
+
+  //   let filteredItems = [];
+
+  //   this.state.suitcaseItems.filter(item => {
+  //     !item.selected
+  //     filteredItems.push(item.id)
+  //   })
+
+  //     this.setState({
+  //       itemsToAdd: filteredItems
+  //     })
+       
+  // }
+
+  // onCheckboxBtnClick = (selected) => {
+  //   const index = this.state.itemsToAdd.indexOf(selected);
+  //   let stateItems = [...this.state.itemsToAdd];
+  //   if (index < 0) {
+  //     stateItems.push(selected);
+  //   } else {
+  //     stateItems.splice(index, 1);
+  //   }
+  //   this.setState({ itemsToAdd: [...stateItems] });
+  //   console.log(...stateItems);
+  // }
 
   handlePageChange = page => {
     this.setState({ currentPage: page });
@@ -363,9 +411,11 @@ export default class Suitcase extends Component {
 
           <SuitcaseItems
             suitcase={this.state.suitcase}
+            suitcaseItems={this.state.suitcaseItems}
             currentSuitcaseId={this.state.currentSuitcaseId}
             itemsToAdd={this.itemsToAdd}
-            onCheckboxBtnClick={this.onCheckboxBtnClick}
+            handleSelected={this.handleSelected}
+            handleSelectAll={this.handleSelectAll}
             loggedInUserIdNumber={this.state.loggedInUserIdNumber}
             suitcaseUserId={this.state.suitcase.User.id}
             deleteItemFromSuitcase={this.deleteItemFromSuitcase}
@@ -400,6 +450,7 @@ export default class Suitcase extends Component {
     return (
       <div className="suitcase profile-page sidebar-collapse">
         {this.maybeRedirect()}
+        {console.log(this.state.itemsToAdd)}
         <Header
           showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}

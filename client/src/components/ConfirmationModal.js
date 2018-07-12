@@ -17,7 +17,7 @@ export default class QuickViewModal extends Component {
   render() {
     return (
       <div>
-        <Modal centered={true} isOpen={this.state.modal} toggle={this.toggle} className="confirmation-modal modal-lg">
+        <Modal centered={true} isOpen={this.state.modal} toggle={this.toggle} className="confirmation-modal modal-md">
           <ModalHeader toggle={this.toggle}></ModalHeader>
 
           <ModalBody>

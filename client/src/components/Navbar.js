@@ -37,7 +37,7 @@ export default class Navibar extends Component {
       userName: "",
       allLocales: [],
       value: '',
-      activeClass: "navbar-transparent"
+      activeClass: "navbar-transparent",
     };
   }
 
@@ -234,10 +234,16 @@ export default class Navibar extends Component {
     return (
       <div>
         {this.maybeLogout()}
-        <Navbar className={`navbar ${this.state.activeClass} fixed-top navbar-expand-lg`}>
+        <Navbar className={`navbar ${this.state.activeClass} ${this.state.isOpen ? "nav-open" : "" } fixed-top navbar-expand-lg`}>
           <div className="container">
-            <Link to="/" className="navbar-brand wandermust-font nav-link">Wander-Must</Link>
-            <NavbarToggler onClick={this.toggle} />
+            <div className="navbar-translate">
+              <Link to="/" className="navbar-brand wandermust-font nav-link">Wander-Must</Link>
+              <NavbarToggler onClick={this.toggle}>
+                <span className="navbar-toggler-icon"></span>
+                <span className="navbar-toggler-icon"></span>
+                <span className="navbar-toggler-icon"></span>
+              </NavbarToggler>
+            </div>
             <Collapse isOpen={this.state.isOpen} navbar>
               {this.renderNavItems()}
             </Collapse>

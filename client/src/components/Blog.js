@@ -100,11 +100,11 @@ export default class Blog extends Component {
     maybeMakePixabayCall = () => {
         if (this.state.defaultImage === true) {
             return <Pixabay
-                city={this.state.city}
-                country={this.state.country}
-                setCityImageSrc={this.setCityImageSrc}
-            />
-        }
+                    city={this.state.city}
+                    country={this.state.country}
+                    setCityImageSrc={this.setCityImageSrc}
+                />            
+        }      
     }
 
     setCityImageSrc = (url) => {
@@ -140,26 +140,41 @@ export default class Blog extends Component {
         updated = { ...existingData, ...updated };
         console.log(updated);
 
-        axios({
-            method: "POST",
-            url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
-            data: this.state.imageData
-        })
-            .then(res => {
-                const secure_url = res.data.secure_url;
-
-                this.setState({
+        if(! this.state.defaultImage ) {
+            axios({
+                method: "POST",
+                url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
+                data: this.state.imageData
+              })
+                .then( res => {
+                    
+                  const secure_url = res.data.secure_url;
+          
+                  this.setState({ 
                     suitcase_image: secure_url,
-                    fileName: "Upload your image here!"
-                });
-
-                client.mutate({
+                    fileName: "Upload your image here!" 
+                  });
+                  
+                  client.mutate({
                     mutation: UPDATE_SUITCASE_IMAGE_MUTATION,
                     variables: { id: this.state.id, suitcase_image: secure_url },
                     fetchPolicy: 'no-cache'
-                })
-                    .catch(err => console.log(err.message))
+                  })
+                    .catch( err => console.log(err.message) )
+                }
+            )
+                    
+        } else {
+              
+            client.mutate({
+            mutation: UPDATE_SUITCASE_IMAGE_MUTATION,
+            variables: { id: this.state.id, suitcase_image: this.state.suitcase_image },
+            fetchPolicy: 'no-cache'
             })
+            .catch( err => console.log(err.message) )
+
+        }
+        
 
         client.mutate({
             mutation: UPDATE_SUITCASE_NOTE_MUTATION,

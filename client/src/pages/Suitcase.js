@@ -19,6 +19,7 @@ import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 import Autocomplete from 'react-autocomplete';
 
+
 const GET_SUITCASE_QUERY = gql` 
 query getSuitcase( $id: ID ){
   getSuitcase(id: $id) {
@@ -114,10 +115,17 @@ class Suitcase extends Component {
       openConfirmationModal: false,
       thisSuitcaseId: this.props.match.params.id,
       currentSuitcaseId: localStorage.getItem("suitcase_id"),
-      value: '',
+      value: "",
+      autocompleteSubmitError: "",
       currentPage: "SuitcaseItems",
       itemsToAdd: [],
       loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
+    }
+
+    this.constraints = {
+      value: {
+        presence: true
+        }
     }
   };
 
@@ -255,6 +263,9 @@ class Suitcase extends Component {
   }
 
   addItemToSuitcase = () => {
+    let array = this.state.itemsToAdd
+    if (array.length > 0) {
+    this.setState({ autocompleteSubmitError: ""})
     client.mutate({
       mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
       variables: { id: this.state.suitcase.id, item_ids: this.state.itemsToAdd },
@@ -264,6 +275,10 @@ class Suitcase extends Component {
       this.setState({ value: "", itemsToAdd: [] })
     }).catch(err => console.log(err))
   }
+    else {
+      this.setState({ autocompleteSubmitError: "you must select an item from our dropdown list"})
+  }
+}
 
   addItemsToCurrentSuitcase = () => {
     client.mutate({
@@ -372,6 +387,25 @@ class Suitcase extends Component {
     this.setState({ currentPage: page });
   };
 
+
+  // submitForm = event => {
+  //   event.preventDefault();
+
+    // let data = {
+    //   value: this.state.value
+    // }
+
+  //   let result = validate(this.state.value, this.constraints)
+  //   if (result) {
+  //     if (result.value) {
+  //       this.setState({autocompleteError: result.value[0]});
+  //       console.log(result.value[0])
+  //     } else {
+  //       this.setState({autocompleteError: ""})
+  //     }
+  //   }
+  // }
+
   renderPage = () => {
     if (this.state.currentPage === "SuitcaseItems") {
       return (
@@ -401,13 +435,16 @@ class Suitcase extends Component {
                   }
                 }
                 value={this.state.value}
-                onChange={e => this.setState({ value: e.target.value })}
-                onSelect={(value, item) => this.setState({ value: value, itemsToAdd: [...this.state.itemsToAdd, item.id] })}
+                onChange={e => this.setState({ value: e.target.value, autocompleteSubmitError: "" })}
+                onSelect={(value, item, autocompleteSubmitError) => this.setState({ value: value, itemsToAdd: [...this.state.itemsToAdd, item.id], autocompleteSubmitError: "" })}
               />
               <div className="input-group-append">
                 <button className="add-one-item" type="button" onClick={() => { this.addItemToSuitcase() }}><i className="fa fa-search"></i> Add an item</button>
               </div>
+            <p className="autocomplete-error">{this.state.autocompleteSubmitError}</p>
+
             </div>
+
           ) : (
               <div></div>
             )}
@@ -542,6 +579,6 @@ class Suitcase extends Component {
       </div>
     )
   }
-}
+};
 
 export default withAlert(Suitcase);

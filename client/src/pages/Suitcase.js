@@ -274,7 +274,6 @@ export default class Suitcase extends Component {
     }).catch(err => console.log(err))
   }
     else {
-      console.log("stuff");
       this.setState({ value: "" })
       this.setState({ autocompleteSubmitError: "you must select a verified item from our list"})
   }

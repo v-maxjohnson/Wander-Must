@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from "react-router-dom";
+import cloneDeep from 'lodash/cloneDeep';
 import Profile from "./Profile";
 import NavTabs from "../components/NavTabs";
 import Moment from 'react-moment';
@@ -15,7 +16,6 @@ import "../styles/Suitcase.css";
 import Wunderground from "../utils/Wunderground";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
-import axios from 'axios';
 import Autocomplete from 'react-autocomplete';
 
 const GET_SUITCASE_QUERY = gql` 
@@ -144,7 +144,9 @@ export default class Suitcase extends Component {
       variables: { id: this.state.thisSuitcaseId },
       fetchPolicy: "network-only"
     }).then(result => {
-      this.setState({ suitcase: result.data.getSuitcase, suitcaseItems: result.data.getSuitcase.Items, rendered: true });
+      const clonedSuitcase = cloneDeep(result.data.getSuitcase);
+      const clonedSuitcaseItems = cloneDeep(result.data.getSuitcase.Items);
+      this.setState({ suitcase: clonedSuitcase, suitcaseItems: clonedSuitcaseItems, rendered: true });
     })
   }
 
@@ -220,23 +222,6 @@ export default class Suitcase extends Component {
       return (
         cityNoUnderscores
       )
-    }
-  }
-
-  handleImageChange = (e) => {
-    let file = e.target.files[0];
-    let formData = new FormData();
-    formData.append("fileToUpload", file);
-    console.log(formData.get("fileToUpload"));
-
-    if(this.state.rendered) {
-      axios.post("/api/uploadSuitcaseImage", formData)
-        .then(res => {
-          // let url = res.data.url;
-
-          //update suitcase in database with image url
-        })
-        .catch(err => console.warn(err))
     }
   }
 
@@ -333,42 +318,67 @@ export default class Suitcase extends Component {
         item.selected = !item.selected
       }
       return item;
-    })
+    });
 
     this.setState({
       suitcaseItems: [...tempSuitcase],
-      itemsToAdd: this.state.suitcaseItems.filter(item => item.selected)
-    })
+      itemsToAdd: this.state.suitcaseItems.filter(item => item.selected).map(item => item.id)
+    });
 
 
   }
 
-  // handleSelectAll = (category) => {
-  //   let tempSuitcase = [...this.state.suitcaseItems];
+  handleSelectAll = (e, category) => {
+    console.log(e.target.classList);
+    let tempSuitcase = [...this.state.suitcaseItems];
+    // if clicking on the button when the check is visible
+    if (e.target.classList.contains('check-all')) {
+      console.log('sanity check: inside check-all handler');
+      // check all of them
+      tempSuitcase.map(item => {
+        if (item.item_category === category) {
+          item.selected = true;
+        }
+        return item;
+      });
 
-  //   tempSuitcase.map(item => {
-  //     if (item.item_category === category) {
-  //       console.log(item.selected)
-  //     }
-  //     return item;
-  //   })
+      this.setState({
+        suitcaseItems: [...tempSuitcase],
+        itemsToAdd: this.state.suitcaseItems.filter(item => item.selected).map(item => item.id)
+      })
+    }
 
-  //   this.setState({
-  //     suitcaseItems: [...tempSuitcase]
-  //   })
+    // if clicking on the button when the x is visible
+    if (e.target.classList.contains('uncheck-all')) {
+      console.log('sanity check: inside uncheck-all handler');
+      // uncheck all of them
+      tempSuitcase.map(item => {
+        if (item.item_category === category) {
+          item.selected = false;
+        }
+        return item;
+      });
 
-  //   let filteredItems = [];
+      this.setState({
+        suitcaseItems: [...tempSuitcase],
+        itemsToAdd: this.state.suitcaseItems.filter(item => item.selected).map(item => item.id)
+      })
+    }
+    // let tempSuitcase = [...this.state.suitcaseItems];
 
-  //   this.state.suitcaseItems.filter(item => {
-  //     !item.selected
-  //     filteredItems.push(item.id)
-  //   })
+    // tempSuitcase.map(item => {
+    // if (item.item_category === category) {
+    // item.selected = !item.selected
+    // }
+    // return item;
+    // })
 
-  //     this.setState({
-  //       itemsToAdd: filteredItems
-  //     })
-       
-  // }
+    // this.setState({
+    // suitcaseItems: [...tempSuitcase],
+    // itemsToAdd: this.state.suitcaseItems.filter(item => item.selected).map(item => item.id)
+    // })
+
+  }
 
   // onCheckboxBtnClick = (selected) => {
   //   const index = this.state.itemsToAdd.indexOf(selected);
@@ -490,8 +500,6 @@ export default class Suitcase extends Component {
 
                 <div className="card card-nav-tabs card-plain">
                   <div className="suitcase-header card-header card-header-default">
-                      <input type="file" onChange={this.handleImageChange} />
-
 
                     <div id="suitcase-nav" className="nav-tabs-navigation">
                       <div className="nav-tabs-wrapper">

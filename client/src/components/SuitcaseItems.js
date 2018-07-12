@@ -66,8 +66,8 @@ export default class SuitcaseItems extends Component {
               <Category>
                 <div className="title row">
                   <div>
-                    <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={() => { this.props.handleSelectAll("TOILETRIES"); this.toggleSelectAll("toiletries") }}>
-                      <i className={"fa " + (this.state.selectAllToiletries ? "fa-close" : "fa-check-circle-o")} data-toggle="tooltip" title="Select all toiletries"> </i>
+                    <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={(e) => { this.props.handleSelectAll(e, "TOILETRIES"); this.toggleSelectAll("toiletries") }}>
+                      <i className={"fa " + (this.state.selectAllToiletries ? "fa-close uncheck-all" : "fa-check-circle-o check-all")} data-toggle="tooltip" title="Select all toiletries"> </i>
                     </button>
                   </div>
                   <div>
@@ -102,8 +102,8 @@ export default class SuitcaseItems extends Component {
               <Category>
                 <div className="title row">
                   <div>
-                    <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={() => { this.props.handleSelectAll("CLOTHING"); this.toggleSelectAll("clothing") }}>
-                      <i className={"fa " + (this.state.selectAllClothing ? "fa-close" : "fa-check-circle-o")} data-toggle="tooltip" title="Select all toiletries"> </i>
+                    <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={(e) => { this.props.handleSelectAll(e, "CLOTHING"); this.toggleSelectAll("clothing") }}>
+                      <i className={"fa " + (this.state.selectAllClothing ? "fa-close uncheck-all" : "fa-check-circle-o check-all")} data-toggle="tooltip" title="Select all toiletries"> </i>
                     </button>
                   </div>
                   <div>
@@ -140,8 +140,8 @@ export default class SuitcaseItems extends Component {
               <Category>
                 <div className="title row">
                   <div>
-                    <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={() => { this.props.handleSelectAll("ACCESSORIES"); this.toggleSelectAll("accessories") }}>
-                      <i className={"fa " + (this.state.selectAllAccessories ? "fa-close" : "fa-check-circle-o")} data-toggle="tooltip" title="Select all toiletries"> </i>
+                    <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={(e) => { this.props.handleSelectAll(e, "ACCESSORIES"); this.toggleSelectAll("accessories") }}>
+                      <i className={"fa " + (this.state.selectAllAccessories ? "fa-close uncheck-all" : "fa-check-circle-o check-all")} data-toggle="tooltip" title="Select all toiletries"> </i>
                     </button>
                   </div>
                   <div>
@@ -178,8 +178,8 @@ export default class SuitcaseItems extends Component {
               <Category>
                 <div className="title row">
                   <div>
-                    <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={() => { this.props.handleSelectAll("ELECTRONICS"); this.toggleSelectAll("electronics") } }>
-                      <i className={"fa " + (this.state.selectAllElectronics ? "fa-close" : "fa-check-circle-o")} data-toggle="tooltip" title="Select all toiletries"> </i>
+                    <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={(e) => { this.props.handleSelectAll(e, "ELECTRONICS"); this.toggleSelectAll("electronics") } }>
+                      <i className={"fa " + (this.state.selectAllElectronics ? "fa-close uncheck-all" : "fa-check-circle-o check-all")} data-toggle="tooltip" title="Select all toiletries"> </i>
                     </button>
                   </div>
                   <div>

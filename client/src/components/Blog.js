@@ -48,8 +48,7 @@ export default class Blog extends Component {
         suitcase_image: "",
         fileName: "Upload your image here!",
         imageData: "",
-        defaultImage: false,
-
+        defaultImage: false
     }
 
     componentDidMount() {
@@ -61,7 +60,7 @@ export default class Blog extends Component {
     getSuitcase = () => {
         client.query({
             query: GET_SUITCASE_QUERY,
-            variables: { id: this.state.id },
+            variables: { id: this.props.suitcase_id },
             fetchPolicy: "network-only"
         })
             .then(result => {
@@ -221,9 +220,7 @@ export default class Blog extends Component {
                                         label={this.state.fileName}
                                         onChange={this.handleImageChange}
                                     />
-                                    {/* <FormText color="muted">
-                            Upload a photo for your suitcase! If you don't, we can provide a picture for you.
-                            </FormText> */}
+
                                     <Button
                                         inline type="radio" name="file" color="default"
                                         className="float-right"
@@ -249,6 +246,11 @@ export default class Blog extends Component {
                                 </Col>
                             </FormGroup>
                         </Form>
+                        <div className="row">
+                            <div className="col-12 text-center">
+                                <button className="btn btn-primary" onClick={() => { this.props.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
+                            </div>
+                        </div>
                     </div>
                 ) : (
                         <div>
@@ -287,18 +289,10 @@ export default class Blog extends Component {
                                 </Col>
                             </div>
 
-                            <div className="row">
-                                <div className="col-12 text-center">
-                                    {this.props.loggedInUserIdNumber === this.props.suitcaseUserId ? (
-                                        <button className="btn btn-primary" onClick={() => { this.props.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
-                                    ) : (<div></div>
-                                        )}
-                                </div>
-                            </div>
-
-                        </div >
+                        </div>
                     )
                 }
             </div>
         )
     }
+}

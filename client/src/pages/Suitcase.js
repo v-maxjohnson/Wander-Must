@@ -433,7 +433,7 @@ export default class Suitcase extends Component {
                 }
                 value={this.state.value}
                 onChange={e => this.setState({ value: e.target.value, autocompleteSubmitError: "" })}
-                onSelect={(value, item) => this.setState({ value: value, itemsToAdd: [...this.state.itemsToAdd, item.id] })}
+                onSelect={(value, item, autocompleteSubmitError) => this.setState({ value: value, itemsToAdd: [...this.state.itemsToAdd, item.id], autocompleteSubmitError: "" })}
               />
               <div className="input-group-append">
                 <button className="add-one-item" type="button" onClick={() => { this.addItemToSuitcase() }}><i className="fa fa-search"></i> Add an item</button>

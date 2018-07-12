@@ -180,9 +180,7 @@ export default class Blog extends Component {
             variables: { id: this.state.id, note_title: this.state.note_title, notes: this.state.notes },
             fetchPolicy: 'no-cache'
         })
-            .catch( err => console.log(err.message) );
-    };
-
+            .catch( err => console.log(err.message) ); };
 
 
     render() {

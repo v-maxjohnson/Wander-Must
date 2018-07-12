@@ -11,3 +11,7 @@
 input:-webkit-autofill {
     background-color: grey!important;
 }
+
+#settings-updated {
+    display: none 
+}

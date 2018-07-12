@@ -78,7 +78,6 @@ const client = new ApolloClient();
 export default class Account extends Component {
   state = {
     userData: {
-      user_image: "",
       username: ""
     },
 
@@ -104,11 +103,14 @@ export default class Account extends Component {
     imageData.append("file", file);
     imageData.append("upload_preset", "qocvkmel");
     
-    this.setState({ 
-      imageData : imageData,
+    this.setState({
+
+      imageData: imageData,
       fileName: file.name 
     });
-    
+
+    var hiddenDiv = document.getElementById("settings-updated");
+    hiddenDiv.style.display = "none";
   }
 
   getUser = () => {
@@ -118,20 +120,13 @@ export default class Account extends Component {
       fetchPolicy: "network-only"
     })
       .then( result => {
-        console.log(JSON.stringify(result.data.getUser) + " THIS IS WHAT WILL BE SET TO THIS.STATE BEFORE USER CHANGES ANYTHING");
-        console.log(result.data.getUser.username+ " THIS IS WHAT WILL BE SET TO THIS.STATE BEFORE USER CHANGES ANYTHING");
-        console.log(result.data.getUser.email+ " THIS IS WHAT WILL BE SET TO THIS.STATE BEFORE USER CHANGES ANYTHING");
-        console.log(result.data.getUser.gender+ " THIS IS WHAT WILL BE SET TO THIS.STATE BEFORE USER CHANGES ANYTHING");
-        console.log(result.data.getUser.user_image+ " THIS IS WHAT WILL BE SET TO THIS.STATE BEFORE USER CHANGES ANYTHING");
-
         this.setState({ 
-            username: result.data.getUser.username,
-            email: result.data.getUser.email,
-            gender: result.data.getUser.gender,
-            user_image: result.data.getUser.user_image
+          username: result.data.getUser.username,
+          email: result.data.getUser.email,
+          gender: result.data.getUser.gender,
+          user_image: result.data.getUser.user_image
         }) 
     })
-    
   }
   
   deleteUser = () => {
@@ -145,7 +140,6 @@ export default class Account extends Component {
 
   handleInputChange = event => {
     const { name, value } = event.target;
-    console.log(JSON.stringify({name, value}) + " THIS IS WHAT WE ARE SETTING TO UPDATED BEFORE MAPPING")
     let existingData = { ...this.state };
     let updated = {
         [name] : value
@@ -154,13 +148,15 @@ export default class Account extends Component {
     Object.keys(updated).forEach(item => updated[item] ? "" : delete updated[item]);
 
     updated = { ...existingData, ...updated };
-    console.log(JSON.stringify(updated, null, 2) + " THIS IS WHAT I AM SETTING TO STATE ON INPUT CHANGE");
 
     this.setState({
         username: updated.username,
         email: updated.email,
-        gender: updated.gender 
+        gender: updated.gender
     });
+
+    var hiddenDiv = document.getElementById("settings-updated");
+    hiddenDiv.style.display = "none";
 };
 
   handleFormSubmit = event => {
@@ -175,9 +171,7 @@ export default class Account extends Component {
         const secure_url = res.data.secure_url;
 
         this.setState({ 
-          userData: {
-            user_image: secure_url
-          },
+          user_image: secure_url,
           fileName: "Upload your image!" 
         });
         
@@ -215,6 +209,9 @@ export default class Account extends Component {
           username: this.state.username
         }
       })
+
+      var hiddenDiv = document.getElementById("settings-updated");
+      hiddenDiv.style.display = "block";
   };
 
   showDeleteAccountConfirmationModal = () => {
@@ -313,7 +310,6 @@ export default class Account extends Component {
                           type="email"
                           name="email"
                           placeholder={this.state.email}
-                          // value={this.state.email}
                           onChange={this.handleInputChange}
                         />
                       </Col>
@@ -325,32 +321,11 @@ export default class Account extends Component {
                           type="username"
                           name="username"
                           placeholder={this.state.username}
-                          // value={this.state.username}
                           onChange={this.handleInputChange}
                         />
                       </Col>
-
                     </FormGroup>
-                    {/* <FormGroup row>
-                      <Label for="examplePassword" sm={3}>Password</Label>
-                      <Col sm={4}>
-                        <Input
-                          type="password"
-                          name="password"
-                          id="examplePassword"
-                          placeholder="change password"
-                        />
-                      </Col> */}
-                      {/* <Col sm={5}>
-                        <Input
-                          type="password"
-                          name="password"
-                          placeholder="password confirmation"
-                          value={this.state.password}
-                          onChange={this.handlePasswordChange}
-                        />
-                      </Col> 
-                    </FormGroup> */}
+
                     <FormGroup row>
                       <Label for="exampleCheckbox" sm={3}>Gender</Label>
                       <Col sm={9}>
@@ -372,8 +347,8 @@ export default class Account extends Component {
                           />
                         </div>
                       </Col>
-
                     </FormGroup>
+
                     <FormGroup row>
                       <Label for="exampleCustomFileBrowser" sm={3}>Avatar</Label>
                       <Col sm={9}>
@@ -393,6 +368,9 @@ export default class Account extends Component {
                       </Col>
                     </FormGroup>
                   </Form>
+                  <FormGroup row >
+                    <p id="settings-updated">Your account settings have been updated and saved!</p>
+                  </FormGroup>
                   <div>
                     <br />
                     <hr />

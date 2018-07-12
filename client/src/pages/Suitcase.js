@@ -264,6 +264,7 @@ export default class Suitcase extends Component {
   addItemToSuitcase = () => {
     let array = this.state.itemsToAdd
     if (array.length > 0) {
+    this.setState({ autocompleteSubmitError: ""})
     client.mutate({
       mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
       variables: { id: this.state.suitcase.id, item_ids: this.state.itemsToAdd },
@@ -274,7 +275,7 @@ export default class Suitcase extends Component {
     }).catch(err => console.log(err))
   }
     else {
-      this.setState({ autocompleteSubmitError: "you must select a verified item from our list"})
+      this.setState({ autocompleteSubmitError: "you must select an item from our dropdown list"})
   }
 }
 

@@ -51,6 +51,26 @@ export default class Signup extends Component {
   
   submitForm = event => {
     event.preventDefault();
+  
+      let data = {
+        username: this.state.username,
+        email : this.state.email,
+        password: this.state.password
+      }
+  
+      let result = validate(data, this.constraints)
+      if (result) {
+        if (result.username) {
+          this.setState({usernameError: result.username[0]});
+        }
+        if (result.email) {
+          this.setState({emailError: result.email[0]});
+        }
+        if (result.password) {
+          this.setState({passwordError: result.password[0]})
+        }
+        
+      }
   }
 
   handleEmailError = (e) => {

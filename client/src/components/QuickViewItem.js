@@ -7,7 +7,7 @@ export default class QuickViewItem extends Component {
         <div className="row justify-content-start">
           <div className="col">
             <label className="form-check-label">
-              <input className="form-check-input" type="checkbox" onClick={() => this.props.onCheckboxBtnClick(this.props.itemId)} /> {this.props.itemName}
+              <input className="form-check-input" type="checkbox" onClick={() => this.props.handleSelected(this.props.itemId) } checked={this.props.selected} /> {this.props.itemName}
               <span className="form-check-sign">
                 <span className="check" ></span>
               </span>

@@ -25,7 +25,6 @@ export default class Wunderground extends Component {
         var pixaCountry = country.replace(/\s_/g, '+');
         var queryURL = "https://pixabay.com/api/?key=" + authKey + "&q=" + pixaCity + "+" + pixaCountry + "+skyline&image_type=photo";
         let url;
-        console.log("pixabay is running")
 
         axios.get(queryURL)
             .then((response) => {

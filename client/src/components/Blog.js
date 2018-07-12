@@ -110,7 +110,6 @@ export default class Blog extends Component {
 
     setCityImageSrc = (url) => {
         this.setState({ suitcase_image: url })
-        console.log(url)
     }
 
     handleImageChange = event => {
@@ -139,7 +138,6 @@ export default class Blog extends Component {
         Object.keys(updated).forEach( item => updated[item] ? null: delete updated[item] );
 
         updated = {...existingData, ...updated};
-        console.log(updated);
 
         if(! this.state.defaultImage ) {
             axios({

@@ -292,7 +292,7 @@ export default class Suitcase extends Component {
       fetchPolicy: "no-cache"
     }).then(result => {
       this.getSuitcase();
-      console.log(itemId, itemAmount)
+      
     }).catch(err => console.log(err))
   }
 

@@ -65,16 +65,20 @@ export default class SuitcaseItems extends Component {
 
               <Category>
                 <div className="title row">
-                  <div>
-                    <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={(e) => { this.props.handleSelectAll(e, "TOILETRIES"); this.toggleSelectAll("toiletries") }}>
-                      <i className={"fa " + (this.state.selectAllToiletries ? "fa-close uncheck-all" : "fa-check-circle-o check-all")} data-toggle="tooltip" title="Select all toiletries"> </i>
-                    </button>
-                  </div>
+                  {this.props.loggedInUserIdNumber === this.props.suitcase.User.id ? (
+                    <div></div>
+                  ) : (
+                      <div>
+                        <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={(e) => { this.props.handleSelectAll(e, "TOILETRIES"); this.toggleSelectAll("toiletries") }}>
+                          <i className={"fa " + (this.state.selectAllToiletries ? "fa-close uncheck-all" : "fa-check-circle-o check-all")} data-toggle="tooltip" title="Select all toiletries"> </i>
+                        </button>
+                      </div>
+                    )}
                   <div>
                     <span className="badge badge-pill badge-info">Toiletries</span>
                   </div>
-
                 </div>
+
                 <div className="row cat-row" id="toiletries">
                   {this.props.suitcaseItems
                     .filter(item => (item.item_category === "TOILETRIES"))
@@ -86,13 +90,11 @@ export default class SuitcaseItems extends Component {
                         itemName={item.item_name}
                         itemCategory={item.item_category}
                         itemAmount={item.suitcase_items.item_amount}
-                        itemsToAdd={this.props.itemsToAdd}
                         handleSelected={this.props.handleSelected}
                         loggedInUserIdNumber={this.props.loggedInUserIdNumber}
                         suitcaseUserId={this.props.suitcase.User.id}
                         deleteItemFromSuitcase={this.props.deleteItemFromSuitcase}
                         updateItemAmountOnSuitcase={this.props.updateItemAmountOnSuitcase}
-                        selectAll={this.state.selectAllToiletries}
                       />
                     ))
                   }
@@ -101,16 +103,20 @@ export default class SuitcaseItems extends Component {
 
               <Category>
                 <div className="title row">
-                  <div>
-                    <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={(e) => { this.props.handleSelectAll(e, "CLOTHING"); this.toggleSelectAll("clothing") }}>
-                      <i className={"fa " + (this.state.selectAllClothing ? "fa-close uncheck-all" : "fa-check-circle-o check-all")} data-toggle="tooltip" title="Select all toiletries"> </i>
-                    </button>
-                  </div>
+                  {this.props.loggedInUserIdNumber === this.props.suitcase.User.id ? (
+                    <div></div>
+                  ) : (
+                      <div>
+                        <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={(e) => { this.props.handleSelectAll(e, "CLOTHING"); this.toggleSelectAll("clothing") }}>
+                          <i className={"fa " + (this.state.selectAllClothing ? "fa-close uncheck-all" : "fa-check-circle-o check-all")} data-toggle="tooltip" title="Select all toiletries"> </i>
+                        </button>
+                      </div>
+                    )}
                   <div>
                     <span className="badge badge-pill badge-primary">Clothing</span>
                   </div>
-
                 </div>
+
                 <div className="row cat-row" id="clothing">
                   {this.props.suitcaseItems
                     .filter(item => (item.item_category === "CLOTHING"))
@@ -122,13 +128,11 @@ export default class SuitcaseItems extends Component {
                         itemName={item.item_name}
                         itemCategory={item.item_category}
                         itemAmount={item.suitcase_items.item_amount}
-                        itemsToAdd={this.props.itemsToAdd}
                         handleSelected={this.props.handleSelected}
                         loggedInUserIdNumber={this.props.loggedInUserIdNumber}
                         suitcaseUserId={this.props.suitcase.User.id}
                         deleteItemFromSuitcase={this.props.deleteItemFromSuitcase}
                         updateItemAmountOnSuitcase={this.props.updateItemAmountOnSuitcase}
-                        selectAll={this.state.selectAllClothing}
                       />
                     ))
 
@@ -139,16 +143,20 @@ export default class SuitcaseItems extends Component {
 
               <Category>
                 <div className="title row">
-                  <div>
-                    <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={(e) => { this.props.handleSelectAll(e, "ACCESSORIES"); this.toggleSelectAll("accessories") }}>
-                      <i className={"fa " + (this.state.selectAllAccessories ? "fa-close uncheck-all" : "fa-check-circle-o check-all")} data-toggle="tooltip" title="Select all toiletries"> </i>
-                    </button>
-                  </div>
+                  {this.props.loggedInUserIdNumber === this.props.suitcase.User.id ? (
+                    <div></div>
+                  ) : (
+                      <div>
+                        <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={(e) => { this.props.handleSelectAll(e, "ACCESSORIES"); this.toggleSelectAll("accessories") }}>
+                          <i className={"fa " + (this.state.selectAllAccessories ? "fa-close uncheck-all" : "fa-check-circle-o check-all")} data-toggle="tooltip" title="Select all toiletries"> </i>
+                        </button>
+                      </div>
+                    )}
                   <div>
                     <span className="badge badge-pill badge-info">Accessories</span>
                   </div>
-
                 </div>
+
                 <div className="row cat-row" id="accessories">
                   {this.props.suitcaseItems
                     .filter(item => (item.item_category === "ACCESSORIES"))
@@ -160,13 +168,11 @@ export default class SuitcaseItems extends Component {
                         itemName={item.item_name}
                         itemCategory={item.item_category}
                         itemAmount={item.suitcase_items.item_amount}
-                        itemsToAdd={this.props.itemsToAdd}
                         handleSelected={this.props.handleSelected}
                         loggedInUserIdNumber={this.props.loggedInUserIdNumber}
                         suitcaseUserId={this.props.suitcase.User.id}
                         deleteItemFromSuitcase={this.props.deleteItemFromSuitcase}
                         updateItemAmountOnSuitcase={this.props.updateItemAmountOnSuitcase}
-                        selectAll={this.state.selectAllAccessories}
                       />
                     ))
 
@@ -177,16 +183,20 @@ export default class SuitcaseItems extends Component {
 
               <Category>
                 <div className="title row">
-                  <div>
-                    <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={(e) => { this.props.handleSelectAll(e, "ELECTRONICS"); this.toggleSelectAll("electronics") } }>
-                      <i className={"fa " + (this.state.selectAllElectronics ? "fa-close uncheck-all" : "fa-check-circle-o check-all")} data-toggle="tooltip" title="Select all toiletries"> </i>
-                    </button>
-                  </div>
+                  {this.props.loggedInUserIdNumber === this.props.suitcase.User.id ? (
+                    <div></div>
+                  ) : (
+                      <div>
+                        <button className="all btn btn-default btn-sm btn-fab btn-round" onClick={(e) => { this.props.handleSelectAll(e, "ELECTRONICS"); this.toggleSelectAll("electronics") }}>
+                          <i className={"fa " + (this.state.selectAllElectronics ? "fa-close uncheck-all" : "fa-check-circle-o check-all")} data-toggle="tooltip" title="Select all toiletries"> </i>
+                        </button>
+                      </div>
+                    )}
                   <div>
                     <span className="badge badge-pill badge-primary">Electronics</span>
                   </div>
-
                 </div>
+
                 <div className="row cat-row" id="electronics">
                   {this.props.suitcaseItems
                     .filter(item => (item.item_category === "ELECTRONICS"))
@@ -198,13 +208,11 @@ export default class SuitcaseItems extends Component {
                         itemName={item.item_name}
                         itemCategory={item.item_category}
                         itemAmount={item.suitcase_items.item_amount}
-                        itemsToAdd={this.props.itemsToAdd}
                         handleSelected={this.props.handleSelected}
                         loggedInUserIdNumber={this.props.loggedInUserIdNumber}
                         suitcaseUserId={this.props.suitcase.User.id}
                         deleteItemFromSuitcase={this.props.deleteItemFromSuitcase}
                         updateItemAmountOnSuitcase={this.props.updateItemAmountOnSuitcase}
-                        selectAll={this.state.selectAllElectronics}
                       />
                     ))
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from "react-router-dom";
+import { withAlert } from 'react-alert';
 import cloneDeep from 'lodash/cloneDeep';
 import Profile from "./Profile";
 import NavTabs from "../components/NavTabs";
@@ -92,7 +93,7 @@ let autocompleteItems;
 let renderAutoValue;
 
 
-export default class Suitcase extends Component {
+class Suitcase extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -269,10 +270,12 @@ export default class Suitcase extends Component {
       mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
       variables: { id: this.state.currentSuitcaseId, item_ids: this.state.itemsToAdd }
     }).then(result => {
+      console.log(result)
+        this.props.alert.show(<div className="success-alert">You added these items to your suitcase</div>);
       this.setState({
         itemsToAdd: [],
         thisSuitcaseId: this.props.match.params.id
-      })
+      });
     }).catch(err => console.log(err))
   }
 
@@ -540,3 +543,5 @@ export default class Suitcase extends Component {
     )
   }
 }
+
+export default withAlert(Suitcase);

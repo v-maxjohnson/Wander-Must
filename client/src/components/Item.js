@@ -2,40 +2,6 @@ import React, { Component } from 'react';
 import NumericInput from 'react-numeric-input';
 
 export default class Item extends Component {
-  // constructor(props){
-  //   super(props);
-  //   this.state = {
-  //     singleClicked: false
-  //   }
-  // }
-
-  // componentDidMount(){
-  //   this.setState({
-  //     singleClicked: this.props.selectAll
-  //   })    
-  // }
-
-  // componentDidUpdate(prev){
-
-  //   // add here as well?
-  //   if( this.props.selectAll !== prev.selectAll ){ 
-  //     this.setState({
-  //       singleClicked: this.props.selectAll
-  //     })
-  //     this.props.onCheckboxBtnClick(this.props.itemId)
-  //   }
-  // }
-
-  // toggleChecked = () => {
-  //   this.setState({
-  //     singleClicked: !this.state.singleClicked
-  //   })
-    
-  //   this.props.onCheckboxBtnClick(this.props.itemId)
-  // }
-
-  // renderCheckedStatus = () => this.state.singleClicked
-
   render() {
     return (
       <div className="form-check offset-1 col-5 col-lg-3">

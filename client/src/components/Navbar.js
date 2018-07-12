@@ -42,27 +42,30 @@ export default class Navibar extends Component {
   }
 
   componentDidMount() {
-    client.query({
-      query: gql` 
-            { 
-              allLocales {
-                id,
-                locale_city,
-                locale_admin,
-                locale_country 
-              }
-            }`
-    }).then(result => {
-      this.setState({ allLocales: result.data.allLocales });
-      console.log(autocompleteLocales);
-    })
+    // client.query({
+    //   query: gql` 
+    //         { 
+    //           allLocales {
+    //             id,
+    //             locale_city,
+    //             locale_admin,
+    //             locale_country 
+    //           }
+    //         }`
+    // }).then(result => {
+    //   this.setState({ allLocales: result.data.allLocales });
+    //   console.log(autocompleteLocales);
+    // })
 
+    if (this.state.loggedInUserIdNumber !== "") {
     client.query({
       query: GET_USER_QUERY,
       variables: { id: this.state.loggedInUserIdNumber }
     }).then(result => {
       this.setState({ userName: result.data.getUser.username });
     })
+
+  }
 
     window.addEventListener('scroll', this.listenScrollEvent)
 
@@ -142,7 +145,7 @@ export default class Navibar extends Component {
   }
 
   renderNavItems = () => {
-    if (this.props.loggedInUserIdNumber !== null) {
+    if (this.state.loggedInUserIdNumber !== "") {
       return (
         <Nav className="navbar-nav ml-auto" navbar>
           <NavItem>

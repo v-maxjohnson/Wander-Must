@@ -38,9 +38,9 @@ export default new GraphQLObjectType({
         item_category: {
             type: itemCategory
         },
-        // selected: {
-        //     type: GraphQLBoolean
-        // },
+        selected: {
+            type: GraphQLBoolean
+        },
         suitcase_items: {
             type: suitcase_items
         }

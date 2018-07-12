@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from "react-router-dom";
+import cloneDeep from 'lodash/cloneDeep';
 import Profile from "./Profile";
 import NavTabs from "../components/NavTabs";
 import Moment from 'react-moment';
@@ -31,7 +32,7 @@ query getSuitcase( $id: ID ){
       id
       item_name
       item_category
-
+      selected
       suitcase_items {
         item_amount
       }
@@ -143,7 +144,9 @@ export default class Suitcase extends Component {
       variables: { id: this.state.thisSuitcaseId },
       fetchPolicy: "network-only"
     }).then(result => {
-      this.setState({ suitcase: result.data.getSuitcase, suitcaseItems: result.data.getSuitcase.Items, rendered: true });
+      const clonedSuitcase = cloneDeep(result.data.getSuitcase);
+      const clonedSuitcaseItems = cloneDeep(result.data.getSuitcase.Items);
+      this.setState({ suitcase: clonedSuitcase, suitcaseItems: clonedSuitcaseItems, rendered: true });
     })
   }
 
@@ -221,7 +224,6 @@ export default class Suitcase extends Component {
       )
     }
   }
-
 
   showConfirmationModal = () => {
     this.setState({ openConfirmationModal: true });
@@ -308,62 +310,60 @@ export default class Suitcase extends Component {
     localStorage.setItem("suitcase_id", this.state.suitcase.id);
   }
 
-  // handleSelected = (selectedId) => {
-  //   let tempSuitcase = [...this.state.suitcaseItems];
+  handleSelected = (selectedId) => {
+    let tempSuitcase = [...this.state.suitcaseItems];
 
-  //   tempSuitcase.map(item => {
-  //     if (item.id === selectedId) {
-  //       item.selected = !item.selected
-  //     }
-  //     return item;
-  //   })
+    tempSuitcase.map(item => {
+      if (item.id === selectedId) {
+        item.selected = !item.selected
+      }
+      return item;
+    });
 
-  //   this.setState({
-  //     suitcaseItems: [...tempSuitcase],
-  //     itemsToAdd: this.state.suitcaseItems.filter(item => item.selected)
-  //   })
+    this.setState({
+      suitcaseItems: [...tempSuitcase],
+      itemsToAdd: this.state.suitcaseItems.filter(item => item.selected).map(item => item.id)
+    });
 
+  }
 
-  // }
+  handleSelectAll = (e, category) => {
+    console.log(e.target.classList);
+    let tempSuitcase = [...this.state.suitcaseItems];
+    // if clicking on the button when the check is visible
+    if (e.target.classList.contains('check-all')) {
+      console.log('sanity check: inside check-all handler');
+      // check all of them
+      tempSuitcase.map(item => {
+        if (item.item_category === category) {
+          item.selected = true;
+        }
+        return item;
+      });
 
-  // handleSelectAll = (category) => {
-  //   let tempSuitcase = [...this.state.suitcaseItems];
+      this.setState({
+        suitcaseItems: [...tempSuitcase],
+        itemsToAdd: this.state.suitcaseItems.filter(item => item.selected).map(item => item.id)
+      })
+    }
 
-  //   tempSuitcase.map(item => {
-  //     if (item.item_category === category) {
-  //       console.log(item.selected)
-  //     }
-  //     return item;
-  //   })
+    // if clicking on the button when the x is visible
+    if (e.target.classList.contains('uncheck-all')) {
+      console.log('sanity check: inside uncheck-all handler');
+      // uncheck all of them
+      tempSuitcase.map(item => {
+        if (item.item_category === category) {
+          item.selected = false;
+        }
+        return item;
+      });
 
-  //   this.setState({
-  //     suitcaseItems: [...tempSuitcase]
-  //   })
-
-  //   let filteredItems = [];
-
-  //   this.state.suitcaseItems.filter(item => {
-  //     !item.selected
-  //     filteredItems.push(item.id)
-  //   })
-
-  //     this.setState({
-  //       itemsToAdd: filteredItems
-  //     })
-       
-  // }
-
-  // onCheckboxBtnClick = (selected) => {
-  //   const index = this.state.itemsToAdd.indexOf(selected);
-  //   let stateItems = [...this.state.itemsToAdd];
-  //   if (index < 0) {
-  //     stateItems.push(selected);
-  //   } else {
-  //     stateItems.splice(index, 1);
-  //   }
-  //   this.setState({ itemsToAdd: [...stateItems] });
-  //   console.log(...stateItems);
-  // }
+      this.setState({
+        suitcaseItems: [...tempSuitcase],
+        itemsToAdd: this.state.suitcaseItems.filter(item => item.selected).map(item => item.id)
+      })
+    }
+  }
 
   handlePageChange = page => {
     this.setState({ currentPage: page });
@@ -473,8 +473,6 @@ export default class Suitcase extends Component {
 
                 <div className="card card-nav-tabs card-plain">
                   <div className="suitcase-header card-header card-header-default">
-                      
-
 
                     <div id="suitcase-nav" className="nav-tabs-navigation">
                       <div className="nav-tabs-wrapper">

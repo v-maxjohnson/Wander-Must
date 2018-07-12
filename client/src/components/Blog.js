@@ -186,100 +186,124 @@ export default class Blog extends Component {
     render() {
         return (
             <div className="blog">
-                <Form onSubmit={this.setTerm}>
-                    <FormGroup row>
-                        <Col sm={1} />
-                        <Col sm={2}>
-                            <Label for="note_title" sm={3}>Title</Label>
-                        </Col>
-                        <Col sm={7}>
-                            <Input
-                                type="text"
-                                name="note_title"
-                                placeholder={this.props.note_title}
-                                value={this.state.note_title}
-                                onChange={this.handleInputChange}
-                            />
-                        </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                        <Col sm={1} />
-                        <Col sm={2}>
-                            <Label for="notes" sm={3}>Body</Label>
-                        </Col>
-                        <Col sm={7}>
-                            <Input
-                                type="textarea"
-                                name="notes"
-                                rows={8}
-                                value={this.state.notes}
-                                onChange={this.handleInputChange}
-                            />
-                        </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                        <Col sm={1} />
-                        <Col sm={2}>
-                            <Label for="exampleFile" >Your Suitcase Image</Label>
-                        </Col>
-                        <Col sm={4}>
-                            <CustomInput 
-                                type="file" 
-                                name="file" 
-                                id="exampleFile" 
-                                label={this.state.fileName} 
-                                onChange={this.handleImageChange}
-                            />
-                            {/* <FormText color="muted">
-                            Upload a photo for your suitcase! If you don't, we can provide a picture for you.
-                            </FormText> */}
-                            <Button
-                                name="file" color="default"
-                                className="float-right"
-                                onClick={this.renderPixabay}
-                                value={this.cityImageSrc}
-                            > ...or use default image </Button>
-                            { this.maybeMakePixabayCall() }
-                        </Col>
+                {this.props.loggedInUserIdNumber === this.props.suitcaseUserId ? (
+                    <div>
+                        <Form onSubmit={this.setTerm}>
+                            <FormGroup row>
+                                <Col sm={1} />
+                                <Col sm={2}>
+                                    <Label className="blog-title" for="note_title" sm={3}>Title</Label>
+                                </Col>
+                                <Col sm={7}>
+                                    <Input
+                                        type="text"
+                                        name="note_title"
+                                        placeholder={this.props.note_title}
+                                        value={this.state.note_title}
+                                        onChange={this.handleInputChange}
+                                    />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup row>
+                                <Col sm={1} />
+                                <Col sm={2}>
+                                    <Label className="blog-title" for="notes" sm={3}>Body</Label>
+                                </Col>
+                                <Col sm={7}>
+                                    <Input
+                                        type="textarea"
+                                        name="notes"
+                                        rows={8}
+                                        value={this.state.notes}
+                                        onChange={this.handleInputChange}
+                                    />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup row>
+                                <Col sm={1} />
+                                <Col sm={2}>
+                                    <Label className="blog-title" for="exampleFile" sm={9}>Your Suitcase Image</Label>
+                                </Col>
+                                <Col sm={3}>
+                                    <CustomInput
+                                        type="file"
+                                        name="file"
+                                        id="exampleFile"
+                                        label={this.state.fileName}
+                                        onChange={this.handleImageChange}
+                                    />
 
-                        <Col sm={3}>
-                            <div className="currentSuitcaseImage">
-                                <img 
-                                width="100%" 
-                                src={this.state.suitcase_image} 
-                                alt="suitcase background"
-                                />
+                                    <Button
+                                        inline type="radio" name="file" color="default"
+                                        className="float-right"
+                                        onClick={this.renderPixabay}
+                                        value={this.cityImageSrc}
+                                    > ...or use default image </Button>
+                                    {this.maybeMakePixabayCall()}
+                                </Col>
+
+                                <Col sm={3}>
+                                    <div className="currentSuitcaseImage">
+                                        <img
+                                            width="100%"
+                                            src={this.state.suitcase_image}
+                                            alt="suitcase background"
+                                        />
+                                    </div>
+                                </Col>
+                            </FormGroup>
+                            <FormGroup check row>
+                                <Col sm={{ size: 2, offset: 5 }}>
+                                    <Button color="primary" onClick={this.handleFormSubmit} >Submit</Button>
+                                </Col>
+                            </FormGroup>
+                        </Form>
+                        <div className="row">
+                            <div className="col-12 text-center">
+                                <button className="btn btn-primary" onClick={() => { this.props.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
                             </div>
-                        </Col>
-                       
-
-
-                    </FormGroup>
-                    
-                    <FormGroup check row>
-                        <Col sm={{ size: 2, offset: 5 }}>
-                            <Button color="primary" onClick={this.handleFormSubmit} >Submit</Button>
-                        </Col>
-                    </FormGroup>
-
-                </Form>
-
-                <div className="form-container offset-1 col-10">
-                    <br />
-                    <hr />
-                    <br />
-                    <br />
-                </div>
-
-                <div className="row">
-                    <div className="col-12 text-center">
-                        {this.props.loggedInUserIdNumber === this.props.suitcaseUserId ? (
-                            <button className="btn btn-warning" onClick={() => { this.props.showConfirmationModal() }}><i className="fa fa-trash mr-2"></i> Delete this suitcase</button>
-                        ) : (<div></div>
-                            )}
+                        </div>
                     </div>
-                </div> 
+                ) : (
+                        <div>
+                            <div className="row">
+                                <Col sm={1} />
+                                <Col sm={2}>
+                                    <Label className="blog-title" sm={3}>Title</Label>
+                                </Col>
+                                <Col sm={7}>
+                                    {this.props.note_title}
+                                </Col>
+                            </div>
+                            <div className="row">
+                                <Col sm={1} />
+                                <Col sm={2}>
+                                    <Label className="blog-title" sm={3}>Body</Label>
+                                </Col>
+                                <Col sm={7}>
+                                    {this.state.notes}
+                                </Col>
+                            </div>
+                            <div className="row pb-5">
+                                <Col sm={1} />
+                                <Col sm={2}>
+                                    <Label className="blog-title" sm={9}>Suitcase Image</Label>
+                                </Col>
 
+                                <Col sm={3}>
+                                    <div className="currentSuitcaseImage">
+                                        <img
+                                            width="100%"
+                                            src={this.state.suitcase_image}
+                                            alt="suitcase background"
+                                        />
+                                    </div>
+                                </Col>
+                            </div>                     
+
+                        </div>
+                    )
+                }
             </div>
         )
     }

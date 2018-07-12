@@ -269,7 +269,7 @@ export default class Account extends Component {
 
     axios({
       method: "POST",
-      url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
+      url: "https://api.cloudinary.com/v1_1/wandermust/upload/c_fill,h_150,w_150",
       data: this.state.imageData 
     })
       .then( res => {
@@ -505,12 +505,7 @@ export default class Account extends Component {
                         <Input type="textarea" name="text" id="deletionReason" placeholder="Please tell us why you want to leave us! We love you... we're codependent, and we want to fix it" />
                       </Col>
                     </FormGroup>
-                    <FormGroup row>
-                      <Label for="deleteConfirmation" sm={3}>Type "Bye!"</Label>
-                      <Col sm={9}>
-                        <Input type="text" name="text" id="deleteConfirmation" placeholder="Bye!" />
-                      </Col>
-                    </FormGroup>
+
                     <FormGroup check row>
                       <Col sm={{ size: 12, offset: 4 }}>
                         <Button onClick={() => this.showDeleteAccountConfirmationModal()} color="warning">-----Goodbye FOREVER-------</Button>

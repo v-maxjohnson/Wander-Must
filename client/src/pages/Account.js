@@ -132,8 +132,6 @@ class Account extends Component {
       fileName: file.name 
     });
 
-    var hiddenDiv = document.getElementById("settings-updated");
-    hiddenDiv.style.display = "none";
   }
 
   getUser = () => {
@@ -215,8 +213,6 @@ class Account extends Component {
         gender: updated.gender
     });
 
-    var hiddenDiv = document.getElementById("settings-updated");
-    hiddenDiv.style.display = "none";
 };
 
   handleFormSubmit = event => {
@@ -238,7 +234,7 @@ class Account extends Component {
     } else {
     axios({
       method: "POST",
-      url: "https://api.cloudinary.com/v1_1/wandermust/upload/c_fill,h_150,w_150",
+      url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
       data: this.state.imageData 
     })
       .then( res => {
@@ -407,17 +403,17 @@ class Account extends Component {
                       <Col sm={9}>
                         <div>
                           <CustomInput 
-                            inline="true" type="radio" id="female" name="gender" 
+                            inline={true} type="radio" id="female" name="gender" 
                             label="Female" value="female" 
                             onClick={this.handleInputChange}
                           />
                           <CustomInput 
-                            inline="true" type="radio" id="male" name="gender" 
+                            inline={true} type="radio" id="male" name="gender" 
                             label="Male" value="male" 
                             onClick={this.handleInputChange}
                           />
                           <CustomInput 
-                            inline="true" type="radio" id="noGender" name="gender" 
+                            inline={true} type="radio" id="noGender" name="gender" 
                             label="Beyond Society's Gender Definitions" value="noGender"
                             onClick={this.handleInputChange}
                           />

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
+import { withAlert } from 'react-alert';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -17,6 +18,7 @@ query getSuitcasesByLocale( $locale_city: String! ){
     start_date
     end_date
     travel_category
+    suitcase_image
     Locale {
       id
       locale_city
@@ -32,6 +34,10 @@ query getSuitcasesByLocale( $locale_city: String! ){
       id
       item_name
       item_category
+      selected
+      suitcase_items {
+        item_amount
+      }
     }
   }
 }`;
@@ -50,11 +56,12 @@ const client = new ApolloClient();
 
 let cityNoUnderscores = "";
 
-export default class Search extends Component {
+class Search extends Component {
   state = {
     suitcaseData: [
       {
         travel_category: "",
+        suitcase_image: "",
         Locale: {
           id: "",
           locale_city: "",
@@ -71,8 +78,7 @@ export default class Search extends Component {
     city: this.props.match.params.city,
     openQuickViewModal: false,
     rendered: false,
-    index: 0,
-    itemsToAdd: [],
+    index: null,
     suitcaseId: localStorage.getItem("suitcase_id"),
     loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
   }
@@ -84,7 +90,6 @@ export default class Search extends Component {
       variables: { locale_city: this.state.city }
     }).then(result => {
       this.setState({ suitcaseData: result.data.getSuitcasesByLocale, rendered: true });
-      console.log(this.state.suitcaseData)
     })
 
   }
@@ -109,36 +114,28 @@ export default class Search extends Component {
   renderQuickViewModal = () => {
     if (this.state.openQuickViewModal) {
       return <QuickViewModal
-        quickViewData={this.state.suitcaseData[this.state.index]}
+        id={this.state.index}
         resetQuickViewModal={this.resetQuickViewModal}
-        itemsToAdd={this.state.itemsToAdd}
-        onCheckboxBtnClick={this.onCheckboxBtnClick}
+        handleSelected={this.handleSelected}
+        handleSelectAll={this.handleSelectAll}
         addItemsToSuitcase={this.addItemsToSuitcase}
       />
     }
   }
 
-  setQuickViewModalIndex = (idx) => {
-    this.setState({ index: idx })
+  setQuickViewModalIndex = (contentId) => {
+    this.setState({ index: contentId })
   }
 
-  onCheckboxBtnClick = (selected) => {
-    const index = this.state.itemsToAdd.indexOf(selected);
-    if (index < 0) {
-      this.state.itemsToAdd.push(selected);
-    } else {
-      this.state.itemsToAdd.splice(index, 1);
+  addItemsToSuitcase = (itemsToAdd) => {
+    if (itemsToAdd.length) {
+      client.mutate({
+        mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
+        variables: { id: this.state.suitcaseId, item_ids: itemsToAdd }
+      }).then( () => {
+        this.props.alert.show(<div className="success-alert">You added these items to your suitcase</div>);
+      }).catch(err => console.log(err))
     }
-    this.setState({ itemsToAdd: [...this.state.itemsToAdd] });
-  }
-
-  addItemsToSuitcase = () => {
-    client.mutate({
-      mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
-      variables: { id: this.state.suitcaseId, item_ids: this.state.itemsToAdd }
-    }).then(result => {
-      console.log(result);
-    }).catch(err => console.log(err))
   }
 
   mapOrRedirect = () => {
@@ -156,7 +153,7 @@ export default class Search extends Component {
             city={suitcase.Locale.locale_city}
             localeAdmin={suitcase.Locale.locale_admin}
             country={suitcase.Locale.locale_country}
-            src={suitcase.Locale.locale_image}
+            suitcaseImage={suitcase.suitcase_image}
             startDate={suitcase.start_date}
             endDate={suitcase.end_date}
             category={suitcase.travel_category}
@@ -170,24 +167,15 @@ export default class Search extends Component {
         )
       )
     } else {
-      this.setState({
-        shouldRedirectToItems: true
-      })
+      return <Redirect to={"/items"} render={(props) => <Items {...props} />} />
     }
   }
 
-  maybeRedirect() {
-    if (this.state.shouldRedirectToItems) {
-      return (
-        <Redirect to={"/items"} render={(props) => <Items {...props} />} />
-      )
-    }
-  }
 
   render() {
     return (
       <div className="search profile-page sidebar-collapse">
-        {this.maybeRedirect()}
+
         <Header
           showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}
@@ -203,7 +191,7 @@ export default class Search extends Component {
 
                       <div className="city-name">
                         <p>Here are some suitcases for
-                <span className="locale-city"> {this.renderCityWithoutUnderscores()}</span>. Click on a suitcase and start adding items to yours!</p>
+                <span className="locale-city"> {this.renderCityWithoutUnderscores()}</span>. Click on a suitcase and start adding items to yours!</p><p>Ready to head on down the road? Go straight to <Link to={"/suitcase/" + this.state.suitcaseId}>your suitcase!</Link></p>
 
                       </div>
                     </div>
@@ -224,3 +212,5 @@ export default class Search extends Component {
     )
   }
 }
+
+export default withAlert(Search);

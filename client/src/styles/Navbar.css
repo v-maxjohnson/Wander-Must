@@ -28,3 +28,8 @@
 .search-for-city {
     cursor: pointer;
 }
+
+.nav-link-link,
+.nav-link-link:active {
+    color: inherit!important;
+}

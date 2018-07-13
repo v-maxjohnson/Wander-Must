@@ -67,21 +67,18 @@ export default {
         })
             .then( dbUser => dbUser.update( {gender: gender} ) )
     },
-    // changeImage: ( {id, user_image} ) => {
-    //     return db.User.findOne({
-    //         where: {
-            //     id: id
-            // }
-    //     })
-    //         .then( dbUser => dbUser.update( {user_image: user_image} ) )
-    // },
-    delete: ( id ) => {
-        return db.User.destroy({
+    changeImage: ( {id, user_image} ) => {
+        return db.User.findOne({
             where: {
                 id: id
             }
         })
-            .then( console.log("user was deleted") )
+            .then( dbUser => dbUser.update( {user_image: user_image} ) )
+    },
+    delete: ( id ) => {
+        return db.User.destroy({
+            where: id
+        })
             .catch( err => console.log(err.message) )
     }
 }

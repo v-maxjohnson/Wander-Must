@@ -10,7 +10,6 @@ let params = [];
 
 app.post('/yelp', (req, res) => {
   params = req.body;
-  console.log(params)
   yelp.query('businesses/search', params)
     .then(response => {
       res.json(JSON.parse(response));      

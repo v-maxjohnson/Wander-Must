@@ -48,6 +48,7 @@
     color: black!important;
     font-family: "Reem Kufi", sans-serif!important;
     font-size: 16px!important;
+    text-align: center;
 }
 
 .quick-view-modal .items-section {
@@ -91,12 +92,8 @@
     margin-left: 5px!important;
 }
 
-.success-text {
+.header-link {
     font-family: "Reem Kufi", sans-serif!important;
     color: black;
-}
-
-.success-text p {
-    margin: 0!important;
-    font-size: 20px;
+    font-size: 20px!important;
 }

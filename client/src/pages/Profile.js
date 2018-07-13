@@ -8,6 +8,7 @@ import "../styles/Profile.css";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 
+
 const GET_USER_QUERY = gql`
 query getUser( $id: ID ){
   getUser(id: $id) {
@@ -20,7 +21,7 @@ query getUser( $id: ID ){
       start_date
       end_date
       travel_category
-      notes
+      suitcase_image
       Locale {
         id
         locale_city
@@ -55,7 +56,6 @@ export default class Profile extends Component {
       fetchPolicy: "network-only"
     }).then(result => {
       this.setState({ userData: result.data.getUser, rendered: true });
-      console.log(this.state.userData);
     })
 
   }
@@ -93,7 +93,7 @@ export default class Profile extends Component {
                       city={suitcase.Locale.locale_city}
                       localeAdmin={suitcase.Locale.locale_admin}
                       country={suitcase.Locale.locale_country}
-                      src={suitcase.Locale.locale_image}
+                      suitcaseImage={suitcase.suitcase_image}
                       startDate={suitcase.start_date}
                       endDate={suitcase.end_date}
                       category={suitcase.travel_category}

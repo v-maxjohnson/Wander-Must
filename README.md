@@ -1,32 +1,26 @@
-# Create React Express App
+# Wander-Must
 
-## About This Boilerplate
+The must have packing app.
 
-This setup allows for a Node/Express/React app which can be easily deployed to Heroku.
 
-The front-end React app will auto-reload as it's updated via webpack dev server, and the backend Express app will auto-reload independently with nodemon.
+## Concept
 
-## Starting the app locally
+[Wander-Must](https://wander-must.herokuapp.com/)
 
-Start by installing front and backend dependencies. While in this directory, run the following command:
+![Wander-Must](https://github.com/MollyLJohnson/Wander-Must/blob/master/wandermust.png)
 
-```
-yarn install
-``
+In the world of travel, there are apps to assist with various parts of the overall experience, but no shared, social space for those with a true wanderlust. Wander-Must is a social network for world travelers looking for the unexpected, but averse to unwelcome surprises. Knowing what to pack becomes easy with the following steps:
 
-This should install node modules within the server and the client folder.
+1. Sign up/Log in - create a unique username and choose your spirit animal
 
-After both installations complete, run the following command in your terminal:
+2. Choose a destination, your travel dates, and the type of travel (Business, Leisure, Adventure, Vacation) and create a new suitcase
 
-```
-yarn start
-```
+3. If another user has already visited your destination, explore their experiences and add items to your suitcase
 
-Your app should now be running on <http://localhost:3000>. The Express server should intercept any AJAX requests from the client.
+4. If you are the first to visit a destination, pick and choose what you may need from a list of 100 items and add them to your suitcase
 
-## Deployment (Heroku)
+5. Update your suitcase as needed, adding and deleting items, writing your travel blog, changing the photo for your suitcase, and adjusting item amounts
 
-<<<<<<< HEAD
 
 ## Application
 
@@ -44,37 +38,40 @@ Wander-Must is designed as both a desktop and mobile social network, but any fut
 
 The color scheme and design were chosen to impart a modern, feminine aesthetic, as we have identified women as the primary demographic for our application. The site has a clean, straightforward look designed to make the user experience as painless as possible, providing a number of customizable options that never overwhelm the user.
 
+The site was originally built using jQuery and Handlebars templating, but it has been completely refactored as a React build, providing users with a clean, single-page app.
+
 
 ## Concepts Used
 
+- React components
+- State
+- Props
+- ES6 JavaScript features:
+  - Classes
+  - Constructors
+  - Import/Export
 - Node and Express servers
-- Handlebars templating
 - MVC (Model-View-Controller) design pattern
 - Sequelize ORM
-- API endpoints
-- HTML endpoints
+- GraphQL Resolvers, Queries, and Mutations
 - Authentication
-- Node require and module exports
-- Test Suite
 
 
 ## Technologies Used
 
+- React.js
 - HTML5/CSS3
 - Material Kit
 - Javascript
-- jQuery
-- jQuery UI
 - Local Storage
-- API & AJAX
+- API & Axios
 - Sequelize
 - Node.js
 - Express.js
-- Handlebars.js
 - Passport.js
 - Heroku
 - JawsDB
-- Mocha/Chai testing
+- Cloudinary image hosting
 - Visual Studio - Text Editor
 - Git Terminal/Bash
 
@@ -83,61 +80,78 @@ The color scheme and design were chosen to impart a modern, feminine aesthetic, 
 
 Here are some of the features to be included in any future development for this project:
 
-1. Hosted photos of trips, avatar and items.
+1. Persistent search bar to find cities and users
 
-2. Persistent search bar to find cities
+2. Updating suitcase details
 
-3. Updating user details
+3. Multiple destination suitcases
 
-4. Deleting suitcases
+4. User creation of new items not already in database
 
-5. Updating suitcase details
+5. Use of tokens to test authentication
 
-6. Note fields for suitcases
+6. Password recovery and reset
 
-7. Multiple destination suitcases
+7. Social media signup/login
 
-8. User creation of new items not already in database
+8. Printable packing lists
 
-9. Password recovery and reset
+9. Create space for sites like expedia to show airfare/hotel prices
 
-10. Social media signup/login
+10. Real-time social feed for new suitcases and update to suitcases
 
-11. Printable packing lists
+11. The abiity to follow other users
 
-12. Create space for sites like expedia to show airfare/hotel prices
+12. More mobile-first design and creation of app
 
-13. More mobile-first design and creation of app
-
-14. Modals for quick view of suitcases
-
-15. Integration with other social media channels
+13. Integration with other social media channels 
 
 
 ## Node Packages Used
 
+- apollo-boost
+- axios
+- babel
+- babel-preset-es2015
+- babel-register
 - bcrypt
 - body-parser
-- chai
-- ddslick
+- cloudinary-react
 - dotenv
 - express
-- express-handlebars
+- express-graphql
 - express-session
 - google-places-autocomplete-service
-- handlebars
-- jquery
-- mocha
+- graphql
+- if-env
+- lodash
 - moment
 - mysql2
-- node-localstorage
-- npm
 - passport
-- passort-google-oauth20
+- passport-google-oauth20
 - passport-local
 - passport-twitter
-- path
+- react
+- react-alert
+- react-alert-template-basic
+- react-apollo
+- react-autocomplete
+- react-datepicker
+- react-dom
+- react-google-autocomplete
+- react-moment
+- react-numeric-input
+- react-popper
+- react-router-dom
+- react-scripts
+- react-slick
+- react-validate
+- reactstrap
 - sequelize
+- sequelize-cli
+- validate.js
+- yelp-api
+
 
 
 ## Authors
@@ -145,19 +159,19 @@ Here are some of the features to be included in any future development for this 
 The Wander-Must Team:
 
 - **B Barnett** - [B Barnett](https://github.com/justbbarnett)
-    - Handlebars, Styling, Libraries, Test Suite
+    - React, Styling, GraphQL
 
 - **Wayne Baylor** - [Wayne Baylor](https://github.com/timebreaker49)
-    - Passport, Authentication, Auth Routes, Server
+    - Passport, Authentication, Auth Routes
+
+- **Sam Hicks** - [Sam Hicks](https://github.com/toatsted)
+    - Validation, Cloudinary, Libraries
 
 - **Molly Johnson** - [Molly Johnson](https://github.com/MollyLJohnson)
-    - Models, Sequelize, API Routes, Styling
+    - Sequelize, GraphQL, Cloudinary
 
 - **Xander Rapstine** - [Xander Rapstine](https://github.com/Xandromus)
-    - AJAX, jQuery, HTML Routes, Styling
+    - React, GraphQL, Styling
 
 - **Evan Seaman** - [Evan Seaman](https://github.com/evanjosephcode)
-    - External API, AJAX, jQuery, Test Suite
-=======
-To deploy, simply add and commit your changes, and push to Heroku. As is, the NPM scripts should take care of the rest.
->>>>>>> 6ec5045351ef9cf1652840490265bc8f0a6f88e8
+    - External API, Validation, Libraries

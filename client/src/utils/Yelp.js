@@ -38,8 +38,6 @@ export default class Yelp extends Component {
       location = this.props.city + ", " + this.props.country;
     }
 
-    console.log(location)
-
 
     let params = [{
       term: this.state.term || 'restaurants',

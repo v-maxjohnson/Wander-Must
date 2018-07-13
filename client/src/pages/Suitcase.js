@@ -263,8 +263,7 @@ class Suitcase extends Component {
   }
 
   addItemToSuitcase = () => {
-    let array = this.state.itemsToAdd
-    if (array.length > 0) {
+    if (this.state.itemsToAdd.length) {
     this.setState({ autocompleteSubmitError: ""})
     client.mutate({
       mutation: ADD_ITEM_TO_SUITCASE_MUTATION,

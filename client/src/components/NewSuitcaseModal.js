@@ -10,6 +10,7 @@ import "../styles/NewSuitcaseModal.css";
 import 'react-datepicker/dist/react-datepicker.css';
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
+import validate from 'validate.js'
 
 const CREATE_NEW_LOCALE_MUTATION = gql` 
 mutation createNewLocale( $locale_city: String!, $locale_admin: String!, $locale_country: String! ){
@@ -42,41 +43,96 @@ export default class NewSuitcaseModal extends Component {
       newLocale: null,
       selectValue: "",
       cityImageSrc: "",
-      loggedInUserId: localStorage.getItem("logged_in_user_id")
+      loggedInUserId: localStorage.getItem("logged_in_user_id"),
+      newLocaleError: "",
+      selectValueError: "",
+      minDateError: "",
+      endDateError: ""
     };
+    this.constraints = {
+      newLocale: {
+        presence: {
+          presence: true,
+          message: "must be verified"
+        }
+      },
+      selectValue : {
+        presence: {
+          allowEmpty: false
+        }
+      },
+      minDate: {
+        presence: true
+      },
+      endDate: {
+        presence: true
+      }
+    }
+  }
+
+  submitForm = event => {
+    event.preventDefault();
+
+    let data = {
+      newLocale: this.state.newLocale,
+      selectValue : this.state.selectValue,
+      minDate: this.state.startSelect,
+      endDate: this.state.endSelect 
+
+    }
+
+    let result = validate(data, this.constraints)
+    if (result.newLocale) {
+      this.setState({newLocaleError: result.newLocale[0]});
+    }
+    if (result.selectValue) {
+      this.setState({selectValueError: result.selectValue[0]});
+    }
+    if (result.minDate) {
+      this.setState({minDateError: result.minDate[0]})
+    }
+    if (result.endDate) {
+      this.setState({endDateError: result.endDate[0]})
+    }
   }
 
   handleStartChange = (startDate) => {
     this.setState({
-      startDate: startDate
+      startDate: startDate,
+      minDateError: ""
     });
   }
 
   handleEndChange = (endDate) => {
     this.setState({
-      endDate: endDate
+      endDate: endDate,
+      endDateError: ""
     });
   }
 
   handleStartSelect = (startDate) => {
     this.setState({
-      startSelect: startDate
+      startSelect: startDate,
+      minDateError: ""
     });
   }
 
   handleEndSelect = (endDate) => {
     this.setState({
-      endSelect: endDate
+      endSelect: endDate,
+      endDateError: ""
     });
   }
 
   handleSelectChange = (event) => {
     this.setState({
-      selectValue: event.target.value
+      selectValue: event.target.value,
+      selectValueError: ""
     });
   }
 
   handleNewLocale = (place) => {
+    
     if (place !== "") {
       place = place.replace(/\s+-\s+/g, ', ');
       place = place.replace(/\s+/g, '_');
@@ -121,6 +177,7 @@ export default class NewSuitcaseModal extends Component {
         locationChosen: true
       });
     }
+    this.setState({newLocaleError: ""})
   }
 
   createNewLocale = () => {
@@ -174,6 +231,7 @@ export default class NewSuitcaseModal extends Component {
   }
 
   render() {
+    console.log(this.state);
     return (
       <div>
         {this.maybeRedirect()}
@@ -192,10 +250,12 @@ export default class NewSuitcaseModal extends Component {
                     onPlaceSelected={(place) => {
                       this.handleNewLocale(this.autoInput.refs.input.value)
                     }}
+                    onChange={this.newLocaleError}
                     types={['(cities)']}
                   />
                   <label className="text-center" data-error="wrong" data-success="right" htmlFor="suitcase-city">City</label>
                 </div>
+                <p className="modal-error-text">{this.state.newLocaleError}</p>
               </div>
               <div className="col-6">
                 <div className="md-form mb-5">
@@ -217,6 +277,7 @@ export default class NewSuitcaseModal extends Component {
                   </select>
                   <label data-error="wrong" data-success="right" htmlFor="travelselect">Travel Type</label>
                 </div>
+                <p className="modal-error-text">{this.state.selectValueError}</p>
               </div>
             </div>
 
@@ -235,6 +296,7 @@ export default class NewSuitcaseModal extends Component {
                   </div>
                   <label data-error="wrong" data-success="right" htmlFor="start-date">Start Date</label>
                 </div>
+                <p className="modal-error-text">{this.state.minDateError}</p>
               </div>
 
               <div className="col-6">
@@ -252,12 +314,13 @@ export default class NewSuitcaseModal extends Component {
                   </div>
                   <label data-error="wrong" data-success="right" htmlFor="end-date">End Date</label>
                 </div>
+                <p className="modal-error-text">{this.state.endDateError}</p>
               </div>
             </div>
 
           </ModalBody>
           <ModalFooter>
-            <button className="btn btn-primary btn-sm px-3 py-2" onClick={() => this.createNewLocale()}>Start Packing!</button>
+            <button className="btn btn-primary btn-sm px-3 py-2" onClick={() => this.createNewLocale()} onClick={this.submitForm}>Start Packing!</button>
           </ModalFooter>
         </Modal >
       </div >

@@ -8,8 +8,9 @@ import Home from "./Home";
 import DeleteAccountConfirmationModal from "../components/DeleteAccountConfirmationModal";
 import "../styles/Account.css";
 import gql from "graphql-tag";
-import ApolloClient from 'apollo-boost';
 import axios from 'axios';
+import ApolloClient from 'apollo-boost';
+import validate from 'validate.js';
 
 const GET_USER_QUERY = gql`
 query getUser( $id: ID ){
@@ -20,7 +21,7 @@ query getUser( $id: ID ){
     user_image
     email
   }
-}`;
+  }`;
 
 const UPDATE_USER_IMAGE_MUTATION = gql`
 mutation updateUserImage( $id: ID, $user_image: String! ){
@@ -104,7 +105,6 @@ export default class Account extends Component {
     imageData.append("upload_preset", "qocvkmel");
     
     this.setState({
-
       imageData: imageData,
       fileName: file.name 
     });
@@ -128,7 +128,7 @@ export default class Account extends Component {
         }) 
     })
   }
-  
+
   deleteUser = () => {
     client.mutate({
       mutation: DELETE_USER_MUTATION,
@@ -312,6 +312,7 @@ export default class Account extends Component {
                           placeholder={this.state.email}
                           onChange={this.handleInputChange}
                         />
+                        <p className="error-text">{this.state.emailError}</p>
                       </Col>
                     </FormGroup>
                     <FormGroup row>
@@ -323,6 +324,7 @@ export default class Account extends Component {
                           placeholder={this.state.username}
                           onChange={this.handleInputChange}
                         />
+                        <p className="error-text">{ this.state.usernameError }</p>
                       </Col>
                     </FormGroup>
 

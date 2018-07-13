@@ -37,7 +37,8 @@ export default class Signup extends Component {
         },
         email: { 
           presence: true,
-          email: true}, 
+          email: true
+        }, 
         password: {
           presence: true,
           length: {
@@ -50,27 +51,54 @@ export default class Signup extends Component {
   
   submitForm = event => {
     event.preventDefault();
-
-    let data = {
-      username: this.state.username,
-      email: this.state.email,
-      password: this.state.password,
-      gender: this.state.gender
-    }
-
-    let result = validate(data, this.constraints)
-    if (result.username) {
-      this.setState({usernameError: result.username[0]})
-    }
-    if (result.email) {
-      this.setState({emailError: result.email[0]})
-    }
-    if (result.password) {
-      this.setState({passwordError: result.password[0]})
-    }
-
   }
 
+  handleEmailError = (e) => {
+    let { name, value } = e.target;
+
+    this.setState({
+      [name]: value
+    })
+
+    let result = validate({email: this.state.email}, this.constraints)
+    if (result.email) {
+      this.setState({emailError: result.email[0]})
+    } else {
+      this.setState({emailError: ""})
+    }
+  }
+
+  handleUsernameError = (e) => {
+    let { name, value } = e.target;
+
+    this.setState({
+      [name]: value
+    })
+
+    let result = validate({username: this.state.username}, this.constraints)
+    if (result.username) {
+      this.setState({usernameError: result.username[0]})
+    } else {
+      this.setState({usernameError: ""})
+    }
+  }
+
+  handlePasswordError = (e) => {
+    let { name, value } = e.target;
+
+    this.setState({
+      [name]: value
+    })
+
+    let result = validate({password: this.state.password}, this.constraints)
+    if (result.password) {
+      this.setState({passwordError: result.password[0]})
+    } else {
+      this.setState({passwordError: ""})
+    }
+  }
+
+  // this is needed for gender 
   handleChange = event => {
     const { name, value } = event.target;
     this.setState({
@@ -168,7 +196,7 @@ render() {
                                 <i className="material-icons">face</i>
                               </span>
                             </div>
-                            <Input type="text" className="form-control" name="username" id="user-name" placeholder="Username..." value={this.state.username} onChange={this.handleChange}/>
+                            <Input type="text" className="form-control" name="username" id="user-name" placeholder="Username..." value={this.state.username} onChange={this.handleUsernameError}/>
                             
                           </div>
                           <p className="error-text">{this.state.usernameError}</p>
@@ -179,7 +207,7 @@ render() {
                                 <i className="material-icons">email</i>
                               </span>
                             </div>
-                            <Input type="email" className="form-control" name="email" id="user-email" placeholder="Email..." value={this.state.email} onChange={this.handleChange}/>
+                            <Input type="email" className="form-control" name="email" id="user-email" placeholder="Email..." value={this.state.email} onChange={this.handleEmailError}/>
                           </div>
                           <p className="error-text">{this.state.emailError}</p>
 
@@ -189,7 +217,7 @@ render() {
                                 <i className="material-icons">lock_outline</i>
                               </span>
                             </div>
-                            <Input type="password" className="form-control" name="password" id="user-password" placeholder="Password..."  value={this.state.password} onChange={this.handleChange}/>
+                            <Input onKeyPress={this.resetPasswordError} type="password" className="form-control" name="password" id="user-password" placeholder="Password..."  value={this.state.password} onChange={this.handlePasswordError}/>
                           </div>
                           <p className="error-text">{this.state.passwordError}</p>
 

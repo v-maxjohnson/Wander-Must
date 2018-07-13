@@ -220,6 +220,7 @@ export default class Suitcase extends Component {
     }
   }
 
+
   showConfirmationModal = () => {
     this.setState({ openConfirmationModal: true });
   }
@@ -421,6 +422,8 @@ export default class Suitcase extends Component {
 
                 <div className="card card-nav-tabs card-plain">
                   <div className="suitcase-header card-header card-header-default">
+                      
+
 
                     <div id="suitcase-nav" className="nav-tabs-navigation">
                       <div className="nav-tabs-wrapper">

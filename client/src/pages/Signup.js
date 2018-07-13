@@ -69,7 +69,6 @@ export default class Signup extends Component {
         if (result.password) {
           this.setState({passwordError: result.password[0]})
         }
-        
       }
   }
 
@@ -136,6 +135,19 @@ export default class Signup extends Component {
       gender: this.state.gender
     }
 
+    let result = validate(data, this.constraints)
+    if (result) {
+      if (result.username) {
+        this.setState({usernameError: result.username[0]});
+      }
+      if (result.email) {
+        this.setState({emailError: result.email[0]});
+      }
+      if (result.password) {
+        this.setState({passwordError: result.password[0]})
+      }
+    } else {
+
     console.log('this.state: ' + JSON.stringify(this.state));
 
 
@@ -161,6 +173,7 @@ export default class Signup extends Component {
       });
       localStorage.setItem("logged_in_user_id", data.id)
     })
+  }
   }
 
 
@@ -256,7 +269,7 @@ render() {
                           </div>
                         </div>
                         <div className="card-footer justify-content-center">
-                          <button type="submit" id="signup-btn" onClick={this.submitForm} className="btn btn-primary btn-lg">Get Started</button>
+                          <button type="submit" id="signup-btn" className="btn btn-primary btn-lg">Get Started</button>
                         </div>
                       </form>
                     </div> {/* ends card-signup */}

@@ -5,10 +5,12 @@
   "private": true,
   "proxy": "http://localhost:3001/",
   "dependencies": {
-    "cloudinary-react": "^1.0.6",
     "ajv": "^6.5.1",
+    "cloudinary-react": "^1.0.6",
     "mysql2": "^1.5.3",
     "react": "^16.0.0",
+    "react-alert": "^4.0.4",
+    "react-alert-template-basic": "^1.0.0",
     "react-autocomplete": "^1.8.1",
     "react-datepicker": "^1.5.0",
     "react-dom": "^16.0.0",

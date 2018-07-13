@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from "react-router-dom";
+import { withAlert } from 'react-alert';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -33,6 +34,7 @@ query getSuitcasesByLocale( $locale_city: String! ){
       id
       item_name
       item_category
+      selected
       suitcase_items {
         item_amount
       }
@@ -54,7 +56,7 @@ const client = new ApolloClient();
 
 let cityNoUnderscores = "";
 
-export default class Search extends Component {
+class Search extends Component {
   state = {
     suitcaseData: [
       {
@@ -77,7 +79,6 @@ export default class Search extends Component {
     openQuickViewModal: false,
     rendered: false,
     index: null,
-    itemsToAdd: [],
     suitcaseId: localStorage.getItem("suitcase_id"),
     loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
   }
@@ -89,7 +90,6 @@ export default class Search extends Component {
       variables: { locale_city: this.state.city }
     }).then(result => {
       this.setState({ suitcaseData: result.data.getSuitcasesByLocale, rendered: true });
-      console.log(this.state.suitcaseData)
     })
 
   }
@@ -116,8 +116,8 @@ export default class Search extends Component {
       return <QuickViewModal
         id={this.state.index}
         resetQuickViewModal={this.resetQuickViewModal}
-        itemsToAdd={this.state.itemsToAdd}
-        onCheckboxBtnClick={this.onCheckboxBtnClick}
+        handleSelected={this.handleSelected}
+        handleSelectAll={this.handleSelectAll}
         addItemsToSuitcase={this.addItemsToSuitcase}
       />
     }
@@ -128,22 +128,13 @@ export default class Search extends Component {
     console.log(this.state.index, contentId)
   }
 
-  onCheckboxBtnClick = (selected) => {
-    const index = this.state.itemsToAdd.indexOf(selected);
-    if (index < 0) {
-      this.state.itemsToAdd.push(selected);
-    } else {
-      this.state.itemsToAdd.splice(index, 1);
-    }
-    this.setState({ itemsToAdd: [...this.state.itemsToAdd] });
-  }
-
-  addItemsToSuitcase = () => {
+  addItemsToSuitcase = (itemsToAdd) => {
     client.mutate({
       mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
-      variables: { id: this.state.suitcaseId, item_ids: this.state.itemsToAdd }
+      variables: { id: this.state.suitcaseId, item_ids: itemsToAdd }
     }).then(result => {
       console.log(result);
+      this.props.alert.show(<div className="success-alert">You added these items to your suitcase</div>);
     }).catch(err => console.log(err))
   }
 
@@ -230,3 +221,5 @@ export default class Search extends Component {
     )
   }
 }
+
+export default withAlert(Search);

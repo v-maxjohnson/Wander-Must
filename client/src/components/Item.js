@@ -2,40 +2,6 @@ import React, { Component } from 'react';
 import NumericInput from 'react-numeric-input';
 
 export default class Item extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      singleClicked: false
-    }
-  }
-
-  componentDidMount(){
-    this.setState({
-      singleClicked: this.props.selectAll
-    })    
-  }
-
-  componentDidUpdate(prev){
-
-    // add here as well?
-    if( this.props.selectAll !== prev.selectAll ){ 
-      this.setState({
-        singleClicked: this.props.selectAll
-      })
-      this.props.onCheckboxBtnClick(this.props.itemId)
-    }
-  }
-
-  toggleChecked = () => {
-    this.setState({
-      singleClicked: !this.state.singleClicked
-    })
-
-    this.props.onCheckboxBtnClick(this.props.itemId)
-  }
-
-  renderCheckedStatus = () => this.state.singleClicked
-
   render() {
     return (
       <div className="form-check offset-1 col-5 col-lg-3">
@@ -88,7 +54,7 @@ export default class Item extends Component {
             <div className="row justify-content-start">
               <div className="col">
                 <label className="form-check-label">
-                <input className="form-check-input" type="checkbox" onClick={() => this.toggleChecked() } checked={this.renderCheckedStatus()} /> {this.props.itemName}
+                <input className="form-check-input" type="checkbox" onClick={() => this.props.handleSelected(this.props.itemId) } checked={this.props.selected} /> {this.props.itemName}
                   <span className="form-check-sign">
                     <span className="check" ></span>
                   </span>

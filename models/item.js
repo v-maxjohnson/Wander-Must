@@ -10,6 +10,11 @@ module.exports = function (sequelize, DataTypes) {
         len: [3, 35]
       }
     },
+    selected: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0
+    },
     item_category: {
       type: DataTypes.ENUM,
       values: ['toiletries', 'clothing', 'electronics', 'accessories'],

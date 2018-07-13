@@ -11,7 +11,7 @@ import Login from "./Login";
 import "../styles/Navbar.css";
 import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
-import Autocomplete from 'react-autocomplete';
+// import Autocomplete from 'react-autocomplete';
 
 const GET_USER_QUERY = gql`
 query getUser( $id: ID ){
@@ -22,8 +22,8 @@ query getUser( $id: ID ){
 
 const client = new ApolloClient();
 
-let autocompleteLocales;
-let renderAutoValue;
+// let autocompleteLocales;
+// let renderAutoValue;
 let localeNoUnderscores = "";
 
 export default class Navibar extends Component {
@@ -37,26 +37,27 @@ export default class Navibar extends Component {
       userName: "",
       allLocales: [],
       value: '',
-      activeClass: "navbar-transparent"
+      activeClass: "navbar-transparent",
     };
   }
 
   componentDidMount() {
-    client.query({
-      query: gql` 
-            { 
-              allLocales {
-                id,
-                locale_city,
-                locale_admin,
-                locale_country 
-              }
-            }`
-    }).then(result => {
-      this.setState({ allLocales: result.data.allLocales });
-      console.log(autocompleteLocales);
-    })
+    // client.query({
+    //   query: gql` 
+    //         { 
+    //           allLocales {
+    //             id,
+    //             locale_city,
+    //             locale_admin,
+    //             locale_country 
+    //           }
+    //         }`
+    // }).then(result => {
+    //   this.setState({ allLocales: result.data.allLocales });
+    //   console.log(autocompleteLocales);
+    // })
 
+    if (this.state.loggedInUserIdNumber !== "") {
     client.query({
       query: GET_USER_QUERY,
       variables: { id: this.state.loggedInUserIdNumber },
@@ -64,6 +65,8 @@ export default class Navibar extends Component {
     }).then(result => {
       this.setState({ userName: result.data.getUser.username });
     })
+
+  }
 
     window.addEventListener('scroll', this.listenScrollEvent)
 
@@ -87,43 +90,43 @@ export default class Navibar extends Component {
     }
   }
 
-  setAutocompleteLocales = () => {
-    if (this.state.value !== "") {
-      autocompleteLocales =
-        this.state.allLocales
-          .map((locale, i) => (
-            { key: i, id: locale.id, label: locale.locale_city.replace(/_/g, ' '), admin: locale.locale_admin.replace(/_/g, ' ').toUpperCase(), country: locale.locale_country.replace(/_/g, ' ').toUpperCase() }
-          ))
-    } else {
-      autocompleteLocales =
-        [
-          { key: "01", label: '' },
-        ]
-    }
-    return autocompleteLocales
-  }
+  // setAutocompleteLocales = () => {
+  //   if (this.state.value !== "") {
+  //     autocompleteLocales =
+  //       this.state.allLocales
+  //         .map((locale, i) => (
+  //           { key: i, id: locale.id, label: locale.locale_city.replace(/_/g, ' '), admin: locale.locale_admin.replace(/_/g, ' ').toUpperCase(), country: locale.locale_country.replace(/_/g, ' ').toUpperCase() }
+  //         ))
+  //   } else {
+  //     autocompleteLocales =
+  //       [
+  //         { key: "01", label: '' },
+  //       ]
+  //   }
+  //   return autocompleteLocales
+  // }
 
-  renderAutocomplete = () => {
-    if (this.state.value !== "") {
-      renderAutoValue =
-        (locale, highlighted) =>
-          <div
-            key={locale.key}
-            id={locale.id}
-            style={{ backgroundColor: highlighted ? '#eee' : 'transparent' }}
-          >
-            {locale.label}, {locale.admin}, {locale.country}
-          </div>
-    } else {
-      renderAutoValue =
-        (locale) =>
-          <div
-            key={locale.key}
-          >
-          </div>
-    }
-    return renderAutoValue
-  }
+  // renderAutocomplete = () => {
+  //   if (this.state.value !== "") {
+  //     renderAutoValue =
+  //       (locale, highlighted) =>
+  //         <div
+  //           key={locale.key}
+  //           id={locale.id}
+  //           style={{ backgroundColor: highlighted ? '#eee' : 'transparent' }}
+  //         >
+  //           {locale.label}, {locale.admin}, {locale.country}
+  //         </div>
+  //   } else {
+  //     renderAutoValue =
+  //       (locale) =>
+  //         <div
+  //           key={locale.key}
+  //         >
+  //         </div>
+  //   }
+  //   return renderAutoValue
+  // }
 
   renderProfileOrSettingsLink = () => {
 
@@ -143,10 +146,10 @@ export default class Navibar extends Component {
   }
 
   renderNavItems = () => {
-    if (this.props.loggedInUserIdNumber !== null) {
+    if (this.state.loggedInUserIdNumber !== "") {
       return (
         <Nav className="navbar-nav ml-auto" navbar>
-          <NavItem>
+          {/* <NavItem>
             <div className="input-group auto-locales">
               <Autocomplete
 
@@ -178,7 +181,7 @@ export default class Navibar extends Component {
                 <button type="button" className="search-for-city"><i className="fa fa-search"></i></button>
               </div>
             </div>
-          </NavItem>
+          </NavItem> */}
           <NavItem id="user-name-link" className="nav-item">
             <p className="nav-link" id="user-name-text">Hello, <Link className="nav-link-link" to="/account">{this.state.userName}</Link> !</p>
 
@@ -235,10 +238,16 @@ export default class Navibar extends Component {
     return (
       <div>
         {this.maybeLogout()}
-        <Navbar className={`navbar ${this.state.activeClass} fixed-top navbar-expand-lg`}>
+        <Navbar className={`navbar ${this.state.activeClass} ${this.state.isOpen ? "nav-open" : "" } fixed-top navbar-expand-lg`}>
           <div className="container">
-            <Link to="/" className="navbar-brand wandermust-font nav-link">Wander-Must</Link>
-            <NavbarToggler onClick={this.toggle} />
+            <div className="navbar-translate">
+              <Link to="/" className="navbar-brand wandermust-font nav-link">Wander-Must</Link>
+              <NavbarToggler onClick={this.toggle}>
+                <span className="navbar-toggler-icon"></span>
+                <span className="navbar-toggler-icon"></span>
+                <span className="navbar-toggler-icon"></span>
+              </NavbarToggler>
+            </div>
             <Collapse isOpen={this.state.isOpen} navbar>
               {this.renderNavItems()}
             </Collapse>

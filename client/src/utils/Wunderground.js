@@ -39,7 +39,7 @@ export default class Wunderground extends Component {
 
         axios.get(queryURL)
             .then((response) => {
-                console.log(response);
+                
                 if (response.data.trip) {
                     this.setState({
                         highF: response.data.trip.temp_high.avg.F + "° F",

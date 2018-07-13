@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from "react-router-dom";
+import { withAlert } from 'react-alert';
+import cloneDeep from 'lodash/cloneDeep';
 import Profile from "./Profile";
 import NavTabs from "../components/NavTabs";
 import Moment from 'react-moment';
@@ -17,6 +19,7 @@ import gql from "graphql-tag";
 import ApolloClient from 'apollo-boost';
 import Autocomplete from 'react-autocomplete';
 
+
 const GET_SUITCASE_QUERY = gql` 
 query getSuitcase( $id: ID ){
   getSuitcase(id: $id) {
@@ -31,6 +34,7 @@ query getSuitcase( $id: ID ){
       id
       item_name
       item_category
+      selected
       suitcase_items {
         item_amount
       }
@@ -90,7 +94,7 @@ let autocompleteItems;
 let renderAutoValue;
 
 
-export default class Suitcase extends Component {
+class Suitcase extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -105,15 +109,23 @@ export default class Suitcase extends Component {
         Locale: [],
         User: []
       },
+      suitcaseItems: [],
       allItems: [],
       rendered: false,
       openConfirmationModal: false,
       thisSuitcaseId: this.props.match.params.id,
       currentSuitcaseId: localStorage.getItem("suitcase_id"),
-      value: '',
+      value: "",
+      autocompleteSubmitError: "",
       currentPage: "SuitcaseItems",
       itemsToAdd: [],
       loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
+    }
+
+    this.constraints = {
+      value: {
+        presence: true
+        }
     }
   };
 
@@ -141,7 +153,9 @@ export default class Suitcase extends Component {
       variables: { id: this.state.thisSuitcaseId },
       fetchPolicy: "network-only"
     }).then(result => {
-      this.setState({ suitcase: result.data.getSuitcase, rendered: true });
+      const clonedSuitcase = cloneDeep(result.data.getSuitcase);
+      const clonedSuitcaseItems = cloneDeep(result.data.getSuitcase.Items);
+      this.setState({ suitcase: clonedSuitcase, suitcaseItems: clonedSuitcaseItems, rendered: true });
     })
   }
 
@@ -220,7 +234,6 @@ export default class Suitcase extends Component {
     }
   }
 
-
   showConfirmationModal = () => {
     this.setState({ openConfirmationModal: true });
   }
@@ -250,6 +263,9 @@ export default class Suitcase extends Component {
   }
 
   addItemToSuitcase = () => {
+    let array = this.state.itemsToAdd
+    if (array.length > 0) {
+    this.setState({ autocompleteSubmitError: ""})
     client.mutate({
       mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
       variables: { id: this.state.suitcase.id, item_ids: this.state.itemsToAdd },
@@ -259,16 +275,22 @@ export default class Suitcase extends Component {
       this.setState({ value: "", itemsToAdd: [] })
     }).catch(err => console.log(err))
   }
+    else {
+      this.setState({ autocompleteSubmitError: "you must select an item from our dropdown list"})
+  }
+}
 
   addItemsToCurrentSuitcase = () => {
     client.mutate({
       mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
       variables: { id: this.state.currentSuitcaseId, item_ids: this.state.itemsToAdd }
     }).then(result => {
+      console.log(result)
+        this.props.alert.show(<div className="success-alert">You added these items to your suitcase</div>);
       this.setState({
         itemsToAdd: [],
         thisSuitcaseId: this.props.match.params.id
-      })
+      });
     }).catch(err => console.log(err))
   }
 
@@ -290,7 +312,7 @@ export default class Suitcase extends Component {
       fetchPolicy: "no-cache"
     }).then(result => {
       this.getSuitcase();
-      console.log(itemId, itemAmount)
+      
     }).catch(err => console.log(err))
   }
 
@@ -306,20 +328,83 @@ export default class Suitcase extends Component {
     localStorage.setItem("suitcase_id", this.state.suitcase.id);
   }
 
-  onCheckboxBtnClick = (selected) => {
-    const index = this.state.itemsToAdd.indexOf(selected);
-    if (index < 0) {
-      this.state.itemsToAdd.push(selected);
-    } else {
-      this.state.itemsToAdd.splice(index, 1);
+  handleSelected = (selectedId) => {
+    let tempSuitcase = [...this.state.suitcaseItems];
+
+    tempSuitcase.map(item => {
+      if (item.id === selectedId) {
+        item.selected = !item.selected
+      }
+      return item;
+    });
+
+    this.setState({
+      suitcaseItems: [...tempSuitcase],
+      itemsToAdd: this.state.suitcaseItems.filter(item => item.selected).map(item => item.id)
+    });
+
+  }
+
+  handleSelectAll = (e, category) => {
+    console.log(e.target.classList);
+    let tempSuitcase = [...this.state.suitcaseItems];
+    // if clicking on the button when the check is visible
+    if (e.target.classList.contains('check-all')) {
+      console.log('sanity check: inside check-all handler');
+      // check all of them
+      tempSuitcase.map(item => {
+        if (item.item_category === category) {
+          item.selected = true;
+        }
+        return item;
+      });
+
+      this.setState({
+        suitcaseItems: [...tempSuitcase],
+        itemsToAdd: this.state.suitcaseItems.filter(item => item.selected).map(item => item.id)
+      })
     }
-    this.setState({ itemsToAdd: [...this.state.itemsToAdd] });
-    console.log(this.state.itemsToAdd)
+
+    // if clicking on the button when the x is visible
+    if (e.target.classList.contains('uncheck-all')) {
+      console.log('sanity check: inside uncheck-all handler');
+      // uncheck all of them
+      tempSuitcase.map(item => {
+        if (item.item_category === category) {
+          item.selected = false;
+        }
+        return item;
+      });
+
+      this.setState({
+        suitcaseItems: [...tempSuitcase],
+        itemsToAdd: this.state.suitcaseItems.filter(item => item.selected).map(item => item.id)
+      })
+    }
   }
 
   handlePageChange = page => {
     this.setState({ currentPage: page });
   };
+
+
+  // submitForm = event => {
+  //   event.preventDefault();
+
+    // let data = {
+    //   value: this.state.value
+    // }
+
+  //   let result = validate(this.state.value, this.constraints)
+  //   if (result) {
+  //     if (result.value) {
+  //       this.setState({autocompleteError: result.value[0]});
+  //       console.log(result.value[0])
+  //     } else {
+  //       this.setState({autocompleteError: ""})
+  //     }
+  //   }
+  // }
 
   renderPage = () => {
     if (this.state.currentPage === "SuitcaseItems") {
@@ -350,22 +435,27 @@ export default class Suitcase extends Component {
                   }
                 }
                 value={this.state.value}
-                onChange={e => this.setState({ value: e.target.value })}
-                onSelect={(value, item) => this.setState({ value: value, itemsToAdd: [...this.state.itemsToAdd, item.id] })}
+                onChange={e => this.setState({ value: e.target.value, autocompleteSubmitError: "" })}
+                onSelect={(value, item, autocompleteSubmitError) => this.setState({ value: value, itemsToAdd: [...this.state.itemsToAdd, item.id], autocompleteSubmitError: "" })}
               />
               <div className="input-group-append">
                 <button className="add-one-item" type="button" onClick={() => { this.addItemToSuitcase() }}><i className="fa fa-search"></i> Add an item</button>
               </div>
+            <p className="autocomplete-error">{this.state.autocompleteSubmitError}</p>
+
             </div>
+
           ) : (
               <div></div>
             )}
 
           <SuitcaseItems
             suitcase={this.state.suitcase}
+            suitcaseItems={this.state.suitcaseItems}
             currentSuitcaseId={this.state.currentSuitcaseId}
             itemsToAdd={this.itemsToAdd}
-            onCheckboxBtnClick={this.onCheckboxBtnClick}
+            handleSelected={this.handleSelected}
+            handleSelectAll={this.handleSelectAll}
             loggedInUserIdNumber={this.state.loggedInUserIdNumber}
             suitcaseUserId={this.state.suitcase.User.id}
             deleteItemFromSuitcase={this.deleteItemFromSuitcase}
@@ -400,6 +490,7 @@ export default class Suitcase extends Component {
     return (
       <div className="suitcase profile-page sidebar-collapse">
         {this.maybeRedirect()}
+        {console.log(this.state.itemsToAdd)}
         <Header
           showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}
@@ -422,8 +513,6 @@ export default class Suitcase extends Component {
 
                 <div className="card card-nav-tabs card-plain">
                   <div className="suitcase-header card-header card-header-default">
-                      
-
 
                     <div id="suitcase-nav" className="nav-tabs-navigation">
                       <div className="nav-tabs-wrapper">
@@ -490,4 +579,6 @@ export default class Suitcase extends Component {
       </div>
     )
   }
-}
+};
+
+export default withAlert(Suitcase);

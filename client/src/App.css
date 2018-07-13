@@ -24,14 +24,9 @@ body {
   position: relative;
 }
 
-/* body.modal-open {
-  position: fixed;
-  overflow-y: hidden;
-} */
-
-/* body.modal-open {
+body.modal-open {
   overflow: visible;
-} */
+}
 
 .dark-text {
   color: black;
@@ -39,6 +34,12 @@ body {
 
 .icn {
   float: left;
+}
+
+.success-alert {
+  font-family: "Reem Kufi", sans-serif!important;
+  color: white;
+  text-transform: none;
 }
 
 /*!

@@ -26,7 +26,7 @@ module.exports = function (sequelize, DataTypes) {
         notes: {
             type: DataTypes.TEXT,
             allowNull: true,
-            defaulttValue: "Suitcase Note"
+            defaultValue: "Suitcase Note"
         },
         suitcase_image: {
             type: DataTypes.STRING,

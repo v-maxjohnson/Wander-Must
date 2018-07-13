@@ -82,10 +82,12 @@ export default class Blog extends Component {
     handleInputChange = event => {
         const { name, value } = event.target;
 
-        // Set the state for the appropriate input field
         this.setState({
             [name]: value
         });
+
+        var hiddenDiv = document.getElementById("settings-updated");
+        hiddenDiv.style.display = "none";
     };
 
     renderPixabay = event => {
@@ -123,6 +125,9 @@ export default class Blog extends Component {
             fileName: file.name,
             defaultImage: false
         });
+
+        var hiddenDiv = document.getElementById("settings-updated");
+        hiddenDiv.style.display = "none";
     }
 
     handleFormSubmit = event => {
@@ -180,10 +185,16 @@ export default class Blog extends Component {
             variables: { id: this.state.id, note_title: this.state.note_title, notes: this.state.notes },
             fetchPolicy: 'no-cache'
         })
-            .catch( err => console.log(err.message) ); };
+            .catch(err => console.log(err.message));
+
+        var hiddenDiv = document.getElementById("settings-updated");
+        hiddenDiv.style.display = "block";
+
+    };
 
 
-    render() {
+
+    render() { //186
         return (
             <div className="blog">
                 {this.props.loggedInUserIdNumber === this.props.suitcaseUserId ? (
@@ -234,7 +245,7 @@ export default class Blog extends Component {
                                     />
 
                                     <Button
-                                        inline type="radio" name="file" color="default"
+                                        name="file" color="default"
                                         className="float-right"
                                         onClick={this.renderPixabay}
                                         value={this.cityImageSrc}
@@ -255,6 +266,11 @@ export default class Blog extends Component {
                             <FormGroup check row>
                                 <Col sm={{ size: 2, offset: 5 }}>
                                     <Button color="primary" onClick={this.handleFormSubmit} >Submit</Button>
+                                </Col>
+                            </FormGroup>
+                            <FormGroup row>
+                                <Col sm={{offset: 5}}>
+                                    <p id="settings-updated">Your account settings have been updated and saved!</p>
                                 </Col>
                             </FormGroup>
                         </Form>
@@ -300,7 +316,6 @@ export default class Blog extends Component {
                                     </div>
                                 </Col>
                             </div>                     
-
                         </div>
                     )
                 }

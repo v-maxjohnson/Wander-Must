@@ -35,7 +35,7 @@ export default class Yelp extends Component {
     if (this.props.country === "usa") {
       location = this.props.city + ", " + this.props.admin;
     } else {
-      location = this.props.city + ", " + this.props.admin + ", " + this.props.country;
+      location = this.props.city + ", " + this.props.country;
     }
 
 
@@ -97,6 +97,7 @@ export default class Yelp extends Component {
 
         />
         <br/>
+        {this.state.yelpData.length ? (
         <Form onSubmit={this.setTerm}>
           <FormGroup row>
             <Col sm={1}></Col>
@@ -113,6 +114,9 @@ export default class Yelp extends Component {
             </Col>
           </FormGroup>
         </Form>
+        ) : (
+          <div></div>
+        )}
       </div>
     )
   }

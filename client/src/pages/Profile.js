@@ -57,6 +57,12 @@ export default class Profile extends Component {
     }).then(result => {
       this.setState({ userData: result.data.getUser, rendered: true });
     })
+  }
+
+  setSuitcaseId = (id) => {
+    if (this.state.loggedInUserId === this.state.userData.id) {
+      localStorage.setItem("suitcase_id", id);
+    }
 
   }
 
@@ -98,6 +104,7 @@ export default class Profile extends Component {
                       endDate={suitcase.end_date}
                       category={suitcase.travel_category}
                       rendered={this.state.rendered}
+                      setSuitcaseId={this.setSuitcaseId}
                     />
                   ))}
 

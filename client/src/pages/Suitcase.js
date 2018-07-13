@@ -285,7 +285,6 @@ class Suitcase extends Component {
       mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
       variables: { id: this.state.currentSuitcaseId, item_ids: this.state.itemsToAdd }
     }).then(result => {
-      console.log(result)
         this.props.alert.show(<div className="success-alert">You added these items to your suitcase</div>);
       this.setState({
         itemsToAdd: [],
@@ -302,7 +301,6 @@ class Suitcase extends Component {
       fetchPolicy: "no-cache"
     }).then(result => {
       this.getSuitcase();
-      console.log(itemId)
     }).catch(err => console.log(err))
   }
 
@@ -347,11 +345,9 @@ class Suitcase extends Component {
   }
 
   handleSelectAll = (e, category) => {
-    console.log(e.target.classList);
     let tempSuitcase = [...this.state.suitcaseItems];
     // if clicking on the button when the check is visible
     if (e.target.classList.contains('check-all')) {
-      console.log('sanity check: inside check-all handler');
       // check all of them
       tempSuitcase.map(item => {
         if (item.item_category === category) {
@@ -368,7 +364,6 @@ class Suitcase extends Component {
 
     // if clicking on the button when the x is visible
     if (e.target.classList.contains('uncheck-all')) {
-      console.log('sanity check: inside uncheck-all handler');
       // uncheck all of them
       tempSuitcase.map(item => {
         if (item.item_category === category) {

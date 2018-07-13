@@ -79,7 +79,7 @@ class Search extends Component {
     openQuickViewModal: false,
     rendered: false,
     index: null,
-    suitcaseId: localStorage.getItem("suitcase_id"),
+    suitcaseId: null,
     loggedInUserIdNumber: localStorage.getItem("logged_in_user_id")
   }
 
@@ -89,7 +89,10 @@ class Search extends Component {
       query: GET_SUITCASES_BY_LOCALE_QUERY,
       variables: { locale_city: this.state.city }
     }).then(result => {
-      this.setState({ suitcaseData: result.data.getSuitcasesByLocale, rendered: true });
+      this.setState({
+        suitcaseData: result.data.getSuitcasesByLocale,
+        suitcaseId: localStorage.getItem("suitcase_id"),
+        rendered: true });
     })
 
   }

@@ -70,35 +70,6 @@ export default class NewSuitcaseModal extends Component {
     }
   }
 
-  submitForm = event => {
-    event.preventDefault();
-
-    let data = {
-      newLocale: this.state.newLocale,
-      selectValue : this.state.selectValue,
-      minDate: this.state.startSelect,
-      endDate: this.state.endSelect 
-
-    }
-
-    let result = validate(data, this.constraints)
-    if (result) {
-      if (result.newLocale) {
-        this.setState({newLocaleError: result.newLocale[0]});
-      }
-      if (result.selectValue) {
-        this.setState({selectValueError: result.selectValue[0]});
-      }
-      if (result.minDate) {
-        this.setState({minDateError: result.minDate[0]})
-      }
-      if (result.endDate) {
-        this.setState({endDateError: result.endDate[0]})
-      }
-    }
-  }
-
-
   handleStartChange = (startDate) => {
     this.setState({
       startDate: startDate,
@@ -184,6 +155,31 @@ export default class NewSuitcaseModal extends Component {
   }
 
   createNewLocale = () => {
+
+    let data = {
+      newLocale: this.state.newLocale,
+      selectValue : this.state.selectValue,
+      minDate: this.state.startSelect,
+      endDate: this.state.endSelect 
+
+    }
+
+    let result = validate(data, this.constraints)
+    if (result) {
+      if (result.newLocale) {
+        this.setState({newLocaleError: result.newLocale[0]});
+      }
+      if (result.selectValue) {
+        this.setState({selectValueError: result.selectValue[0]});
+      }
+      if (result.minDate) {
+        this.setState({minDateError: result.minDate[0]})
+      }
+      if (result.endDate) {
+        this.setState({endDateError: result.endDate[0]})
+      }
+    } else {
+
     client.mutate({
       mutation: CREATE_NEW_LOCALE_MUTATION,
       variables: { locale_city: this.state.newLocale.locale_city, locale_admin: this.state.newLocale.locale_admin, locale_country: this.state.newLocale.locale_country }
@@ -191,6 +187,7 @@ export default class NewSuitcaseModal extends Component {
       this.createNewSuitcase(result.data.createNewLocale.id);
     }).catch(err => console.log(err))
 
+    }
   }
 
   createNewSuitcase = (localeId) => {
@@ -323,7 +320,7 @@ export default class NewSuitcaseModal extends Component {
 
           </ModalBody>
           <ModalFooter>
-            <button className="btn btn-primary btn-sm px-3 py-2" onClick={() => this.createNewLocale()} onClick={this.submitForm}>Start Packing!</button>
+            <button className="btn btn-primary btn-sm px-3 py-2" onClick={() => this.createNewLocale()}>Start Packing!</button>
           </ModalFooter>
         </Modal >
       </div >

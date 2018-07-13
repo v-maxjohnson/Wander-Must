@@ -11,9 +11,14 @@
     font-size: 16px!important;
 }
 
-/* .autocomplete-error {
-
-} */
+.autocomplete-error {
+    position: relative!important;
+    left: 70%;
+    font-family: "Reem Kufi", sans-serif!important;
+    color: red;
+    margin-top: -10px;
+    min-height: 30px
+}
 
 .auto-items {
     position: relative!important;

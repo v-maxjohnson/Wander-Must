@@ -276,7 +276,7 @@ class Suitcase extends Component {
     }).catch(err => console.log(err))
   }
     else {
-      this.setState({ autocompleteSubmitError: "you must select an item from our dropdown list"})
+      this.setState({ autocompleteSubmitError: "You must select an item from our dropdown list"})
   }
 }
 
@@ -411,6 +411,7 @@ class Suitcase extends Component {
       return (
         <div>
           {this.state.loggedInUserIdNumber === this.state.suitcase.User.id ? (
+          <div>
             <div className="input-group mb-3 auto-items">
 
               <Autocomplete
@@ -435,15 +436,16 @@ class Suitcase extends Component {
                   }
                 }
                 value={this.state.value}
-                onChange={e => this.setState({ value: e.target.value, autocompleteSubmitError: "" })}
+                onChange={e => this.setState({ value: e.target.value, itemsToAdd: [] })}
                 onSelect={(value, item, autocompleteSubmitError) => this.setState({ value: value, itemsToAdd: [...this.state.itemsToAdd, item.id], autocompleteSubmitError: "" })}
               />
               <div className="input-group-append">
                 <button className="add-one-item" type="button" onClick={() => { this.addItemToSuitcase() }}><i className="fa fa-search"></i> Add an item</button>
               </div>
-            <p className="autocomplete-error">{this.state.autocompleteSubmitError}</p>
-
             </div>
+            <p className="autocomplete-error">{this.state.autocompleteSubmitError}</p>
+            </div>
+
 
           ) : (
               <div></div>

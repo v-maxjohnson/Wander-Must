@@ -281,6 +281,7 @@ class Suitcase extends Component {
 }
 
   addItemsToCurrentSuitcase = () => {
+    if (this.state.itemsToAdd.length) {
     client.mutate({
       mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
       variables: { id: this.state.currentSuitcaseId, item_ids: this.state.itemsToAdd }
@@ -292,6 +293,7 @@ class Suitcase extends Component {
         thisSuitcaseId: this.props.match.params.id
       });
     }).catch(err => console.log(err))
+  }
   }
 
   deleteItemFromSuitcase = (itemId) => {
@@ -387,25 +389,6 @@ class Suitcase extends Component {
     this.setState({ currentPage: page });
   };
 
-
-  // submitForm = event => {
-  //   event.preventDefault();
-
-    // let data = {
-    //   value: this.state.value
-    // }
-
-  //   let result = validate(this.state.value, this.constraints)
-  //   if (result) {
-  //     if (result.value) {
-  //       this.setState({autocompleteError: result.value[0]});
-  //       console.log(result.value[0])
-  //     } else {
-  //       this.setState({autocompleteError: ""})
-  //     }
-  //   }
-  // }
-
   renderPage = () => {
     if (this.state.currentPage === "SuitcaseItems") {
       return (
@@ -490,7 +473,6 @@ class Suitcase extends Component {
     return (
       <div className="suitcase profile-page sidebar-collapse">
         {this.maybeRedirect()}
-        {console.log(this.state.itemsToAdd)}
         <Header
           showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}

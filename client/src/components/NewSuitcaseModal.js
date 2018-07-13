@@ -71,7 +71,6 @@ export default class NewSuitcaseModal extends Component {
   }
 
   submitForm = event => {
-    event.preventDefault();
 
     let data = {
       newLocale: this.state.newLocale,

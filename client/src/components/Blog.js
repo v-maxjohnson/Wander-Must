@@ -234,7 +234,7 @@ export default class Blog extends Component {
                                     />
 
                                     <Button
-                                        inline type="radio" name="file" color="default"
+                                        inline="true" type="radio" name="file" color="default"
                                         className="float-right"
                                         onClick={this.renderPixabay}
                                         value={this.cityImageSrc}

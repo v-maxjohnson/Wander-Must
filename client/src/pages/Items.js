@@ -110,6 +110,7 @@ class Items extends Component {
   }
 
   addItemsToSuitcase = () => {
+    if (this.state.itemsToAdd.length) {
     client.mutate({
       mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
       variables: { id: this.state.suitcaseId, item_ids: this.state.itemsToAdd }
@@ -117,6 +118,7 @@ class Items extends Component {
       console.log(result)
       this.props.alert.show(<div className="success-alert">You added these items to your suitcase</div>);
     }).catch(err => console.log(err))
+  }
   }
 
   toggleSelectAll = (category) => {

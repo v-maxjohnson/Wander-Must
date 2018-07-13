@@ -197,7 +197,9 @@ export default class NewSuitcaseModal extends Component {
     }).then(result => {
       localStorage.setItem("suitcase_id", result.data.createNewSuitcase.id);
       this.props.resetNewSuitcaseModal();
-    }).then(this.setState({
+    })
+    .then(this.toggle)
+    .then(this.setState({
       shouldRedirectToCity: true
     }))
     .catch(err => console.log(err))

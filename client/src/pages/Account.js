@@ -27,7 +27,10 @@ const UPDATE_USER_IMAGE_MUTATION = gql`
 mutation updateUserImage( $id: ID, $user_image: String! ){
   updateUserImage( id: $id, user_image: $user_image){
     id
+    username
+    gender
     user_image
+    email
   }
 }`;
 
@@ -36,6 +39,9 @@ mutation updateUserName( $id: ID, $username: String! ){
   updateUserName( id: $id, username: $username){
     id
     username
+    gender
+    user_image
+    email
   }
 }`;
 
@@ -43,6 +49,9 @@ const UPDATE_USER_EMAIL_MUTATION = gql`
 mutation updateUserEmail( $id: ID, $email: String! ){
   updateUserEmail( id: $id, email: $email){
     id
+    username
+    gender
+    user_image
     email
   }
 }`;
@@ -51,7 +60,10 @@ const UPDATE_USER_GENDER_MUTATION = gql`
 mutation updateUserGender( $id: ID, $gender: String! ){
   updateUserGender( id: $id, gender: $gender){
     id
+    username
     gender
+    user_image
+    email
   }
 }`;
 
@@ -65,58 +77,19 @@ mutation deleteUser( $id: ID ){
 const client = new ApolloClient();
 
 export default class Account extends Component {
+  state = {
+    userData: {
+      username: ""
+    },
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      userData: {
-        id: "",
-        email: "",
-        username: "",
-        gender: "",
-        user_image: "",
-        password: ""
-      },
-     
-      id: "",
-      email: "",
-      username: "",
-      gender: "",
-      user_image: "",
-      password: "",
-      confirmPassword: "",
-      imageData: "",
-      fileName: "Upload your image!",
-      openDeleteAccountConfirmationModal: false,
-      rendered: false,
-      loggedInUserId: localStorage.getItem("logged_in_user_id"),
-      emailError: "",
-      usernameError: "",
-      passwordError: "",
-      confirmPasswordError: "",
-    }
-
-    this.constraints = {
-      username: {
-        length: {
-          minimum: 3,
-          maximum: 15
-        }
-      },
-      email: {
-        email: true
-      },
-      password: {
-        length: {
-          minimum: 6,
-          maximum: 20
-        }
-      },
-      confirmPassword: {
-        equality: "password"
-      }
-    }
+    email: "",
+    username: "",
+    gender: "",
+    user_image: "",
+    imageData: "",
+    fileName: "Upload your image!",
+    openDeleteAccountConfirmationModal: false,
+    loggedInUserId: localStorage.getItem("logged_in_user_id")
   }
 
   componentDidMount() {
@@ -131,11 +104,13 @@ export default class Account extends Component {
     imageData.append("file", file);
     imageData.append("upload_preset", "qocvkmel");
     
-    this.setState({ 
-      imageData : imageData,
+    this.setState({
+      imageData: imageData,
       fileName: file.name 
     });
-    
+
+    var hiddenDiv = document.getElementById("settings-updated");
+    hiddenDiv.style.display = "none";
   }
 
   getUser = () => {
@@ -144,15 +119,14 @@ export default class Account extends Component {
       variables: { id: this.state.loggedInUserId },
       fetchPolicy: "network-only"
     })
-      .then( result => this.setState({ 
-        userData: {
-          id: result.data.getUser.id,
+      .then( result => {
+        this.setState({ 
           username: result.data.getUser.username,
           email: result.data.getUser.email,
           gender: result.data.getUser.gender,
           user_image: result.data.getUser.user_image
-        } 
-      }) )
+        }) 
+    })
   }
 
   deleteUser = () => {
@@ -164,108 +138,29 @@ export default class Account extends Component {
     })
   }
 
-  // handle any changes to the input fields
   handleInputChange = event => {
-    // Pull the name and value properties off of the event.target (the element which triggered the event)
     const { name, value } = event.target;
+    let existingData = { ...this.state };
+    let updated = {
+        [name] : value
+    };
 
-    // Set the state for the appropriate input field
-    this.setState({
-      [name]: value
-    })
-  };
+    Object.keys(updated).forEach(item => updated[item] ? "" : delete updated[item]);
 
-  handlePasswordChange = event => {
-    const { name, value } = event.target;
+    updated = { ...existingData, ...updated };
 
     this.setState({
-      [name]: value
+        username: updated.username,
+        email: updated.email,
+        gender: updated.gender
     });
 
-    let data = validate({password: this.state.password}, this.constraints);
-    if(!data) {
-      this.setState({passwordError: ""});
-    }
-    else if(data.password) {
-      this.setState({passwordError: data.password[0]})
-    }
-  };
+    var hiddenDiv = document.getElementById("settings-updated");
+    hiddenDiv.style.display = "none";
+};
 
-  handleEmailChange = event => {
-    const { value } = event.target;
-
-    this.setState({
-      email: value
-    })
-
-    let data = validate({email: this.state.email}, this.constraints);
-    if(!data) {
-      this.setState({emailError: ""});
-    }
-    else if(data.email) {
-      this.setState({emailError: data.email[0]});
-    }
-  }
-
-  handleUsernameChange = event => {
-    const { value } = event.target;
-
-    this.setState({
-      username: value
-    })
-
-    let data = validate({username: value}, this.constraints);
-    if(data && data.username) {
-      this.setState({
-        usernameError: data.username[0]
-      })
-    } else {
-      this.setState({
-        usernameError: ""
-      })
-    }
-  }
-
-  handleConfirmPasswordChange = event => {
-    const { value } = event.target;
-
-    this.setState({
-      confirmPassword: value
-    })
-
-    let data = validate({password: this.state.password, confirmPassword: value}, this.constraints);
-    if(data && data.confirmPassword) {
-      this.setState({
-        confirmPasswordError: data.confirmPassword[0]
-      })
-    } else {
-      this.setState({confirmPasswordError: ""})
-    }
-  }
-
-  // When the form is submitted, prevent the default event and alert the username and password
   handleFormSubmit = event => {
     event.preventDefault();
-
-    let existingData = { ...this.state.userData };
-    let updated = { 
-      email: this.state.email, 
-      username: this.state.username, 
-      password: this.state.password, 
-      gender: this.state.gender
-    }
-
-    Object.keys(updated).forEach( key => updated[key] ? null : delete updated[key] );
-    updated = { ...existingData, ...updated };
-    console.log(updated);
-
-    let data = validate(updated, this.constraints);
-    if(data.email) {
-      this.setState({emailError: data.email[0]})
-    }
-    if(data.username) {
-      this.setState({usernameError: data.username[0]})
-    }
 
     axios({
       method: "POST",
@@ -276,39 +171,47 @@ export default class Account extends Component {
         const secure_url = res.data.secure_url;
 
         this.setState({ 
-          userData: {user_image: secure_url},
+          user_image: secure_url,
           fileName: "Upload your image!" 
         });
         
-      client.mutate({
-        mutation: UPDATE_USER_IMAGE_MUTATION,
-        variables: { id: this.state.loggedInUserId, user_image: secure_url },
-        fetchPolicy: 'no-cache'
-      })
-        .catch( err => console.log(err) )
+        client.mutate({
+          mutation: UPDATE_USER_IMAGE_MUTATION,
+          variables: { id: this.state.loggedInUserId, user_image: secure_url },
+          fetchPolicy: 'no-cache'
+        })
+          .catch( err => console.log(err) )
       })
 
     client.mutate({
       mutation: UPDATE_USER_NAME_MUTATION,
-      variables: { id: this.state.loggedInUserId, username: this.state.userData.username },
+      variables: { id: this.state.loggedInUserId, username: this.state.username },
       fetchPolicy: 'no-cache'
     })
       .catch( err => console.log(err.message) );
 
     client.mutate({
       mutation: UPDATE_USER_EMAIL_MUTATION,
-      variables: { id: this.state.loggedInUserId, email: this.state.userData.email },
+      variables: { id: this.state.loggedInUserId, email: this.state.email },
+      fetchPolicy: 'no-cache'
+    })
+      .catch( err => console.log(err.message) );
+        
+    client.mutate({
+      mutation: UPDATE_USER_GENDER_MUTATION,
+      variables: { id: this.state.loggedInUserId, gender: this.state.gender },
       fetchPolicy: 'no-cache'
     })
       .catch( err => console.log(err.message) );
 
-    client.mutate({
-      mutation: UPDATE_USER_GENDER_MUTATION,
-      variables: { id: this.state.loggedInUserId, gender: this.state.userData.gender },
-      fetchPolicy: 'no-cache'
-    })
-      .catch( err => console.log(err.message) );
-    
+      this.setState({
+        userData: {
+          username: this.state.username
+        }
+      })
+
+      var hiddenDiv = document.getElementById("settings-updated");
+      hiddenDiv.style.display = "block";
   };
 
   showDeleteAccountConfirmationModal = () => {
@@ -352,6 +255,7 @@ export default class Account extends Component {
         <Header
           showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}
+          key={this.state.userData.username}
         />
         <Main>
           <div className="page-header header-filter" id="background-account" data-parallax="true"></div>
@@ -362,10 +266,10 @@ export default class Account extends Component {
                   <div className="col-md-6 ml-auto mr-auto">
                     <div className="profile">
                       <div className="avatar">
-                        <img src={this.state.userData.user_image} alt="Avatar" className="img-raised rounded-circle img-fluid" />
+                        <img src={this.state.user_image} alt="Avatar" className="img-raised rounded-circle img-fluid" />
                       </div>
                       <div className="name">
-                        <h3 id="profile-user-name" className="title">{this.state.userData.username} </h3>
+                        <h3 id="profile-user-name" className="title">{this.state.username} </h3>
                       </div>
                     </div>
                   </div>
@@ -379,13 +283,13 @@ export default class Account extends Component {
                         <div className="nav-tabs-wrapper">
                           <ul className="nav suitcase-nav">
                             <li className="nav-item ">
-                              <p className="nav-link" id="suitcase-user">{this.state.userData.username}</p>
+                              <p className="nav-link" id="suitcase-user">{this.state.username}</p>
                             </li>
                             <li className="nav-item ">
-                              <p className="nav-link" id="suitcase-user-gender">{this.state.userData.gender}</p>
+                              <p className="nav-link" id="suitcase-user-gender">{this.state.gender}</p>
                             </li>
                             <li className="nav-item ">
-                              <p className="nav-link" id="suitcase-user-email">{this.state.userData.email}</p>
+                              <p className="nav-link" id="suitcase-user-email">{this.state.email}</p>
                             </li>
 
                           </ul>
@@ -405,9 +309,8 @@ export default class Account extends Component {
                         <Input
                           type="email"
                           name="email"
-                          placeholder={this.state.userData.email}
-                          value={this.state.email}
-                          onChange={this.handleEmailChange}
+                          placeholder={this.state.email}
+                          onChange={this.handleInputChange}
                         />
                         <p className="error-text">{this.state.emailError}</p>
                       </Col>
@@ -418,36 +321,13 @@ export default class Account extends Component {
                         <Input
                           type="username"
                           name="username"
-                          placeholder={this.state.userData.username}
-                          value={this.state.username}
-                          onChange={this.handleUsernameChange}
+                          placeholder={this.state.username}
+                          onChange={this.handleInputChange}
                         />
                         <p className="error-text">{ this.state.usernameError }</p>
                       </Col>
+                    </FormGroup>
 
-                    </FormGroup>
-                    <FormGroup row>
-                      <Label for="examplePassword" sm={3}>Password</Label>
-                      <Col sm={4}>
-                        <Input
-                          type="password"
-                          name="password"
-                          id="examplePassword"
-                          placeholder="change password"
-                          onChange={this.handlePasswordChange}
-                        />
-                        <p className="error-text">{ this.state.passwordError }</p>
-                      </Col>
-                      <Col sm={5}>
-                        <Input
-                          type="password"
-                          name="confirmPassword"
-                          placeholder="password confirmation"
-                          onChange={this.handleConfirmPasswordChange }
-                        />
-                        <p className="error-text">{ this.state.confirmPasswordError }</p>
-                      </Col>
-                    </FormGroup>
                     <FormGroup row>
                       <Label for="exampleCheckbox" sm={3}>Gender</Label>
                       <Col sm={9}>
@@ -469,8 +349,8 @@ export default class Account extends Component {
                           />
                         </div>
                       </Col>
-
                     </FormGroup>
+
                     <FormGroup row>
                       <Label for="exampleCustomFileBrowser" sm={3}>Avatar</Label>
                       <Col sm={9}>
@@ -490,6 +370,9 @@ export default class Account extends Component {
                       </Col>
                     </FormGroup>
                   </Form>
+                  <FormGroup row >
+                    <p id="settings-updated">Your account settings have been updated and saved!</p>
+                  </FormGroup>
                   <div>
                     <br />
                     <hr />

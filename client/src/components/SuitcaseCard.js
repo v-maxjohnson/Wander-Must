@@ -21,7 +21,9 @@ export default class SuitcaseCard extends Component {
             <div className="suitcase-partial container col-sm-12 col-md-6 col-lg-4">
                 <div className="suitcaseCard">
                     <div className="card bg-dark text-white no-shadow">
-                        <div className="suitcaseWrapper card-img">
+                    <div
+                        onClick={() => this.props.setSuitcaseId(this.props.id)}
+                        className="suitcaseWrapper card-img">
                             <Link className="suitcase-link" to={"/suitcase/" + this.props.id}>
                                 <img
                                     className="suitcasePhoto img-responsive"

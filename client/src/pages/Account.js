@@ -403,17 +403,17 @@ class Account extends Component {
                       <Col sm={9}>
                         <div>
                           <CustomInput 
-                            inline="true" type="radio" id="female" name="gender" 
+                            inline={true} type="radio" id="female" name="gender" 
                             label="Female" value="female" 
                             onClick={this.handleInputChange}
                           />
                           <CustomInput 
-                            inline="true" type="radio" id="male" name="gender" 
+                            inline={true} type="radio" id="male" name="gender" 
                             label="Male" value="male" 
                             onClick={this.handleInputChange}
                           />
                           <CustomInput 
-                            inline="true" type="radio" id="noGender" name="gender" 
+                            inline={true} type="radio" id="noGender" name="gender" 
                             label="Beyond Society's Gender Definitions" value="noGender"
                             onClick={this.handleInputChange}
                           />

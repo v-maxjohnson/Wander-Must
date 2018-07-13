@@ -57,7 +57,7 @@ export default class Navibar extends Component {
     //   console.log(autocompleteLocales);
     // })
 
-    if (this.state.loggedInUserIdNumber !== "") {
+    if ("logged_in_user_id" in localStorage && this.state.loggedInUserIdNumber !== "") {
     client.query({
       query: GET_USER_QUERY,
       variables: { id: this.state.loggedInUserIdNumber },
@@ -150,7 +150,7 @@ export default class Navibar extends Component {
   }
 
   renderNavItems = () => {
-    if (this.state.loggedInUserIdNumber !== "") {
+    if ("logged_in_user_id" in localStorage && this.state.loggedInUserIdNumber !== "") {
       return (
         <Nav className="navbar-nav ml-auto" navbar>
           {/* <NavItem>

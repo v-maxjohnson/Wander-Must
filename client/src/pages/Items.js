@@ -72,11 +72,9 @@ class Items extends Component {
   }
 
   handleSelectAll = (e, category) => {
-    console.log(e.target.classList);
     let tempSuitcase = [...this.state.items];
     // if clicking on the button when the check is visible
     if (e.target.classList.contains('check-all')) {
-      console.log('sanity check: inside check-all handler');
       // check all of them
       tempSuitcase.map(item => {
         if (item.item_category === category) {
@@ -93,7 +91,6 @@ class Items extends Component {
 
     // if clicking on the button when the x is visible
     if (e.target.classList.contains('uncheck-all')) {
-      console.log('sanity check: inside uncheck-all handler');
       // uncheck all of them
       tempSuitcase.map(item => {
         if (item.item_category === category) {
@@ -114,8 +111,7 @@ class Items extends Component {
     client.mutate({
       mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
       variables: { id: this.state.suitcaseId, item_ids: this.state.itemsToAdd }
-    }).then(result => {
-      console.log(result)
+    }).then( () => {
       this.props.alert.show(<div className="success-alert">You added these items to your suitcase</div>);
     }).catch(err => console.log(err))
   }
@@ -167,7 +163,6 @@ class Items extends Component {
   render() {
     return (
       <div className="items profile-page sidebar-collapse">
-        {console.log(this.state.itemsToAdd)}
         <Header
           showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}

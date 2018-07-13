@@ -223,7 +223,6 @@ export default class NewSuitcaseModal extends Component {
 
   setCityImageSrc = (url) => {
     this.setState({ cityImageSrc: url })
-    console.log(this.state.cityImageSrc)
   }
 
   toggle = () => {
@@ -231,7 +230,6 @@ export default class NewSuitcaseModal extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div>
         {this.maybeRedirect()}

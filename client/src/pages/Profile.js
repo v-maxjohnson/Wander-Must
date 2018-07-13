@@ -56,7 +56,6 @@ export default class Profile extends Component {
       fetchPolicy: "network-only"
     }).then(result => {
       this.setState({ userData: result.data.getUser, rendered: true });
-      console.log(this.state.userData);
     })
 
   }

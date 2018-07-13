@@ -158,11 +158,9 @@ export default class QuickViewModal extends Component {
   }
 
   handleSelectAll = (e, category) => {
-    console.log(e.target.classList);
     let tempSuitcase = [...this.state.modalSuitcaseItems];
     // if clicking on the button when the check is visible
     if (e.target.classList.contains('check-all')) {
-      console.log('sanity check: inside check-all handler');
       // check all of them
       tempSuitcase.map(item => {
         if (item.item_category === category) {
@@ -179,7 +177,6 @@ export default class QuickViewModal extends Component {
 
     // if clicking on the button when the x is visible
     if (e.target.classList.contains('uncheck-all')) {
-      console.log('sanity check: inside uncheck-all handler');
       // uncheck all of them
       tempSuitcase.map(item => {
         if (item.item_category === category) {
@@ -198,7 +195,6 @@ export default class QuickViewModal extends Component {
   render() {
     return (
       <div>
-        {console.log(this.state.itemsToAdd)}
         <Modal centered={true} isOpen={this.state.modal} toggle={this.toggle} className="quick-view-modal modal-lg">
           <ModalHeader toggle={this.toggle}>Wander-Must</ModalHeader>
           <div className="suitcase-header">

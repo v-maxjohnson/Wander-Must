@@ -125,7 +125,6 @@ class Search extends Component {
 
   setQuickViewModalIndex = (contentId) => {
     this.setState({ index: contentId })
-    console.log(this.state.index, contentId)
   }
 
   addItemsToSuitcase = (itemsToAdd) => {
@@ -133,8 +132,7 @@ class Search extends Component {
       client.mutate({
         mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
         variables: { id: this.state.suitcaseId, item_ids: itemsToAdd }
-      }).then(result => {
-        console.log(result);
+      }).then( () => {
         this.props.alert.show(<div className="success-alert">You added these items to your suitcase</div>);
       }).catch(err => console.log(err))
     }

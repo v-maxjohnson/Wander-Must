@@ -132,8 +132,6 @@ class Account extends Component {
       fileName: file.name 
     });
 
-    var hiddenDiv = document.getElementById("settings-updated");
-    hiddenDiv.style.display = "none";
   }
 
   getUser = () => {
@@ -215,8 +213,6 @@ class Account extends Component {
         gender: updated.gender
     });
 
-    var hiddenDiv = document.getElementById("settings-updated");
-    hiddenDiv.style.display = "none";
 };
 
   handleFormSubmit = event => {
@@ -238,7 +234,7 @@ class Account extends Component {
     } else {
     axios({
       method: "POST",
-      url: "https://api.cloudinary.com/v1_1/wandermust/upload/c_fill,h_150,w_150",
+      url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
       data: this.state.imageData 
     })
       .then( res => {

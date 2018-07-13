@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from "react-router-dom";
 import { Button, CustomInput, Col, Form, FormGroup, Label, Input } from 'reactstrap';
+import { withAlert } from 'react-alert';
 import Main from "../components/Main";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -76,21 +77,43 @@ mutation deleteUser( $id: ID ){
 
 const client = new ApolloClient();
 
-export default class Account extends Component {
-  state = {
-    userData: {
-      username: ""
-    },
+class Account extends Component {
+  constructor(props) {
+    super(props);
 
-    email: "",
-    username: "",
-    gender: "",
-    user_image: "",
-    imageData: "",
-    fileName: "Upload your image!",
-    openDeleteAccountConfirmationModal: false,
-    loggedInUserId: localStorage.getItem("logged_in_user_id")
+    this.state = {
+      userData: {
+        username: ""
+      },
+
+      email: "",
+      username: "",
+      emailError: "",
+      usernameError: "",
+      gender: "",
+      user_image: "",
+      imageData: "",
+      fileName: "Upload your image!",
+      openDeleteAccountConfirmationModal: false,
+      loggedInUserId: localStorage.getItem("logged_in_user_id")
+    }
+
+    this.constraints = {
+      email: { 
+        presence: true,
+        email: true
+      },
+      username: {
+        presence: true,
+        length: {
+          minimum: 3,
+          maximum: 15
+        }
+      }
+    }
   }
+  
+  
 
   componentDidMount() {
 
@@ -138,7 +161,44 @@ export default class Account extends Component {
     })
   }
 
+  handleEmailError = (e) => {
+    this.handleInputChange;
+
+    let { name, value } = e.target;
+
+    this.setState({
+      [name]: value
+    })
+
+    let result = validate({email: this.state.email}, this.constraints)
+    if (result.email) {
+      this.setState({emailError: result.email[0]})
+    } else {
+      this.setState({emailError: ""})
+    }
+  }
+
+  handleUsernameError = (e) => {
+    this.handleInputChange;
+
+    let { name, value } = e.target;
+
+    this.setState({
+      [name]: value
+    })
+
+    let result = validate({username: this.state.username}, this.constraints)
+    if (result.username) {
+      this.setState({usernameError: result.username[0]})
+    } else {
+      this.setState({usernameError: ""})
+    }
+  }
+
   handleInputChange = event => {
+
+    
+
     const { name, value } = event.target;
     let existingData = { ...this.state };
     let updated = {
@@ -162,6 +222,20 @@ export default class Account extends Component {
   handleFormSubmit = event => {
     event.preventDefault();
 
+    let data = {
+      username: this.state.username,
+      email : this.state.email, 
+    }
+
+    let result = validate(data, this.constraints)
+    if (result) {
+      if (result.username) {
+        this.setState({usernameError: result.username[0]});
+      }
+      if (result.email) {
+        this.setState({emailError: result.email[0]});
+      }
+    } else {
     axios({
       method: "POST",
       url: "https://api.cloudinary.com/v1_1/wandermust/upload/c_fill,h_150,w_150",
@@ -210,9 +284,9 @@ export default class Account extends Component {
         }
       })
 
-      var hiddenDiv = document.getElementById("settings-updated");
-      hiddenDiv.style.display = "block";
-  };
+      this.props.alert.show(<div className="success-alert">Your account settings have been updated and saved!</div>);
+  }
+};
 
   showDeleteAccountConfirmationModal = () => {
     this.setState({ openDeleteAccountConfirmationModal: true });
@@ -309,8 +383,8 @@ export default class Account extends Component {
                         <Input
                           type="email"
                           name="email"
-                          placeholder={this.state.email}
-                          onChange={this.handleInputChange}
+                          value={this.state.email}
+                          onChange={this.handleEmailError}
                         />
                         <p className="error-text">{this.state.emailError}</p>
                       </Col>
@@ -321,8 +395,8 @@ export default class Account extends Component {
                         <Input
                           type="username"
                           name="username"
-                          placeholder={this.state.username}
-                          onChange={this.handleInputChange}
+                          value={this.state.username}
+                          onChange={this.handleUsernameError}
                         />
                         <p className="error-text">{ this.state.usernameError }</p>
                       </Col>
@@ -333,17 +407,17 @@ export default class Account extends Component {
                       <Col sm={9}>
                         <div>
                           <CustomInput 
-                            inline type="radio" id="female" name="gender" 
+                            inline="true" type="radio" id="female" name="gender" 
                             label="Female" value="female" 
                             onClick={this.handleInputChange}
                           />
                           <CustomInput 
-                            inline type="radio" id="male" name="gender" 
+                            inline="true" type="radio" id="male" name="gender" 
                             label="Male" value="male" 
                             onClick={this.handleInputChange}
                           />
                           <CustomInput 
-                            inline type="radio" id="noGender" name="gender" 
+                            inline="true" type="radio" id="noGender" name="gender" 
                             label="Beyond Society's Gender Definitions" value="noGender"
                             onClick={this.handleInputChange}
                           />
@@ -370,9 +444,6 @@ export default class Account extends Component {
                       </Col>
                     </FormGroup>
                   </Form>
-                  <FormGroup row >
-                    <p id="settings-updated">Your account settings have been updated and saved!</p>
-                  </FormGroup>
                   <div>
                     <br />
                     <hr />
@@ -411,3 +482,5 @@ export default class Account extends Component {
     )
   }
 }
+
+export default withAlert(Account);

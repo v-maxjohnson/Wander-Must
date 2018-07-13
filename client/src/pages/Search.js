@@ -129,13 +129,15 @@ class Search extends Component {
   }
 
   addItemsToSuitcase = (itemsToAdd) => {
-    client.mutate({
-      mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
-      variables: { id: this.state.suitcaseId, item_ids: itemsToAdd }
-    }).then(result => {
-      console.log(result);
-      this.props.alert.show(<div className="success-alert">You added these items to your suitcase</div>);
-    }).catch(err => console.log(err))
+    if (itemsToAdd.length) {
+      client.mutate({
+        mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
+        variables: { id: this.state.suitcaseId, item_ids: itemsToAdd }
+      }).then(result => {
+        console.log(result);
+        this.props.alert.show(<div className="success-alert">You added these items to your suitcase</div>);
+      }).catch(err => console.log(err))
+    }
   }
 
   mapOrRedirect = () => {
@@ -167,24 +169,15 @@ class Search extends Component {
         )
       )
     } else {
-      this.setState({
-        shouldRedirectToItems: true
-      })
+      return <Redirect to={"/items"} render={(props) => <Items {...props} />} />
     }
   }
 
-  maybeRedirect() {
-    if (this.state.shouldRedirectToItems) {
-      return (
-        <Redirect to={"/items"} render={(props) => <Items {...props} />} />
-      )
-    }
-  }
 
   render() {
     return (
       <div className="search profile-page sidebar-collapse">
-        {this.maybeRedirect()}
+
         <Header
           showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}

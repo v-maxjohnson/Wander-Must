@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Col, Form, FormGroup, Label, Input, CustomInput } from 'reactstrap';
+import { withAlert } from 'react-alert';
 import "../styles/Blog.css";
 import Pixabay from '../utils/Pixabay';
 import ApolloClient from 'apollo-boost';
@@ -40,7 +41,7 @@ const UPDATE_SUITCASE_NOTE_MUTATION = gql`
     }
 }`;
 
-export default class Blog extends Component {
+class Blog extends Component {
     state = {
         id: this.props.suitcase_id,
         note_title: "",
@@ -49,23 +50,23 @@ export default class Blog extends Component {
         fileName: "Upload your image here!",
         imageData: "",
         defaultImage: false,
-        
+
     }
 
-    componentDidMount(){
-      
+    componentDidMount() {
+
         this.getSuitcase();
 
     }
 
     getSuitcase = () => {
         client.query({
-          query: GET_SUITCASE_QUERY,
-          variables: { id: this.state.id },
-          fetchPolicy: "network-only"
+            query: GET_SUITCASE_QUERY,
+            variables: { id: this.state.id },
+            fetchPolicy: "network-only"
         })
-            .then( result => {
-                let newState = { 
+            .then(result => {
+                let newState = {
                     note_title: result.data.getSuitcase.note_title,
                     notes: result.data.getSuitcase.notes,
                     suitcase_image: result.data.getSuitcase.suitcase_image,
@@ -75,7 +76,7 @@ export default class Blog extends Component {
                     defaultImage: (result.data.getSuitcase.suitcase_image === null)
                 }
 
-                this.setState(newState) 
+                this.setState(newState)
             })
     }
 
@@ -85,29 +86,26 @@ export default class Blog extends Component {
         this.setState({
             [name]: value
         });
-
-        var hiddenDiv = document.getElementById("settings-updated");
-        hiddenDiv.style.display = "none";
     };
 
     renderPixabay = event => {
         event.preventDefault();
-        
-        if( ! this.state.defaultImage ){
-            this.setState({defaultImage: true})
+
+        if (!this.state.defaultImage) {
+            this.setState({ defaultImage: true })
         }
 
         this.maybeMakePixabayCall();
     }
 
     maybeMakePixabayCall = () => {
-        if( this.state.defaultImage === true ){
+        if (this.state.defaultImage === true) {
             return <Pixabay
-                    city={this.state.city}
-                    country={this.state.country}
-                    setCityImageSrc={this.setCityImageSrc}
-                />            
-        }      
+                city={this.state.city}
+                country={this.state.country}
+                setCityImageSrc={this.setCityImageSrc}
+            />
+        }
     }
 
     setCityImageSrc = (url) => {
@@ -120,65 +118,63 @@ export default class Blog extends Component {
         imageData.append("file", file);
         imageData.append("upload_preset", "wdfwv3ua");
 
-        this.setState({ 
-            imageData : imageData,
+        this.setState({
+            imageData: imageData,
             fileName: file.name,
             defaultImage: false
         });
 
-        var hiddenDiv = document.getElementById("settings-updated");
-        hiddenDiv.style.display = "none";
     }
 
     handleFormSubmit = event => {
         event.preventDefault();
-        
-        let existingData = {...this.state};
+
+        let existingData = { ...this.state };
         let updated = {
             note_title: this.state.note_title,
             notes: this.state.notes,
             suitcase_image: this.state.suitcase_image
         };
 
-        Object.keys(updated).forEach( item => updated[item] ? null: delete updated[item] );
+        Object.keys(updated).forEach(item => updated[item] ? null : delete updated[item]);
 
-        updated = {...existingData, ...updated};
+        updated = { ...existingData, ...updated };
 
-        if(! this.state.defaultImage ) {
+        if (!this.state.defaultImage) {
             axios({
                 method: "POST",
                 url: "https://api.cloudinary.com/v1_1/wandermust/upload/",
                 data: this.state.imageData
-              })
-                .then( res => {
-                    
-                  const secure_url = res.data.secure_url;
-          
-                  this.setState({ 
-                    suitcase_image: secure_url,
-                    fileName: "Upload your image here!" 
-                  });
-                  
-                  client.mutate({
-                    mutation: UPDATE_SUITCASE_IMAGE_MUTATION,
-                    variables: { id: this.state.id, suitcase_image: secure_url },
-                    fetchPolicy: 'no-cache'
-                  })
-                    .catch( err => console.log(err.message) )
-                }
-            )
-                    
-        } else {
-              
-            client.mutate({
-            mutation: UPDATE_SUITCASE_IMAGE_MUTATION,
-            variables: { id: this.state.id, suitcase_image: this.state.suitcase_image },
-            fetchPolicy: 'no-cache'
             })
-            .catch( err => console.log(err.message) )
+                .then(res => {
+
+                    const secure_url = res.data.secure_url;
+
+                    this.setState({
+                        suitcase_image: secure_url,
+                        fileName: "Upload your image here!"
+                    });
+
+                    client.mutate({
+                        mutation: UPDATE_SUITCASE_IMAGE_MUTATION,
+                        variables: { id: this.state.id, suitcase_image: secure_url },
+                        fetchPolicy: 'no-cache'
+                    })
+                        .catch(err => console.log(err.message))
+                }
+                )
+
+        } else {
+
+            client.mutate({
+                mutation: UPDATE_SUITCASE_IMAGE_MUTATION,
+                variables: { id: this.state.id, suitcase_image: this.state.suitcase_image },
+                fetchPolicy: 'no-cache'
+            })
+                .catch(err => console.log(err.message))
 
         }
-        
+
 
         client.mutate({
             mutation: UPDATE_SUITCASE_NOTE_MUTATION,
@@ -187,8 +183,7 @@ export default class Blog extends Component {
         })
             .catch(err => console.log(err.message));
 
-        var hiddenDiv = document.getElementById("settings-updated");
-        hiddenDiv.style.display = "block";
+        this.props.alert.show(<div className="success-alert">Your suitcase settings have been updated and saved!</div>);
 
     };
 
@@ -268,11 +263,6 @@ export default class Blog extends Component {
                                     <Button color="primary" onClick={this.handleFormSubmit} >Submit</Button>
                                 </Col>
                             </FormGroup>
-                            <FormGroup row>
-                                <Col sm={{offset: 5}}>
-                                    <p id="settings-updated">Your account settings have been updated and saved!</p>
-                                </Col>
-                            </FormGroup>
                         </Form>
                         <div className="row">
                             <div className="col-12 text-center">
@@ -315,7 +305,7 @@ export default class Blog extends Component {
                                         />
                                     </div>
                                 </Col>
-                            </div>                     
+                            </div>
                         </div>
                     )
                 }
@@ -323,3 +313,5 @@ export default class Blog extends Component {
         )
     }
 }
+
+export default withAlert(Blog);

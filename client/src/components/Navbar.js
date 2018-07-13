@@ -73,6 +73,10 @@ export default class Navibar extends Component {
 
   }
 
+  componentWillUnmount(){
+    window.removeEventListener('scroll', this.listenScrollEvent)
+  }
+
   listenScrollEvent = e => {
     if (window.scrollY > 100) {
       this.setState({ activeClass: "bg-white" })

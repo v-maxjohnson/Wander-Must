@@ -280,6 +280,7 @@ class Suitcase extends Component {
 }
 
   addItemsToCurrentSuitcase = () => {
+    if (this.state.itemsToAdd.length) {
     client.mutate({
       mutation: ADD_ITEM_TO_SUITCASE_MUTATION,
       variables: { id: this.state.currentSuitcaseId, item_ids: this.state.itemsToAdd }
@@ -291,6 +292,7 @@ class Suitcase extends Component {
         thisSuitcaseId: this.props.match.params.id
       });
     }).catch(err => console.log(err))
+  }
   }
 
   deleteItemFromSuitcase = (itemId) => {
@@ -472,7 +474,6 @@ class Suitcase extends Component {
     return (
       <div className="suitcase profile-page sidebar-collapse">
         {this.maybeRedirect()}
-        {console.log(this.state.itemsToAdd)}
         <Header
           showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}

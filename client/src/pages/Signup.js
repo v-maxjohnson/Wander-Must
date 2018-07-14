@@ -31,8 +31,8 @@ export default class Signup extends Component {
         username: {
           presence: true,
           length: {
-            minimum: 2,
-            maximum: 14,
+            minimum: 3,
+            maximum: 15,
             message: "must be between 3 and 15 characters",
             },
         },
@@ -43,8 +43,8 @@ export default class Signup extends Component {
         password: {
           presence: true,
           length: {
-            minimum: 5,
-            maximum: 19,
+            minimum: 6,
+            maximum: 20,
             message: "must be between 6 and 20 characters"
           },
         },
@@ -81,7 +81,7 @@ export default class Signup extends Component {
       [name]: value
     })
 
-    let result = validate({email: this.state.email}, this.constraints)
+    let result = validate({email: value}, this.constraints)
     if (result.email) {
       this.setState({emailError: result.email[0]})
     } else {
@@ -96,7 +96,7 @@ export default class Signup extends Component {
       [name]: value
     })
 
-    let result = validate({username: this.state.username}, this.constraints)
+    let result = validate({username: value}, this.constraints)
     if (result.username) {
       this.setState({usernameError: result.username[0]})
     } else {
@@ -111,7 +111,7 @@ export default class Signup extends Component {
       [name]: value
     })
 
-    let result = validate({password: this.state.password}, this.constraints)
+    let result = validate({password: value}, this.constraints)
     if (result.password) {
       this.setState({passwordError: result.password[0]})
     } else {

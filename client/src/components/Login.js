@@ -32,15 +32,13 @@ export default class Login extends Component {
         presence: true,
         email: {
           presence: true,
-          message: "is not valid"
         }
       },
       password: {
         presence: true,
         length: {
-          minimum: 5,
-          maximum: 19,
-          message: "has to be between 6 and 20 characters"
+          minimum: 6,
+          maximum: 20,
         },
       }
     }
@@ -53,7 +51,7 @@ export default class Login extends Component {
       [name]: value
     })
 
-    let result = validate({email: this.state.email}, this.constraints)
+    let result = validate({email: value}, this.constraints)
     if (result) {
       if (result.email) {
         this.setState({emailError: result.email[0]})
@@ -71,7 +69,7 @@ export default class Login extends Component {
       [name]: value
     })
 
-    let result = validate({password: this.state.password}, this.constraints)
+    let result = validate({password: value}, this.constraints)
     if (result) {
       if (result.password) {
         this.setState({passwordError: result.password[0]})

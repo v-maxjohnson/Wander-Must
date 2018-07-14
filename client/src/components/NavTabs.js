@@ -9,7 +9,7 @@ export default class NavTabs extends Component {
           <a onClick={() => this.props.handlePageChange("SuitcaseItems")}
             className={this.props.currentPage === "SuitcaseItems" ? "active nav-link" : "nav-link"}>
             <button className="all btn btn-primary btn-sm btn-fab btn-round">
-              <i className="fa fa-suitcase" title="Contact"> </i>
+              <i className="fa fa-suitcase" title="Suitcase"> </i>
             </button>
           </a>
         </li>

@@ -32,7 +32,7 @@ export default class Wunderground extends Component {
                     url = response.data.hits[0].webformatURL;
                     this.props.setCityImageSrc(url);
                 } else {
-                    url = "https://res.cloudinary.com/wandermust/image/upload/v1531079286/user_image/suitcaseBlack.png";
+                    url = "https://res.cloudinary.com/wandermust/image/upload/c_fill,h_350,w_350/v1531079286/suitcase_image/suitcaseBlack.png";
                     this.props.setCityImageSrc(url);
                 }
             })

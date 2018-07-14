@@ -3,6 +3,8 @@ import { Dropdown, DropdownToggle, DropdownMenu, Input } from 'reactstrap';
 import { Redirect, Link } from 'react-router-dom';
 import Profile from "../pages/Profile";
 import "../styles/Login.css";
+import validate from 'validate.js';
+
 
 export default class Login extends Component {
   constructor(props) {
@@ -15,6 +17,8 @@ export default class Login extends Component {
       isAuthenticated: false,
       email: "",
       password: "",
+      emailError: "",
+      passwordError: "",
       userData: {
         id: "",
         username: "",
@@ -22,7 +26,78 @@ export default class Login extends Component {
         user_image: ""
       }
     };
+
+    this.constraints = {
+      email: { 
+        presence: true,
+        email: {
+          presence: true,
+        }
+      },
+      password: {
+        presence: true,
+        length: {
+          minimum: 6,
+          maximum: 20,
+        },
+      }
+    }
   }
+
+  handleEmailError = (e) => {
+    let { name, value } = e.target;
+
+    this.setState({
+      [name]: value
+    })
+
+    let result = validate({email: value}, this.constraints)
+    if (result) {
+      if (result.email) {
+        this.setState({emailError: result.email[0]})
+      } else {
+        this.setState({emailError: ""})
+      }
+    } 
+  }
+  
+
+  handlePasswordError = (e) => {
+    let { name, value } = e.target;
+
+    this.setState({
+      [name]: value
+    })
+
+    let result = validate({password: value}, this.constraints)
+    if (result) {
+      if (result.password) {
+        this.setState({passwordError: result.password[0]})
+      } else {
+        this.setState({passwordError: ""})
+      }
+    }
+  }
+
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    let existingData = { ...this.state };
+    let updated = {
+        [name] : value
+    };
+
+    Object.keys(updated).forEach(item => updated[item] ? "" : delete updated[item]);
+
+    updated = { ...existingData, ...updated };
+
+    this.setState({
+        email: updated.email,
+        password: updated.password
+    });
+
+};
+
+
 
   toggle() {
     this.setState(prevState => ({
@@ -95,13 +170,15 @@ export default class Login extends Component {
             <label htmlFor="email" className="col-sm-offset-1">Email Address</label>
             <Input className="text" type="email" name="email"
               value={this.state.email}
-              onChange={this.handleChange}
+              onChange={this.handleEmailError}
             />
+          {<p className="error-login">{this.state.emailError}</p>}
             <label htmlFor="password">Password</label>
             <Input name="password" type="password"
               value={this.state.password}
-              onChange={this.handleChange}
+              onChange={this.handlePasswordError}
             />
+            <p className="error-login">{this.state.passwordError}</p>
             <div className="row">
               <div className="col-5">
                 <input className="btn btn-primary btn-sm mt-3 mx-auto px-3 py-2" type="submit" value="Login" />

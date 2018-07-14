@@ -160,15 +160,13 @@ class Account extends Component {
   }
 
   handleEmailError = (e) => {
-    this.handleInputChange;
-
     let { name, value } = e.target;
 
     this.setState({
       [name]: value
     })
 
-    let result = validate({email: this.state.email}, this.constraints)
+    let result = validate({email: value}, this.constraints)
     if (result.email) {
       this.setState({emailError: result.email[0]})
     } else {
@@ -177,15 +175,13 @@ class Account extends Component {
   }
 
   handleUsernameError = (e) => {
-    this.handleInputChange;
-
     let { name, value } = e.target;
 
     this.setState({
       [name]: value
     })
 
-    let result = validate({username: this.state.username}, this.constraints)
+    let result = validate({username: value}, this.constraints)
     if (result.username) {
       this.setState({usernameError: result.username[0]})
     } else {

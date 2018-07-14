@@ -203,7 +203,7 @@ export default class Navibar extends Component {
           </NavItem>
 
           <NavItem className="nav-item">
-            <button className="btn btn-primary btn-sm px-3 py-2" id="logout-btn">Logout</button>
+            <button className="btn btn-primary btn-sm px-3 py-2" id="logout-btn" onClick={ this.handleLogout } >Logout</button>
           </NavItem>
         </Nav >
       )
@@ -225,13 +225,15 @@ export default class Navibar extends Component {
 
   handleLogout = event => {
     event.preventDefault();
-    fetch("logout", { method: "GET" })
-      .then(
-        this.setState({
-          isAuthenticated: false
-        }
-        )
-      )
+    localStorage.clear();
+    this.setState({isAuthenticated : false})
+    // fetch("logout", { method: "GET" })
+    //   .then(
+    //     this.setState({
+    //       isAuthenticated: false
+    //     }
+    //     )
+    //   )
   }
 
   maybeLogout() {

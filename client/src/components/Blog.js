@@ -191,7 +191,9 @@ class Blog extends Component {
 
     render() { //186
         return (
+            
             <div className="blog">
+                {console.log(this.state.note_title)}
                 {this.props.loggedInUserIdNumber === this.props.suitcaseUserId ? (
                     <div>
                         <Form onSubmit={this.setTerm}>
@@ -204,7 +206,7 @@ class Blog extends Component {
                                     <Input
                                         type="text"
                                         name="note_title"
-                                        placeholder={this.props.note_title}
+                                        placeholder="Type here"
                                         value={this.state.note_title}
                                         onChange={this.handleInputChange}
                                     />
@@ -220,6 +222,7 @@ class Blog extends Component {
                                         type="textarea"
                                         name="notes"
                                         rows={8}
+                                        placeholder="Type here"
                                         value={this.state.notes}
                                         onChange={this.handleInputChange}
                                     />

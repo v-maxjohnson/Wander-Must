@@ -31,7 +31,7 @@ module.exports = function (sequelize, DataTypes) {
         suitcase_image: {
             type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: "http://res.cloudinary.com/wandermust/image/upload/c_fill,h_350,w_350/v1531079286/suitcase_image/suitcaseBlack.png"
+            defaultValue: "https://res.cloudinary.com/wandermust/image/upload/c_fill,h_350,w_350/v1531079286/suitcase_image/suitcaseBlack.png"
         }
     }, {
             // disable timestamps

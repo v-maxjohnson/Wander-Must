@@ -18,3 +18,11 @@
 .login-dropdown .btn.btn-secondary:hover {
     box-shadow: none;
 }
+
+.error-login {
+    color: red !important;
+    margin-left: 5px;
+    min-height: 30px;
+    font-size: 14px;
+    font-family: "Reem Kufi", sans-serif
+}

@@ -31,9 +31,10 @@ export default class Signup extends Component {
         username: {
           presence: true,
           length: {
-            minimum: 3,
-            maximum: 15
-            }
+            minimum: 2,
+            maximum: 14,
+            message: "must be between 3 and 15 characters",
+            },
         },
         email: { 
           presence: true,
@@ -42,8 +43,9 @@ export default class Signup extends Component {
         password: {
           presence: true,
           length: {
-            minimum: 6,
-            maximum: 20
+            minimum: 5,
+            maximum: 19,
+            message: "must be between 6 and 20 characters"
           },
         },
       }

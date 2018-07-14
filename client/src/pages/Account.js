@@ -106,8 +106,9 @@ class Account extends Component {
       username: {
         presence: true,
         length: {
-          minimum: 3,
-          maximum: 15
+          minimum: 2,
+          maximum: 14,
+          message: "must be between 3 and 15 characters"
         }
       }
     }
@@ -160,8 +161,6 @@ class Account extends Component {
   }
 
   handleEmailError = (e) => {
-    this.handleInputChange;
-
     let { name, value } = e.target;
 
     this.setState({
@@ -177,8 +176,6 @@ class Account extends Component {
   }
 
   handleUsernameError = (e) => {
-    this.handleInputChange;
-
     let { name, value } = e.target;
 
     this.setState({

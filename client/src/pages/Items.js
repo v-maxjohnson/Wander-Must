@@ -183,7 +183,7 @@ class Items extends Component {
                   <div className="col-12">
                     <h2 className="wanderlust text-center">You are a true EXPLORER!</h2>
                     <h3 className="text-center">Scroll down and add more items to your packing list.</h3>
-                    <img className="img-fluid animals" src="/assets/img/faces/animals.png" alt="animals" />
+                    <img className="img-fluid animals" src="/assets/img/faces/suitcaseFriends.png" alt="animals" />
                   </div>
                 </div>
               </div>

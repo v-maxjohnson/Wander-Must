@@ -225,13 +225,15 @@ export default class Navibar extends Component {
 
   handleLogout = event => {
     event.preventDefault();
-    fetch("logout", { method: "GET" })
-      .then(
-        this.setState({
-          isAuthenticated: false
-        }
-        )
-      )
+    localStorage.clear();
+    this.setState({isAuthenticated : false})
+    // fetch("logout", { method: "GET" })
+    //   .then(
+    //     this.setState({
+    //       isAuthenticated: false
+    //     }
+    //     )
+    //   )
   }
 
   maybeLogout() {

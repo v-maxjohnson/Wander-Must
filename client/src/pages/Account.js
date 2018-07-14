@@ -106,9 +106,8 @@ class Account extends Component {
       username: {
         presence: true,
         length: {
-          minimum: 2,
-          maximum: 14,
-          message: "must be between 3 and 15 characters"
+          minimum: 3,
+          maximum: 15
         }
       }
     }
@@ -167,7 +166,7 @@ class Account extends Component {
       [name]: value
     })
 
-    let result = validate({email: this.state.email}, this.constraints)
+    let result = validate({email: value}, this.constraints)
     if (result.email) {
       this.setState({emailError: result.email[0]})
     } else {
@@ -182,7 +181,7 @@ class Account extends Component {
       [name]: value
     })
 
-    let result = validate({username: this.state.username}, this.constraints)
+    let result = validate({username: value}, this.constraints)
     if (result.username) {
       this.setState({usernameError: result.username[0]})
     } else {

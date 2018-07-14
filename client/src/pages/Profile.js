@@ -55,7 +55,11 @@ export default class Profile extends Component {
       variables: { id: this.state.userId },
       fetchPolicy: "network-only"
     }).then(result => {
-      this.setState({ userData: result.data.getUser, rendered: true });
+      this.setState({
+        userData: result.data.getUser,
+        loggedInUserId: localStorage.getItem("logged_in_user_id"),
+        rendered: true
+      });
     })
   }
 

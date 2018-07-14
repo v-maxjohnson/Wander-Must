@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import SignupCard from "../components/SignupCard";
 import { Input } from 'reactstrap';
 import Navibar from "../components/Navbar";
 import Footer from "../components/Footer";

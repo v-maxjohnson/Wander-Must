@@ -19,14 +19,11 @@ module.exports = function (sequelize, DataTypes) {
         },
         note_title: {
             type: DataTypes.STRING,
-            // restrict note title so that it cannot be null
-            allowNull: true,
-            defaultValue: "Suitcase Note Title"
+            allowNull: true
         },
         notes: {
             type: DataTypes.TEXT,
-            allowNull: true,
-            defaultValue: "Suitcase Note"
+            allowNull: true
         },
         suitcase_image: {
             type: DataTypes.STRING,

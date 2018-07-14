@@ -25,13 +25,14 @@ module.exports = function (sequelize, DataTypes) {
     },
     gender: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      defaultValue: "noGender"
     },
     user_image: {
       type: DataTypes.STRING,
       // restrict email from being entered if it doesn't have a text value
       allowNull: false,
-      defaultValue: 'http://res.cloudinary.com/wandermust/image/upload/c_fill,h_150,w_150/v1531193019/user_image/SuitcaseNoGender.png'
+      defaultValue: 'https://res.cloudinary.com/wandermust/image/upload/c_fill,h_150,w_150/v1531193019/user_image/SuitcaseNoGender.png'
     }
   }, {
       // disable timestamps

@@ -23,7 +23,6 @@ module.exports = function (app, passport) {
           if(!user){return res.send({redirect: '/signup'});}
           req.logIn(user, function(err) {
             if (err) { return next(err); }
-            console.log('new user!: ' + user);
             return res.json(user);
           });
         }) (req, res, next);
@@ -31,11 +30,9 @@ module.exports = function (app, passport) {
 
     app.post("/api/signin", function (req, res, next) {
         var parsedReq = JSON.stringify(req.body);
-        console.log('auth.js req: ' + parsedReq);
 
         passport.authenticate("local-signin", function (err, user, info) {
             if (err) {
-                console.log('if (err) error: ' + err);
                 return next(err);
             }
             req.login(user, function (err) {

@@ -54,9 +54,7 @@ class Blog extends Component {
     }
 
     componentDidMount() {
-
         this.getSuitcase();
-
     }
 
     getSuitcase = () => {
@@ -123,7 +121,6 @@ class Blog extends Component {
             fileName: file.name,
             defaultImage: false
         });
-
     }
 
     handleFormSubmit = event => {
@@ -164,7 +161,8 @@ class Blog extends Component {
                 }
                 )
 
-        } else {
+        } 
+        else {
 
             client.mutate({
                 mutation: UPDATE_SUITCASE_IMAGE_MUTATION,
@@ -174,7 +172,6 @@ class Blog extends Component {
                 .catch(err => console.log(err.message))
 
         }
-
 
         client.mutate({
             mutation: UPDATE_SUITCASE_NOTE_MUTATION,
@@ -187,13 +184,9 @@ class Blog extends Component {
 
     };
 
-
-
-    render() { //186
+    render() {
         return (
-            
             <div className="blog">
-                {console.log(this.state.note_title)}
                 {this.props.loggedInUserIdNumber === this.props.suitcaseUserId ? (
                     <div>
                         <Form onSubmit={this.setTerm}>

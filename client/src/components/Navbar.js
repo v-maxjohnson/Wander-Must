@@ -54,33 +54,30 @@ export default class Navibar extends Component {
     //         }`
     // }).then(result => {
     //   this.setState({ allLocales: result.data.allLocales });
-    //   console.log(autocompleteLocales);
     // })
 
     if ("logged_in_user_id" in localStorage && this.state.loggedInUserIdNumber !== "") {
-    client.query({
-      query: GET_USER_QUERY,
-      variables: { id: this.state.loggedInUserIdNumber },
-      fetchPolicy: "network-only"
-    }).then(result => {
-      this.setState({ userName: result.data.getUser.username });
-    })
-
-  }
-
+      client.query({
+        query: GET_USER_QUERY,
+        variables: { id: this.state.loggedInUserIdNumber },
+        fetchPolicy: "network-only"
+      })
+        .then(result => {
+        this.setState({ userName: result.data.getUser.username });
+        })
+    }
     window.addEventListener('scroll', this.listenScrollEvent)
-
-
   }
 
   componentWillUnmount(){
     window.removeEventListener('scroll', this.listenScrollEvent)
   }
 
-  listenScrollEvent = e => {
+  listenScrollEvent = () => {
     if (window.scrollY > 100) {
       this.setState({ activeClass: "bg-white" })
-    } else {
+    } 
+    else {
       this.setState({ activeClass: "navbar-transparent" })
     }
   }

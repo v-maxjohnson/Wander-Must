@@ -70,14 +70,22 @@ export default class Profile extends Component {
 
   }
 
-  render() {
-    return (
-      <div className="profile profile-page sidebar-collapse">
+  renderHeader = () => {
+    if (this.state.rendered) {
+      return (
         <Header
           showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}
           userDataId={this.state.userData.id}
         />
+      )
+    }
+  }
+
+  render() {
+    return (
+      <div className="profile profile-page sidebar-collapse">
+        {this.renderHeader()}
         <Main>
           <div className="page-header header-filter" id="background-profile" data-parallax="true"></div>
           <div className="main main-raised">

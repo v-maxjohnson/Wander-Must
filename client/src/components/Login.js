@@ -119,7 +119,6 @@ export default class Login extends Component {
       password: this.state.password
     }
     let newData = JSON.stringify(data);
-    console.log('auth request credentials: ' + newData);
 
     fetch('api/signin', {
       method: 'POST',
@@ -150,12 +149,10 @@ export default class Login extends Component {
   maybeRedirect() {
     if (this.state.isAuthenticated === true) {
       let userId = this.state.userData.id;
-      console.log('userId: ' + userId);
       return (
         <Redirect to={'/profile/' + userId} render={(props) => <Profile {...props} />} />
       )
     }
-    console.log('state after redirect: ' + JSON.stringify(this.state));
   }
 
   render() {

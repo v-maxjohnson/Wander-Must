@@ -12,7 +12,6 @@ module.exports = function (passport, user) {
     // passport needs to save a user ID which it uses 
     // to retrieve user details when needed
     passport.serializeUser(function (user, done) {
-        // console.log("Serializer : ", user)
         done(null, user.id);
     });
 

@@ -85,14 +85,13 @@ export default class Home extends Component {
                           <div className="col-md-6 ml-auto mr-auto">
                             <img src="/assets/img/faces/card-profile6-square.jpg" alt="Face Thumbnail" className="img-raised rounded-circle img-fluid" />
                           </div>
-                          <h4 className="card-title">Gigi
+                          <h4 className="card-title">Mimi
                         <br />
                             <small className="card-description text-muted">Model</small>
                           </h4>
                           <div className="card-body">
                             <p className="card-description">I can't say enough about this app. I knew to pack an umbrella for Seattle, but I would never have thought
-                              to bring good shoes for trucking through the rainy streets. Some times the no brainers are the ones you
-                    forget first!</p>
+                              to bring good shoes for trucking through the rainy streets. Some times the no brainers are the ones you forget first!</p>
                           </div>
 
                         </div>
@@ -104,13 +103,12 @@ export default class Home extends Component {
                           <div className="col-md-6 ml-auto mr-auto">
                             <img src="/assets/img/faces/christian.jpg" alt="Face Thumbnail" className="img-raised rounded-circle img-fluid" />
                           </div>
-                          <h4 className="card-title">Christian Louboutin
+                          <h4 className="card-title">Christian
                   <br />
                             <small className="card-description text-muted">Designer</small>
                           </h4>
                           <div className="card-body">
-                            <p className="card-description">Being a designer requires looking right for every situation. This app helps me style my packing list for
-                    the area.</p>
+                            <p className="card-description">Being a designer requires looking right for every situation. This app helps me style my packing list for the area.</p>
                           </div>
 
                         </div>
@@ -122,12 +120,12 @@ export default class Home extends Component {
                           <div className="col-md-6 ml-auto mr-auto">
                             <img src="/assets/img/faces/kendall.jpg" alt="Face Thumbnail" className="img-raised rounded-circle img-fluid" />
                           </div>
-                          <h4 className="card-title">Kendall Jenner
+                          <h4 className="card-title">Mandy
                   <br />
-                            <small className="card-description text-muted">Reality TV "Star"</small>
+                            <small className="card-description text-muted">World Traveler</small>
                           </h4>
                           <div className="card-body">
-                            <p className="card-description">I'm just one here so everyone can pack like me. It's my favorite thing do for charity.</p>
+                            <p className="card-description">I love traveling! This app is great because I can make specific lists for every location I want to go to AND get the weather! This app rocks!</p>
                           </div>
 
                         </div>

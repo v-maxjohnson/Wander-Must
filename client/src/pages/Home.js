@@ -18,7 +18,7 @@ export default class Home extends Component {
           showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}
         />
-        
+
         <Main>
           <div id="background-home" className="page-header header-filter" data-parallax="true">
             <div className="container">
@@ -31,10 +31,10 @@ export default class Home extends Component {
               </div>
             </div> {/* ends container */}
           </div> {/* ends background-home */}
-          
+
           <div className="main-raised">
             <div className="container">
-              
+
               <div className="section text-center">
 
                 <div className="features">
@@ -85,9 +85,9 @@ export default class Home extends Component {
 
               <div className="section text-center">
                 <div className="why">
-                <h2 className="title">Why This App?</h2>  
+                  <h2 className="title">Why This App?</h2>
                   <div className="row">
-                    <p>World travelers generally spend several hours scouring the internet for information on what they should or shouldn't take on a trip to a particular part of the world. Information can be difficult to sift through, and the information that is available lacks consistency, context, and any sort of personal experience to lend it credence.</p> 
+                    <p>World travelers generally spend several hours scouring the internet for information on what they should or shouldn't take on a trip to a particular part of the world. Information can be difficult to sift through, and the information that is available lacks consistency, context, and any sort of personal experience to lend it credence.</p>
                     <p>Wander-Must serves as a user-friendly exploration of other users' personal experiences, organized in a way that makes planning for trips painless and fun. Each trip contains user details and personalization that contextualize these experiences, leading to a more accurate understanding of what to pack for a specific trip.</p>
                   </div>
                 </div>
@@ -151,25 +151,27 @@ export default class Home extends Component {
 
               <div className="section text-center">
                 <div className="future">
-                <h2 className="title">Future Plans for Wander-Must</h2>  
+                  <h2 className="title">Future Plans for Wander-Must</h2>
                   <div className="row">
-                    <ul>
-                      <div className="col-5">
+                    <div className="col-12 col-md-6">
+                      <ul>
                         <li>Persistent search bar to find cities and users.</li>
                         <li>Updating suitcase dates.</li>
                         <li>Multiple destination suitcases.</li>
                         <li>User creation of new items not already in database.</li>
                         <li>Password recovery and reset.</li>
-                      </div>
-                      <div className="col-7">
                         <li>Social media signup/login.</li>
+                      </ul>
+                    </div>
+                    <div className="col-12 col-md-6">
+                      <ul>
                         <li>Printable packing lists.</li>
                         <li>Create space for sites like Expedia to show airfare/hotel prices</li>
                         <li>Real-time social feed for new suitcases and update to suitcases.</li>
                         <li>The abiity to follow other users.</li>
                         <li>Integration with other social media channels.</li>
-                      </div>
-                    </ul>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div> {/* ends section */}
@@ -182,7 +184,7 @@ export default class Home extends Component {
 
         <Footer />
 
-      </div>
+      </div >
     )
   }
 }

@@ -1,3 +1,123 @@
 #background-home {
     background-image: url('../images/profile_city.jpg');
+    height: 100vh;
+    opacity: .9;
+}
+
+h1 {
+    font-size: 95px!important;
+    font-weight: 350!important;
+}
+
+.description {
+    color: white!important;
+    margin-left: 25%!important;
+    margin-right: 25%!important;
+    text-align: center!important;
+}
+
+.pitch {
+    margin-left: 10%!important;
+    margin-right: 10%!important;
+    color: white!important;
+    text-align: center!important;
+    font-weight: 500!important;
+}
+
+.intro-steps {
+    text-align: left!important;
+    padding-bottom: 15px!important;
+    margin: 0 0 35px 0!important;
+}
+
+.intro-steps h4 {
+    font-weight: 600!important;
+    margin-left: 5px!important;
+    margin-right: 5px!important;
+}
+
+.intro-steps li {
+    line-height: 190%!important;
+    margin-left: 10px!important;
+    margin-left: 10px!important;
+    font-weight: 400;
+}
+
+.intro-steps .title {
+    text-align: center!important;
+}
+
+.intro-steps .row {
+    margin-left: 0px!important;
+    margin-right: 0px!important;
+}
+
+.section {
+    padding: 0px!important;
+}
+
+.info {
+    padding-top: 15px!important;
+}
+
+.main .container {
+    margin-top: 95px!important;
+    padding-top: 30px!important;
+    padding-bottom: 30px!important;
+}
+
+.main-raised .container .section .features {
+    padding-top: 20px!important;
+    margin-top: 0px!important;
+}
+
+.btn-lg {
+    width: 254px!important;
+    box-shadow: 1.5em!important;
+}
+
+.intro-steps .button-center {
+    margin: 0 auto;
+}
+
+.why {
+    margin-top: 30px!important;
+    margin-bottom: 15px!important;
+}
+
+.why .row {
+    width: 1110px!important;
+    margin: 0 auto!important;
+}
+
+.why p {
+    font-family: Roboto, Helvetica, Arial, sans-serif!important;
+    font-size: 1rem!important;
+    text-align: left;
+    line-height: 2rem!important;
+    font-weight: 400!important;
+}
+
+.future {
+    margin-top: 30px!important;
+    margin-bottom: 15px!important;
+}
+
+.future .row {
+    width: 1110px!important;
+    margin: 0 auto!important;
+}
+
+.future ul {
+    font-family: Roboto, Helvetica, Arial, sans-serif!important;
+    font-size: 1rem!important;
+    text-align: left;
+    line-height: 2rem!important;
+    font-weight: 400!important;
+    margin: 0 auto!important;
+}
+
+.col-5, .col-7 {
+    display: inline-block!important;
+    margin: 0 auto!important;
 }

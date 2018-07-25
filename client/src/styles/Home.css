@@ -74,10 +74,8 @@ h1 {
 .btn-lg {
     width: 254px!important;
     box-shadow: 1.5em!important;
-}
-
-.intro-steps .button-center {
-    margin: 0 auto;
+    margin-left: auto!important;
+    margin-right: auto!important;
 }
 
 .why {

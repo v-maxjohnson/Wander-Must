@@ -18,7 +18,7 @@ export default class Home extends Component {
           showNewSuitcaseModal={this.props.showNewSuitcaseModal}
           loggedInUserIdNumber={this.state.loggedInUserIdNumber}
         />
-        
+
         <Main>
           <div id="background-home" className="page-header header-filter" data-parallax="true">
             <div className="container">
@@ -32,13 +32,13 @@ export default class Home extends Component {
               </div>
             </div> {/* ends container */}
           </div> {/* ends background-home */}
-          
+
           <div className="main-raised">
             <div className="container">
-              
+
               <div className="section text-center">
                 <div className="features">
-                <h2 className="title">Features</h2>  
+                  <h2 className="title">Features</h2>
                   <div className="row">
                     <div className="col-md-4">
                       <div className="info">
@@ -73,20 +73,20 @@ export default class Home extends Component {
 
               <div className="section text-center">
                 <div className="intro-steps">
-                  <h2 className="title">Getting Started</h2>  
+                  <h2 className="title">Getting Started</h2>
                   <div className="row">
                     <h4>Knowing what to pack becomes easy with the following steps:</h4>
-                      <ol>
-                        <li>Sign up/Log in - create a unique username and customize your profile.</li>
-                        <li>Choose a destination, your travel dates, and the type of travel (Business, Leisure, Adventure, Vacation) and create a new suitcase.</li>
-                        <li>
-                          <ul>
-                            <li>If another user has already visited your destination, explore their experiences and add items to your suitcase.</li>
-                            <li>If you are the first to visit a destination, pick and choose what you may need from a list of 100 items and add them to your suitcase.</li>
-                          </ul>
-                        </li>
-                        <li>Update your suitcase as needed, adding and deleting items, writing your travel blog, changing the photo for your suitcase, and adjusting item amounts within your suitcase.</li>
-                      </ol>
+                    <ol>
+                      <li>Sign up/Log in - create a unique username and customize your profile.</li>
+                      <li>Choose a destination, your travel dates, and the type of travel (Business, Leisure, Adventure, Vacation) and create a new suitcase.</li>
+                      <li>
+                        <ul>
+                          <li>If another user has already visited your destination, explore their experiences and add items to your suitcase.</li>
+                          <li>If you are the first to visit a destination, pick and choose what you may need from a list of 100 items and add them to your suitcase.</li>
+                        </ul>
+                      </li>
+                      <li>Update your suitcase as needed, adding and deleting items, writing your travel blog, changing the photo for your suitcase, and adjusting item amounts within your suitcase.</li>
+                    </ol>
                   </div>
                   <div className="row">
                     <Link className="btn btn-lg btn-primary button-center" to="/signup">
@@ -101,9 +101,9 @@ export default class Home extends Component {
 
               <div className="section text-center">
                 <div className="why">
-                <h2 className="title">Why This App?</h2>  
+                  <h2 className="title">Why This App?</h2>
                   <div className="row">
-                    <p>World travelers generally spend several hours scouring the internet for information on what they should or shouldn't take on a trip to a particular part of the world. Information can be difficult to sift through, and the information that is available lacks consistency, context, and any sort of personal experience to lend it credence.</p> 
+                    <p>World travelers generally spend several hours scouring the internet for information on what they should or shouldn't take on a trip to a particular part of the world. Information can be difficult to sift through, and the information that is available lacks consistency, context, and any sort of personal experience to lend it credence.</p>
                     <p>Wander-Must serves as a user-friendly exploration of other users' personal experiences, organized in a way that makes planning for trips painless and fun. Each trip contains user details and personalization that contextualize these experiences, leading to a more accurate understanding of what to pack for a specific trip.</p>
                   </div>
                 </div>
@@ -167,25 +167,27 @@ export default class Home extends Component {
 
               <div className="section text-center">
                 <div className="future">
-                <h2 className="title">Future Plans for Wander-Must</h2>  
+                  <h2 className="title">Future Plans for Wander-Must</h2>
                   <div className="row">
-                    <ul>
-                      <div className="col-5">
+                    <div className="col-12 col-md-6">
+                      <ul>
                         <li>Persistent search bar to find cities and users.</li>
                         <li>Updating suitcase dates.</li>
                         <li>Multiple destination suitcases.</li>
                         <li>User creation of new items not already in database.</li>
                         <li>Password recovery and reset.</li>
-                      </div>
-                      <div className="col-7">
                         <li>Social media signup/login.</li>
+                      </ul>
+                    </div>
+                    <div className="col-12 col-md-6">
+                      <ul>
                         <li>Printable packing lists.</li>
                         <li>Create space for sites like Expedia to show airfare/hotel prices</li>
                         <li>Real-time social feed for new suitcases and update to suitcases.</li>
                         <li>The abiity to follow other users.</li>
                         <li>Integration with other social media channels.</li>
-                      </div>
-                    </ul>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div> {/* ends section */}
@@ -198,7 +200,7 @@ export default class Home extends Component {
 
         <Footer />
 
-      </div>
+      </div >
     )
   }
 }

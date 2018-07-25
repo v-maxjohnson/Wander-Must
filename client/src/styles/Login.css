@@ -3,7 +3,6 @@
     background-color: transparent!important;
 }
 
-
 .login-dropdown button i {
     color: white;
     font-size: 1.25rem!important;
@@ -20,9 +19,14 @@
 }
 
 .error-login {
-    color: red !important;
+    color: red!important;
     margin-left: 5px;
     min-height: 30px;
     font-size: 14px;
     font-family: "Reem Kufi", sans-serif
+}
+
+.show>.btn.btn-secondary.dropdown-toggle:focus,
+.show>.btn.btn-secondary.dropdown-toggle:hover {
+    color: inherit!important;
 }

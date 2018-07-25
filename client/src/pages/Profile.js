@@ -67,7 +67,6 @@ export default class Profile extends Component {
     if (this.state.loggedInUserId === this.state.userData.id) {
       localStorage.setItem("suitcase_id", id);
     }
-
   }
 
   renderHeader = () => {
@@ -146,4 +145,3 @@ export default class Profile extends Component {
     )
   }
 }
-

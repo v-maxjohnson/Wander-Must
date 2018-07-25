@@ -160,10 +160,10 @@ export default class Login extends Component {
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="login-dropdown">
         {this.maybeRedirect()}
         <DropdownToggle className="dropdown-toggle nav-link" caret>
-          <i className="fa fa-user-circle" title="Profile Page"> </i>
+          <i className="fa fa-user-circle nav-link pr-4" title="Profile Page"> </i>
         </DropdownToggle>
         <DropdownMenu className="dropdown-menu dropdown-with-icons">
-          <form className="p-8 col-12" onSubmit={this.handleSubmitEvent}>
+          <form className="p-3 col-12" onSubmit={this.handleSubmitEvent}>
             <label htmlFor="email" className="col-sm-offset-1">Email Address</label>
             <Input className="text" type="email" name="email"
               value={this.state.email}

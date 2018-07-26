@@ -34,14 +34,12 @@ export default class Home extends Component {
 
           <div className="main-raised">
             <div className="container">
-
               <div className="section text-center">
-
                 <div className="features">
-                <div>
-                  <h5 className="wandermust-font">We share our travel. You share your travel. Why is no one sharing their packing list?</h5>
-                </div>
-                <h2 className="title">Getting Started</h2>  
+                  <div>
+                    <h5 className="wandermust-font">We share our travel. You share your travel. Why is no one sharing their packing list?</h5>
+                  </div>
+                  <h2 className="title">Getting Started</h2>  
                   <div className="row">
                     <div className="col-md-4">
                       <div className="info">
@@ -75,23 +73,48 @@ export default class Home extends Component {
                     <Link className="btn btn-lg btn-primary button-center" to="/signup">
                       <span>
                         <p>SignUp for</p>
-                        <h4 className="wandermust-font">Wander-Must</h4>
+                        <h4 className="wandermust-capitalize">Wander-Must</h4>
                       </span>
                     </Link>
                   </div>
                 </div>
               </div> {/* ends section */}
 
-
               <div className="section text-center">
-                <div className="why">
+                <div className="features">
                   <h2 className="title">Why This App?</h2>
                   <div className="row">
-                    <p>World travelers generally spend several hours scouring the internet for information on what they should or shouldn't take on a trip to a particular part of the world. Information can be difficult to sift through, and the information that is available lacks consistency, context, and any sort of personal experience to lend it credence.</p>
-                    <p>Wander-Must serves as a user-friendly exploration of other users' personal experiences, organized in a way that makes planning for trips painless and fun. Each trip contains user details and personalization that contextualize these experiences, leading to a more accurate understanding of what to pack for a specific trip.</p>
+                    <div className="col-md-4">
+                      <div className="info">
+                        <div className="icon icon-info">
+                          <i className="material-icons">query_builder</i>
+                        </div>
+                        <h4 className="info-title">Time Efficient</h4>
+                        <p>Don't spend hours scouring the internet trying to figure out what to pack. Learn from your fellow travelers, and focus on the real priorities.</p>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="info">
+                        <div className="icon icon-success">
+                          <i className="material-icons">fingerprint</i>
+                        </div>
+                        <h4 className="info-title">Create a Community</h4>
+                        <p>We travel for so many reasons, but one of the most important is connecting with people. <span className="wandermust-capitalize"> Wander-Must</span> lets you start connecting now.</p>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="info">
+                        <div className="icon icon-danger">
+                          <i className="material-icons">search</i>
+                        </div>
+                        <h4 className="info-title">Discover New Destinations</h4>
+                        <p>Don't know where you want to go on your next trip? Check out other users' experiences to help you decide where your next great adventure will be.</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div> {/* ends section */}
+
 
               <div className="section text-center">
                 <h2 className="title">User Thoughts</h2>

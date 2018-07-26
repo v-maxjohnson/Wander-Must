@@ -244,7 +244,7 @@ export default class Navibar extends Component {
         <Navbar className={`navbar ${this.state.activeClass} ${this.state.isOpen ? "nav-open" : "" } fixed-top navbar-expand-lg`}>
           <div className="container">
             <div className="navbar-translate">
-              <Link to="/" className="navbar-brand wandermust-font nav-link">Wander-Must</Link>
+              <Link to="/" className="navbar-brand wandermust-capitalize nav-link">Wander-Must</Link>
               <NavbarToggler onClick={this.toggle}>
                 <span className="navbar-toggler-icon"></span>
                 <span className="navbar-toggler-icon"></span>

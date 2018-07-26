@@ -25,9 +25,8 @@ export default class Home extends Component {
               <div className="row">
                 <div className="col-md-12">
                   <h1 className="wandermust ml2">Wander-Must</h1>
-                  <h3 className="description">The "Must" have packing app.</h3>
-                  <h4 className="description">Because we always ask everyone what to pack anyway.</h4>
-                  <h5 className="pitch">In the world of travel, there are apps to assist with various parts of the overall experience, but no shared, social space for those with a true wanderlust. Wander-Must is a social network for world travelers looking for the unexpected, but averse to unwelcome surprises.</h5>
+                  <h3 className="description">The "Must" have packing app -- because you were going to ask what to pack anyway.</h3>
+                  
                 </div>
               </div>
             </div> {/* ends container */}
@@ -37,16 +36,20 @@ export default class Home extends Component {
             <div className="container">
 
               <div className="section text-center">
+
                 <div className="features">
-                  <h2 className="title">Features</h2>
+                <div>
+                  <h5 className="wandermust-font">We share our travel. You share your travel. Why is no one sharing their packing list?</h5>
+                </div>
+                <h2 className="title">Getting Started</h2>  
                   <div className="row">
                     <div className="col-md-4">
                       <div className="info">
                         <div className="icon icon-info">
                           <i className="material-icons">face</i>
                         </div>
-                        <h4 className="info-title">Free Profile</h4>
-                        <p>Share your packing list with a whole social network, and figure out the best things to pack for your next get away. This is a community of travelers!</p>
+                        <h4 className="info-title">Step 1 - Signup</h4>
+                        <p>Sign up/Log in - create a unique username and customize your profile. You will be able to share your trips right away, and head to account settings to change your avatar.</p>
                       </div>
                     </div>
                     <div className="col-md-4">
@@ -54,8 +57,8 @@ export default class Home extends Component {
                         <div className="icon icon-success">
                           <i className="material-icons">event</i>
                         </div>
-                        <h4 className="info-title">Set the date, Get the weather!</h4>
-                        <p>You get to set your trip details, and we help you find the rest! From high/low temperature averages to most packed items, we want to give you all the info. </p>
+                        <h4 className="info-title">Step 2 - Start "packing"!</h4>
+                        <p>Choose a destination, your travel dates, and the type of travel and create a new suitcase. If someone else has been their, check out their packing list. If no one has been there, help us make the 1st suitcase. </p>
                       </div>
                     </div>
                     <div className="col-md-4">
@@ -63,32 +66,12 @@ export default class Home extends Component {
                         <div className="icon icon-danger">
                           <i className="material-icons">loyalty</i>
                         </div>
-                        <h4 className="info-title">Know the Tricks</h4>
-                        <p>With the ability to leave notes on your packing list, you will know what other people thought the must-haves are. You can just focus on the trip, and not hunting for the items you forgot.</p>
+                        <h4 className="info-title">Step 3 - Update your trips</h4>
+                        <p>With the ability to leave notes on your suitcase, you will know what other people thought the must-haves are. You can just focus on the trip, and not hunting for items you forgot. Update your suitcase to help others pack too.</p>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div> {/* ends section */}
-
-              <div className="section text-center">
-                <div className="intro-steps">
-                  <h2 className="title">Getting Started</h2>
-                  <div className="row">
-                    <h4>Knowing what to pack becomes easy with the following steps:</h4>
-                    <ol>
-                      <li>Sign up/Log in - create a unique username and customize your profile.</li>
-                      <li>Choose a destination, your travel dates, and the type of travel (Business, Leisure, Adventure, Vacation) and create a new suitcase.</li>
-                      <li>
-                        <ul>
-                          <li>If another user has already visited your destination, explore their experiences and add items to your suitcase.</li>
-                          <li>If you are the first to visit a destination, pick and choose what you may need from a list of 100 items and add them to your suitcase.</li>
-                        </ul>
-                      </li>
-                      <li>Update your suitcase as needed, adding and deleting items, writing your travel blog, changing the photo for your suitcase, and adjusting item amounts within your suitcase.</li>
-                    </ol>
-                  </div>
-                  <div className="row">
+                  <div className="row text-center">
                     <Link className="btn btn-lg btn-primary button-center" to="/signup">
                       <span>
                         <p>SignUp for</p>
@@ -98,6 +81,7 @@ export default class Home extends Component {
                   </div>
                 </div>
               </div> {/* ends section */}
+
 
               <div className="section text-center">
                 <div className="why">

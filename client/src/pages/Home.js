@@ -90,7 +90,7 @@ export default class Home extends Component {
                           <i className="material-icons">query_builder</i>
                         </div>
                         <h4 className="info-title">Time Efficient</h4>
-                        <p>Don't spend hours scouring the internet trying to figure out what to pack. Learn from your fellow travelers, and focus on the real priorities.</p>
+                        <p>Don&apos;t spend hours scouring the internet trying to figure out what to pack. Learn from your fellow travelers, and focus on the real priorities.</p>
                       </div>
                     </div>
                     <div className="col-md-4">
@@ -108,7 +108,7 @@ export default class Home extends Component {
                           <i className="material-icons">search</i>
                         </div>
                         <h4 className="info-title">Discover New Destinations</h4>
-                        <p>Don't know where you want to go on your next trip? Check out other users' experiences to help you decide where your next great adventure will be.</p>
+                        <p>Don&apos;t know where you want to go on your next trip? Check out other users&apos; experiences to help you decide where your next great adventure will be.</p>
                       </div>
                     </div>
                   </div>
@@ -131,7 +131,7 @@ export default class Home extends Component {
                             <small className="card-description text-muted">Model</small>
                           </h4>
                           <div className="card-body">
-                            <p className="card-description">I can't say enough about this app. I knew to pack an umbrella for Seattle, but I would never have thought to bring good shoes for trucking through the rainy streets. Some times the no brainers are the ones you forget first!</p>
+                            <p className="card-description">I can&apos;t say enough about this app. I knew to pack an umbrella for Seattle, but I would never have thought to bring good shoes for trucking through the rainy streets. Some times the no brainers are the ones you forget first!</p>
                           </div>
                         </div>
                       </div>

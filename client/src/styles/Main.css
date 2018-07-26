@@ -12,3 +12,8 @@
 .wandermust-font {
     font-family: "Courgette", cursive;
 }
+
+.wandermust-capitalize {
+    font-family: "Courgette", cursive;
+    text-transform: capitalize!important;
+}
